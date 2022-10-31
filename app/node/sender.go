@@ -20,12 +20,12 @@ func sendMessages() error {
 
 func sendLamport() {
 
-	myPeer.SetReplyProSet(list.New())
+	myProcess.SetReplyProSet(list.New())
 	// tale lista serve a mettere i msg di reply per poi controllare che sono arrivati tutti
 	// TODO: invece che lista basta semplicemente un contatore?!?!
 
-	//lock := myPeer.LockInfo
-	mu := myPeer.GetMutex()
+	//lock := myProcess.LockInfo
+	mu := myProcess.GetMutex()
 	mu.Lock()
 	//for range msgs {
 	//increment local clock
@@ -52,7 +52,7 @@ func sendLamport() {
 	fmt.Println("timeStamp MESSAGGIO E' ====", msg.TS)
 	sendRequest(msg)
 
-	myPeer.Waiting = true
+	myProcess.Waiting = true
 
 	mu.Unlock()
 
@@ -73,7 +73,7 @@ func sendLamport() {
 
 	*/
 
-	<-myPeer.ChanAcquireLock
+	<-myProcess.ChanAcquireLock
 
 	utilities.WriteInfoToFile(myID, " receive all node reply messages successfully.", false)
 	/*
@@ -168,7 +168,7 @@ func sendRelease() error {
 
 			*/
 
-			err = utilities.WriteMsgToFile(&myPeer, "Send", releaseMsg, dest.ID, timeStamp)
+			err = utilities.WriteMsgToFile(&myProcess, "Send", releaseMsg, dest.ID, timeStamp)
 
 			if err != nil {
 				return err
@@ -202,7 +202,7 @@ func sendRequest(msg utilities.Message) error {
 
 			msg.Receiver = dest.ID
 
-			err = utilities.WriteMsgToFile(&myPeer, "Send", msg, dest.ID, timeStamp)
+			err = utilities.WriteMsgToFile(&myProcess, "Send", msg, dest.ID, timeStamp)
 			if err != nil {
 				return err
 			}

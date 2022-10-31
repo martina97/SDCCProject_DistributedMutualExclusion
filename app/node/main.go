@@ -19,7 +19,7 @@ var (
 	myUsername string
 	allID      []int
 	//myProcess  utilities.Process
-	myPeer utilities.Process
+	myProcess utilities.Process
 	//lock   utilities.InfoLock
 	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
 	scalarMap utilities.MessageMap
@@ -74,7 +74,7 @@ func main() {
 	setPeerUtils()
 	//processo relativo al nodo che sto  considerando. il processo avrà info su
 	// id nodo e indirizzo e porta nodo
-	//fmt.Println("MY PEER =====", myPeer.Username)
+	//fmt.Println("MY PEER =====", myProcess.Username)
 
 	//fmt.Println("sono il peer ", myUsername, "il mio id ===", myID)
 
@@ -92,7 +92,7 @@ func main() {
 	// creo file "peer_ID.log"
 
 	//creo nuovo processo in esecuzione sul peer
-	//p, err := NewProcess(myPeer)
+	//p, err := NewProcess(myProcess)
 
 	//TODO: scommentare
 }
@@ -111,7 +111,7 @@ func setID() {
 		//fmt.Println(" elem.Username ==== ", elem.Username)
 
 		if elem.Username == myUsername {
-			myPeer = elem
+			myProcess = elem
 			myID = elem.ID
 			allID = append(allID, myID)
 			//fmt.Println(" SONO ", myUsername, "IL MIO ID == ", myID)
@@ -125,9 +125,9 @@ func setID() {
 func setPeerUtils() {
 	// creo file "peer_ID.log"
 
-	utilities.CreateLog(&myPeer, "process_", strconv.Itoa(myPeer.ID), "[peer]") // in process.go
+	utilities.CreateLog(&myProcess, "process_", strconv.Itoa(myProcess.ID), "[peer]") // in process.go
 
-	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myPeer.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myProcess.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -137,8 +137,8 @@ func setPeerUtils() {
 	defer f.Close()
 
 	/* todo: scommentare
-	myPeer.FileLog.SetOutput(f)
-	myPeer.FileLog.Println("infoProcess(" + strconv.Itoa(myPeer.ID) + ") created.\n")
+	myProcess.FileLog.SetOutput(f)
+	myProcess.FileLog.Println("infoProcess(" + strconv.Itoa(myProcess.ID) + ") created.\n")
 
 	*/
 
@@ -146,13 +146,13 @@ func setPeerUtils() {
 
 	//setto info sul processo in esecuzione sul peer
 	//todo: serve?
-	//NewProcess(&myPeer)
+	//NewProcess(&myProcess)
 
-	myPeer.ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
-	myPeer.ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
-	myPeer.ChanAcquireLock = make(chan bool, utilities.CHAN_SIZE)
-	myPeer.SetDeferProSet(list.New())
-	myPeer.SetReplyProSet(list.New())
+	myProcess.ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
+	myProcess.ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
+	myProcess.ChanAcquireLock = make(chan bool, utilities.CHAN_SIZE)
+	myProcess.SetDeferProSet(list.New())
+	myProcess.SetReplyProSet(list.New())
 
 }
 

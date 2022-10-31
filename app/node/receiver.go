@@ -65,14 +65,14 @@ func handleConnection(conn net.Conn) error {
 	//ogni volta che ricevo un msg devo aggiornare TS
 	//aggiorno timestamp
 	tmp := msg.SeqNum
-	//ogni peer ha il suo clock scalare, e' var globale come myPeer e myID
+	//ogni peer ha il suo clock scalare, e' var globale come myProcess e myID
 
 	time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
 
 	utilities.UpdateTS(&timeStamp, &msg.TS)
 
 	//mutex := lock.GetMutex()
-	mutex := myPeer.GetMutex()
+	mutex := myProcess.GetMutex()
 	if msg.MsgType == utilities.Request {
 		/*
 			quando ricevo una richiesta da un processo devo decidere se mandare ACK al processo oppure se voglio entrare in CS
@@ -82,7 +82,7 @@ func handleConnection(conn net.Conn) error {
 		//fmt.Println("------------------------------------------------------------- DOPO RICEVUTO REQUEST --- > timestamp  ==", timeStamp)
 
 		mutex.Lock()
-		utilities.WriteMsgToFile(&myPeer, "Receive", *msg, 0, timeStamp)
+		utilities.WriteMsgToFile(&myProcess, "Receive", *msg, 0, timeStamp)
 		//utilities.WriteTSInfoToFile(myID, timeStamp)
 		/*
 			f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
@@ -115,7 +115,7 @@ func handleConnection(conn net.Conn) error {
 
 		fmt.Println("------------------------------------------------------------- DOPO INVIATO REPLY --- > timestamp  ==", timeStamp)
 		date := time.Now().Format("15:04:05.000")
-		replyMsg := utilities.NewReply(tmp, myPeer.ID, msg.Sender, date, timeStamp)
+		replyMsg := utilities.NewReply(tmp, myProcess.ID, msg.Sender, date, timeStamp)
 		sendAck(replyMsg)
 		mutex.Unlock()
 	}
@@ -125,7 +125,7 @@ func handleConnection(conn net.Conn) error {
 		mutex.Lock()
 		fmt.Println("TIMESTAMP QUANDO RICEVO Reply ===", timeStamp)
 
-		utilities.WriteMsgToFile(&myPeer, "Receive", *msg, 0, timeStamp)
+		utilities.WriteMsgToFile(&myProcess, "Receive", *msg, 0, timeStamp)
 		//utilities.WriteTSInfoToFile(myID, timeStamp)
 
 		/*
@@ -146,9 +146,9 @@ func handleConnection(conn net.Conn) error {
 		*/
 
 		//aggiungo a replyProSet il msg
-		myPeer.GetReplyProSet().PushBack(msg)
+		myProcess.GetReplyProSet().PushBack(msg)
 		//check ack
-		checkAcks(&myPeer) //controllo se ho ricevuto 2 msg reply, se si posso entrare in CS prendendo 1 elem nella lista
+		checkAcks(&myProcess) //controllo se ho ricevuto 2 msg reply, se si posso entrare in CS prendendo 1 elem nella lista
 		// e controllando che id sia il mio, se e' il mio entro altrimenti no
 		//todo: sez critica?!?!??!
 		mutex.Unlock()
@@ -170,13 +170,13 @@ func handleConnection(conn net.Conn) error {
 				}
 
 		*/
-		utilities.WriteMsgToFile(&myPeer, "Receive", *msg, 0, timeStamp)
+		utilities.WriteMsgToFile(&myProcess, "Receive", *msg, 0, timeStamp)
 
 		//utilities.WriteTSInfoToFile(myID, timeStamp)
 
 		utilities.RemoveFirstElementMap(scalarMap)
 		fmt.Println("---------------------------------	DOPO AVER RICEVUTO RELEASE mappa ===", scalarMap)
-		checkAcks(&myPeer)
+		checkAcks(&myProcess)
 		mutex.Unlock()
 
 	}

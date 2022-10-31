@@ -1,10 +1,15 @@
 Initial timestamp of process 0 is 0
-[15:14:25.730] : process(0) update its local logical timeStamp to 1
-[15:14:25.734] : Send Request message: {Request [] 0 1 15:14:25.730 [1]} to process(1)
-[15:14:25.737] : Send Request message: {Request [] 0 2 15:14:25.730 [1]} to process(2)
-[15:14:25.740] : process(0) wait all node reply messages.
-[15:15:26.206] : Receive Reply message: {Reply [] 1 0 15:14:56.176 [3]} from process(1)[15:15:26.206] : Receive Reply message: {Reply [] 2 0 15:14:56.173 [3]} from process(2) and update its local logical timestamp to 5 and update its local logical timestamp to 4
+[15:20:40.137] : process(0) update its local logical timeStamp to 1
+[15:20:40.144] : Send Request message: {Request [] 0 1 15:20:40.137 [1]} to process(1)
+[15:20:40.148] : Send Request message: {Request [] 0 2 15:20:40.137 [1]} to process(2)
+[15:20:40.152] : process(0) wait all node reply messages.
+[15:21:40.357] : Receive Reply message: {Reply [] 2 0 15:21:10.324 [3]} from process(2) and update its local logical timestamp to 5
+[15:21:40.357] : Receive Reply message: {Reply [] 1 0 15:21:10.325 [3]} from process(1) and update its local logical timestamp to 5
+[15:21:40.481] : process(0) receive all node reply messages successfully.
 
-[15:15:26.209] : process(0) receive all node reply messages successfully.
+process 0 entered the critical section at 15:21:40.866
 
-process 0 entered the critical section at 15:15:26.212
+process 0 exited the critical section at 15:22:10.875
+[15:22:10.878] : process(0) update its local logical timeStamp to 6
+[15:22:10.881] : Send Release message: {Release [] 0 1 15:22:10.878 [6]} to process(1)
+[15:22:10.884] : Send Release message: {Release [] 0 2 15:22:10.878 [6]} to process(2)
