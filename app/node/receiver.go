@@ -1,4 +1,4 @@
-package node
+package main
 
 import (
 	"SDCCProject_DistributedMutualExclusion/app/utilities"
