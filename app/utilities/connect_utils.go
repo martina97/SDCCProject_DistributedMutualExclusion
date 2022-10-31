@@ -105,6 +105,14 @@ func (utils *Utility) Save_registration(arg *Process, res *Result_file) error {
 	return nil
 }
 
+// save registration info to reg_node procedure
+func (utils *Utility) CentralizedSincro(arg *CentralizedMessage) error {
+	log.Printf("sono in CentralizedSincro")
+	log.Printf("il messaggio == ", arg)
+
+	return nil
+}
+
 func prepare_response(res *Result_file) error {
 	res.PeerNum = MAXCONNECTION
 	file, err := os.Open("/docker/register_volume/nodes.txt")

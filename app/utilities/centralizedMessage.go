@@ -1,9 +1,11 @@
 package utilities
 
+type MessageTypeCentr string
+
 const (
-	Enter   MessageType = iota + 1 // request mutual lock
-	Granted                        // reply mutual lock
-	Denied                         // release mutual lock ///todo: lo levo xk lo faccio sincrono
+	Enter   MessageTypeCentr = "enter"   // request mutual lock
+	Granted MessageTypeCentr = "granted" // reply mutual lock
+	Denied  MessageTypeCentr = "denied"  // release mutual lock ///todo: lo levo xk lo faccio sincrono
 
 )
 
@@ -13,7 +15,7 @@ todo: vedi libro pag 108
 */
 type CentralizedMessage struct {
 	//MsgID   string
-	MsgType  MessageType //request,reply,release
+	MsgType  MessageTypeCentr //request,reply,release
 	Sender   int
 	Receiver int
 	Date     string

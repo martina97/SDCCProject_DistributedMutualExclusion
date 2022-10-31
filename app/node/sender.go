@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/rpc"
 	"os"
 	"strconv"
 	"time"
@@ -34,17 +35,22 @@ func sendCentralized() error {
 	// todo: invece che peerConn mettere addr
 	peerConn := utilities.Server_addr + ":" + strconv.Itoa(utilities.Server_port)
 
-	conn, err := net.Dial("tcp", peerConn)
+	conn, err := rpc.Dial("tcp", peerConn)
 	defer conn.Close()
 	if err != nil {
-		log.Println("Send response error on Dial")
+		log.Fatal("Error in dialing: ", err)
 	}
 	date := time.Now().Format("15:04:05.000")
 
 	msg := *utilities.EnterMsg(myID, date)
 	fmt.Println("msg ==== ", msg)
 
-	//msg.Receiver = "coordinator"
+	//call procedure
+	log.Printf("Call to coordinator node")
+	err = conn.Call("Utility.CentralizedSincro", &msg, &msg)
+	if err != nil {
+		log.Fatal("Error save_registration procedure: ", err)
+	}
 
 	return nil
 }

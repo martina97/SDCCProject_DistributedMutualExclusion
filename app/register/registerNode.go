@@ -73,4 +73,5 @@ func main() {
 	for {
 		//TODO after registration this peer must be off ??
 	}
+
 }
