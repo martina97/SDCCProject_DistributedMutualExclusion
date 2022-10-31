@@ -1,0 +1,1 @@
+il nodo register è uguale per tutti gli algoritmi usati, quindi posso metterlo in una cartella a sè.

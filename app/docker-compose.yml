@@ -1,0 +1,47 @@
+networks:
+  local_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.1.0/24
+          gateway: 10.10.1.1
+  #volumes:
+  # appVolume:
+services:
+
+  register_node:
+    build:
+      context: .
+      dockerfile: register/Dockerfile
+    tmpfs:
+      - /run
+      - /tmp
+
+    networks:
+      local_net:
+        ipv4_address: "10.10.1.50"
+    ports:
+      - "8000:4321"
+    volumes:
+      # The following volume is mounted in /var/lib/docker/volumes/app_list_volume/_data/nodes.txt
+      - ./register/volumes/peerList/:/docker/register_volume/
+    tty: true
+
+  peer:
+    build:
+      context: .
+      dockerfile: node/Dockerfile
+    networks:
+      - local_net
+    ports:
+      - "1234"
+    volumes:
+      - ./node/volumes/logs/:/docker/node_volume/
+
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    links:
+      - register_node
+    deploy:
+      mode: replicated
+      replicas: 3
