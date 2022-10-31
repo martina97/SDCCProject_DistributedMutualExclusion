@@ -15,6 +15,8 @@ RUN go get -u github.com/manifoldco/promptui
 
 COPY node/*.go ./node/
 COPY utilities/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/app/utilities/
+COPY node/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/app/node/
+
 #COPY menu/*.go ./menu/
 
 RUN go install ./node
