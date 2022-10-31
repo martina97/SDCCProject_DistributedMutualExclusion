@@ -89,7 +89,8 @@ func main() {
 
 	//open listen channel for messages
 	//service on port 2345
-	go message_handler()
+	//go message_handler()
+	go message_handler_centr()
 
 	openMenu() //qui devo scegliere tra Lamport e Ricart Agrawala
 
