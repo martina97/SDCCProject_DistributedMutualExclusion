@@ -27,42 +27,24 @@ func sendCentralized() error {
 
 	fmt.Println("SONO IN sendCentralized --- PORTA == ", MyProcess.Port)
 
-	/*
-		utilities.WriteTSInfoToFile(myID, MyProcess.TimeStamp)
-		for e := peers.Front(); e != nil; e = e.Next() {
-			dest := e.Value.(utilities.Process)
-			//only peer are destination of msgs
-			if dest.Type == utilities.Peer && dest.ID != myID { //non voglio mandarlo a me stesso
+	//only peer are destination of msgs
 
-				//open connection whit peer
-				peerConn := dest.Address + ":" + dest.Port
-				conn, err := net.Dial("tcp", peerConn)
-				defer conn.Close()
-				if err != nil {
-					log.Println("Send response error on Dial")
-				}
-				enc := gob.NewEncoder(conn)
-				enc.Encode(msg)
+	//open connection whit peer
+	//peerConn := dest.Address + ":" + dest.Port
+	// todo: invece che peerConn mettere addr
+	peerConn := utilities.Server_addr + ":" + strconv.Itoa(utilities.Server_port)
 
-				msg.Receiver = dest.ID
+	conn, err := net.Dial("tcp", peerConn)
+	defer conn.Close()
+	if err != nil {
+		log.Println("Send response error on Dial")
+	}
+	date := time.Now().Format("15:04:05.000")
 
-				err = utilities.WriteMsgToFile(&MyProcess, "Send", msg, dest.ID, MyProcess.TimeStamp)
-				if err != nil {
-					return err
-				}
+	msg := *utilities.EnterMsg(myID, date)
+	fmt.Println("msg ==== ", msg)
 
-			}
-		}
-		//una volta inviato il msg, lo salvo nella coda locale del peer sender
-		fmt.Println(" ------------------------------------------ STO QUA 2 ----------------------------")
-
-		utilities.AppendHashMap2(MyProcess.ScalarMap, msg)
-		fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
-
-
-		fmt.Println("MAPPA SENDER ====", MyProcess.ScalarMap)
-
-	*/
+	//msg.Receiver = "coordinator"
 
 	return nil
 }
