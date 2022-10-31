@@ -25,6 +25,7 @@ func sendMessage(algo string) error {
 }
 
 func sendCentralized() error {
+	var res utilities.Result_file
 
 	fmt.Println("SONO IN sendCentralized --- PORTA == ", MyProcess.Port)
 
@@ -42,12 +43,12 @@ func sendCentralized() error {
 	}
 	date := time.Now().Format("15:04:05.000")
 
-	msg := *utilities.EnterMsg(myID, date)
+	msg := utilities.EnterMsg(myID, date)
 	fmt.Println("msg ==== ", msg)
 
 	//call procedure
 	log.Printf("Call to coordinator node")
-	err = conn.Call("Utility.CentralizedSincro", &msg, &msg)
+	err = conn.Call("Utility.CentralizedSincro", &msg, &res)
 	if err != nil {
 		log.Fatal("Error save_registration procedure: ", err)
 	}

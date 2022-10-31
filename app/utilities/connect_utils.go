@@ -106,7 +106,7 @@ func (utils *Utility) Save_registration(arg *Process, res *Result_file) error {
 }
 
 // save registration info to reg_node procedure
-func (utils *Utility) CentralizedSincro(arg *CentralizedMessage) error {
+func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_file) error {
 	log.Printf("sono in CentralizedSincro")
 	log.Printf("il messaggio == ", arg)
 
