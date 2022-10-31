@@ -1,4 +1,4 @@
-module Lamport
+module SDCCProject_DistributedMutualExclusion
 
 go 1.17
 
