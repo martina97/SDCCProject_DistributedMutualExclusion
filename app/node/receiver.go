@@ -233,10 +233,9 @@ func handleConnectionCentralized(conn net.Conn) error {
 	//mutex := lock.GetMutex()
 	//	mutex := MyProcess.GetMutex()
 	if msg.MsgTypeCentr == utilities.Granted {
-		/*
-			quando ricevo una richiesta da un processo devo decidere se mandare ACK al processo oppure se voglio entrare in CS
-		*/
 		fmt.Println("MESS GRANTED !!!!!! ")
+
+		//ora il processo puo entrare in CS
 	}
 
 	return nil
