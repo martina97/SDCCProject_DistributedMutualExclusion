@@ -12,7 +12,7 @@ func openMenu() {
 	for {                                        //infinite loop
 		prompt := promptui.Select{
 			Label: "Select Option",
-			Items: []string{"Run Lamport", "Run Ricart-Agrawala", "exit"},
+			Items: []string{"Run centralized", "Run Lamport", "Run Ricart-Agrawala", "exit"},
 		}
 
 		i, result, err := prompt.Run() //i : indice di cosa ho scelto
@@ -24,21 +24,54 @@ func openMenu() {
 
 		fmt.Printf("You choose number %d: %s\n", i+1, result)
 
-		if i+1 == 1 { //ossia Run Lamport
+		if i+1 == 1 { //ossia Run centralized
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
-			openSecondMenu()
+			openCentralizedMenu()
 		}
-		if i+1 == 2 { //exit
-			break
+		if i+1 == 2 { //ossia Run Lamport
+			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
+			openLamportMenu()
 		}
 		if i+1 == 3 { //exit
+			break
+		}
+		if i+1 == 4 { //exit
 			break
 		}
 
 	}
 
 }
-func openSecondMenu() {
+
+func openCentralizedMenu() {
+
+	for { //infinite loop
+		prompt := promptui.Select{
+			Label: "Select Option",
+			Items: []string{"send message", "show message received", "exit"},
+		}
+
+		i, result, err := prompt.Run() //i : indice di cosa ho scelto
+
+		if err != nil {
+			fmt.Printf("Prompt failed %v\n", err)
+			return
+		}
+
+		fmt.Printf("You choose number %d: %s\n", i+1, result)
+
+		if i+1 == 1 { //send message
+			sendMessage("Centralized")
+		}
+
+		if i+1 == 3 { //exit
+			break
+		}
+
+	}
+}
+
+func openLamportMenu() {
 
 	//creo ora la lista di msg del peer
 
@@ -58,7 +91,7 @@ func openSecondMenu() {
 		fmt.Printf("You choose number %d: %s\n", i+1, result)
 
 		if i+1 == 1 { //Lamport
-			sendMessages()
+			sendMessage("Lamport")
 		}
 
 		if i+1 == 3 { //exit

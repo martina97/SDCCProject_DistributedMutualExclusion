@@ -13,8 +13,11 @@ import (
 )
 
 //send msg (o request o ack o release)
-func sendMessages() error {
-	sendLamport()
+func sendMessage(algo string) error {
+	switch algo {
+	case "Lamport":
+		sendLamport()
+	}
 	return nil
 }
 
