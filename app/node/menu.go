@@ -1,4 +1,4 @@
-package main
+package node
 
 import (
 	"SDCCProject_DistributedMutualExclusion/app/utilities"
@@ -8,8 +8,8 @@ import (
 
 func openMenu() {
 
-	scalarMap = utilities.MessageMap{} //inizializzo mappa
-	for {                              //infinite loop
+	MyProcess.ScalarMap = utilities.MessageMap{} //inizializzo mappa
+	for {                                        //infinite loop
 		prompt := promptui.Select{
 			Label: "Select Option",
 			Items: []string{"Run Lamport", "Run Ricart-Agrawala", "exit"},

@@ -1,4 +1,4 @@
-package main
+package node
 
 import (
 	"SDCCProject_DistributedMutualExclusion/app/utilities"
@@ -65,24 +65,24 @@ func handleConnection(conn net.Conn) error {
 	//ogni volta che ricevo un msg devo aggiornare TS
 	//aggiorno timestamp
 	tmp := msg.SeqNum
-	//ogni peer ha il suo clock scalare, e' var globale come myProcess e myID
+	//ogni peer ha il suo clock scalare, e' var globale come MyProcess e myID
 
 	time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
 
-	utilities.UpdateTS(&timeStamp, &msg.TS)
+	utilities.UpdateTS(&MyProcess.TimeStamp, &msg.TS)
 
 	//mutex := lock.GetMutex()
-	mutex := myProcess.GetMutex()
+	mutex := MyProcess.GetMutex()
 	if msg.MsgType == utilities.Request {
 		/*
 			quando ricevo una richiesta da un processo devo decidere se mandare ACK al processo oppure se voglio entrare in CS
 		*/
 		fmt.Println("MESS REQUEST !!!!!! ")
-		fmt.Println("TIMESTAMP QUANDO RICEVO REQUEST ===", timeStamp) //ho gia aggiornato il TS!!
+		fmt.Println("TIMESTAMP QUANDO RICEVO REQUEST ===", MyProcess.TimeStamp) //ho gia aggiornato il TS!!
 		//fmt.Println("------------------------------------------------------------- DOPO RICEVUTO REQUEST --- > timestamp  ==", timeStamp)
 
 		mutex.Lock()
-		utilities.WriteMsgToFile(&myProcess, "Receive", *msg, 0, timeStamp)
+		utilities.WriteMsgToFile(&MyProcess, "Receive", *msg, 0, MyProcess.TimeStamp)
 		//utilities.WriteTSInfoToFile(myID, timeStamp)
 		/*
 			f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
@@ -101,7 +101,7 @@ func handleConnection(conn net.Conn) error {
 		*/
 
 		//metto msg in mappa
-		utilities.AppendHashMap2(scalarMap, *msg)
+		utilities.AppendHashMap2(MyProcess.ScalarMap, *msg)
 
 		//QUA DEVO DECIDERE SE MANDARE ACK O REQUEST (msg REPLY O REQUEST)
 
@@ -111,21 +111,21 @@ func handleConnection(conn net.Conn) error {
 		//mando msg reply
 		//date := time.Now().Format("17:06:04")
 		//prima di mandare reply aggiorno di nuovo il TS !!
-		utilities.IncrementTS(&timeStamp)
+		utilities.IncrementTS(&MyProcess.TimeStamp)
 
-		fmt.Println("------------------------------------------------------------- DOPO INVIATO REPLY --- > timestamp  ==", timeStamp)
+		fmt.Println("------------------------------------------------------------- DOPO INVIATO REPLY --- > timestamp  ==", MyProcess.TimeStamp)
 		date := time.Now().Format("15:04:05.000")
-		replyMsg := utilities.NewReply(tmp, myProcess.ID, msg.Sender, date, timeStamp)
+		replyMsg := utilities.NewReply(tmp, MyProcess.ID, msg.Sender, date, MyProcess.TimeStamp)
 		sendAck(replyMsg)
 		mutex.Unlock()
 	}
 
 	if msg.MsgType == utilities.Reply {
-		fmt.Println("------------------------------------------------------------- DOPO RICEVUTO REPLY --- > timestamp  ==", timeStamp)
+		fmt.Println("------------------------------------------------------------- DOPO RICEVUTO REPLY --- > timestamp  ==", MyProcess.TimeStamp)
 		mutex.Lock()
-		fmt.Println("TIMESTAMP QUANDO RICEVO Reply ===", timeStamp)
+		fmt.Println("TIMESTAMP QUANDO RICEVO Reply ===", MyProcess.TimeStamp)
 
-		utilities.WriteMsgToFile(&myProcess, "Receive", *msg, 0, timeStamp)
+		utilities.WriteMsgToFile(&MyProcess, "Receive", *msg, 0, MyProcess.TimeStamp)
 		//utilities.WriteTSInfoToFile(myID, timeStamp)
 
 		/*
@@ -146,9 +146,9 @@ func handleConnection(conn net.Conn) error {
 		*/
 
 		//aggiungo a replyProSet il msg
-		myProcess.GetReplyProSet().PushBack(msg)
+		MyProcess.GetReplyProSet().PushBack(msg)
 		//check ack
-		checkAcks(&myProcess) //controllo se ho ricevuto 2 msg reply, se si posso entrare in CS prendendo 1 elem nella lista
+		checkAcks(&MyProcess) //controllo se ho ricevuto 2 msg reply, se si posso entrare in CS prendendo 1 elem nella lista
 		// e controllando che id sia il mio, se e' il mio entro altrimenti no
 		//todo: sez critica?!?!??!
 		mutex.Unlock()
@@ -170,18 +170,18 @@ func handleConnection(conn net.Conn) error {
 				}
 
 		*/
-		utilities.WriteMsgToFile(&myProcess, "Receive", *msg, 0, timeStamp)
+		utilities.WriteMsgToFile(&MyProcess, "Receive", *msg, 0, MyProcess.TimeStamp)
 
 		//utilities.WriteTSInfoToFile(myID, timeStamp)
 
-		utilities.RemoveFirstElementMap(scalarMap)
-		fmt.Println("---------------------------------	DOPO AVER RICEVUTO RELEASE mappa ===", scalarMap)
-		checkAcks(&myProcess)
+		utilities.RemoveFirstElementMap(MyProcess.ScalarMap)
+		fmt.Println("---------------------------------	DOPO AVER RICEVUTO RELEASE mappa ===", MyProcess.ScalarMap)
+		checkAcks(&MyProcess)
 		mutex.Unlock()
 
 	}
 
-	fmt.Println("msg ricevuti -----", scalarMap)
+	fmt.Println("msg ricevuti -----", MyProcess.ScalarMap)
 	/*
 		for key, element := range scalarMap {
 			fmt.Println("Key:", key, "=>", "Element:", element)
@@ -201,13 +201,13 @@ func checkAcks(process *utilities.Process) {
 
 	fmt.Println("process.GetReplyProSet().Len() ==== ", process.GetReplyProSet().Len())
 	fmt.Println("peers.Len()-1 ==== ", peers.Len()-1)
-	fmt.Println("len(scalarMap) ==== ", len(scalarMap))
+	fmt.Println("len(scalarMap) ==== ", len(MyProcess.ScalarMap))
 
-	if process.GetReplyProSet().Len() == peers.Len()-1 && len(scalarMap) > 0 {
+	if process.GetReplyProSet().Len() == peers.Len()-1 && len(MyProcess.ScalarMap) > 0 {
 		fmt.Println("HO RICEVUTO 2 MSG REPLY")
 
 		//prendo il primo mess nella mappa per vedere se è il mio, ossia guardo ID sender
-		msg := utilities.GetFirstElementMap(scalarMap)
+		msg := utilities.GetFirstElementMap(MyProcess.ScalarMap)
 		fmt.Println("MSG IN CHECK ACKS ===", msg)
 
 		if msg.Sender == myID {

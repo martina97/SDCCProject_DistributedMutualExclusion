@@ -1,4 +1,4 @@
-package main
+package node
 
 import (
 	"SDCCProject_DistributedMutualExclusion/app/utilities"
@@ -18,12 +18,16 @@ var (
 	myID       int
 	myUsername string
 	allID      []int
-	//myProcess  utilities.Process
-	myProcess utilities.Process
+	//MyProcess  utilities.Process
+	MyProcess utilities.Process
 	//lock   utilities.InfoLock
 	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
-	scalarMap utilities.MessageMap
-	timeStamp utilities.TimeStamp //todo: mettere tutte queste var in una struttura per ogni processo
+
+	/*
+		scalarMap utilities.MessageMap
+		timeStamp utilities.TimeStamp //todo: mettere tutte queste var in una struttura per ogni processo
+
+	*/
 )
 
 func main() {
@@ -74,12 +78,12 @@ func main() {
 	setPeerUtils()
 	//processo relativo al nodo che sto  considerando. il processo avrà info su
 	// id nodo e indirizzo e porta nodo
-	//fmt.Println("MY PEER =====", myProcess.Username)
+	//fmt.Println("MY PEER =====", MyProcess.Username)
 
 	//fmt.Println("sono il peer ", myUsername, "il mio id ===", myID)
 
 	//startClocks()
-	utilities.StartTS(timeStamp)
+	utilities.StartTS(MyProcess.TimeStamp)
 	fmt.Println("START CLOCKS TERMINATO")
 	fmt.Println("OPEN MENU")
 
@@ -92,7 +96,7 @@ func main() {
 	// creo file "peer_ID.log"
 
 	//creo nuovo processo in esecuzione sul peer
-	//p, err := NewProcess(myProcess)
+	//p, err := NewProcess(MyProcess)
 
 	//TODO: scommentare
 }
@@ -102,7 +106,7 @@ func setID() {
 	che dovra' fare determinate azioni, e devo creare una lista che ha tutti gli
 	ID degli altri peer
 	*/
-	//ora setto la variabile globale myProcess
+	//ora setto la variabile globale MyProcess
 	//scorro peers, che e' *list, in cui ci sono i peer
 	for i := peers.Front(); i != nil; i = i.Next() {
 		//fmt.Println("PROVA SET ID ", i.Value.(utilities.Process)) //i.value e' interface{}
@@ -111,7 +115,7 @@ func setID() {
 		//fmt.Println(" elem.Username ==== ", elem.Username)
 
 		if elem.Username == myUsername {
-			myProcess = elem
+			MyProcess = elem
 			myID = elem.ID
 			allID = append(allID, myID)
 			//fmt.Println(" SONO ", myUsername, "IL MIO ID == ", myID)
@@ -125,20 +129,20 @@ func setID() {
 func setPeerUtils() {
 	// creo file "peer_ID.log"
 
-	utilities.CreateLog(&myProcess, "process_", strconv.Itoa(myProcess.ID), "[peer]") // in process.go
+	utilities.CreateLog(&MyProcess, "process_", strconv.Itoa(MyProcess.ID), "[peer]") // in process.go
 
-	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myProcess.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(MyProcess.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	_, err = f.WriteString("Initial timestamp of process " + strconv.Itoa(myID) + " is " + strconv.Itoa(int(timeStamp)))
+	_, err = f.WriteString("Initial timestamp of process(" + strconv.Itoa(myID) + ") is " + strconv.Itoa(int(MyProcess.TimeStamp)))
 	_, err = f.WriteString("\n")
 
 	defer f.Close()
 
 	/* todo: scommentare
-	myProcess.FileLog.SetOutput(f)
-	myProcess.FileLog.Println("infoProcess(" + strconv.Itoa(myProcess.ID) + ") created.\n")
+	MyProcess.FileLog.SetOutput(f)
+	MyProcess.FileLog.Println("infoProcess(" + strconv.Itoa(MyProcess.ID) + ") created.\n")
 
 	*/
 
@@ -146,13 +150,13 @@ func setPeerUtils() {
 
 	//setto info sul processo in esecuzione sul peer
 	//todo: serve?
-	//NewProcess(&myProcess)
+	//NewProcess(&MyProcess)
 
-	myProcess.ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
-	myProcess.ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
-	myProcess.ChanAcquireLock = make(chan bool, utilities.CHAN_SIZE)
-	myProcess.SetDeferProSet(list.New())
-	myProcess.SetReplyProSet(list.New())
+	MyProcess.ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
+	MyProcess.ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
+	MyProcess.ChanAcquireLock = make(chan bool, utilities.CHAN_SIZE)
+	MyProcess.SetDeferProSet(list.New())
+	MyProcess.SetReplyProSet(list.New())
 
 }
 

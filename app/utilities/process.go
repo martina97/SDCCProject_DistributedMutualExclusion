@@ -47,6 +47,9 @@ type Process struct {
 	ChanAcquireLock chan bool
 	replyProSet     *list.List // then Message.Sender is the key.
 	deferProSet     *list.List // then Message.Sender is the key.
+
+	ScalarMap MessageMap
+	TimeStamp TimeStamp //todo: mettere tutte queste var in una struttura per ogni processo
 	//LockInfo *infoLock
 }
 

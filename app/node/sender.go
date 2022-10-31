@@ -1,4 +1,4 @@
-package main
+package node
 
 import (
 	"SDCCProject_DistributedMutualExclusion/app/utilities"
@@ -20,19 +20,19 @@ func sendMessages() error {
 
 func sendLamport() {
 
-	myProcess.SetReplyProSet(list.New())
+	MyProcess.SetReplyProSet(list.New())
 	// tale lista serve a mettere i msg di reply per poi controllare che sono arrivati tutti
 	// TODO: invece che lista basta semplicemente un contatore?!?!
 
-	//lock := myProcess.LockInfo
-	mu := myProcess.GetMutex()
+	//lock := MyProcess.LockInfo
+	mu := MyProcess.GetMutex()
 	mu.Lock()
 	//for range msgs {
 	//increment local clock
 	//incrementClock(&scalarClock, myID)
 
-	utilities.IncrementTS(&timeStamp)
-	fmt.Println("------------------------------------------------------------- timestamp  ==", timeStamp)
+	utilities.IncrementTS(&MyProcess.TimeStamp)
+	fmt.Println("------------------------------------------------------------- timestamp  ==", MyProcess.TimeStamp)
 
 	/*
 		seqNum := []uint64{}
@@ -42,7 +42,7 @@ func sendLamport() {
 	//date := time.Now().Format("2006/01/02 15:04:05")
 	date := time.Now().Format("15:04:05.000")
 
-	msg := *utilities.NewRequest2(myID, date, timeStamp)
+	msg := *utilities.NewRequest2(myID, date, MyProcess.TimeStamp)
 
 	fmt.Println("IL MESSAGGIO E' ====", msg)
 	//fmt.Println("ID MESSAGGIO E' ====", msg.MsgID)
@@ -52,7 +52,7 @@ func sendLamport() {
 	fmt.Println("timeStamp MESSAGGIO E' ====", msg.TS)
 	sendRequest(msg)
 
-	myProcess.Waiting = true
+	MyProcess.Waiting = true
 
 	mu.Unlock()
 
@@ -73,7 +73,7 @@ func sendLamport() {
 
 	*/
 
-	<-myProcess.ChanAcquireLock
+	<-MyProcess.ChanAcquireLock
 
 	utilities.WriteInfoToFile(myID, " receive all node reply messages successfully.", false)
 	/*
@@ -87,7 +87,7 @@ func sendLamport() {
 	*/
 
 	//ho ricevuto tutti msg reply, ora entro in cs
-	fmt.Println("lista di msg in coda ==", scalarMap)
+	fmt.Println("lista di msg in coda ==", MyProcess.ScalarMap)
 	fmt.Println("entro in CS")
 	utilities.WriteInfoToFile(myID, " entered the critical section at ", true)
 	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
@@ -129,12 +129,12 @@ func sendLamport() {
 
 func sendRelease() error {
 	//incremento timestamp
-	utilities.IncrementTS(&timeStamp)
+	utilities.IncrementTS(&MyProcess.TimeStamp)
 
 	date := time.Now().Format("15:04:05.000")
 
-	releaseMsg := *utilities.NewRelease(myID, date, timeStamp)
-	utilities.WriteTSInfoToFile(myID, timeStamp)
+	releaseMsg := *utilities.NewRelease(myID, date, MyProcess.TimeStamp)
+	utilities.WriteTSInfoToFile(myID, MyProcess.TimeStamp)
 
 	for e := peers.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.Process)
@@ -168,7 +168,7 @@ func sendRelease() error {
 
 			*/
 
-			err = utilities.WriteMsgToFile(&myProcess, "Send", releaseMsg, dest.ID, timeStamp)
+			err = utilities.WriteMsgToFile(&MyProcess, "Send", releaseMsg, dest.ID, MyProcess.TimeStamp)
 
 			if err != nil {
 				return err
@@ -177,14 +177,14 @@ func sendRelease() error {
 	}
 
 	//elimino primo msg da lista
-	utilities.RemoveFirstElementMap(scalarMap)
-	fmt.Println("ora la mappa ===", scalarMap)
+	utilities.RemoveFirstElementMap(MyProcess.ScalarMap)
+	fmt.Println("ora la mappa ===", MyProcess.ScalarMap)
 	return nil
 }
 
 func sendRequest(msg utilities.Message) error {
 
-	utilities.WriteTSInfoToFile(myID, timeStamp)
+	utilities.WriteTSInfoToFile(myID, MyProcess.TimeStamp)
 	for e := peers.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.Process)
 		//only peer are destination of msgs
@@ -202,7 +202,7 @@ func sendRequest(msg utilities.Message) error {
 
 			msg.Receiver = dest.ID
 
-			err = utilities.WriteMsgToFile(&myProcess, "Send", msg, dest.ID, timeStamp)
+			err = utilities.WriteMsgToFile(&MyProcess, "Send", msg, dest.ID, MyProcess.TimeStamp)
 			if err != nil {
 				return err
 			}
@@ -227,7 +227,7 @@ func sendRequest(msg utilities.Message) error {
 	//una volta inviato il msg, lo salvo nella coda locale del peer sender
 	fmt.Println(" ------------------------------------------ STO QUA 2 ----------------------------")
 
-	utilities.AppendHashMap2(scalarMap, msg)
+	utilities.AppendHashMap2(MyProcess.ScalarMap, msg)
 	fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
 
 	/*
@@ -239,14 +239,14 @@ func sendRequest(msg utilities.Message) error {
 
 	*/
 
-	fmt.Println("MAPPA SENDER ====", scalarMap)
+	fmt.Println("MAPPA SENDER ====", MyProcess.ScalarMap)
 
 	return nil
 }
 
 func sendAck(msg *utilities.Message) error {
 	// mando ack al peer con id msg.receiver
-	utilities.WriteTSInfoToFile(myID, timeStamp)
+	utilities.WriteTSInfoToFile(myID, MyProcess.TimeStamp)
 
 	for e := peers.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.Process)
