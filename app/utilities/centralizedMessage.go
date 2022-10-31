@@ -32,3 +32,13 @@ func EnterMsg(process Process, date string) *CentralizedMessage {
 		Date: date,
 	}
 }
+
+func GrantedMsg(receiver int, date string) *CentralizedMessage {
+	return &CentralizedMessage{
+		MsgTypeCentr: Enter,
+		Receiver:     receiver,
+		//Receiver:   receiver,	//non serve specificarlo perche la richiesta viene mandata a tutti
+		//MsgContent: msgContent,
+		Date: date,
+	}
+}

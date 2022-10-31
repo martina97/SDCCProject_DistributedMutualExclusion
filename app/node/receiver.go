@@ -202,16 +202,17 @@ func handleConnectionCentralized(conn net.Conn) error {
 
 	dec := gob.NewDecoder(conn)
 	dec.Decode(msg)
+	fmt.Println("msg == ", msg)
 
 	time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
 
 	//mutex := lock.GetMutex()
 	//	mutex := MyProcess.GetMutex()
-	if msg.MsgTypeCentr == utilities.Enter {
+	if msg.MsgTypeCentr == utilities.Granted {
 		/*
 			quando ricevo una richiesta da un processo devo decidere se mandare ACK al processo oppure se voglio entrare in CS
 		*/
-		fmt.Println("MESS ENTER !!!!!! ")
+		fmt.Println("MESS GRANTED !!!!!! ")
 	}
 
 	return nil
