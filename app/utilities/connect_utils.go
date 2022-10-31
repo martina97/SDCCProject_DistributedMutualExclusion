@@ -2,6 +2,7 @@ package utilities
 
 import (
 	"bufio"
+	"container/list"
 	"errors"
 	"fmt"
 	"log"
@@ -26,6 +27,10 @@ type Utility int
 var (
 	Connection = make(chan bool)
 	Wg         = new(sync.WaitGroup)
+
+	// per algo centralizzato
+	resourceState bool // è true: risorsa libera, false: risorsa occupata
+	queue         = list.New()
 )
 
 type Result_file struct {
@@ -108,7 +113,17 @@ func (utils *Utility) Save_registration(arg *Process, res *Result_file) error {
 // save registration info to reg_node procedure
 func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_file) error {
 	log.Printf("sono in CentralizedSincro")
-	log.Printf("il messaggio == ", arg)
+	log.Printf("il messaggio == ", *arg)
+	log.Printf("il messaggio == ", &arg)
+
+	if resourceState == true {
+		// processo puo accedere in CS
+		log.Printf("processo puo accedere in CS")
+		resourceState = false
+	} else {
+		log.Printf("processo non puo accedere in CS")
+
+	}
 
 	return nil
 }
