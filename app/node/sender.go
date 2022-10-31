@@ -43,7 +43,7 @@ func sendCentralized() error {
 	}
 	date := time.Now().Format("15:04:05.000")
 
-	msg := utilities.EnterMsg(myID, date)
+	msg := *utilities.EnterMsg(myID, date)
 	fmt.Println("msg ==== ", msg)
 
 	//call procedure

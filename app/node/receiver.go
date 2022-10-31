@@ -32,7 +32,8 @@ func message_handler() {
 		if err != nil {
 			log.Fatal("Accept fail")
 		}
-		go handleConnection(connection)
+		//go handleConnection(connection)
+		go handleConnectionCentralized(connection)
 	}
 }
 
@@ -189,6 +190,29 @@ func handleConnection(conn net.Conn) error {
 
 	*/
 	//fmt.Println("PRIMO MESS ==", utilities.GetFirstElementMap(scalarMap))
+
+	return nil
+}
+
+//Save message
+func handleConnectionCentralized(conn net.Conn) error {
+	// read msg and save on file
+	defer conn.Close()
+	msg := new(utilities.CentralizedMessage)
+
+	dec := gob.NewDecoder(conn)
+	dec.Decode(msg)
+
+	time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
+
+	//mutex := lock.GetMutex()
+	//	mutex := MyProcess.GetMutex()
+	if msg.MsgTypeCentr == utilities.Enter {
+		/*
+			quando ricevo una richiesta da un processo devo decidere se mandare ACK al processo oppure se voglio entrare in CS
+		*/
+		fmt.Println("MESS ENTER !!!!!! ")
+	}
 
 	return nil
 }

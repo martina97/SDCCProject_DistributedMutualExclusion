@@ -16,17 +16,17 @@ todo: vedi libro pag 108
 type CentralizedMessage struct {
 	//MsgID   string
 	MsgTypeCentr MessageTypeCentr //request,reply,release
-	Sender       int
+	Sender       Process
 	Receiver     int
 	Date         string
 }
 
 //// ############################ ALGORITMO CENTRALIZZATO #######################################
 
-func EnterMsg(sender int, date string) *CentralizedMessage {
+func EnterMsg(process Process, date string) *CentralizedMessage {
 	return &CentralizedMessage{
 		MsgTypeCentr: Enter,
-		Sender:       sender,
+		Sender:       process,
 		//Receiver:   receiver,	//non serve specificarlo perche la richiesta viene mandata a tutti
 		//MsgContent: msgContent,
 		Date: date,

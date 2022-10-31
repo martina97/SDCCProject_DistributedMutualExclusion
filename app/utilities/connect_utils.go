@@ -29,8 +29,8 @@ var (
 	Wg         = new(sync.WaitGroup)
 
 	// per algo centralizzato
-	resourceState bool // è true: risorsa libera, false: risorsa occupata
-	queue         = list.New()
+	resourceState bool = true // è true: risorsa libera, false: risorsa occupata
+	queue              = list.New()
 )
 
 type Result_file struct {
@@ -110,18 +110,30 @@ func (utils *Utility) Save_registration(arg *Process, res *Result_file) error {
 	return nil
 }
 
-// save registration info to reg_node procedure
 func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_file) error {
 	log.Printf("sono in CentralizedSincro")
 	log.Printf("il messaggio == ", *arg)
 	log.Printf("il messaggio == ", &arg)
 
-	if resourceState == true {
-		// processo puo accedere in CS
-		log.Printf("processo puo accedere in CS")
-		resourceState = false
-	} else {
-		log.Printf("processo non puo accedere in CS")
+	if arg.MsgTypeCentr == "enter" { //msg di request
+		if resourceState == true {
+			// processo puo accedere in CS
+			log.Printf("processo puo accedere in CS")
+
+			//devo inviare msg granted al processo
+			peerConn := arg.Sender.Address + ":" + arg.Sender.Port
+			conn, err := net.Dial("tcp", peerConn)
+			defer conn.Close()
+			if err != nil {
+				log.Println("Send response error on Dial")
+			}
+
+			resourceState = false
+		} else {
+
+		}
+	} else if arg.MsgTypeCentr == "release" {
+		log.Printf("msg di release")
 
 	}
 
