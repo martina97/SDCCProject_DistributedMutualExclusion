@@ -15,9 +15,55 @@ import (
 //send msg (o request o ack o release)
 func sendMessage(algo string) error {
 	switch algo {
+	case "Centralized":
+		sendCentralized()
 	case "Lamport":
 		sendLamport()
 	}
+	return nil
+}
+
+func sendCentralized() error {
+
+	fmt.Println("SONO IN sendCentralized --- PORTA == ", MyProcess.Port)
+
+	/*
+		utilities.WriteTSInfoToFile(myID, MyProcess.TimeStamp)
+		for e := peers.Front(); e != nil; e = e.Next() {
+			dest := e.Value.(utilities.Process)
+			//only peer are destination of msgs
+			if dest.Type == utilities.Peer && dest.ID != myID { //non voglio mandarlo a me stesso
+
+				//open connection whit peer
+				peerConn := dest.Address + ":" + dest.Port
+				conn, err := net.Dial("tcp", peerConn)
+				defer conn.Close()
+				if err != nil {
+					log.Println("Send response error on Dial")
+				}
+				enc := gob.NewEncoder(conn)
+				enc.Encode(msg)
+
+				msg.Receiver = dest.ID
+
+				err = utilities.WriteMsgToFile(&MyProcess, "Send", msg, dest.ID, MyProcess.TimeStamp)
+				if err != nil {
+					return err
+				}
+
+			}
+		}
+		//una volta inviato il msg, lo salvo nella coda locale del peer sender
+		fmt.Println(" ------------------------------------------ STO QUA 2 ----------------------------")
+
+		utilities.AppendHashMap2(MyProcess.ScalarMap, msg)
+		fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
+
+
+		fmt.Println("MAPPA SENDER ====", MyProcess.ScalarMap)
+
+	*/
+
 	return nil
 }
 
