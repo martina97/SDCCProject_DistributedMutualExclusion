@@ -123,9 +123,6 @@ func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_fil
 			// processo puo accedere in CS
 			log.Printf("processo puo accedere in CS")
 
-			log.Printf(" arg.SenderProc.Address == ", &arg.Sender.Address)
-			log.Printf(" arg.SenderProc.Port == ", &arg.Sender.Port)
-
 			//devo inviare msg granted al processo
 			peerConn := arg.Sender.Address + ":" + arg.Sender.Port
 
@@ -150,12 +147,16 @@ func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_fil
 
 			date := time.Now().Format("15:04:05.000")
 
-			msg := NewGrantedMsg(arg.Sender.ID, date)
+			msg := NewGrantedMsg(arg.Sender.ID, date) //mando un msg di REPLY al processo, che puo accedere in CS
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
 
 			resourceState = false
-		} else {
+		} else { //se è false, il processo non puo accedere in CS, quindi metto msg in coda
+			if queue.Len() == 0 {
+				queue.PushBack(arg)
+				log.Printf("queue == ", queue)
+			}
 
 		}
 	} else if arg.MsgTypeCentr == Granted {

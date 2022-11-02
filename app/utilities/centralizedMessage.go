@@ -60,7 +60,7 @@ func (m *CentralizedMessage) MessageToString(role string) string {
 		return fmt.Sprintf(" %s message: {%s %d %s}", name, m.Sender.ID, m.Receiver, m.Date)
 	}
 	if role == "receive" {
-		return fmt.Sprintf(" %s message: {%s %d %d %s} from %d", name, name, m.Sender.ID, m.Receiver, m.Date, m.Sender)
+		return fmt.Sprintf(" %s message: {%s %d %d %s} from %d", name, name, m.Sender.ID, m.Receiver, m.Date, m.Sender.ID)
 	}
 
 	return ""
