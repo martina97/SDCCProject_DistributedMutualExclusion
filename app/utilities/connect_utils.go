@@ -114,8 +114,8 @@ func (utils *Utility) Save_registration(arg *Process, res *Result_file) error {
 
 func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_file) error {
 	log.Printf("sono in CentralizedSincro")
-	log.Printf("il messaggio == ", *arg)
-	log.Printf("il messaggio == ", &arg)
+	log.Printf("*arg == ", *arg)
+	log.Printf("&arg == ", &arg)
 
 	if arg.MsgTypeCentr == "enter" { //msg di request
 		if resourceState == true {
@@ -129,6 +129,17 @@ func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_fil
 			if err != nil {
 				log.Println("Send response error on Dial")
 			}
+			msg2 := new(CentralizedMessage)
+
+			dec := gob.NewDecoder(conn)
+			dec.Decode(msg2)
+			dec.Decode(arg)
+			log.Printf("sono DENTRO IF")
+			log.Printf("*msg2 == ", *msg2)
+			log.Printf("&msg2 == ", &msg2)
+			log.Printf("*arg == ", *arg)
+			log.Printf("&arg == ", &arg)
+
 			date := time.Now().Format("15:04:05.000")
 
 			msg := GrantedMsg(arg.Sender.ID, date)
