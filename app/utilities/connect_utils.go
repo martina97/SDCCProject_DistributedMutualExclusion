@@ -155,7 +155,10 @@ func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_fil
 		} else { //se è false, il processo non puo accedere in CS, quindi metto msg in coda
 			if queue.Len() == 0 {
 				queue.PushBack(arg)
-				log.Printf("queue == ", queue)
+				msg := queue.Front()
+				log.Printf("first queue ==", msg.Value)
+				log.Printf("first queue ==", msg)
+				log.Printf("first queue ==", msg)
 			}
 
 		}
