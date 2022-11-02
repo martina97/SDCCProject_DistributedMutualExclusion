@@ -49,7 +49,7 @@ type Process struct {
 	deferProSet     *list.List // then Message.Sender is the key.
 
 	ScalarMap MessageMap
-	TimeStamp TimeStamp //todo: mettere tutte queste var in una struttura per ogni processo
+	TimeStamp TimeStamp
 	//LockInfo *infoLock
 }
 
@@ -132,7 +132,7 @@ func WriteMsgToFile(process *Process, typeMsg string, message Message, idNodeDes
 		log.Fatalf("error opening file: %v", err)
 	}
 	//save new address on file
-	date := time.Now().Format("15:04:05.000")
+	date := time.Now().Format(DATE_FORMAT)
 	if typeMsg == "Send" {
 		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("send") + " to process(" + strconv.Itoa(idNodeDest) + ")")
 	}
@@ -154,7 +154,7 @@ func WriteInfoToFile(processID int, text string, infoCS bool) {
 		log.Fatalf("error opening file: %v", err)
 	}
 	//save new address on file
-	date := time.Now().Format("15:04:05.000")
+	date := time.Now().Format(DATE_FORMAT)
 
 	if infoCS == false {
 		_, err = f.WriteString("[" + date + "] : process(" + strconv.Itoa(processID) + ")" + text)
@@ -173,7 +173,7 @@ func WriteTSInfoToFile(processID int, timestamp TimeStamp) {
 		log.Fatalf("error opening file: %v", err)
 	}
 	//save new address on file
-	date := time.Now().Format("15:04:05.000")
+	date := time.Now().Format(DATE_FORMAT)
 
 	_, err = f.WriteString("[" + date + "] : process(" + strconv.Itoa(processID) + ") " + "update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
 	_, err = f.WriteString("\n")

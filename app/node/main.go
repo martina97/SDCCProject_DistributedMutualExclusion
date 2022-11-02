@@ -12,8 +12,8 @@ import (
 	"strings"
 )
 
-var listNodes []utilities.Process
 var (
+	listNodes  []utilities.Process
 	peers      *list.List
 	myID       int
 	myUsername string

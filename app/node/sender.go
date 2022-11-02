@@ -25,6 +25,11 @@ func sendMessage(algo string) error {
 }
 
 func sendCentralized() error {
+
+	//MyProcess.SetReplyProSet(list.New())	//in questa lista metto il msg reply
+	mu := MyProcess.GetMutex()
+	mu.Lock()
+
 	var res utilities.Result_file
 
 	fmt.Println("SONO IN sendCentralized --- PORTA == ", MyProcess.Port)
@@ -41,7 +46,7 @@ func sendCentralized() error {
 	if err != nil {
 		log.Fatal("Error in dialing: ", err)
 	}
-	date := time.Now().Format("15:04:05.000")
+	date := time.Now().Format(utilities.DATE_FORMAT)
 
 	//msg := *utilities.NewEnterMsg(MyProcess, date)
 	msg := *utilities.NewEnterMsg(MyProcess, date)
@@ -53,6 +58,10 @@ func sendCentralized() error {
 	if err != nil {
 		log.Fatal("Error save_registration procedure: ", err)
 	}
+
+	MyProcess.Waiting = true
+
+	mu.Unlock()
 
 	return nil
 }
@@ -79,7 +88,7 @@ func sendLamport() {
 
 	*/
 	//date := time.Now().Format("2006/01/02 15:04:05")
-	date := time.Now().Format("15:04:05.000")
+	date := time.Now().Format(utilities.DATE_FORMAT)
 
 	msg := *utilities.NewRequest2(myID, date, MyProcess.TimeStamp)
 
@@ -170,7 +179,7 @@ func sendRelease() error {
 	//incremento timestamp
 	utilities.IncrementTS(&MyProcess.TimeStamp)
 
-	date := time.Now().Format("15:04:05.000")
+	date := time.Now().Format(utilities.DATE_FORMAT)
 
 	releaseMsg := *utilities.NewRelease(myID, date, MyProcess.TimeStamp)
 	utilities.WriteTSInfoToFile(myID, MyProcess.TimeStamp)
@@ -305,7 +314,7 @@ func sendAck(msg *utilities.Message) error {
 				log.Fatalf("error opening file: %v", err)
 			}
 			//save new address on file
-			date := time.Now().Format("15:04:05.000")
+			date := time.Now().Format(utilities.DATE_FORMAT)
 			_, err = f.WriteString("[" + date + "] : Send" + msg.MessageToString("send") + " to node " + strconv.Itoa(dest.ID))
 			_, err = f.WriteString("\n")
 			err = f.Sync()

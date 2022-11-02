@@ -157,8 +157,6 @@ func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_fil
 				queue.PushBack(arg)
 				msg := queue.Front()
 				log.Printf("first queue ==", msg.Value)
-				log.Printf("first queue ==", msg)
-				log.Printf("first queue ==", msg)
 			}
 
 		}

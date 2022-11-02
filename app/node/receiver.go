@@ -55,8 +55,8 @@ func message_handler() {
 		if err != nil {
 			log.Fatal("Accept fail")
 		}
-		//go handleConnection(connection)
-		go handleConnectionCentralized(connection)
+		go handleConnection(connection)
+		//go handleConnectionCentralized(connection)
 	}
 }
 
@@ -138,7 +138,7 @@ func handleConnection(conn net.Conn) error {
 		utilities.IncrementTS(&MyProcess.TimeStamp)
 
 		fmt.Println("------------------------------------------------------------- DOPO INVIATO REPLY --- > timestamp  ==", MyProcess.TimeStamp)
-		date := time.Now().Format("15:04:05.000")
+		date := time.Now().Format(utilities.DATE_FORMAT)
 		replyMsg := utilities.NewReply(tmp, MyProcess.ID, msg.Sender, date, MyProcess.TimeStamp)
 		sendAck(replyMsg)
 		mutex.Unlock()
