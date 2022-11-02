@@ -129,16 +129,19 @@ func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_fil
 			if err != nil {
 				log.Println("Send response error on Dial")
 			}
-			msg2 := new(CentralizedMessage)
+			//msg2 := new(CentralizedMessage)
 
-			dec := gob.NewDecoder(conn)
-			dec.Decode(msg2)
-			dec.Decode(arg)
-			log.Printf("sono DENTRO IF")
-			log.Printf("*msg2 == ", *msg2)
-			log.Printf("&msg2 == ", &msg2)
-			log.Printf("*arg == ", *arg)
-			log.Printf("&arg == ", &arg)
+			/*
+				dec := gob.NewDecoder(conn)
+				dec.Decode(msg2)
+				dec.Decode(arg)
+				log.Printf("sono DENTRO IF")
+				log.Printf("*msg2 == ", *msg2)
+				log.Printf("&msg2 == ", &msg2)
+				log.Printf("*arg == ", *arg)
+				log.Printf("&arg == ", &arg)
+
+			*/
 
 			date := time.Now().Format("15:04:05.000")
 

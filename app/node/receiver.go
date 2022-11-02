@@ -228,7 +228,7 @@ func handleConnectionCentralized(conn net.Conn) error {
 	fmt.Println("sto in handleConnectionCentralized")
 	fmt.Println("msg == ", msg)
 
-	time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
+	//time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
 
 	//mutex := lock.GetMutex()
 	//	mutex := MyProcess.GetMutex()
