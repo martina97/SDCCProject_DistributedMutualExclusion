@@ -122,6 +122,9 @@ func (utils *Utility) CentralizedSincro(arg *Message, res *Result_file) error {
 			// processo puo accedere in CS
 			log.Printf("processo puo accedere in CS")
 
+			log.Printf(" arg.SenderProc.Address == ", arg.SenderProc.Address)
+			log.Printf(" arg.SenderProc.Port == ", arg.SenderProc.Port)
+
 			//devo inviare msg granted al processo
 			peerConn := arg.SenderProc.Address + ":" + arg.SenderProc.Port
 
