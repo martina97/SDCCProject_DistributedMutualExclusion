@@ -63,6 +63,9 @@ func sendCentralized() error {
 
 	mu.Unlock()
 
+	<-MyProcess.ChanAcquireLock
+	fmt.Println("dopo  <-MyProcess.ChanAcquireLock")
+
 	return nil
 }
 

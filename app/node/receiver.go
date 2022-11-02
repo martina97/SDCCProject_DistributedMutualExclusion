@@ -55,8 +55,8 @@ func message_handler() {
 		if err != nil {
 			log.Fatal("Accept fail")
 		}
-		go handleConnection(connection)
-		//go handleConnectionCentralized(connection)
+		//go handleConnection(connection)
+		go handleConnectionCentralized(connection)
 	}
 }
 
@@ -234,6 +234,11 @@ func handleConnectionCentralized(conn net.Conn) error {
 	//	mutex := MyProcess.GetMutex()
 	if msg.MsgTypeCentr == utilities.Granted {
 		fmt.Println("MESS REPLY !!!!!! ")
+		/*
+			MyProcess.Waiting = false
+			MyProcess.ChanAcquireLock <- true
+
+		*/
 
 		//ora il processo puo entrare in CS
 	}
