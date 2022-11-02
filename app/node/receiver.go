@@ -221,7 +221,7 @@ func handleConnection(conn net.Conn) error {
 func handleConnectionCentralized(conn net.Conn) error {
 	// read msg and save on file
 	defer conn.Close()
-	msg := new(utilities.Message)
+	msg := new(utilities.CentralizedMessage)
 
 	dec := gob.NewDecoder(conn)
 	dec.Decode(msg)
@@ -232,7 +232,7 @@ func handleConnectionCentralized(conn net.Conn) error {
 
 	//mutex := lock.GetMutex()
 	//	mutex := MyProcess.GetMutex()
-	if msg.MsgType == utilities.Reply {
+	if msg.MsgTypeCentr == utilities.Granted {
 		fmt.Println("MESS REPLY !!!!!! ")
 
 		//ora il processo puo entrare in CS
