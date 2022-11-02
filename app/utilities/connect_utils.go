@@ -116,6 +116,7 @@ func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_fil
 	log.Printf("sono in CentralizedSincro")
 	log.Printf("*arg == ", *arg)
 	log.Printf("&arg == ", &arg)
+	log.Printf("msg == ", arg.MessageToString("receive"))
 
 	if arg.MsgTypeCentr == Enter { //msg di request
 		if resourceState == true {
@@ -149,7 +150,7 @@ func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_fil
 
 			date := time.Now().Format("15:04:05.000")
 
-			msg := GrantedMsg(arg.Sender.ID, date)
+			msg := NewGrantedMsg(arg.Sender.ID, date)
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
 
