@@ -234,11 +234,9 @@ func handleConnectionCentralized(conn net.Conn) error {
 	//	mutex := MyProcess.GetMutex()
 	if msg.MsgTypeCentr == utilities.Granted {
 		fmt.Println("MESS REPLY !!!!!! ")
-		/*
-			MyProcess.Waiting = false
-			MyProcess.ChanAcquireLock <- true
 
-		*/
+		MyProcess.Waiting = false
+		MyProcess.ChanAcquireLock <- true
 
 		//ora il processo puo entrare in CS
 	}

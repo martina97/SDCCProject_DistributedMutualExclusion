@@ -63,7 +63,7 @@ func sendCentralized() error {
 
 	mu.Unlock()
 
-	<-MyProcess.ChanAcquireLock
+	<-MyProcess.ChanAcquireLock //il processo sta in attesa finche non riceve reply!!
 	fmt.Println("dopo  <-MyProcess.ChanAcquireLock")
 
 	return nil
