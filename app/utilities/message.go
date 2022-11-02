@@ -21,15 +21,17 @@ servono lettera maiuscola perche devo farne il marshaling e unmarshaling, che ri
 todo: vedi libro pag 108
 */
 type Message struct {
+
 	//MsgID   string
 	MsgType MessageType //request,reply,release
 
 	//MsgContent interface{}
-	Sender   int
-	Receiver int
-	SeqNum   []uint64
-	Date     string
-	TS       TimeStamp
+	Sender     int
+	SenderProc Process
+	Receiver   int
+	SeqNum     []uint64
+	Date       string
+	TS         TimeStamp
 }
 
 // NewRequest returns a new distributed mutual lock message.
@@ -58,10 +60,30 @@ func NewRequest2(sender int, date string, timeStamp TimeStamp) *Message {
 		TS:   timeStamp,
 	}
 }
+func NewRequest3(process Process, date string, timeStamp TimeStamp) *Message {
+	return &Message{
+		//MsgID:      RandStringBytes(msgIDCnt),
+		MsgType: Request,
+		Sender:  process.ID,
+		//Receiver:   receiver,	//non serve specificarlo perche la richiesta viene mandata a tutti
+		//MsgContent: msgContent,
+		Date: date,
+		TS:   timeStamp,
+	}
+}
 
 func NewReply(ts []uint64, sender int, receiver int, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 		SeqNum:   ts,
+		MsgType:  Reply,
+		Sender:   sender,
+		Receiver: receiver,
+		Date:     date,
+		TS:       timeStamp,
+	}
+}
+func NewReply2(sender int, receiver int, date string, timeStamp TimeStamp) *Message {
+	return &Message{
 		MsgType:  Reply,
 		Sender:   sender,
 		Receiver: receiver,

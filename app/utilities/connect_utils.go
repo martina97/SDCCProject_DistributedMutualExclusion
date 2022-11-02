@@ -112,18 +112,19 @@ func (utils *Utility) Save_registration(arg *Process, res *Result_file) error {
 	return nil
 }
 
-func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_file) error {
+func (utils *Utility) CentralizedSincro(arg *Message, res *Result_file) error {
 	log.Printf("sono in CentralizedSincro")
 	log.Printf("*arg == ", *arg)
 	log.Printf("&arg == ", &arg)
 
-	if arg.MsgTypeCentr == "enter" { //msg di request
+	if arg.MsgType == Request { //msg di request
 		if resourceState == true {
 			// processo puo accedere in CS
 			log.Printf("processo puo accedere in CS")
 
 			//devo inviare msg granted al processo
-			peerConn := arg.Sender.Address + ":" + arg.Sender.Port
+			peerConn := arg.SenderProc.Address + ":" + arg.SenderProc.Port
+
 			conn, err := net.Dial("tcp", peerConn)
 			defer conn.Close()
 			if err != nil {
@@ -145,7 +146,7 @@ func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_fil
 
 			date := time.Now().Format("15:04:05.000")
 
-			msg := GrantedMsg(arg.Sender.ID, date)
+			msg := NewReply2(3, arg.Sender, date, 0)
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
 
@@ -153,7 +154,7 @@ func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_fil
 		} else {
 
 		}
-	} else if arg.MsgTypeCentr == "release" {
+	} else if arg.MsgType == Release {
 		log.Printf("msg di release")
 
 	}

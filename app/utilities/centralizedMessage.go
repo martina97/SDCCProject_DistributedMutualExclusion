@@ -13,6 +13,7 @@ const (
 servono lettera maiuscola perche devo farne il marshaling e unmarshaling, che richiedono solo field esportabili
 todo: vedi libro pag 108
 */
+/*
 type CentralizedMessage struct {
 	//MsgID   string
 	MsgTypeCentr MessageTypeCentr //request,reply,release
@@ -42,3 +43,5 @@ func GrantedMsg(receiver int, date string) *CentralizedMessage {
 		Date: date,
 	}
 }
+
+*/
