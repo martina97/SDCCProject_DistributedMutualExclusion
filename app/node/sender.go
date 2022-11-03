@@ -1,7 +1,7 @@
 package main
 
 import (
-	"SDCCProject_DistributedMutualExclusion/app/utilities"
+	"awsomeProject3/app/utilities"
 	"container/list"
 	"encoding/gob"
 	"fmt"
@@ -63,8 +63,16 @@ func sendCentralized() error {
 
 	mu.Unlock()
 
-	<-MyProcess.ChanAcquireLock //il processo sta in attesa finche non riceve reply!!
+	<-MyProcess.ChanAcquireLock //il processo sta in attesa finche non riceve reply!! , una volta che
+	// riceve reply potra rimandare un nuovo msg!
 	fmt.Println("dopo  <-MyProcess.ChanAcquireLock")
+
+	//entra in CS !!!
+	fmt.Println("entro in CS")
+	utilities.WriteInfoToFile(myID, " entered the critical section at ", true)
+	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
+
+	//mando msg release al coordinatore
 
 	return nil
 }

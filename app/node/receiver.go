@@ -1,7 +1,7 @@
 package main
 
 import (
-	"SDCCProject_DistributedMutualExclusion/app/utilities"
+	"awsomeProject3/app/utilities"
 	"encoding/gob"
 	"fmt"
 	"log"

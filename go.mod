@@ -1,4 +1,4 @@
-module SDCCProject_DistributedMutualExclusion
+module awsomeProject3
 
 go 1.17
 
