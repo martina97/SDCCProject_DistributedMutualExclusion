@@ -1,1 +1,5 @@
 Initial timestamp of process(0) is 0
+[17:24:37.453] : process(0) update its local logical timeStamp to 1
+[17:24:37.458] : Send Request message: {Request [] 0 1 17:24:37.451 [1]} to process(1)
+[17:24:37.461] : Send Request message: {Request [] 0 2 17:24:37.451 [1]} to process(2)
+[17:24:37.464] : process(0) wait all node reply messages.

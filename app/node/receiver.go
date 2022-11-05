@@ -55,8 +55,8 @@ func message_handler() {
 		if err != nil {
 			log.Fatal("Accept fail")
 		}
-		//go handleConnection(connection)
-		go handleConnectionCentralized(connection)
+		go handleConnection(connection)
+		//go handleConnectionCentralized(connection)
 	}
 }
 
