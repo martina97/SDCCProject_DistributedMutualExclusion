@@ -1,7 +1,7 @@
 package main
 
 import (
-	"awsomeProject3/app/utilities"
+	"SDCCProject_DistributedMutualExclusion/app/utilities"
 	"bufio"
 	"container/list"
 	"fmt"
