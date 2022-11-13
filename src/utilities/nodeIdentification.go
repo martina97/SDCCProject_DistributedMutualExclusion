@@ -25,7 +25,7 @@ const (
 
 // Struct to send information about peer
 // processo in esecuzione sul peer
-type Process struct {
+type NodeInfo struct {
 
 	//info su nodo su cui e' in esecuzione il processo
 	Username string   //nome nodo
@@ -53,31 +53,31 @@ type Process struct {
 	//LockInfo *infoLock
 }
 
-func (p *Process) GetReplyProSet() *list.List {
+func (p *NodeInfo) GetReplyProSet() *list.List {
 	return p.replyProSet
 }
 
-func (p *Process) SetReplyProSet(replyProSet *list.List) {
+func (p *NodeInfo) SetReplyProSet(replyProSet *list.List) {
 	p.replyProSet = replyProSet
 }
 
-func (p *Process) GetDeferProSet() *list.List {
+func (p *NodeInfo) GetDeferProSet() *list.List {
 	return p.deferProSet
 }
 
-func (p *Process) SetDeferProSet(deferProSet *list.List) {
+func (p *NodeInfo) SetDeferProSet(deferProSet *list.List) {
 	p.deferProSet = deferProSet
 }
 
-func (p *Process) GetFileLog() *log.Logger {
+func (p *NodeInfo) GetFileLog() *log.Logger {
 	return p.fileLog
 }
 
-func (p *Process) SetFileLog(fileLog *log.Logger) {
+func (p *NodeInfo) SetFileLog(fileLog *log.Logger) {
 	p.fileLog = fileLog
 }
 
-func (p Process) GetMutex() sync.Mutex {
+func (p NodeInfo) GetMutex() sync.Mutex {
 	return p.mutex
 }
 
@@ -106,7 +106,7 @@ func ParseLine(s string, sep string) (string, string, string, string) {
 	return res[0], res[1], res[2], res[3]
 }
 
-func CreateLog(process *Process, typeInfo string, id string, header string) *log.Logger {
+func CreateLog(process *NodeInfo, typeInfo string, id string, header string) *log.Logger {
 	serverLogFile, err := os.Create("/docker/node_volume/" + typeInfo + id + ".log")
 	if err != nil {
 		log.Printf("unable to read file: %v", err)
@@ -126,7 +126,7 @@ func CreateLog(process *Process, typeInfo string, id string, header string) *log
 }
 
 // scrivo nel file tutte le info sui msg ricevuti / mandati
-func WriteMsgToFile(process *Process, typeMsg string, message Message, idNodeDest int, timestamp TimeStamp) error {
+func WriteMsgToFile(process *NodeInfo, typeMsg string, message Message, idNodeDest int, timestamp TimeStamp) error {
 	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(process.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)

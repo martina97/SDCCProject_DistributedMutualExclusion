@@ -1,7 +1,9 @@
 package main
 
+//è il main
+
 import (
-	"SDCCProject_DistributedMutualExclusion/app/utilities"
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"bufio"
 	"container/list"
 	"fmt"
@@ -13,13 +15,13 @@ import (
 )
 
 var (
-	listNodes  []utilities.Process
+	listNodes  []utilities.NodeInfo
 	peers      *list.List
 	myID       int
 	myUsername string
 	allID      []int
-	//MyProcess  utilities.Process
-	MyProcess utilities.Process
+	//MyProcess  utilities.nodeInfo
+	MyProcess utilities.NodeInfo
 	//lock   utilities.InfoLock
 	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
 
@@ -110,8 +112,8 @@ func setID() {
 	//ora setto la variabile globale MyProcess
 	//scorro peers, che e' *list, in cui ci sono i peer
 	for i := peers.Front(); i != nil; i = i.Next() {
-		//fmt.Println("PROVA SET ID ", i.Value.(utilities.Process)) //i.value e' interface{}
-		elem := i.Value.(utilities.Process)
+		//fmt.Println("PROVA SET ID ", i.Value.(utilities.nodeInfo)) //i.value e' interface{}
+		elem := i.Value.(utilities.NodeInfo)
 		//fmt.Println(" myUsername ==== ", myUsername)
 		//fmt.Println(" elem.Username ==== ", elem.Username)
 
@@ -130,7 +132,7 @@ func setID() {
 func setPeerUtils() {
 	// creo file "peer_ID.log"
 
-	utilities.CreateLog(&MyProcess, "process_", strconv.Itoa(MyProcess.ID), "[peer]") // in process.go
+	utilities.CreateLog(&MyProcess, "process_", strconv.Itoa(MyProcess.ID), "[peer]") // in nodeIdentification.go
 
 	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(MyProcess.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {

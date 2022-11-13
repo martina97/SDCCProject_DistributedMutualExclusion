@@ -25,15 +25,15 @@ type InfoLock struct {
 	//msgMap          *MessageMap // request lock message priority queue.
 
 	// process handler
-	//proc *node.process
-	peer *Process
+	//proc *peer.process
+	peer *NodeInfo
 	// log
 	logger *log.Logger
 
 	mu sync.Mutex
 
 	//peer
-	//tcpPeer Process
+	//tcpPeer NodeInfo
 
 	//timestamp
 
@@ -50,10 +50,10 @@ func (l *InfoLock) GetMutex() *sync.Mutex {
 
 */
 /*
-func NewLock(peer *Process) (*InfoLock, error) {
+func NewLock(peer *NodeInfo) (*InfoLock, error) {
 	fmt.Println("########   SONO IN NEW LOCK 	##################### \n\n ")
 	dl := &InfoLock{
-		//todo: metto node id e nodeport o basta info proc?
+		//todo: metto peer id e nodeport o basta info proc?
 		chanRcvMsg:      make(chan Message, MSG_BUFFERED_SIZE),
 		chanSendMsg:     make(chan *Message, MSG_BUFFERED_SIZE),
 		ChanAcquireLock: make(chan bool, CHAN_SIZE),

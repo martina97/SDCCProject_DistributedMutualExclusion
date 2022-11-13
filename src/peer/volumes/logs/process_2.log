@@ -1,0 +1,5 @@
+Initial timestamp of process(2) is 0
+[18:11:21.102] : Receive Request message: {Request [] 0 1 18:10:51.072 [1]} from process(0) and update its local logical timestamp to 2
+[18:11:21.125] : process(2) update its local logical timeStamp to 3
+[18:11:21.245] : Send Reply message: {Reply [] 2 0 18:11:21.125 [3]} to node 0
+[18:12:53.132] : Receive Release message: {Release [] 0 1 18:12:23.100 [6]} from process(0) and update its local logical timestamp to 7

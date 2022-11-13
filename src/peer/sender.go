@@ -1,7 +1,7 @@
 package main
 
 import (
-	"SDCCProject_DistributedMutualExclusion/app/utilities"
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"container/list"
 	"encoding/gob"
 	"fmt"
@@ -53,7 +53,7 @@ func sendCentralized() error {
 	fmt.Println("msg ==== ", msg)
 
 	//call procedure
-	log.Printf("Call to coordinator node")
+	log.Printf("Call to coordinator peer")
 	err = conn.Call("Utility.CentralizedSincro", &msg, &res)
 	if err != nil {
 		log.Fatal("Error save_registration procedure: ", err)
@@ -107,7 +107,7 @@ func sendLamport() {
 
 	mu.Unlock()
 
-	utilities.WriteInfoToFile(myID, " wait all node reply messages.", false)
+	utilities.WriteInfoToFile(myID, " wait all peer reply messages.", false)
 	/*
 		f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 		if err != nil {
@@ -117,7 +117,7 @@ func sendLamport() {
 		date = time.Now().Format("15:04:05.000")
 
 
-		_, err = f.WriteString(date + " lock(" + strconv.Itoa(myID) + ") wait all node reply messages.\n")
+		_, err = f.WriteString(date + " lock(" + strconv.Itoa(myID) + ") wait all peer reply messages.\n")
 
 		_, err = f.WriteString("\n")
 		err = f.Sync()
@@ -126,11 +126,11 @@ func sendLamport() {
 
 	<-MyProcess.ChanAcquireLock
 
-	utilities.WriteInfoToFile(myID, " receive all node reply messages successfully.", false)
+	utilities.WriteInfoToFile(myID, " receive all peer reply messages successfully.", false)
 	/*
 		date = time.Now().Format("15:04:05.000")
 
-		_, err = f.WriteString(date + " lock(" + strconv.Itoa(myID) + ")receive all node reply messages successfully.\n") //todo:invece che lock scrivere processo
+		_, err = f.WriteString(date + " lock(" + strconv.Itoa(myID) + ")receive all peer reply messages successfully.\n") //todo:invece che lock scrivere processo
 
 		_, err = f.WriteString("\n")
 		err = f.Sync()
@@ -188,7 +188,7 @@ func sendRelease() error {
 	utilities.WriteTSInfoToFile(myID, MyProcess.TimeStamp)
 
 	for e := peers.Front(); e != nil; e = e.Next() {
-		dest := e.Value.(utilities.Process)
+		dest := e.Value.(utilities.NodeInfo)
 		//only peer are destination of msgs
 		if dest.Type == utilities.Peer && dest.ID != myID { //non voglio mandarlo a me stesso
 
@@ -210,7 +210,7 @@ func sendRelease() error {
 				}
 				//save new address on file
 				date = time.Now().Format("15:04:05.000")
-				_, err = f.WriteString("[" + date + "] : Send " + releaseMsg.MessageToString() + " to node " + strconv.Itoa(dest.ID))
+				_, err = f.WriteString("[" + date + "] : Send " + releaseMsg.MessageToString() + " to peer " + strconv.Itoa(dest.ID))
 				_, err = f.WriteString("\n")
 				err = f.Sync()
 				if err != nil {
@@ -237,7 +237,7 @@ func sendRequest(msg utilities.Message) error {
 
 	utilities.WriteTSInfoToFile(myID, MyProcess.TimeStamp)
 	for e := peers.Front(); e != nil; e = e.Next() {
-		dest := e.Value.(utilities.Process)
+		dest := e.Value.(utilities.NodeInfo)
 		//only peer are destination of msgs
 		if dest.Type == utilities.Peer && dest.ID != myID { //non voglio mandarlo a me stesso
 
@@ -265,7 +265,7 @@ func sendRequest(msg utilities.Message) error {
 				}
 				//save new address on file
 				date := time.Now().Format("15:04:05.000")
-				_, err = f.WriteString("[" + date + "] : Send " + msg.MessageToString() + " to node " + strconv.Itoa(dest.ID))
+				_, err = f.WriteString("[" + date + "] : Send " + msg.MessageToString() + " to peer " + strconv.Itoa(dest.ID))
 				_, err = f.WriteString("\n")
 				err = f.Sync()
 				if err != nil {
@@ -300,7 +300,7 @@ func sendAck(msg *utilities.Message) error {
 	utilities.WriteTSInfoToFile(myID, MyProcess.TimeStamp)
 
 	for e := peers.Front(); e != nil; e = e.Next() {
-		dest := e.Value.(utilities.Process)
+		dest := e.Value.(utilities.NodeInfo)
 		if dest.ID == msg.Receiver {
 			//open connection whit peer
 			peer_conn := dest.Address + ":" + dest.Port
@@ -318,7 +318,7 @@ func sendAck(msg *utilities.Message) error {
 			}
 			//save new address on file
 			date := time.Now().Format(utilities.DATE_FORMAT)
-			_, err = f.WriteString("[" + date + "] : Send" + msg.MessageToString("send") + " to node " + strconv.Itoa(dest.ID))
+			_, err = f.WriteString("[" + date + "] : Send" + msg.MessageToString("send") + " to peer " + strconv.Itoa(dest.ID))
 			_, err = f.WriteString("\n")
 			err = f.Sync()
 			if err != nil {

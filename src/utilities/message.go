@@ -27,7 +27,7 @@ type Message struct {
 
 	//MsgContent interface{}
 	Sender     int
-	SenderProc Process
+	SenderProc NodeInfo
 	Receiver   int
 	SeqNum     []uint64
 	Date       string
@@ -60,7 +60,7 @@ func NewRequest2(sender int, date string, timeStamp TimeStamp) *Message {
 		TS:   timeStamp,
 	}
 }
-func NewRequest3(process Process, date string, timeStamp TimeStamp) *Message {
+func NewRequest3(process NodeInfo, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 		//MsgID:      RandStringBytes(msgIDCnt),
 		MsgType: Request,

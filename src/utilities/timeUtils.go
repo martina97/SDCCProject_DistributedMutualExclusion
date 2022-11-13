@@ -5,7 +5,7 @@ const maxDelay = 5
 /*
 type Clock interface {
 	Start()           // Start not concurrent operation
-	Increment(id int) //id: my node identifier, do not care if ScalarClock
+	Increment(id int) //id: my peer identifier, do not care if ScalarClock
 	Update(timestamp []uint64)
 	GetValue() []uint64
 	//AtomicIncAndGet ??

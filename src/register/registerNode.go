@@ -1,19 +1,19 @@
 package main
 
 import (
-	"SDCCProject_DistributedMutualExclusion/app/utilities"
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"log"
 	"net"
 	"net/rpc"
 	"os"
-	//"provaMutualExLamport/app/utilities"
+	//"provaMutualExLamport/src/utilities"
 	"strconv"
 )
 
 type Register struct{}
 
-//var info utilities.Process //info e' struttura nodo
-//var listNodes [3]utilities.Process
+//var info utilities.nodeInfo //info e' struttura nodo
+//var listNodes [3]utilities.nodeInfo
 
 func main() {
 	var connect_num int
@@ -66,7 +66,7 @@ func main() {
 
 	log.Printf("Max Number of Connection reached up")
 
-	utilities.Wg.Add(-3) //quando tutti e 3 sono registrati si ritorna a #app
+	utilities.Wg.Add(-3) //quando tutti e 3 sono registrati si ritorna a #src
 
 	//send client a responce for max number of peer registered
 

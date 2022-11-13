@@ -1,7 +1,7 @@
 package main
 
 import (
-	"SDCCProject_DistributedMutualExclusion/app/utilities"
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
 	"fmt"
 	"log"
@@ -244,7 +244,7 @@ func handleConnectionCentralized(conn net.Conn) error {
 	return nil
 }
 
-func checkAcks(process *utilities.Process) {
+func checkAcks(process *utilities.nodeInfo) {
 
 	//todo: quando azzero lista ReplyProSet ?????
 	//date := time.Now().Format("15:04:05.000")

@@ -12,7 +12,7 @@ import (
 /*
 	Set info
 */
-func setInfo(info *Process, port int, username string) error {
+func setInfo(info *NodeInfo, port int, username string) error {
 	info.Address = GetLocalIP()
 	if info.Address == "" {
 		return errors.New("Impossible to find local ip")
@@ -27,9 +27,9 @@ func setInfo(info *Process, port int, username string) error {
 /*
 	Registration function for peer
 */
-func Registration(peers *list.List, port int, username string, listNodes []Process) Result_file {
+func Registration(peers *list.List, port int, username string, listNodes []NodeInfo) Result_file {
 
-	var info Process
+	var info NodeInfo
 	var res Result_file
 
 	fmt.Println("SONO IN REGISTRATION --- PORTA == ", port)
@@ -51,7 +51,7 @@ func Registration(peers *list.List, port int, username string, listNodes []Proce
 	}
 
 	//call procedure
-	log.Printf("Call to registration node")
+	log.Printf("Call to registration peer")
 	err = server.Call("Utility.Save_registration", &info, &res)
 	if err != nil {
 		log.Fatal("Error save_registration procedure: ", err)
@@ -59,7 +59,7 @@ func Registration(peers *list.List, port int, username string, listNodes []Proce
 
 	//check result
 	for e := 0; e < res.PeerNum; e++ {
-		var item Process
+		var item NodeInfo
 		var tmp string
 		item.Username, tmp, item.Address, item.Port = ParseLine(res.Peers[e], ":")
 		fmt.Println("tmp ======= ", tmp)

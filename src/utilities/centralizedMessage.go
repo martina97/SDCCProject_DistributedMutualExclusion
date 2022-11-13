@@ -19,14 +19,14 @@ todo: vedi libro pag 108
 type CentralizedMessage struct {
 	//MsgID   string
 	MsgTypeCentr MessageTypeCentr //request,reply,release
-	Sender       Process
+	Sender       NodeInfo
 	Receiver     int
 	Date         string
 }
 
 //// ############################ ALGORITMO CENTRALIZZATO #######################################
 
-func NewEnterMsg(process Process, date string) *CentralizedMessage {
+func NewEnterMsg(process NodeInfo, date string) *CentralizedMessage {
 	return &CentralizedMessage{
 		MsgTypeCentr: Enter,
 		Sender:       process,

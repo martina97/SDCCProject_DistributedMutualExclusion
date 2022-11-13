@@ -18,7 +18,7 @@ COPY utilities/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/app
 
 #COPY menu/*.go ./menu/
 
-RUN go install ./node
+RUN go install ./peer
 #RUN go install ./menu
 
 #CMD [ "sh", "-c", "${GOPATH}/bin/peer1" ]

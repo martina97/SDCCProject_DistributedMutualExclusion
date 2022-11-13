@@ -1,7 +1,7 @@
 package main
 
 import (
-	"SDCCProject_DistributedMutualExclusion/app/utilities"
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"fmt"
 	"github.com/manifoldco/promptui"
 )

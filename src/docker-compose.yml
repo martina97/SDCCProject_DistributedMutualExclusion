@@ -30,13 +30,13 @@ services:
   peer:
     build:
       context: .
-      dockerfile: node/Dockerfile
+      dockerfile: peer/Dockerfile
     networks:
       - local_net
     ports:
       - "1234"
     volumes:
-      - ./node/volumes/logs/:/docker/node_volume/
+      - ./peer/volumes/logs/:/docker/node_volume/
 
     stdin_open: true # docker run -i
     tty: true        # docker run -t

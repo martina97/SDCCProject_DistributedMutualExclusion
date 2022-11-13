@@ -57,7 +57,7 @@ func GetLocalIP() string {
 }
 
 // save registration info to reg_node procedure
-func (utils *Utility) Save_registration(arg *Process, res *Result_file) error {
+func (utils *Utility) Save_registration(arg *NodeInfo, res *Result_file) error {
 
 	log.Printf("The registration is for %s the ip address:port : %s:%s\n", TypeToString(arg.Type), arg.Address, arg.Port)
 	fmt.Println("provaaaaaa")
