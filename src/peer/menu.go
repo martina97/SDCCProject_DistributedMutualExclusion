@@ -8,8 +8,8 @@ import (
 
 func openMenu() {
 
-	MyProcess.ScalarMap = utilities.MessageMap{} //inizializzo mappa
-	for {                                        //infinite loop
+	myNode.ScalarMap = utilities.MessageMap{} //inizializzo mappa
+	for {                                     //infinite loop
 		prompt := promptui.Select{
 			Label: "Select Option",
 			Items: []string{"Run centralized", "Run Lamport", "Run Ricart-Agrawala", "exit"},

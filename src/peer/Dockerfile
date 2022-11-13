@@ -13,8 +13,8 @@ RUN go mod init github.com/martina97/SDCCProject_DistributedMutualExclusion
 RUN go mod tidy
 RUN go get -u github.com/manifoldco/promptui
 
-COPY node/*.go ./node/
-COPY utilities/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/app/utilities/
+COPY peer/*.go ./peer/
+COPY utilities/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/src/utilities/
 
 #COPY menu/*.go ./menu/
 

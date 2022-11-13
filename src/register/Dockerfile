@@ -8,7 +8,7 @@ RUN apk add git nano vim
 
 ENV GO111MODULE=on
 RUN go mod init github.com/martina97/SDCCProject_DistributedMutualExclusion
-COPY utilities/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/app/utilities/
+COPY utilities/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/src/utilities/
 
 RUN go mod tidy
 

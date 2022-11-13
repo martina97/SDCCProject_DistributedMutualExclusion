@@ -20,8 +20,7 @@ var (
 	myID       int
 	myUsername string
 	allID      []int
-	//MyProcess  utilities.nodeInfo
-	MyProcess utilities.NodeInfo
+	myNode     utilities.NodeInfo
 	//lock   utilities.InfoLock
 	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
 
@@ -80,12 +79,12 @@ func main() {
 	setPeerUtils()
 	//processo relativo al nodo che sto  considerando. il processo avrà info su
 	// id nodo e indirizzo e porta nodo
-	//fmt.Println("MY PEER =====", MyProcess.Username)
+	//fmt.Println("MY PEER =====", myNode.Username)
 
 	//fmt.Println("sono il peer ", myUsername, "il mio id ===", myID)
 
 	//startClocks()
-	utilities.StartTS(MyProcess.TimeStamp)
+	utilities.StartTS(myNode.TimeStamp)
 	fmt.Println("START CLOCKS TERMINATO")
 	fmt.Println("OPEN MENU")
 
@@ -99,7 +98,7 @@ func main() {
 	// creo file "peer_ID.log"
 
 	//creo nuovo processo in esecuzione sul peer
-	//p, err := NewProcess(MyProcess)
+	//p, err := NewProcess(myNode)
 
 	//TODO: scommentare
 }
@@ -109,7 +108,7 @@ func setID() {
 	che dovra' fare determinate azioni, e devo creare una lista che ha tutti gli
 	ID degli altri peer
 	*/
-	//ora setto la variabile globale MyProcess
+	//ora setto la variabile globale myNode
 	//scorro peers, che e' *list, in cui ci sono i peer
 	for i := peers.Front(); i != nil; i = i.Next() {
 		//fmt.Println("PROVA SET ID ", i.Value.(utilities.nodeInfo)) //i.value e' interface{}
@@ -118,7 +117,7 @@ func setID() {
 		//fmt.Println(" elem.Username ==== ", elem.Username)
 
 		if elem.Username == myUsername {
-			MyProcess = elem
+			myNode = elem
 			myID = elem.ID
 			allID = append(allID, myID)
 			//fmt.Println(" SONO ", myUsername, "IL MIO ID == ", myID)
@@ -132,20 +131,20 @@ func setID() {
 func setPeerUtils() {
 	// creo file "peer_ID.log"
 
-	utilities.CreateLog(&MyProcess, "process_", strconv.Itoa(MyProcess.ID), "[peer]") // in nodeIdentification.go
+	utilities.CreateLog(&myNode, "process_", strconv.Itoa(myNode.ID), "[peer]") // in nodeIdentification.go
 
-	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(MyProcess.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myNode.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	_, err = f.WriteString("Initial timestamp of process(" + strconv.Itoa(myID) + ") is " + strconv.Itoa(int(MyProcess.TimeStamp)))
+	_, err = f.WriteString("Initial timestamp of process(" + strconv.Itoa(myID) + ") is " + strconv.Itoa(int(myNode.TimeStamp)))
 	_, err = f.WriteString("\n")
 
 	defer f.Close()
 
 	/* todo: scommentare
-	MyProcess.FileLog.SetOutput(f)
-	MyProcess.FileLog.Println("infoProcess(" + strconv.Itoa(MyProcess.ID) + ") created.\n")
+	myNode.FileLog.SetOutput(f)
+	myNode.FileLog.Println("infoProcess(" + strconv.Itoa(myNode.ID) + ") created.\n")
 
 	*/
 
@@ -153,13 +152,13 @@ func setPeerUtils() {
 
 	//setto info sul processo in esecuzione sul peer
 	//todo: serve?
-	//NewProcess(&MyProcess)
+	//NewProcess(&myNode)
 
-	MyProcess.ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
-	MyProcess.ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
-	MyProcess.ChanAcquireLock = make(chan bool, utilities.CHAN_SIZE)
-	MyProcess.SetDeferProSet(list.New())
-	MyProcess.SetReplyProSet(list.New())
+	myNode.ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
+	myNode.ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
+	myNode.ChanAcquireLock = make(chan bool, utilities.CHAN_SIZE)
+	myNode.SetDeferProSet(list.New())
+	myNode.SetReplyProSet(list.New())
 
 }
 
