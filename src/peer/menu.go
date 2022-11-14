@@ -26,20 +26,27 @@ func openMenu() {
 
 		if i+1 == 1 { //ossia Run centralized
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
-			openCentralizedMenu()
+			openSecondMenu("centralized")
+			//openCentralizedMenu()
 		}
 		if i+1 == 2 { //ossia Run Lamport
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
-			openLamportMenu()
+			openSecondMenu("lamport")
+			//openLamportMenu()
 		}
 		if i+1 == 3 { //exit
-			break
+			openSecondMenu("ricart")
 		}
 		if i+1 == 4 { //exit
 			break
 		}
 
 	}
+
+}
+
+func openSecondMenu(s string) {
+	fmt.Println(" sto in openSecondMenu ------ " + s)
 
 }
 

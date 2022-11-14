@@ -20,6 +20,7 @@ func sendMessage(algo string) error {
 		sendCentralized()
 	case "Lamport":
 		sendLamport()
+
 	}
 	return nil
 }
