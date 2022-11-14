@@ -58,6 +58,9 @@ func NewRicartAgrawalaPeer(username string, ID int, address string, port string)
 	return &RApeer{Username: username, ID: ID, Address: address, Port: port}
 }
 
-func (m *RApeer) ToString() string {
-	return fmt.Sprintf("myRApeer:"+" {%s,\nnum = %d, \nLast_Req = %d}", m.Username, m.Num, m.lastReq)
+func (m *RApeer) ToString() {
+	fmt.Println("myRApeer:{%s,"+
+		"\nnum = %d, "+
+		"\nLast_Req = %d}",
+		m.Username, m.Num, m.lastReq)
 }
