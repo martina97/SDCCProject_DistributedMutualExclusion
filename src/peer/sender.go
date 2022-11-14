@@ -16,13 +16,18 @@ import (
 //send msg (o request o ack o release)
 func sendMessage(algo string) error {
 	switch algo {
-	case "Centralized":
+	case "centralized":
 		sendCentralized()
-	case "Lamport":
+	case "lamport":
 		sendLamport()
-
+	case "ricart":
+		sendRicart()
 	}
 	return nil
+}
+
+func sendRicart() {
+	fmt.Println("sono in sendRicart!!!!!")
 }
 
 func sendCentralized() error {

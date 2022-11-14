@@ -47,6 +47,30 @@ func openMenu() {
 
 func openSecondMenu(s string) {
 	fmt.Println(" sto in openSecondMenu ------ " + s)
+	for { //infinite loop
+		prompt := promptui.Select{
+			Label: "Select Option",
+			Items: []string{"send message", "show message received", "exit"},
+		}
+
+		i, result, err := prompt.Run() //i : indice di cosa ho scelto
+
+		if err != nil {
+			fmt.Printf("Prompt failed %v\n", err)
+			return
+		}
+
+		fmt.Printf("You choose number %d: %s\n", i+1, result)
+
+		if i+1 == 1 { //send message
+			sendMessage(s)
+		}
+
+		if i+1 == 3 { //exit
+			break
+		}
+
+	}
 
 }
 

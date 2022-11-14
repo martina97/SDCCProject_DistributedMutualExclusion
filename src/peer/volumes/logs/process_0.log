@@ -1,15 +1,1 @@
 Initial timestamp of process(0) is 0
-[18:19:00.790] : process(0) update its local logical timeStamp to 1
-[18:19:00.803] : Send Request message: {Request [] 0 1 18:19:00.789 [1]} to process(1)
-[18:19:00.810] : Send Request message: {Request [] 0 2 18:19:00.789 [1]} to process(2)
-[18:19:00.814] : process(0) wait all peer reply messages.
-[18:20:00.854] : Receive Reply message: {Reply [] 2 0 18:19:30.820 [3]} from process(2)[18:20:00.854] : Receive Reply message: {Reply [] 1 0 18:19:30.818 [3]} from process(1) and update its local logical timestamp to 4 and update its local logical timestamp to 5
-
-[18:20:00.920] : process(0) receive all peer reply messages successfully.
-
-process 0 entered the critical section at 18:20:00.923
-
-process 0 exited the critical section at 18:20:30.926
-[18:20:31.066] : process(0) update its local logical timeStamp to 6
-[18:20:31.069] : Send Release message: {Release [] 0 1 18:20:31.065 [6]} to process(1)
-[18:20:31.071] : Send Release message: {Release [] 0 2 18:20:31.065 [6]} to process(2)
