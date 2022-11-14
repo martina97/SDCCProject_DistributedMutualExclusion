@@ -189,6 +189,8 @@ func setAlgorithmPeer(algo string) {
 		RApeer = *NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)
 		fmt.Println("RApeer ====", RApeer)
 		fmt.Println("myNode ====", myNode)
+		utilities.StartTS(RApeer.TimeStamp)
+		fmt.Println("RApeer.TimeStamp ==== ", RApeer.TimeStamp)
 
 	}
 

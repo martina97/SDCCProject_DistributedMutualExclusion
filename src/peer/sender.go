@@ -28,6 +28,11 @@ func sendMessage(algo string) error {
 
 func sendRicart() {
 	fmt.Println("sono in sendRicart!!!!!")
+	mu := RApeer.GetMutex()
+	mu.Lock()
+	fmt.Println("sono in sendRicard --- RApeer.TimeStamp ==== ", RApeer.TimeStamp)
+	utilities.IncrementTS(&RApeer.TimeStamp)
+	fmt.Println("sono in sendRicard --- RApeer.TimeStamp ==== ", RApeer.TimeStamp)
 
 }
 

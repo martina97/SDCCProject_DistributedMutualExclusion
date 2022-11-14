@@ -16,9 +16,9 @@ type RA_peer struct {
 
 	// utili per mutua esclusione
 	mutex     sync.Mutex
-	Timestamp utilities.TimeStamp
 	fileLog   *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
 	Listener  net.Listener
+	TimeStamp utilities.TimeStamp
 
 	/*
 		replies int //numero di risposte ricevute (inizializzato a 0)
@@ -46,6 +46,10 @@ type RA_peer struct {
 			readCnt  int
 			writeCnt int
 	*/
+}
+
+func (p RA_peer) GetMutex() sync.Mutex {
+	return p.mutex
 }
 
 func NewRicartAgrawalaPeer(username string, ID int, address string, port string) *RA_peer {
