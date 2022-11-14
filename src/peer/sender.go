@@ -33,7 +33,7 @@ func sendRicart() {
 	fmt.Println("sono in sendRicard --- myRApeer.Num ==== ", myRApeer.Num)
 	utilities.IncrementTS(&myRApeer.Num)
 	fmt.Println("sono in sendRicard --- myRApeer.Num ==== ", myRApeer.Num)
-	myRApeer.ToString()
+	fmt.Println(myRApeer.ToString())
 
 }
 
