@@ -21,13 +21,13 @@ var (
 	myUsername string
 	allID      []int
 	myNode     utilities.NodeInfo
-	RApeer     RA_peer
+	myRApeer   RApeer
 	//lock   utilities.InfoLock
 	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
 
 	/*
 		scalarMap utilities.MessageMap
-		timeStamp utilities.TimeStamp //todo: mettere tutte queste var in una struttura per ogni processo
+		timeStamp utilities.Num //todo: mettere tutte queste var in una struttura per ogni processo
 
 	*/
 )
@@ -186,11 +186,11 @@ func setAlgorithmPeer(algo string) {
 	fmt.Println(" -------  sto in setAlgorithmPeer  -------")
 	switch algo {
 	case "ricart":
-		RApeer = *NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)
-		fmt.Println("RApeer ====", RApeer)
+		myRApeer = *NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)
+		fmt.Println("myRApeer ====", myRApeer)
 		fmt.Println("myNode ====", myNode)
-		utilities.StartTS(RApeer.TimeStamp)
-		fmt.Println("RApeer.TimeStamp ==== ", RApeer.TimeStamp)
+		utilities.StartTS(myRApeer.Num)
+		fmt.Println("myRApeer.Num ==== ", myRApeer.Num)
 
 	}
 

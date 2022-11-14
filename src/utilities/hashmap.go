@@ -13,20 +13,20 @@ type MessageMap map[TimeStamp][]Message
 /*
 func main() {
 	h := MessageMap2{}
-	message1 := *NewRequest2(TimeStamp(1), 5, 2)
+	message1 := *NewRequest2(Num(1), 5, 2)
 	AppendHashMap(h, message1)
-	message2 := *NewRequest2(TimeStamp(1), 1, 2)
+	message2 := *NewRequest2(Num(1), 1, 2)
 	AppendHashMap(h, message2)
-	message3 := *NewRequest2(TimeStamp(1), 3, 2)
+	message3 := *NewRequest2(Num(1), 3, 2)
 	AppendHashMap(h, message3)
 	//map1[message3.TS] = append(listMsg, message3)
-	message4 := *NewRequest2(TimeStamp(1), 2, 2)
+	message4 := *NewRequest2(Num(1), 2, 2)
 	AppendHashMap(h, message4)
-	message5 := *NewRequest2(TimeStamp(1), 4, 2)
+	message5 := *NewRequest2(Num(1), 4, 2)
 	AppendHashMap(h, message5)
-	message6 := *NewRequest2(TimeStamp(2), 2, 2)
+	message6 := *NewRequest2(Num(2), 2, 2)
 	AppendHashMap(h, message6)
-	message7 := *NewRequest2(TimeStamp(2), 1, 2)
+	message7 := *NewRequest2(Num(2), 1, 2)
 	AppendHashMap(h, message7)
 
 	fmt.Println("fine ===", h)

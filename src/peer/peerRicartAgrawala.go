@@ -2,12 +2,13 @@ package main
 
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
+	"fmt"
 	"log"
 	"net"
 	"sync"
 )
 
-type RA_peer struct {
+type RApeer struct {
 	//info su nodo
 	Username string //nome nodo
 	ID       int    //id nodo
@@ -15,16 +16,17 @@ type RA_peer struct {
 	Port     string //porta nodo
 
 	// utili per mutua esclusione
-	mutex     sync.Mutex
-	fileLog   *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
-	Listener  net.Listener
-	TimeStamp utilities.TimeStamp
+	mutex    sync.Mutex
+	fileLog  *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
+	Listener net.Listener
+	Num      utilities.TimeStamp
+	lastReq  utilities.TimeStamp //timestamp del msg di richiesta
 
 	/*
 		replies int //numero di risposte ricevute (inizializzato a 0)
 		state string // Requesting, CS, NCS (inizializzato a NCS)
 		queue *list.List // coda di richeste pendenti (inizialmente vuota)
-		lastReq utilities.Timestamp //timestamp del msg di richiesta
+
 		num utilities.Timestamp //clock logico scalare
 
 	*/
@@ -32,7 +34,7 @@ type RA_peer struct {
 	/*
 		// algorithim
 			shouldDefer     bool //è lo stato!!!!!!
-			requestTS       msgp2.TimeStamp
+			requestTS       msgp2.Num
 			replyProSet     *list.List
 			deferProSet     *list.List
 			chanRcvMsg      chan msgp2.Message
@@ -48,10 +50,14 @@ type RA_peer struct {
 	*/
 }
 
-func (p RA_peer) GetMutex() sync.Mutex {
+func (p RApeer) GetMutex() sync.Mutex {
 	return p.mutex
 }
 
-func NewRicartAgrawalaPeer(username string, ID int, address string, port string) *RA_peer {
-	return &RA_peer{Username: username, ID: ID, Address: address, Port: port}
+func NewRicartAgrawalaPeer(username string, ID int, address string, port string) *RApeer {
+	return &RApeer{Username: username, ID: ID, Address: address, Port: port}
+}
+
+func (m *RApeer) ToString() string {
+	return fmt.Sprintf("myRApeer:"+" {%s,\nnum = %d, \nLast_Req = %d}", m.Username, m.Num, m.lastReq)
 }
