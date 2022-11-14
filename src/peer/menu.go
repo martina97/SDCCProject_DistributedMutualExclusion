@@ -36,8 +36,9 @@ func openMenu() {
 			//openLamportMenu()
 		}
 		if i+1 == 3 { //exit
-			openSecondMenu("ricart")
 			setAlgorithmPeer("ricart")
+
+			openSecondMenu("ricart")
 
 		}
 		if i+1 == 4 { //exit
