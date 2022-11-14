@@ -28,6 +28,7 @@ func sendMessage(algo string) error {
 
 func sendRicart() {
 	fmt.Println("sono in sendRicart!!!!!")
+
 }
 
 func sendCentralized() error {

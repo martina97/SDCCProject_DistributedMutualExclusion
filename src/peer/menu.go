@@ -27,6 +27,7 @@ func openMenu() {
 		if i+1 == 1 { //ossia Run centralized
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
 			openSecondMenu("centralized")
+			setAlgorithmPeer("centralized")
 			//openCentralizedMenu()
 		}
 		if i+1 == 2 { //ossia Run Lamport
@@ -36,6 +37,8 @@ func openMenu() {
 		}
 		if i+1 == 3 { //exit
 			openSecondMenu("ricart")
+			setAlgorithmPeer("ricart")
+
 		}
 		if i+1 == 4 { //exit
 			break

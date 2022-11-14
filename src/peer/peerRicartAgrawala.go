@@ -47,3 +47,7 @@ type RA_peer struct {
 			writeCnt int
 	*/
 }
+
+func NewRicartAgrawalaPeer(username string, ID int, address string, port string) *RA_peer {
+	return &RA_peer{Username: username, ID: ID, Address: address, Port: port}
+}

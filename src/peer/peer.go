@@ -181,3 +181,15 @@ func CreateLog(typeInfo string, id string, header string) *log.Logger {
 }
 
 */
+
+func setAlgorithmPeer(algo string) {
+	fmt.Println(" -------  sto in setAlgorithmPeer  -------")
+	switch algo {
+	case "ricart":
+		RApeer = *NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)
+		fmt.Println("RApeer ====", RApeer)
+		fmt.Println("myNode ====", myNode)
+
+	}
+
+}
