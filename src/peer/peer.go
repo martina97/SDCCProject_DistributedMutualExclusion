@@ -132,11 +132,47 @@ func setID() {
 func setPeerUtils() {
 	// creo file "peer_ID.log"
 
-	utilities.CreateLog(&myNode, "peer_", strconv.Itoa(myNode.ID), "[peer]") // in nodeIdentification.go
+	//utilities.CreateLog(&myNode, "peer_", strconv.Itoa(myNode.ID), "[peer]") // in nodeIdentification.go
 	fmt.Println("sono in SetPeerUtils, logPAth == " + myRApeer.logPath)
 	utilities.CreateLog2(myRApeer.logPath, "[peer]") // in nodeIdentification.go
 
 	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myNode.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	_, err = f.WriteString("Initial timestamp of process(" + strconv.Itoa(myID) + ") is " + strconv.Itoa(int(myNode.TimeStamp)))
+	_, err = f.WriteString("\n")
+
+	defer f.Close()
+
+	/* todo: scommentare
+	myNode.FileLog.SetOutput(f)
+	myNode.FileLog.Println("infoProcess(" + strconv.Itoa(myNode.ID) + ") created.\n")
+
+	*/
+
+	//fmt.Println("logger ???? ", logger)
+
+	//setto info sul processo in esecuzione sul peer
+	//todo: serve?
+	//NewProcess(&myNode)
+
+	myNode.ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
+	myNode.ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
+	myNode.ChanAcquireLock = make(chan bool, utilities.CHAN_SIZE)
+	myNode.SetDeferProSet(list.New())
+	myNode.SetReplyProSet(list.New())
+
+}
+
+func setPeerUtils2() {
+	// creo file "peer_ID.log"
+
+	//utilities.CreateLog(&myNode, "peer_", strconv.Itoa(myNode.ID), "[peer]") // in nodeIdentification.go
+	fmt.Println("sono in SetPeerUtils, logPAth == " + myRApeer.logPath)
+	utilities.CreateLog2(myRApeer.logPath, "[peer]") // in nodeIdentification.go
+
+	f, err := os.OpenFile(myRApeer.logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}

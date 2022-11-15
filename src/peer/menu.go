@@ -55,7 +55,7 @@ func openSecondMenu() {
 
 	// una volta scelto l'algoritmo, setto le info dei vari peer (in particolare il file di log, il cui path
 	// dipende dall0'algoritmo scelto
-	setPeerUtils()
+	setPeerUtils2()
 
 	fmt.Println(" sto in openSecondMenu ------ ")
 	for { //infinite loop

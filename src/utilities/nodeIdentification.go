@@ -191,6 +191,29 @@ func WriteMsgToFile2(id int, typeMsg string, message Message, idNodeDest int, ti
 	return nil
 }
 
+func WriteMsgToFile3(path string, id int, typeMsg string, message Message, idNodeDest int, timestamp TimeStamp, algo string) error {
+	fmt.Println("sto in WriteMsgToFile3")
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	//save new address on file
+	date := time.Now().Format(DATE_FORMAT)
+	if typeMsg == "Send" {
+		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("send") + " to p" + strconv.Itoa(idNodeDest) + ".")
+	}
+	if typeMsg == "Receive" {
+		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("receive"))
+		_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
+	}
+	_, err = f.WriteString("\n")
+	err = f.Sync()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func WriteInfoToFile(processID int, text string, infoCS bool) {
 	f, err := os.OpenFile("/docker/node_volume/peer_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
@@ -212,6 +235,21 @@ func WriteInfoToFile(processID int, text string, infoCS bool) {
 func WriteTSInfoToFile(processID int, timestamp TimeStamp, algorithm string) {
 
 	f, err := os.OpenFile("/docker/node_volume/"+algorithm+"/peer_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+
+	//save new address on file
+	date := time.Now().Format(DATE_FORMAT)
+
+	_, err = f.WriteString("[" + date + "] : p" + strconv.Itoa(processID) + " update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
+	_, err = f.WriteString("\n")
+	err = f.Sync()
+}
+
+func WriteTSInfoToFile2(path string, processID int, timestamp TimeStamp, algorithm string) {
+
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
