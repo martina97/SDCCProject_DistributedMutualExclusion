@@ -8,6 +8,14 @@ import (
 	"sync"
 )
 
+type State string
+
+const (
+	Requesting State = "Requesting"
+	CS         State = "CS"  //sto in sezione critica
+	NCS        State = "NCS" //non in sezione critica
+)
+
 type RApeer struct {
 	//info su nodo
 	Username string //nome nodo
@@ -21,6 +29,7 @@ type RApeer struct {
 	Listener net.Listener
 	Num      utilities.TimeStamp
 	lastReq  utilities.TimeStamp //timestamp del msg di richiesta
+	state    State
 
 	/*
 		replies int //numero di risposte ricevute (inizializzato a 0)
@@ -55,10 +64,10 @@ func (p RApeer) GetMutex() sync.Mutex {
 }
 
 func NewRicartAgrawalaPeer(username string, ID int, address string, port string) *RApeer {
-	return &RApeer{Username: username, ID: ID, Address: address, Port: port}
+	return &RApeer{Username: username, ID: ID, Address: address, Port: port, state: NCS}
 }
 
 func (m *RApeer) ToString() string {
 
-	return fmt.Sprintf("myRapeer: {%s, num = %d, lastReq = %d", m.Username, m.Num, m.lastReq)
+	return fmt.Sprintf("myRapeer: {%s, num = %d, lastReq = %d, state = %s", m.Username, m.Num, m.lastReq, m.state+"}")
 }
