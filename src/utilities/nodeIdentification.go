@@ -242,12 +242,12 @@ func WriteTSInfoToFile(processID int, timestamp TimeStamp, algorithm string) {
 	//save new address on file
 	date := time.Now().Format(DATE_FORMAT)
 
-	_, err = f.WriteString("[" + date + "] : p" + strconv.Itoa(processID) + " update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
+	_, err = f.WriteString("[" + date + "] : " + strconv.Itoa(processID) + " update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 }
 
-func WriteTSInfoToFile2(path string, processID int, timestamp TimeStamp, algorithm string) {
+func WriteTSInfoToFile2(path string, id string, timestamp TimeStamp, algorithm string) {
 
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
@@ -257,7 +257,7 @@ func WriteTSInfoToFile2(path string, processID int, timestamp TimeStamp, algorit
 	//save new address on file
 	date := time.Now().Format(DATE_FORMAT)
 
-	_, err = f.WriteString("[" + date + "] : p" + strconv.Itoa(processID) + " update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
+	_, err = f.WriteString("[" + date + "] : " + id + " update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 }

@@ -325,7 +325,7 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 	fmt.Println("sto in sendRicartAgrawalaRequest")
 	//scrivo sul log che ho aggiornato il TS
 	//utilities.WriteTSInfoToFile(myID, myRApeer.Num, algorithm)
-	utilities.WriteTSInfoToFile2(myRApeer.logPath, myID, myRApeer.Num, algorithm)
+	utilities.WriteTSInfoToFile2(myRApeer.logPath, myRApeer.Username, myRApeer.Num, algorithm)
 
 	for e := peers.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)

@@ -176,7 +176,7 @@ func setPeerUtils2() {
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	_, err = f.WriteString("Initial timestamp of process(" + strconv.Itoa(myID) + ") is " + strconv.Itoa(int(myNode.TimeStamp)))
+	_, err = f.WriteString("Initial timestamp of " + myRApeer.Username + "is " + strconv.Itoa(int(myNode.TimeStamp)))
 	_, err = f.WriteString("\n")
 
 	defer f.Close()
@@ -229,7 +229,7 @@ func setAlgorithmPeer() {
 		fmt.Println("myNode ====", myNode)
 		utilities.StartTS(myRApeer.Num)
 		fmt.Println("myRApeer.Num ==== ", myRApeer.Num)
-		myRApeer.logPath = "/docker/node_volume/RicartAgrawala/peer_" + strconv.Itoa(myRApeer.ID) + ".log"
+		myRApeer.logPath = "/docker/node_volume/RicartAgrawala/peer_" + strconv.Itoa(myRApeer.ID+1) + ".log"
 
 	}
 
