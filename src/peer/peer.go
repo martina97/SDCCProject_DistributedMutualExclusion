@@ -22,6 +22,7 @@ var (
 	allID      []int
 	myNode     utilities.NodeInfo
 	myRApeer   RApeer
+	algorithm  string
 	//lock   utilities.InfoLock
 	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
 

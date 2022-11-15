@@ -168,7 +168,7 @@ func WriteInfoToFile(processID int, text string, infoCS bool) {
 
 func WriteTSInfoToFile(processID int, timestamp TimeStamp) {
 
-	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	f, err := os.OpenFile("/docker/node_volume/RicartAgrawala/process_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}

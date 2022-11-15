@@ -26,19 +26,21 @@ func openMenu() {
 
 		if i+1 == 1 { //ossia Run centralized
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
-			openSecondMenu("centralized")
-			setAlgorithmPeer("centralized")
+			algorithm = "centralized"
+			openSecondMenu(algorithm)
+			setAlgorithmPeer(algorithm)
 			//openCentralizedMenu()
 		}
 		if i+1 == 2 { //ossia Run Lamport
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
-			openSecondMenu("lamport")
+			algorithm = "lamport"
+			openSecondMenu(algorithm)
 			//openLamportMenu()
 		}
 		if i+1 == 3 { //exit
-			setAlgorithmPeer("ricart")
-
-			openSecondMenu("ricart")
+			algorithm = "ricart"
+			setAlgorithmPeer(algorithm)
+			openSecondMenu(algorithm)
 
 		}
 		if i+1 == 4 { //exit
