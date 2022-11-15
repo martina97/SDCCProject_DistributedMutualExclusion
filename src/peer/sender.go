@@ -42,6 +42,11 @@ func sendRicart() {
 	fmt.Println("IL MESSAGGIO E' ====", msg)
 	sendRicartAgrawalaRequest(msg)
 
+	myRApeer.state = Requesting
+
+	mu.Unlock()
+	utilities.WriteInfoToFile(myID, " wait all peer reply messages.", false)
+
 }
 
 func sendCentralized() error {

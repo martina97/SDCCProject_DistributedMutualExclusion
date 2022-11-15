@@ -24,7 +24,7 @@ type RApeer struct {
 	Port     string //porta nodo
 
 	//file di log
-	logPath string;
+	logPath string
 
 	// utili per mutua esclusione
 	mutex    sync.Mutex
@@ -33,6 +33,7 @@ type RApeer struct {
 	Num      utilities.TimeStamp
 	lastReq  utilities.TimeStamp //timestamp del msg di richiesta
 	state    State
+	Waiting  bool
 
 	/*
 		replies int //numero di risposte ricevute (inizializzato a 0)

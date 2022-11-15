@@ -229,7 +229,7 @@ func setAlgorithmPeer() {
 		fmt.Println("myNode ====", myNode)
 		utilities.StartTS(myRApeer.Num)
 		fmt.Println("myRApeer.Num ==== ", myRApeer.Num)
-		myRApeer.logPath = "/docker/node_volume/RicartAgrawala/prova_" + strconv.Itoa(myRApeer.ID) + ".log"
+		myRApeer.logPath = "/docker/node_volume/RicartAgrawala/peer_" + strconv.Itoa(myRApeer.ID) + ".log"
 
 	}
 
