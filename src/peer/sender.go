@@ -14,13 +14,13 @@ import (
 )
 
 //send msg (o request o ack o release)
-func sendMessage(algo string) error {
-	switch algo {
-	case "centralized":
+func sendMessage() error {
+	switch algorithm {
+	case "Centralized":
 		sendCentralized()
-	case "lamport":
+	case "Lamport":
 		sendLamport()
-	case "ricart":
+	case "RicartAgrawala":
 		sendRicart()
 	}
 	return nil
@@ -320,41 +320,38 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 	//scrivo sul log che ho aggiornato il TS
 	utilities.WriteTSInfoToFile(myID, myRApeer.Num, algorithm)
 
-	/*
+	for e := peers.Front(); e != nil; e = e.Next() {
+		dest := e.Value.(utilities.NodeInfo)
+		//only peer are destination of msgs
+		if dest.Type == utilities.Peer && dest.ID != myID { //non voglio mandarlo a me stesso
 
-		for e := peers.Front(); e != nil; e = e.Next() {
-			dest := e.Value.(utilities.NodeInfo)
-			//only peer are destination of msgs
-			if dest.Type == utilities.Peer && dest.ID != myID { //non voglio mandarlo a me stesso
-
-				//open connection whit peer
-				peerConn := dest.Address + ":" + dest.Port
-				conn, err := net.Dial("tcp", peerConn)
-				defer conn.Close()
-				if err != nil {
-					log.Println("Send response error on Dial")
-				}
-				enc := gob.NewEncoder(conn)
-				enc.Encode(msg)
-
-				msg.Receiver = dest.ID
-
-				err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
-				if err != nil {
-					return err
-				}
-
+			//open connection whit peer
+			peerConn := dest.Address + ":" + dest.Port
+			conn, err := net.Dial("tcp", peerConn)
+			defer conn.Close()
+			if err != nil {
+				log.Println("Send response error on Dial")
 			}
+			enc := gob.NewEncoder(conn)
+			enc.Encode(msg)
+
+			msg.Receiver = dest.ID
+
+			//err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
+			err = utilities.WriteMsgToFile2(myRApeer.ID, "Send", msg, dest.ID, myRApeer.Num, algorithm)
+			if err != nil {
+				return err
+			}
+
 		}
-		//una volta inviato il msg, lo salvo nella coda locale del peer sender
-		fmt.Println(" ------------------------------------------ STO QUA 2 ----------------------------")
+	}
+	//una volta inviato il msg, lo salvo nella coda locale del peer sender
+	fmt.Println(" ------------------------------------------ STO QUA 2 ----------------------------")
 
-		utilities.AppendHashMap2(myNode.ScalarMap, msg)
-		fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
+	utilities.AppendHashMap2(myNode.ScalarMap, msg)
+	fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
 
-		fmt.Println("MAPPA SENDER ====", myNode.ScalarMap)
-
-	*/
+	fmt.Println("MAPPA SENDER ====", myNode.ScalarMap)
 
 	return nil
 }

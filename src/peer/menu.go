@@ -27,20 +27,20 @@ func openMenu() {
 		if i+1 == 1 { //ossia Run centralized
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
 			algorithm = "centralized"
-			openSecondMenu(algorithm)
-			setAlgorithmPeer(algorithm)
+			openSecondMenu()
+			setAlgorithmPeer()
 			//openCentralizedMenu()
 		}
 		if i+1 == 2 { //ossia Run Lamport
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
-			algorithm = "lamport"
-			openSecondMenu(algorithm)
+			algorithm = "Lamport"
+			openSecondMenu()
 			//openLamportMenu()
 		}
 		if i+1 == 3 { //exit
-			algorithm = "ricart"
-			setAlgorithmPeer(algorithm)
-			openSecondMenu(algorithm)
+			algorithm = "RicartAgrawala"
+			setAlgorithmPeer()
+			openSecondMenu()
 
 		}
 		if i+1 == 4 { //exit
@@ -51,8 +51,8 @@ func openMenu() {
 
 }
 
-func openSecondMenu(s string) {
-	fmt.Println(" sto in openSecondMenu ------ " + s)
+func openSecondMenu() {
+	fmt.Println(" sto in openSecondMenu ------ ")
 	for { //infinite loop
 		prompt := promptui.Select{
 			Label: "Select Option",
@@ -69,7 +69,7 @@ func openSecondMenu(s string) {
 		fmt.Printf("You choose number %d: %s\n", i+1, result)
 
 		if i+1 == 1 { //send message
-			sendMessage(s)
+			sendMessage()
 		}
 
 		if i+1 == 3 { //exit
@@ -98,7 +98,7 @@ func openCentralizedMenu() {
 		fmt.Printf("You choose number %d: %s\n", i+1, result)
 
 		if i+1 == 1 { //send message
-			sendMessage("Centralized")
+			sendMessage()
 		}
 
 		if i+1 == 3 { //exit
@@ -128,7 +128,7 @@ func openLamportMenu() {
 		fmt.Printf("You choose number %d: %s\n", i+1, result)
 
 		if i+1 == 1 { //Lamport
-			sendMessage("Lamport")
+			sendMessage()
 		}
 
 		if i+1 == 3 { //exit
