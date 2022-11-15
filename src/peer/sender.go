@@ -317,7 +317,8 @@ func sendRequest(msg utilities.Message) error {
 
 func sendRicartAgrawalaRequest(msg utilities.Message) error {
 
-	utilities.WriteTSInfoToFile(myID, myNode.TimeStamp, algorithm)
+	//scrivo sul log che ho aggiornato il TS
+	utilities.WriteTSInfoToFile(myID, myRApeer.Num, algorithm)
 
 	/*
 
