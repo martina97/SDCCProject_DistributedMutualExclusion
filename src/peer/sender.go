@@ -317,6 +317,7 @@ func sendRequest(msg utilities.Message) error {
 
 func sendRicartAgrawalaRequest(msg utilities.Message) error {
 
+	fmt.Println("sto in sendRicartAgrawalaRequest")
 	//scrivo sul log che ho aggiornato il TS
 	utilities.WriteTSInfoToFile(myID, myRApeer.Num, algorithm)
 
@@ -345,13 +346,16 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 
 		}
 	}
-	//una volta inviato il msg, lo salvo nella coda locale del peer sender
-	fmt.Println(" ------------------------------------------ STO QUA 2 ----------------------------")
+	/*
+		//una volta inviato il msg, lo salvo nella coda locale del peer sender
+		fmt.Println(" ------------------------------------------ STO QUA 2 ----------------------------")
 
-	utilities.AppendHashMap2(myNode.ScalarMap, msg)
-	fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
+		utilities.AppendHashMap2(myNode.ScalarMap, msg)
+		fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
 
-	fmt.Println("MAPPA SENDER ====", myNode.ScalarMap)
+		fmt.Println("MAPPA SENDER ====", myNode.ScalarMap)
+
+	*/
 
 	return nil
 }

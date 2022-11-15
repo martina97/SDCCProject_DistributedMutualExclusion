@@ -2,6 +2,7 @@ package utilities
 
 import (
 	"container/list"
+	"fmt"
 	"log"
 	"net"
 	"os"
@@ -149,7 +150,8 @@ func WriteMsgToFile(process *NodeInfo, typeMsg string, message Message, idNodeDe
 }
 
 func WriteMsgToFile2(id int, typeMsg string, message Message, idNodeDest int, timestamp TimeStamp, algo string) error {
-	f, err := os.OpenFile("/docker/node_volume/"+algo+"process_"+strconv.Itoa(id)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	fmt.Println("sto in WriteMsgToFile2")
+	f, err := os.OpenFile("/docker/node_volume/"+algo+"peer_"+strconv.Itoa(id)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
