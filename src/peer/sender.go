@@ -317,7 +317,7 @@ func sendRequest(msg utilities.Message) error {
 
 func sendRicartAgrawalaRequest(msg utilities.Message) error {
 
-	utilities.WriteTSInfoToFile(myID, myNode.TimeStamp)
+	utilities.WriteTSInfoToFile(myID, myNode.TimeStamp, algorithm)
 
 	/*
 
@@ -352,7 +352,7 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 		fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
 
 		fmt.Println("MAPPA SENDER ====", myNode.ScalarMap)
-	
+
 	*/
 
 	return nil

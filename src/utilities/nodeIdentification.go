@@ -166,16 +166,23 @@ func WriteInfoToFile(processID int, text string, infoCS bool) {
 	err = f.Sync()
 }
 
-func WriteTSInfoToFile(processID int, timestamp TimeStamp) {
+func WriteTSInfoToFile(processID int, timestamp TimeStamp, algorithm string) {
 
-	f, err := os.OpenFile("/docker/node_volume/RicartAgrawala/process_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
+	var f *os.File
+	var err error
+
+	switch algorithm {
+	case "ricart":
+		f, err = os.OpenFile("/docker/node_volume/RicartAgrawala/peer_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+		if err != nil {
+			log.Fatalf("error opening file: %v", err)
+		}
 	}
+
 	//save new address on file
 	date := time.Now().Format(DATE_FORMAT)
 
-	_, err = f.WriteString("[" + date + "] : process(" + strconv.Itoa(processID) + ") " + "update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
+	_, err = f.WriteString("[" + date + "] : p(" + strconv.Itoa(processID) + ") " + "update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 }
