@@ -1,0 +1,3 @@
+[12:16:12.707] : p(0) update its local logical timeStamp to 1
+[12:16:13.902] : Send Request message: {Request [] 0 1 12:16:12.706 [1]} to p(1)
+[12:16:13.909] : Send Request message: {Request [] 0 2 12:16:12.706 [1]} to p(2)

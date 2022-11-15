@@ -151,14 +151,14 @@ func WriteMsgToFile(process *NodeInfo, typeMsg string, message Message, idNodeDe
 
 func WriteMsgToFile2(id int, typeMsg string, message Message, idNodeDest int, timestamp TimeStamp, algo string) error {
 	fmt.Println("sto in WriteMsgToFile2")
-	f, err := os.OpenFile("/docker/node_volume/RicartAgrawala/peer_"+strconv.Itoa(id)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	f, err := os.OpenFile("/docker/node_volume/"+algo+"/peer_"+strconv.Itoa(id)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
 	//save new address on file
 	date := time.Now().Format(DATE_FORMAT)
 	if typeMsg == "Send" {
-		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("send") + " to p(" + strconv.Itoa(idNodeDest) + ")")
+		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("send") + " to p" + strconv.Itoa(idNodeDest) + ".")
 	}
 	if typeMsg == "Receive" {
 		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("receive"))
@@ -173,7 +173,7 @@ func WriteMsgToFile2(id int, typeMsg string, message Message, idNodeDest int, ti
 }
 
 func WriteInfoToFile(processID int, text string, infoCS bool) {
-	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	f, err := os.OpenFile("/docker/node_volume/peer_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -181,7 +181,7 @@ func WriteInfoToFile(processID int, text string, infoCS bool) {
 	date := time.Now().Format(DATE_FORMAT)
 
 	if infoCS == false {
-		_, err = f.WriteString("[" + date + "] : process(" + strconv.Itoa(processID) + ")" + text)
+		_, err = f.WriteString("[" + date + "] : p" + strconv.Itoa(processID) + " " + text)
 	} else {
 		_, err = f.WriteString("\nprocess " + strconv.Itoa(processID) + text + date)
 
@@ -197,7 +197,7 @@ func WriteTSInfoToFile(processID int, timestamp TimeStamp, algorithm string) {
 
 	switch algorithm {
 	case "RicartAgrawala":
-		f, err = os.OpenFile("/docker/node_volume/RicartAgrawala/peer_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+		f, err = os.OpenFile("/docker/node_volume/"+algorithm+"/peer_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 		if err != nil {
 			log.Fatalf("error opening file: %v", err)
 		}
@@ -206,7 +206,7 @@ func WriteTSInfoToFile(processID int, timestamp TimeStamp, algorithm string) {
 	//save new address on file
 	date := time.Now().Format(DATE_FORMAT)
 
-	_, err = f.WriteString("[" + date + "] : p(" + strconv.Itoa(processID) + ") " + "update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
+	_, err = f.WriteString("[" + date + "] : p" + strconv.Itoa(processID) + "update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 }
