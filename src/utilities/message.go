@@ -124,11 +124,12 @@ func (m *Message) MessageToString(role string) string {
 		name = "Reply"
 	}
 
+	fmt.Println("sto in MessageToString -----", m.Sender)
 	if role == "send" {
-		return fmt.Sprintf(" %s message: {%s %d %d %d %s [%d]}", name, name, m.SeqNum, m.Sender, m.Receiver, m.Date, m.TS)
+		return fmt.Sprintf(" %s message: {%s %d %s %s %s [%d]}", name, name, m.SeqNum, m.Sender, m.Receiver, m.Date, m.TS)
 	}
 	if role == "receive" {
-		return fmt.Sprintf(" %s message: {%s %d %d %d %s [%d]} from process(%d)", name, name, m.SeqNum, m.Sender, m.Receiver, m.Date, m.TS, m.Sender)
+		return fmt.Sprintf(" %s message: {%s %d %s %s %s [%d]} from %s", name, name, m.SeqNum, m.Sender, m.Receiver, m.Date, m.TS, m.Sender)
 	}
 
 	return ""
