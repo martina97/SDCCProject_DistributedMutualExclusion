@@ -136,11 +136,11 @@ func setPeerUtils() {
 	fmt.Println("sono in SetPeerUtils, logPAth == " + myRApeer.logPath)
 	utilities.CreateLog2(myRApeer.logPath, "[peer]") // in nodeIdentification.go
 
-	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myNode.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	f, err := os.OpenFile(myRApeer.logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	_, err = f.WriteString("Initial timestamp of process(" + strconv.Itoa(myID) + ") is " + strconv.Itoa(int(myNode.TimeStamp)))
+	_, err = f.WriteString("Initial timestamp of p" + strconv.Itoa(myID) + " is " + strconv.Itoa(int(myNode.TimeStamp)))
 	_, err = f.WriteString("\n")
 
 	defer f.Close()

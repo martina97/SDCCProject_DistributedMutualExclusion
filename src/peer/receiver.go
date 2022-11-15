@@ -139,7 +139,7 @@ func handleConnection(conn net.Conn) error {
 
 		fmt.Println("------------------------------------------------------------- DOPO INVIATO REPLY --- > timestamp  ==", myNode.TimeStamp)
 		date := time.Now().Format(utilities.DATE_FORMAT)
-		replyMsg := utilities.NewReply(tmp, myNode.ID, msg.Sender, date, myNode.TimeStamp)
+		replyMsg := utilities.NewReply(tmp, myNode.Username, msg.Sender, date, myNode.TimeStamp)
 		sendAck(replyMsg)
 		mutex.Unlock()
 	}
@@ -261,7 +261,7 @@ func checkAcks(process *utilities.NodeInfo) {
 		msg := utilities.GetFirstElementMap(myNode.ScalarMap)
 		fmt.Println("MSG IN CHECK ACKS ===", msg)
 
-		if msg.Sender == myID {
+		if msg.Sender == myUsername {
 			//il primo msg in lista e' il mio, quindi posso accedere in CS
 			process.Waiting = false
 			process.ChanAcquireLock <- true

@@ -38,7 +38,7 @@ func sendRicart() {
 
 	//INVIO MSG REQUEST AGLI ALTRI PEER
 	date := time.Now().Format(utilities.DATE_FORMAT)
-	msg := *utilities.NewRequest2(myID, date, myRApeer.lastReq)
+	msg := *utilities.NewRequest2(myUsername, date, myRApeer.lastReq)
 	fmt.Println("IL MESSAGGIO E' ====", msg)
 	sendRicartAgrawalaRequest(msg)
 
@@ -113,7 +113,7 @@ func sendLamport() {
 	//date := time.Now().Format("2006/01/02 15:04:05")
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
-	msg := *utilities.NewRequest2(myID, date, myNode.TimeStamp)
+	msg := *utilities.NewRequest2(myUsername, date, myNode.TimeStamp)
 
 	fmt.Println("IL MESSAGGIO E' ====", msg)
 	//fmt.Println("ID MESSAGGIO E' ====", msg.MsgID)
@@ -204,7 +204,7 @@ func sendRelease() error {
 
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
-	releaseMsg := *utilities.NewRelease(myID, date, myNode.TimeStamp)
+	releaseMsg := *utilities.NewRelease(myUsername, date, myNode.TimeStamp)
 	utilities.WriteTSInfoToFile(myID, myNode.TimeStamp, algorithm)
 
 	for e := peers.Front(); e != nil; e = e.Next() {
@@ -222,7 +222,7 @@ func sendRelease() error {
 			enc := gob.NewEncoder(conn)
 			enc.Encode(releaseMsg)
 
-			releaseMsg.Receiver = dest.ID
+			releaseMsg.Receiver = dest.Username
 			/*
 				f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 				if err != nil {
@@ -271,7 +271,7 @@ func sendRequest(msg utilities.Message) error {
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
 
-			msg.Receiver = dest.ID
+			msg.Receiver = dest.Username
 
 			err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
 			if err != nil {
@@ -337,7 +337,7 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
 
-			msg.Receiver = dest.ID
+			msg.Receiver = dest.Username
 
 			//err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
 			//err = utilities.WriteMsgToFile2(myRApeer.ID, "Send", msg, dest.ID, myRApeer.Num, algorithm)
@@ -368,7 +368,7 @@ func sendAck(msg *utilities.Message) error {
 
 	for e := peers.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
-		if dest.ID == msg.Receiver {
+		if dest.Username == msg.Receiver {
 			//open connection whit peer
 			peer_conn := dest.Address + ":" + dest.Port
 			conn, err := net.Dial("tcp", peer_conn)

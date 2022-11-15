@@ -26,16 +26,16 @@ type Message struct {
 	MsgType MessageType //request,reply,release
 
 	//MsgContent interface{}
-	Sender     int
+	Sender     string
 	SenderProc NodeInfo
-	Receiver   int
+	Receiver   string
 	SeqNum     []uint64
 	Date       string
 	TS         TimeStamp
 }
 
 // NewRequest returns a new distributed mutual lock message.
-func NewRequest(ts []uint64, sender int, date string, timeStamp TimeStamp) *Message {
+func NewRequest(ts []uint64, sender string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 		//MsgID:      RandStringBytes(msgIDCnt),
 		MsgType: Request,
@@ -49,7 +49,7 @@ func NewRequest(ts []uint64, sender int, date string, timeStamp TimeStamp) *Mess
 }
 
 // NewRequest returns a new distributed mutual lock message.
-func NewRequest2(sender int, date string, timeStamp TimeStamp) *Message {
+func NewRequest2(sender string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 		//MsgID:      RandStringBytes(msgIDCnt),
 		MsgType: Request,
@@ -64,7 +64,7 @@ func NewRequest3(process NodeInfo, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 		//MsgID:      RandStringBytes(msgIDCnt),
 		MsgType: Request,
-		Sender:  process.ID,
+		Sender:  process.Username,
 		//Receiver:   receiver,	//non serve specificarlo perche la richiesta viene mandata a tutti
 		//MsgContent: msgContent,
 		Date: date,
@@ -72,7 +72,7 @@ func NewRequest3(process NodeInfo, date string, timeStamp TimeStamp) *Message {
 	}
 }
 
-func NewReply(ts []uint64, sender int, receiver int, date string, timeStamp TimeStamp) *Message {
+func NewReply(ts []uint64, sender string, receiver string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 		SeqNum:   ts,
 		MsgType:  Reply,
@@ -82,7 +82,7 @@ func NewReply(ts []uint64, sender int, receiver int, date string, timeStamp Time
 		TS:       timeStamp,
 	}
 }
-func NewReply2(sender int, receiver int, date string, timeStamp TimeStamp) *Message {
+func NewReply2(sender string, receiver string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 		MsgType:  Reply,
 		Sender:   sender,
@@ -91,7 +91,7 @@ func NewReply2(sender int, receiver int, date string, timeStamp TimeStamp) *Mess
 		TS:       timeStamp,
 	}
 }
-func NewRelease(sender int, date string, timeStamp TimeStamp) *Message {
+func NewRelease(sender string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 
 		MsgType: Release,

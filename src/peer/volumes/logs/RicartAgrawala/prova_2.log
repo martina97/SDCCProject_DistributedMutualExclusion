@@ -1,0 +1,4 @@
+Initial timestamp of process(2) is 0
+[15:48:04.175] : p2 update its local logical timeStamp to 1
+[15:48:04.180] : Send Request message: {Request [] 2 0 15:48:04.175 [1]} to p0.
+[15:48:04.183] : Send Request message: {Request [] 2 1 15:48:04.175 [1]} to p1.
