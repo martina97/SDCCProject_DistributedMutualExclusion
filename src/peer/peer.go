@@ -176,7 +176,7 @@ func setPeerUtils2() {
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	_, err = f.WriteString("Initial timestamp of " + myRApeer.Username + "is " + strconv.Itoa(int(myNode.TimeStamp)))
+	_, err = f.WriteString("Initial timestamp of " + myRApeer.Username + " is " + strconv.Itoa(int(myNode.TimeStamp)))
 	_, err = f.WriteString("\n")
 
 	defer f.Close()

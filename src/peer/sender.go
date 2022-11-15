@@ -346,7 +346,7 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 
 			//err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
 			//err = utilities.WriteMsgToFile2(myRApeer.ID, "Send", msg, dest.ID, myRApeer.Num, algorithm)
-			err = utilities.WriteMsgToFile3(myRApeer.logPath, myRApeer.ID, "Send", msg, myRApeer.Num, algorithm)
+			err = utilities.WriteMsgToFile3(myRApeer.logPath, myRApeer.Username, "Send", msg, myRApeer.Num, algorithm)
 			if err != nil {
 				return err
 			}
