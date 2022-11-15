@@ -191,7 +191,7 @@ func WriteMsgToFile2(id int, typeMsg string, message Message, idNodeDest int, ti
 	return nil
 }
 
-func WriteMsgToFile3(path string, id int, typeMsg string, message Message, idNodeDest int, timestamp TimeStamp, algo string) error {
+func WriteMsgToFile3(path string, id int, typeMsg string, message Message, timestamp TimeStamp, algo string) error {
 	fmt.Println("sto in WriteMsgToFile3")
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
@@ -200,7 +200,7 @@ func WriteMsgToFile3(path string, id int, typeMsg string, message Message, idNod
 	//save new address on file
 	date := time.Now().Format(DATE_FORMAT)
 	if typeMsg == "Send" {
-		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("send") + " to p" + strconv.Itoa(idNodeDest) + ".")
+		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("send") + " to " + message.Receiver + ".")
 	}
 	if typeMsg == "Receive" {
 		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("receive"))

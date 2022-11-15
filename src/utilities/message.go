@@ -126,7 +126,11 @@ func (m *Message) MessageToString(role string) string {
 
 	fmt.Println("sto in MessageToString -----", m.Sender)
 	if role == "send" {
-		return fmt.Sprintf(" %s message: {%s %d %s %s %s [%d]}", name, name, m.SeqNum, m.Sender, m.Receiver, m.Date, m.TS)
+		//Request message: {Request [] p3 p1 17:39:42.230 [1]} to p0.
+		//return fmt.Sprintf(" %s message: {%s %s %s %s [%d]}", name, name, m.Sender, m.Receiver, m.Date, m.TS)
+
+		//Request message: {Request [] p1 17:39:42.230 [1]} --- p1=receiver, [1] = timestamp
+		return fmt.Sprintf(" %s message: {%s %s %s [%d]}", name, name, m.Receiver, m.Date, m.TS)
 	}
 	if role == "receive" {
 		return fmt.Sprintf(" %s message: {%s %d %s %s %s [%d]} from %s", name, name, m.SeqNum, m.Sender, m.Receiver, m.Date, m.TS, m.Sender)
