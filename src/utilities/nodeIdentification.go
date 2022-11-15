@@ -126,6 +126,25 @@ func CreateLog(process *NodeInfo, typeInfo string, id string, header string) *lo
 	return log.New(serverLogFile, header, log.Lshortfile)
 }
 
+func CreateLog2(path string, header string) *log.Logger {
+	serverLogFile, err := os.Create(path)
+	if err != nil {
+		log.Printf("unable to read file: %v", err)
+	}
+	serverLogFile.Close()
+	/*
+		newpath := filepath.Join(".", "log")
+		os.MkdirAll(newpath, os.ModePerm)
+		serverLogFile, _ := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
+		// return log.New(serverLogFile, header, log.Lmicroseconds|log.Lshortfile)
+
+	*/
+
+	//process.SetFileLog(log.New(serverLogFile, header, log.Lshortfile))
+
+	return log.New(serverLogFile, header, log.Lshortfile)
+}
+
 // scrivo nel file tutte le info sui msg ricevuti / mandati
 func WriteMsgToFile(process *NodeInfo, typeMsg string, message Message, idNodeDest int, timestamp TimeStamp) error {
 	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(process.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
@@ -192,21 +211,15 @@ func WriteInfoToFile(processID int, text string, infoCS bool) {
 
 func WriteTSInfoToFile(processID int, timestamp TimeStamp, algorithm string) {
 
-	var f *os.File
-	var err error
-
-	switch algorithm {
-	case "RicartAgrawala":
-		f, err = os.OpenFile("/docker/node_volume/"+algorithm+"/peer_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-		if err != nil {
-			log.Fatalf("error opening file: %v", err)
-		}
+	f, err := os.OpenFile("/docker/node_volume/"+algorithm+"/peer_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
 	}
 
 	//save new address on file
 	date := time.Now().Format(DATE_FORMAT)
 
-	_, err = f.WriteString("[" + date + "] : p" + strconv.Itoa(processID) + "update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
+	_, err = f.WriteString("[" + date + "] : p" + strconv.Itoa(processID) + " update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 }

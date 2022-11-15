@@ -23,6 +23,9 @@ type RApeer struct {
 	Address  string //indirizzo nodo
 	Port     string //porta nodo
 
+	//file di log
+	logPath string;
+
 	// utili per mutua esclusione
 	mutex    sync.Mutex
 	fileLog  *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica

@@ -78,7 +78,6 @@ func main() {
 	// TODO: per ogni peer faccio lock ??!???
 	//devo prendermi ID del nodo e la porta del nodo!
 	setID()
-	setPeerUtils()
 	//processo relativo al nodo che sto  considerando. il processo avrà info su
 	// id nodo e indirizzo e porta nodo
 	//fmt.Println("MY PEER =====", myNode.Username)
@@ -133,7 +132,9 @@ func setID() {
 func setPeerUtils() {
 	// creo file "peer_ID.log"
 
-	utilities.CreateLog(&myNode, "process_", strconv.Itoa(myNode.ID), "[peer]") // in nodeIdentification.go
+	utilities.CreateLog(&myNode, "peer_", strconv.Itoa(myNode.ID), "[peer]") // in nodeIdentification.go
+	fmt.Println("sono in SetPeerUtils, logPAth == " + myRApeer.logPath)
+	utilities.CreateLog2(myRApeer.logPath, "[peer]") // in nodeIdentification.go
 
 	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myNode.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
@@ -192,6 +193,7 @@ func setAlgorithmPeer() {
 		fmt.Println("myNode ====", myNode)
 		utilities.StartTS(myRApeer.Num)
 		fmt.Println("myRApeer.Num ==== ", myRApeer.Num)
+		myRApeer.logPath = "/docker/node_volume/RicartAgrawala/prova_" + strconv.Itoa(myRApeer.ID) + ".log"
 
 	}
 
