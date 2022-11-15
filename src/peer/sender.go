@@ -205,7 +205,7 @@ func sendRelease() error {
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
 	releaseMsg := *utilities.NewRelease(myID, date, myNode.TimeStamp)
-	utilities.WriteTSInfoToFile(myID, myNode.TimeStamp)
+	utilities.WriteTSInfoToFile(myID, myNode.TimeStamp, algorithm)
 
 	for e := peers.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
@@ -255,7 +255,7 @@ func sendRelease() error {
 
 func sendRequest(msg utilities.Message) error {
 
-	utilities.WriteTSInfoToFile(myID, myNode.TimeStamp)
+	utilities.WriteTSInfoToFile(myID, myNode.TimeStamp, algorithm)
 	for e := peers.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
 		//only peer are destination of msgs
@@ -360,7 +360,7 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 
 func sendAck(msg *utilities.Message) error {
 	// mando ack al peer con id msg.receiver
-	utilities.WriteTSInfoToFile(myID, myNode.TimeStamp)
+	utilities.WriteTSInfoToFile(myID, myNode.TimeStamp, algorithm)
 
 	for e := peers.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
