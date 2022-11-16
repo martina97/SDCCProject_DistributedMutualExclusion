@@ -1,5 +1,2 @@
 Initial timestamp of p1 is 0
-[15:27:32.370] : p1 update its local logical timeStamp to 1
-[15:27:32.375] : p1 Send Request message: {Request p2 15:27:32.370 [1]} to p2.
-[15:27:32.379] : p1 Send Request message: {Request p3 15:27:32.370 [1]} to p3.
-[15:28:02.407] : 1 update its local logical timeStamp to 3
+[17:41:56.390] : p1 update its local logical timeStamp to 1
