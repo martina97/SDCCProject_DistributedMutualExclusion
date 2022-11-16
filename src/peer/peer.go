@@ -67,6 +67,10 @@ func main() {
 	fmt.Println("*LIST PEER ===== ", *peers)
 	fmt.Println("&LIST PEER ===== ", &peers)
 
+	for e := peers.Front(); e != nil; e = e.Next() {
+		fmt.Println("e ==", e)
+	}
+
 	/*
 		for e := peers.Front(); e != nil; e = e.Next() {
 			// do something with e.Value
