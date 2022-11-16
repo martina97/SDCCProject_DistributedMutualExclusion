@@ -60,12 +60,12 @@ func sendRicart() {
 	sendRicartAgrawalaRequest(msg)
 
 	mu.Unlock()
-	utilities.WriteInfoToFile(myID, " wait all peer reply messages.", false)
+	utilities.WriteInfoToFile2(myRApeer.Username, myRApeer.logPath, " wait all peer reply messages.", false)
 
 	//4. Wait until #replies=N-1;
-	<-myRApeer.ChanAcquireLock
+	<-myNode.ChanAcquireLock
 
-	utilities.WriteInfoToFile(myID, " receive all peer reply messages successfully.", false)
+	utilities.WriteInfoToFile2(myRApeer.Username, myRApeer.logPath, " receive all peer reply messages successfully.", false)
 	//5. State = CS;
 
 	//6. CS
@@ -159,8 +159,7 @@ func sendLamport() {
 
 	mu.Unlock()
 
-	//utilities.WriteInfoToFile(myID, " wait all peer reply messages.", false)
-	utilities.WriteInfoToFile2(myRApeer.Username, myRApeer.logPath, " wait all peer reply messages.", false)
+	utilities.WriteInfoToFile(myID, " wait all peer reply messages.", false)
 	/*
 		f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 		if err != nil {
@@ -179,24 +178,56 @@ func sendLamport() {
 
 	<-myNode.ChanAcquireLock
 
-	utilities.WriteInfoToFile2(myRApeer.Username, myRApeer.logPath, " receive all peer reply messages successfully.", false)
-
-	//ho ricevuto tutti msg reply, ora entro in cs
-	fmt.Println("ho ricevuto tutti msg reply !!!!!!!!!!!!!!!!!!!!!!!! ")
-
+	utilities.WriteInfoToFile(myID, " receive all peer reply messages successfully.", false)
 	/*
-		fmt.Println("entro in CS")
-		utilities.WriteInfoToFile(myID, " entered the critical section at ", true)
-		time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
-		utilities.WriteInfoToFile(myID, " exited the critical section at ", true)
+		date = time.Now().Format("15:04:05.000")
+
+		_, err = f.WriteString(date + " lock(" + strconv.Itoa(myID) + ")receive all peer reply messages successfully.\n") //todo:invece che lock scrivere processo
+
+		_, err = f.WriteString("\n")
+		err = f.Sync()
 
 	*/
 
+	//ho ricevuto tutti msg reply, ora entro in cs
+	fmt.Println("lista di msg in coda ==", myNode.ScalarMap)
+	fmt.Println("entro in CS")
+	utilities.WriteInfoToFile(myID, " entered the critical section at ", true)
+	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
+	utilities.WriteInfoToFile(myID, " exited the critical section at ", true)
+
 	//log.Writer()
+
+	/*
+			date = time.Now().Format("15:04:05.000")
+			_, err = f.WriteString("process " + strconv.Itoa(myID) + " entered the critical section at " + date)
+			_, err = f.WriteString("\n")
+			err = f.Sync()
+
+
+
+		date = time.Now().Format("15:04:05.000")
+		_, err = f.WriteString("process " + strconv.Itoa(myID) + " exited the critical section at " + date)
+		_, err = f.WriteString("\n")
+		err = f.Sync()
+		fmt.Println("uscito da CS")
+
+	*/
 
 	//lascio CS e mando msg release a tutti
 	sendRelease()
 
+	//prepare msg to send
+	//var msg utilities.Message
+	//msg.MsgID = "prova"
+	/*
+		msg.MsgType = utilities.Request
+		msg.SeqNum = append(msg.SeqNum, getValueClock(&scalarClock)[0])
+		msg.Date = time.Now().Format("2006/01/02 15:04:05")
+		//msg.Text = text
+		msg.Sender = myID
+
+	*/
 }
 
 func sendRelease() error {
