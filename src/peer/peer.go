@@ -101,8 +101,8 @@ func main() {
 	//open listen channel for messages
 	//service on port 2345
 
-	go message_handler()
-	//go RicartAgrawala.Message_handler()
+	//go message_handler()
+	go RicartAgrawala.Message_handler()
 
 	//go message_handler()
 	//go message_handler_centr()
