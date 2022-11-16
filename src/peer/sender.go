@@ -28,24 +28,51 @@ func sendMessage() error {
 
 func sendRicart() {
 	fmt.Println("sono in sendRicart!!!!!")
+
+	/*
+		1. State = Requesting;
+		2. Num = Num+1; Last_Req = Num;
+		3. for j=1 to N-1 send REQUEST to pj;
+		4. Wait until #replies=N-1;
+		5. State = CS;
+		6. CS
+		7. ∀ r∈Q send REPLY to r
+		8. Q=∅; State=NCS; #replies=0;
+	*/
+
+	// 1. State = Requesting;
+	myRApeer.state = Requesting
+
 	mu := myRApeer.GetMutex()
 	mu.Lock()
 	fmt.Println("sono in sendRicard --- myRApeer.Num ==== ", myRApeer.Num)
+
+	//	2. Num = Num+1; Last_Req = Num;
 	utilities.IncrementTS(&myRApeer.Num)
-	fmt.Println("sono in sendRicard --- myRApeer.Num ==== ", myRApeer.Num)
 	myRApeer.lastReq = myRApeer.Num
+	fmt.Println("sono in sendRicard --- myRApeer.Num ==== ", myRApeer.Num)
 	fmt.Println(myRApeer.ToString())
 
-	//INVIO MSG REQUEST AGLI ALTRI PEER
+	//	3. for j=1 to N-1 send REQUEST to pj; --> INVIO MSG REQUEST AGLI ALTRI PEER
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := *utilities.NewRequest2(myUsername, date, myRApeer.lastReq)
 	fmt.Println("IL MESSAGGIO E' ====", msg)
 	sendRicartAgrawalaRequest(msg)
 
-	myRApeer.state = Requesting
-
 	mu.Unlock()
 	utilities.WriteInfoToFile(myID, " wait all peer reply messages.", false)
+
+	//4. Wait until #replies=N-1;
+	<-myRApeer.ChanAcquireLock
+
+	utilities.WriteInfoToFile(myID, " receive all peer reply messages successfully.", false)
+	//5. State = CS;
+
+	//6. CS
+
+	//7. ∀ r∈Q send REPLY to r
+
+	//8. Q=∅; State=NCS; #replies=0;
 
 }
 
@@ -132,7 +159,8 @@ func sendLamport() {
 
 	mu.Unlock()
 
-	utilities.WriteInfoToFile(myID, " wait all peer reply messages.", false)
+	//utilities.WriteInfoToFile(myID, " wait all peer reply messages.", false)
+	utilities.WriteInfoToFile2(myRApeer.Username, myRApeer.logPath, " wait all peer reply messages.", false)
 	/*
 		f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 		if err != nil {
@@ -151,56 +179,24 @@ func sendLamport() {
 
 	<-myNode.ChanAcquireLock
 
-	utilities.WriteInfoToFile(myID, " receive all peer reply messages successfully.", false)
-	/*
-		date = time.Now().Format("15:04:05.000")
-
-		_, err = f.WriteString(date + " lock(" + strconv.Itoa(myID) + ")receive all peer reply messages successfully.\n") //todo:invece che lock scrivere processo
-
-		_, err = f.WriteString("\n")
-		err = f.Sync()
-
-	*/
+	utilities.WriteInfoToFile2(myRApeer.Username, myRApeer.logPath, " receive all peer reply messages successfully.", false)
 
 	//ho ricevuto tutti msg reply, ora entro in cs
-	fmt.Println("lista di msg in coda ==", myNode.ScalarMap)
-	fmt.Println("entro in CS")
-	utilities.WriteInfoToFile(myID, " entered the critical section at ", true)
-	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
-	utilities.WriteInfoToFile(myID, " exited the critical section at ", true)
-
-	//log.Writer()
+	fmt.Println("ho ricevuto tutti msg reply !!!!!!!!!!!!!!!!!!!!!!!! ")
 
 	/*
-			date = time.Now().Format("15:04:05.000")
-			_, err = f.WriteString("process " + strconv.Itoa(myID) + " entered the critical section at " + date)
-			_, err = f.WriteString("\n")
-			err = f.Sync()
-
-
-
-		date = time.Now().Format("15:04:05.000")
-		_, err = f.WriteString("process " + strconv.Itoa(myID) + " exited the critical section at " + date)
-		_, err = f.WriteString("\n")
-		err = f.Sync()
-		fmt.Println("uscito da CS")
+		fmt.Println("entro in CS")
+		utilities.WriteInfoToFile(myID, " entered the critical section at ", true)
+		time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
+		utilities.WriteInfoToFile(myID, " exited the critical section at ", true)
 
 	*/
+
+	//log.Writer()
 
 	//lascio CS e mando msg release a tutti
 	sendRelease()
 
-	//prepare msg to send
-	//var msg utilities.Message
-	//msg.MsgID = "prova"
-	/*
-		msg.MsgType = utilities.Request
-		msg.SeqNum = append(msg.SeqNum, getValueClock(&scalarClock)[0])
-		msg.Date = time.Now().Format("2006/01/02 15:04:05")
-		//msg.Text = text
-		msg.Sender = myID
-
-	*/
 }
 
 func sendRelease() error {

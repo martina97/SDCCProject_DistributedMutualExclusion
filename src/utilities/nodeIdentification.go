@@ -232,6 +232,24 @@ func WriteInfoToFile(processID int, text string, infoCS bool) {
 	err = f.Sync()
 }
 
+func WriteInfoToFile2(username string, path string, text string, infoCS bool) {
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	//save new address on file
+	date := time.Now().Format(DATE_FORMAT)
+
+	if infoCS == false {
+		_, err = f.WriteString("[" + date + "] : " + username + " " + text)
+	} else {
+		_, err = f.WriteString("\n " + username + text + date)
+
+	}
+	_, err = f.WriteString("\n")
+	err = f.Sync()
+}
+
 func WriteTSInfoToFile(processID int, timestamp TimeStamp, algorithm string) {
 
 	f, err := os.OpenFile("/docker/node_volume/"+algorithm+"/peer_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)

@@ -1,1 +1,4 @@
-Initial timestamp of p3is 0
+Initial timestamp of p3 is 0
+[19:29:21.624] : p3 update its local logical timeStamp to 1
+[19:29:21.628] : p3 Send Request message: {Request p1 19:29:21.624 [1]} to p1.
+[19:29:21.632] : p3 Send Request message: {Request p2 19:29:21.624 [1]} to p2.

@@ -33,7 +33,8 @@ type RApeer struct {
 	Num      utilities.TimeStamp
 	lastReq  utilities.TimeStamp //timestamp del msg di richiesta
 	state    State
-	Waiting  bool
+	//Waiting  bool
+	ChanAcquireLock chan bool
 
 	/*
 		replies int //numero di risposte ricevute (inizializzato a 0)
@@ -52,7 +53,6 @@ type RApeer struct {
 			deferProSet     *list.List
 			chanRcvMsg      chan msgp2.Message
 			chanSendMsg     chan *msgp2.Message
-			chanAcquireLock chan bool
 			logger          *log.Logger
 
 			// process handler
