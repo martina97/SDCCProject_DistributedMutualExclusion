@@ -63,6 +63,10 @@ func main() {
 	fmt.Println("res.PeerNum ====", res.PeerNum)
 	fmt.Println("res.Peers == ", res.Peers, "\n\n")
 	fmt.Println("NUMERO LIST PEER == ", peers.Len())
+	fmt.Println("LIST PEER ===== ", peers)
+	fmt.Println("*LIST PEER ===== ", *peers)
+	fmt.Println("&LIST PEER ===== ", &peers)
+
 	/*
 		for e := peers.Front(); e != nil; e = e.Next() {
 			// do something with e.Value
