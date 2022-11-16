@@ -15,6 +15,7 @@ RUN go get -u github.com/manifoldco/promptui
 
 COPY peer/*.go ./peer/
 COPY utilities/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/src/utilities/
+COPY /peer/RicartAgrawala/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/src/peer/RicartAgrawala/
 
 #COPY menu/*.go ./menu/
 

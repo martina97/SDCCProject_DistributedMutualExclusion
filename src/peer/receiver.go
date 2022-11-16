@@ -55,6 +55,10 @@ func message_handler() {
 		if err != nil {
 			log.Fatal("Accept fail")
 		}
+		switch algorithm {
+		case "RicartAgrawala":
+
+		}
 		go handleConnection(connection)
 		//go handleConnectionCentralized(connection)
 	}
