@@ -3,6 +3,7 @@ package main
 //è il main
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/RicartAgrawala"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"bufio"
 	"container/list"
@@ -21,7 +22,7 @@ var (
 	myUsername string
 	allID      []int
 	myNode     utilities.NodeInfo
-	myRApeer   RApeer
+	myRApeer   RicartAgrawala.RApeer
 	algorithm  string
 	//lock   utilities.InfoLock
 	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
@@ -133,10 +134,10 @@ func setPeerUtils() {
 	// creo file "peer_ID.log"
 
 	//utilities.CreateLog(&myNode, "peer_", strconv.Itoa(myNode.ID), "[peer]") // in nodeIdentification.go
-	fmt.Println("sono in SetPeerUtils, logPAth == " + myRApeer.logPath)
-	utilities.CreateLog2(myRApeer.logPath, "[peer]") // in nodeIdentification.go
+	fmt.Println("sono in SetPeerUtils, logPAth == " + myRApeer.LogPath)
+	utilities.CreateLog2(myRApeer.LogPath, "[peer]") // in nodeIdentification.go
 
-	f, err := os.OpenFile(myRApeer.logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	f, err := os.OpenFile(myRApeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -169,10 +170,10 @@ func setPeerUtils2() {
 	// creo file "peer_ID.log"
 
 	//utilities.CreateLog(&myNode, "peer_", strconv.Itoa(myNode.ID), "[peer]") // in nodeIdentification.go
-	fmt.Println("sono in SetPeerUtils, logPAth == " + myRApeer.logPath)
-	utilities.CreateLog2(myRApeer.logPath, "[peer]") // in nodeIdentification.go
+	fmt.Println("sono in SetPeerUtils, logPAth == " + myRApeer.LogPath)
+	utilities.CreateLog2(myRApeer.LogPath, "[peer]") // in nodeIdentification.go
 
-	f, err := os.OpenFile(myRApeer.logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	f, err := os.OpenFile(myRApeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -224,12 +225,14 @@ func setAlgorithmPeer() {
 	fmt.Println(" -------  sto in setAlgorithmPeer  -------")
 	switch algorithm {
 	case "RicartAgrawala":
-		myRApeer = *NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)
+		myRApeer = *RicartAgrawala.NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)
 		fmt.Println("myRApeer ====", myRApeer)
 		fmt.Println("myNode ====", myNode)
 		utilities.StartTS(myRApeer.Num)
 		fmt.Println("myRApeer.Num ==== ", myRApeer.Num)
-		myRApeer.logPath = "/docker/node_volume/RicartAgrawala/peer_" + strconv.Itoa(myRApeer.ID+1) + ".log"
+		myRApeer.LogPath = "/docker/node_volume/RicartAgrawala/peer_" + strconv.Itoa(myRApeer.ID+1) + ".log"
+		myRApeer.PeerList = peers
+		fmt.Println("myRApeer.PeerList = ", myRApeer.PeerList)
 
 	}
 

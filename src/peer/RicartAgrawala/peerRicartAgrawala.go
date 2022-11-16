@@ -1,7 +1,8 @@
-package main
+package RicartAgrawala
 
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
+	"container/list"
 	"fmt"
 	"log"
 	"net"
@@ -24,7 +25,7 @@ type RApeer struct {
 	Port     string //porta nodo
 
 	//file di log
-	logPath string
+	LogPath string
 
 	// utili per mutua esclusione
 	mutex    sync.Mutex
@@ -35,6 +36,8 @@ type RApeer struct {
 	state    State
 	//Waiting  bool
 	ChanAcquireLock chan bool
+
+	PeerList *list.List //lista peer
 
 	/*
 		replies int //numero di risposte ricevute (inizializzato a 0)
