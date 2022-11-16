@@ -21,13 +21,13 @@ func Message_handler() {
 		if err != nil {
 			log.Fatal("Accept fail")
 		}
-		go handleConnection(connection)
+		go HandleConnection(connection)
 		//go handleConnectionCentralized(connection)
 	}
 }
 
 //Save message
-func handleConnection(conn net.Conn) error {
+func HandleConnection(conn net.Conn) error {
 
 	fmt.Println("sto in handleConnection dentro RicartAgrawala package")
 
