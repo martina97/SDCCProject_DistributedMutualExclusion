@@ -102,7 +102,8 @@ func main() {
 	//service on port 2345
 	switch algorithm {
 	case "RicartAgrawala":
-		go RicartAgrawala.Message_handler()
+		go message_handler()
+		//go RicartAgrawala.Message_handler()
 
 	}
 	//go message_handler()

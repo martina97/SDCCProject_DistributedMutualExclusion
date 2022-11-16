@@ -74,6 +74,7 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 	//utilities.WriteTSInfoToFile(myID, myRApeer.Num, algorithm)
 	utilities.WriteTSInfoToFile2(myRApeer.LogPath, myRApeer.Username, myRApeer.Num, "RicartAgrawala")
 
+	fmt.Println("dopo WriteTSInfoToFile2")
 	for e := myRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
 		//only peer are destination of msgs
