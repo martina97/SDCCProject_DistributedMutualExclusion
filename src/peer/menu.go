@@ -40,6 +40,7 @@ func openMenu() {
 		if i+1 == 3 { //exit
 			algorithm = "RicartAgrawala"
 			setAlgorithmPeer()
+			setPeerUtils2()
 			openSecondMenu()
 
 		}
@@ -55,7 +56,6 @@ func openSecondMenu() {
 
 	// una volta scelto l'algoritmo, setto le info dei vari peer (in particolare il file di log, il cui path
 	// dipende dall0'algoritmo scelto
-	setPeerUtils2()
 
 	fmt.Println(" sto in openSecondMenu ------ ")
 	for { //infinite loop
