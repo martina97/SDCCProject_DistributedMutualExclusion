@@ -1,2 +1,3 @@
 Initial timestamp of p3 is 0
-[15:27:17.210] : p3Receive Request message: {Request p2 15:27:17.201 [1]} from p1 and update its local logical timestamp to 1
+[16:47:17.678] : p3Receive Request message: {Request p2 16:47:17.668 [1]} from p1 and update its local logical timestamp to 1
+[16:48:12.901] : p3Receive Request message: {Request p1 16:48:12.891 [1]} from p2 and update its local logical timestamp to 1
