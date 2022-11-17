@@ -56,6 +56,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		utilities.UpdateTS(&MyRApeer.Num, &msg.TS, "RicartAgrawala")
 
 		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Receive", *msg, MyRApeer.Num, "RicartAgrawala")
+		mutex.Unlock()
 
 	}
 

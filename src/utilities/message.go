@@ -125,6 +125,7 @@ func (m *Message) MessageToString(role string) string {
 	}
 
 	fmt.Println("sto in MessageToString -----", m.Sender)
+	fmt.Println("sto in MessageToString -----", m.Receiver)
 	if role == "send" {
 		//Request message: {Request [] p3 p1 17:39:42.230 [1]} to p0.
 		//return fmt.Sprintf(" %s message: {%s %s %s %s [%d]}", name, name, m.Sender, m.Receiver, m.Date, m.TS)
