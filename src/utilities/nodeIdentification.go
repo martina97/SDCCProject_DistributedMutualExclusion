@@ -193,6 +193,7 @@ func WriteMsgToFile2(id int, typeMsg string, message Message, idNodeDest int, ti
 
 func WriteMsgToFile3(path string, id string, typeMsg string, message Message, timestamp TimeStamp, algo string) error {
 	fmt.Println("sto in WriteMsgToFile3")
+	fmt.Println("path == ", path)
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
