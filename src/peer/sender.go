@@ -22,7 +22,7 @@ func sendMessage() error {
 	case "Lamport":
 		sendLamport()
 	case "RicartAgrawala":
-		RicartAgrawala.SendRicart(&myRApeer)
+		RicartAgrawala.SendRicart(myRApeer)
 	}
 	return nil
 }
