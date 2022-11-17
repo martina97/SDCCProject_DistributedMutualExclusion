@@ -1,1 +1,2 @@
 Initial timestamp of p2 is 0
+[14:54:48.442] : Receive Request message: {Request [] p1  14:54:48.408 [1]} from p1 and update its local logical timestamp to 1

@@ -47,6 +47,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 
 	dec := gob.NewDecoder(conn)
 	dec.Decode(msg)
+	fmt.Println("il msg == ", msg.MessageToString("receive"))
 
 	mutex := MyRApeer.GetMutex()
 	if msg.MsgType == utilities.Request {
