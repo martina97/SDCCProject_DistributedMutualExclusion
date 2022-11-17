@@ -93,6 +93,7 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 			fmt.Println("dopo encode msg, msg == ", msg.MessageToString("send"))
 
 			msg.Receiver = dest.Username
+			fmt.Println("dopo encode msg, msg == ", msg.MessageToString("send"))
 
 			//err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
 			//err = utilities.WriteMsgToFile2(MyRApeer.ID, "Send", msg, dest.ID, MyRApeer.Num, algorithm)
