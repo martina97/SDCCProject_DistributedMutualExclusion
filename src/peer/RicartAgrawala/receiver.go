@@ -31,6 +31,7 @@ func Message_handler() {
 func HandleConnection(conn net.Conn) error {
 
 	fmt.Println("sto in handleConnection dentro RicartAgrawala package")
+	fmt.Println("myRApeer == ", myRApeer.ToString())
 
 	defer conn.Close()
 	msg := new(utilities.Message)
