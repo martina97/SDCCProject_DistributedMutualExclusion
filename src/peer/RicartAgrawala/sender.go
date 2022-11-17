@@ -10,11 +10,11 @@ import (
 )
 
 var (
-	myRApeer RApeer
+	myRApeer *RApeer
 )
 
 func SendRicart(peer *RApeer) {
-	myRApeer = *peer
+	myRApeer = peer
 	fmt.Println("sono in sendRicart!!!!! il peer ==", myRApeer.ToString())
 	for e := myRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		fmt.Println("e ==", e)
