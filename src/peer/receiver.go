@@ -1,6 +1,7 @@
 package main
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/RicartAgrawala"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
 	"fmt"
@@ -55,14 +56,13 @@ func message_handler() {
 		if err != nil {
 			log.Fatal("Accept fail")
 		}
-		/*
-			switch algorithm {
-			case "RicartAgrawala":
-				go RicartAgrawala.HandleConnection(connection, &myRApeer)
-			}
 
-		*/
-		go handleConnection(connection)
+		switch algorithm {
+		case "RicartAgrawala":
+			go RicartAgrawala.HandleConnection(connection, &myRApeer)
+		}
+
+		//go handleConnection(connection)
 		//go handleConnectionCentralized(connection)
 	}
 }
