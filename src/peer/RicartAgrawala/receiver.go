@@ -2,6 +2,7 @@ package RicartAgrawala
 
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net"
@@ -30,6 +31,22 @@ func Message_handler() {
 func HandleConnection(conn net.Conn) error {
 
 	fmt.Println("sto in handleConnection dentro RicartAgrawala package")
+
+	defer conn.Close()
+	msg := new(utilities.Message)
+
+	dec := gob.NewDecoder(conn)
+	dec.Decode(msg)
+
+	mutex := myRApeer.GetMutex()
+	if msg.MsgType == utilities.Request {
+		fmt.Println("MESS REQUEST !!!!!! ")
+		mutex.Lock()
+		utilities.UpdateTS(&myRApeer.Num, &msg.TS, "RicartAgrawala")
+
+		utilities.WriteMsgToFile3(myRApeer.LogPath, myRApeer.Username, "Receive", *msg, myRApeer.Num, "RicartAgrawala")
+
+	}
 
 	return nil
 }

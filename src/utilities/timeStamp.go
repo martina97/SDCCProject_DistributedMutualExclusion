@@ -10,8 +10,14 @@ func IncrementTS(ts *TimeStamp) {
 	*ts++
 }
 
-func UpdateTS(ts, tsMsg *TimeStamp) {
-	*ts = Max(*ts, *tsMsg) + 1
+func UpdateTS(ts, tsMsg *TimeStamp, algo string) {
+	switch algo {
+	case "Lamport":
+		*ts = Max(*ts, *tsMsg) + 1 // se Lamport, ts = max(ts, tsMessaggio) + 1
+	case "RicartAgrawala":
+		*ts = Max(*ts, *tsMsg) //se RicartAgrawala, Num = max(Num, tsMessaggio)
+	}
+
 }
 
 func Max(x, y TimeStamp) TimeStamp {

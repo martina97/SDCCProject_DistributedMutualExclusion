@@ -98,7 +98,7 @@ func handleConnection(conn net.Conn) error {
 
 	time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
 
-	utilities.UpdateTS(&myNode.TimeStamp, &msg.TS)
+	utilities.UpdateTS(&myNode.TimeStamp, &msg.TS, "Lamport")
 
 	//mutex := lock.GetMutex()
 	mutex := myNode.GetMutex()
