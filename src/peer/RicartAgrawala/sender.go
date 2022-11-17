@@ -13,8 +13,8 @@ var (
 	MyRApeer RApeer
 )
 
-func SendRicart(peer RApeer) {
-	MyRApeer = peer
+func SendRicart(peer *RApeer) {
+	MyRApeer = *peer
 	fmt.Println("sono in sendRicart!!!!! il peer ==", MyRApeer.ToString())
 	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		fmt.Println("e ==", e)

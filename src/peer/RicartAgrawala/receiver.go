@@ -31,6 +31,13 @@ func Message_handler() {
 func HandleConnection(conn net.Conn) error {
 
 	fmt.Println("sto in handleConnection dentro RicartAgrawala package")
+	if MyRApeer == (RApeer{}) {
+		fmt.Println("RA_PEER VUOTA")
+	} else {
+		fmt.Println("RA_PEER NON VUOTA")
+	}
+
+	//devo vedere se già ho inizializzato RApeer (se non ho mai inviato un msg, non l'ho inizializzato)
 	fmt.Println("MyRApeer == ", MyRApeer.ToString())
 
 	defer conn.Close()
