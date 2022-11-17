@@ -47,7 +47,7 @@ func SendRicart(peer *RApeer) {
 	//	3. for j=1 to N-1 send REQUEST to pj; --> INVIO MSG REQUEST AGLI ALTRI PEER
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := *utilities.NewRequest2(MyRApeer.Username, date, MyRApeer.lastReq)
-	fmt.Println("IL MESSAGGIO E' ====", msg)
+	fmt.Println("IL MESSAGGIO E' ====", msg.MessageToString("send"))
 	sendRicartAgrawalaRequest(msg)
 
 	mu.Unlock()
@@ -90,6 +90,7 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 			}
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
+			fmt.Println("dopo encode msg, msg == ", msg.MessageToString("send"))
 
 			msg.Receiver = dest.Username
 
