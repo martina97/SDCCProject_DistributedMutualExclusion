@@ -77,6 +77,7 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 	fmt.Println("dopo WriteTSInfoToFile2")
 	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
+		fmt.Println("dest ==", dest)
 		//only peer are destination of msgs
 		if dest.Type == utilities.Peer && dest.ID != MyRApeer.ID { //non voglio mandarlo a me stesso
 
