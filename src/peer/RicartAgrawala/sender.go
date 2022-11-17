@@ -10,13 +10,13 @@ import (
 )
 
 var (
-	myRApeer RApeer
+	MyRApeer RApeer
 )
 
 func SendRicart(peer RApeer) {
-	myRApeer = peer
-	fmt.Println("sono in sendRicart!!!!! il peer ==", myRApeer.ToString())
-	for e := myRApeer.PeerList.Front(); e != nil; e = e.Next() {
+	MyRApeer = peer
+	fmt.Println("sono in sendRicart!!!!! il peer ==", MyRApeer.ToString())
+	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		fmt.Println("e ==", e)
 	}
 
@@ -32,31 +32,31 @@ func SendRicart(peer RApeer) {
 	*/
 
 	// 1. State = Requesting;
-	myRApeer.state = Requesting
+	MyRApeer.state = Requesting
 
-	mu := myRApeer.GetMutex()
+	mu := MyRApeer.GetMutex()
 	mu.Lock()
-	fmt.Println("sono in sendRicard --- myRApeer.Num ==== ", myRApeer.Num)
+	fmt.Println("sono in sendRicard --- MyRApeer.Num ==== ", MyRApeer.Num)
 
 	//	2. Num = Num+1; Last_Req = Num;
-	utilities.IncrementTS(&myRApeer.Num)
-	myRApeer.lastReq = myRApeer.Num
-	fmt.Println("sono in sendRicard --- myRApeer.Num ==== ", myRApeer.Num)
-	fmt.Println(myRApeer.ToString())
+	utilities.IncrementTS(&MyRApeer.Num)
+	MyRApeer.lastReq = MyRApeer.Num
+	fmt.Println("sono in sendRicard --- MyRApeer.Num ==== ", MyRApeer.Num)
+	fmt.Println(MyRApeer.ToString())
 
 	//	3. for j=1 to N-1 send REQUEST to pj; --> INVIO MSG REQUEST AGLI ALTRI PEER
 	date := time.Now().Format(utilities.DATE_FORMAT)
-	msg := *utilities.NewRequest2(myRApeer.Username, date, myRApeer.lastReq)
+	msg := *utilities.NewRequest2(MyRApeer.Username, date, MyRApeer.lastReq)
 	fmt.Println("IL MESSAGGIO E' ====", msg)
 	sendRicartAgrawalaRequest(msg)
 
 	mu.Unlock()
-	utilities.WriteInfoToFile2(myRApeer.Username, myRApeer.LogPath, " wait all peer reply messages.", false)
+	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " wait all peer reply messages.", false)
 
 	//4. Wait until #replies=N-1;
-	<-myRApeer.ChanAcquireLock
+	<-MyRApeer.ChanAcquireLock
 
-	utilities.WriteInfoToFile2(myRApeer.Username, myRApeer.LogPath, " receive all peer reply messages successfully.", false)
+	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " receive all peer reply messages successfully.", false)
 	//5. State = CS;
 
 	//6. CS
@@ -71,14 +71,14 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 
 	fmt.Println("sto in sendRicartAgrawalaRequest")
 	//scrivo sul log che ho aggiornato il TS
-	//utilities.WriteTSInfoToFile(myID, myRApeer.Num, algorithm)
-	utilities.WriteTSInfoToFile2(myRApeer.LogPath, myRApeer.Username, myRApeer.Num, "RicartAgrawala")
+	//utilities.WriteTSInfoToFile(myID, MyRApeer.Num, algorithm)
+	utilities.WriteTSInfoToFile2(MyRApeer.LogPath, MyRApeer.Username, MyRApeer.Num, "RicartAgrawala")
 
 	fmt.Println("dopo WriteTSInfoToFile2")
-	for e := myRApeer.PeerList.Front(); e != nil; e = e.Next() {
+	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
 		//only peer are destination of msgs
-		if dest.Type == utilities.Peer && dest.ID != myRApeer.ID { //non voglio mandarlo a me stesso
+		if dest.Type == utilities.Peer && dest.ID != MyRApeer.ID { //non voglio mandarlo a me stesso
 
 			//open connection whit peer
 			peerConn := dest.Address + ":" + dest.Port
@@ -93,8 +93,8 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 			msg.Receiver = dest.Username
 
 			//err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
-			//err = utilities.WriteMsgToFile2(myRApeer.ID, "Send", msg, dest.ID, myRApeer.Num, algorithm)
-			err = utilities.WriteMsgToFile3(myRApeer.LogPath, myRApeer.Username, "Send", msg, myRApeer.Num, "RicartAgrawala")
+			//err = utilities.WriteMsgToFile2(MyRApeer.ID, "Send", msg, dest.ID, MyRApeer.Num, algorithm)
+			err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Send", msg, MyRApeer.Num, "RicartAgrawala")
 			if err != nil {
 				return err
 			}

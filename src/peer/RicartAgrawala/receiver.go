@@ -31,7 +31,7 @@ func Message_handler() {
 func HandleConnection(conn net.Conn) error {
 
 	fmt.Println("sto in handleConnection dentro RicartAgrawala package")
-	fmt.Println("myRApeer == ", myRApeer.ToString())
+	fmt.Println("MyRApeer == ", MyRApeer.ToString())
 
 	defer conn.Close()
 	msg := new(utilities.Message)
@@ -39,13 +39,13 @@ func HandleConnection(conn net.Conn) error {
 	dec := gob.NewDecoder(conn)
 	dec.Decode(msg)
 
-	mutex := myRApeer.GetMutex()
+	mutex := MyRApeer.GetMutex()
 	if msg.MsgType == utilities.Request {
 		fmt.Println("MESS REQUEST !!!!!! ")
 		mutex.Lock()
-		utilities.UpdateTS(&myRApeer.Num, &msg.TS, "RicartAgrawala")
+		utilities.UpdateTS(&MyRApeer.Num, &msg.TS, "RicartAgrawala")
 
-		utilities.WriteMsgToFile3(myRApeer.LogPath, myRApeer.Username, "Receive", *msg, myRApeer.Num, "RicartAgrawala")
+		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Receive", *msg, MyRApeer.Num, "RicartAgrawala")
 
 	}
 
