@@ -4,11 +4,10 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
 	"fmt"
-	"log"
 	"net"
-	"strconv"
 )
 
+/*
 func Message_handler() {
 
 	listener, err := net.Listen("tcp", ":"+strconv.Itoa(utilities.Client_port))
@@ -27,12 +26,15 @@ func Message_handler() {
 	}
 }
 
+*/
+
 //Save message
-func HandleConnection(conn net.Conn) error {
+func HandleConnection(conn net.Conn, peer *RApeer) error {
 
 	fmt.Println("sto in handleConnection dentro RicartAgrawala package")
 	if MyRApeer == (RApeer{}) {
 		fmt.Println("RA_PEER VUOTA")
+		MyRApeer = *peer
 	} else {
 		fmt.Println("RA_PEER NON VUOTA")
 	}

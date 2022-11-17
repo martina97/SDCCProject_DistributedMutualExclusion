@@ -58,7 +58,7 @@ func message_handler() {
 		}
 		switch algorithm {
 		case "RicartAgrawala":
-			go RicartAgrawala.HandleConnection(connection)
+			go RicartAgrawala.HandleConnection(connection, &myRApeer)
 		}
 		//go handleConnection(connection)
 		//go handleConnectionCentralized(connection)
