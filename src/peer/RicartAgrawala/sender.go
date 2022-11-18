@@ -98,7 +98,7 @@ func sendRequest(msg utilities.Message) error {
 
 			//err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
 			//err = utilities.WriteMsgToFile2(MyRApeer.ID, "Send", msg, dest.ID, MyRApeer.Num, algorithm)
-			err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Send", msg, MyRApeer.Num, "RicartAgrawala")
+			err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "send", msg, MyRApeer.Num, "RicartAgrawala")
 			if err != nil {
 				return err
 			}
@@ -140,7 +140,7 @@ func sendAck(msg *utilities.Message) error {
 			}
 			//save new address on file
 			date := time.Now().Format(utilities.DATE_FORMAT)
-			_, err = f.WriteString("[" + date + "] : Send" + msg.ToString("send") + " to " + dest.Username)
+			_, err = f.WriteString("[" + date + "]: " + MyRApeer.Username + " send" + msg.ToString("send") + " to " + dest.Username)
 			_, err = f.WriteString("\n")
 			//err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Send", msg, MyRApeer.Num, "RicartAgrawala")
 

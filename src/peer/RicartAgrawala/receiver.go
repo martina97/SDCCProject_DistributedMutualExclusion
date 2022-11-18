@@ -66,7 +66,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		mutex.Lock()
 		utilities.UpdateTS(&MyRApeer.Num, &msg.TS, "RicartAgrawala")
 
-		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Receive", *msg, MyRApeer.Num, "RicartAgrawala")
+		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "RicartAgrawala")
 
 		if checkConditions(msg) { //se è true --> inserisco msg in coda
 			MyRApeer.DeferSet.PushBack(msg)

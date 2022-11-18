@@ -200,10 +200,10 @@ func WriteMsgToFile3(path string, id string, typeMsg string, message Message, ti
 	}
 	//save new address on file
 	date := time.Now().Format(DATE_FORMAT)
-	if typeMsg == "Send" {
+	if typeMsg == "send" {
 		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.ToString("send") + " to " + message.Receiver + ".")
 	}
-	if typeMsg == "Receive" {
+	if typeMsg == "receive" {
 		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.ToString("receive"))
 		_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
 	}
