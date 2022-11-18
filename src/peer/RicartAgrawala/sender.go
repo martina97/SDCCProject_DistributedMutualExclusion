@@ -52,7 +52,7 @@ func SendRicart(peer *RApeer) {
 	sendRequest(msg)
 
 	mu.Unlock()
-	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " wait all peer reply messages.", false)
+	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, "wait all peer reply messages.", false)
 
 	//4. Wait until #replies=N-1;
 	<-MyRApeer.ChanAcquireLock

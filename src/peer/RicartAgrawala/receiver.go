@@ -80,6 +80,16 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 			}
 		}
 		mutex.Unlock()
+	}
+	if msg.MsgType == utilities.Reply {
+		/*
+			Upon receipt REPLY from pj
+			1. #replies = #replies+1
+		*/
+		fmt.Println("MESS REPLY !!!!!! ")
+		mutex.Lock()
+		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "RicartAgrawala")
+		mutex.Unlock()
 
 	}
 
