@@ -306,8 +306,8 @@ func sendAck(msg *utilities.Message) error {
 		dest := e.Value.(utilities.NodeInfo)
 		if dest.Username == msg.Receiver {
 			//open connection whit peer
-			peer_conn := dest.Address + ":" + dest.Port
-			conn, err := net.Dial("tcp", peer_conn)
+			peerConn := dest.Address + ":" + dest.Port
+			conn, err := net.Dial("tcp", peerConn)
 			defer conn.Close()
 			if err != nil {
 				log.Println("Send response error on Dial")
