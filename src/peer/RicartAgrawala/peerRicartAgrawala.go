@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"os"
+	"strconv"
 	"sync"
 )
 
@@ -39,6 +41,8 @@ type RApeer struct {
 
 	PeerList *list.List //lista peer
 
+	DeferSet *list.List
+
 	/*
 		replies int //numero di risposte ricevute (inizializzato a 0)
 		state string // Requesting, CS, NCS (inizializzato a NCS)
@@ -71,10 +75,87 @@ func (p RApeer) GetMutex() sync.Mutex {
 }
 
 func NewRicartAgrawalaPeer(username string, ID int, address string, port string) *RApeer {
-	return &RApeer{Username: username, ID: ID, Address: address, Port: port, state: NCS}
+	peer := &RApeer{
+		Username: username,
+		ID:       ID,
+		Address:  address,
+		Port:     port,
+		state:    NCS,
+		DeferSet: list.New(),
+		LogPath:  "/docker/node_volume/RicartAgrawala/peer_" + strconv.Itoa(ID+1) + ".log",
+		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
+		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
+		ChanAcquireLock: make(chan bool, utilities.CHAN_SIZE),
+	}
+	peer.setInfos()
+	return peer
+
 }
 
 func (m *RApeer) ToString() string {
 
 	return fmt.Sprintf("myRapeer: {%s, num = %d, lastReq = %d, state = %s", m.Username, m.Num, m.lastReq, m.state+"}")
+}
+
+func (p RApeer) setInfos() {
+	fmt.Println("sono in setInfos, logPAth == " + p.LogPath)
+	utilities.CreateLog2(p.LogPath, "[peer]") // in nodeIdentification.go
+
+	f, err := os.OpenFile(p.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	_, err = f.WriteString("Initial timestamp of " + p.Username + " is " + strconv.Itoa(int(p.Num)))
+	_, err = f.WriteString("\n")
+
+	defer f.Close()
+
+	/* todo: scommentare
+	myNode.FileLog.SetOutput(f)
+	myNode.FileLog.Println("infoProcess(" + strconv.Itoa(myNode.ID) + ") created.\n")
+
+	*/
+
+	//fmt.Println("logger ???? ", logger)
+
+	//setto info sul processo in esecuzione sul peer
+	//todo: serve?
+	//NewProcess(&myNode)
+
+}
+
+func setPeerUtils2() {
+	// creo file "peer_ID.log"
+
+	//utilities.CreateLog(&myNode, "peer_", strconv.Itoa(myNode.ID), "[peer]") // in nodeIdentification.go
+	fmt.Println("sono in SetPeerUtils, logPAth == " + myRApeer.LogPath)
+	utilities.CreateLog2(myRApeer.LogPath, "[peer]") // in nodeIdentification.go
+
+	f, err := os.OpenFile(myRApeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	_, err = f.WriteString("Initial timestamp of " + myRApeer.Username + " is " + strconv.Itoa(int(myNode.TimeStamp)))
+	_, err = f.WriteString("\n")
+
+	defer f.Close()
+
+	/* todo: scommentare
+	myNode.FileLog.SetOutput(f)
+	myNode.FileLog.Println("infoProcess(" + strconv.Itoa(myNode.ID) + ") created.\n")
+
+	*/
+
+	//fmt.Println("logger ???? ", logger)
+
+	//setto info sul processo in esecuzione sul peer
+	//todo: serve?
+	//NewProcess(&myNode)
+
+	myNode.ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
+	myNode.ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
+	myNode.ChanAcquireLock = make(chan bool, utilities.CHAN_SIZE)
+	myNode.SetDeferProSet(list.New())
+	myNode.SetReplyProSet(list.New())
+
 }

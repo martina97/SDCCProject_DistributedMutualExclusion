@@ -78,6 +78,7 @@ func checkConditions(msg *utilities.Message) bool {
 
 	if (MyRApeer.state == CS) || (MyRApeer.state == Requesting && checkTS(msg)) {
 		fmt.Println("sto in checkConditions -->  non invio reply e metto msg in coda")
+		MyRApeer.DeferSet.PushBack(msg)
 		return true
 	}
 	fmt.Println("invio reply!!!!!!")

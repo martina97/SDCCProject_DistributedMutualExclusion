@@ -241,7 +241,7 @@ func setAlgorithmPeer() {
 		fmt.Println("myNode ====", myNode)
 		utilities.StartTS(myRApeer.Num)
 		fmt.Println("myRApeer.Num ==== ", myRApeer.Num)
-		myRApeer.LogPath = "/docker/node_volume/RicartAgrawala/peer_" + strconv.Itoa(myRApeer.ID+1) + ".log"
+		//myRApeer.LogPath = "/docker/node_volume/RicartAgrawala/peer_" + strconv.Itoa(myRApeer.ID+1) + ".log"
 		myRApeer.PeerList = peers
 		fmt.Println("myRApeer.PeerList = ", myRApeer.PeerList)
 

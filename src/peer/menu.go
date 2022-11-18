@@ -40,7 +40,7 @@ func openMenu() {
 		if i+1 == 3 { //exit
 			algorithm = "RicartAgrawala"
 			setAlgorithmPeer()
-			setPeerUtils2()
+			//setPeerUtils2()
 			openSecondMenu()
 
 		}
