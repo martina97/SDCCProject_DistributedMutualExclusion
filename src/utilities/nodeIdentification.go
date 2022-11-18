@@ -204,7 +204,7 @@ func WriteMsgToFile3(path string, id string, typeMsg string, message Message, ti
 		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.MessageToString("send") + " to " + message.Receiver + ".")
 	}
 	if typeMsg == "Receive" {
-		_, err = f.WriteString("[" + date + "] : " + id + typeMsg + message.MessageToString("receive"))
+		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.MessageToString("receive"))
 		_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
 	}
 	_, err = f.WriteString("\n")

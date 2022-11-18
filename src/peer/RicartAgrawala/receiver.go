@@ -51,14 +51,46 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 
 	mutex := MyRApeer.GetMutex()
 	if msg.MsgType == utilities.Request {
+
+		/*
+			Upon receipt REQUEST(t) from pj
+			1. if State=CS or (State=Requesting and {Last_Req, i} < {t, j})
+				then insert {t, j} in Q
+			3. else
+				send REPLY to pj
+			4. Num = max(t, Num)
+		*/
 		fmt.Println("MESS REQUEST !!!!!! ")
 		mutex.Lock()
 		utilities.UpdateTS(&MyRApeer.Num, &msg.TS, "RicartAgrawala")
 
 		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Receive", *msg, MyRApeer.Num, "RicartAgrawala")
+
+		checkConditions(msg)
 		mutex.Unlock()
 
 	}
 
 	return nil
+}
+
+func checkConditions(msg *utilities.Message) bool {
+
+	if (MyRApeer.state == CS) || (MyRApeer.state == Requesting && checkTS(msg)) {
+		fmt.Println("sto in checkConditions -->  non invio reply e metto msg in coda")
+		return true
+	}
+	fmt.Println("invio reply!!!!!!")
+	return false
+
+}
+
+func checkTS(msg *utilities.Message) bool {
+	// true se {Last_Req, i} < {t, j})
+	if (MyRApeer.lastReq < msg.TS) && (MyRApeer.Username < msg.Sender) {
+		fmt.Println("sto in checkTS e la condizione e' true --> non invio reply e metto msg in coda")
+		return true
+	}
+	return false
+
 }
