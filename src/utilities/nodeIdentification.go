@@ -154,10 +154,10 @@ func WriteMsgToFile(process *NodeInfo, typeMsg string, message Message, idNodeDe
 	//save new address on file
 	date := time.Now().Format(DATE_FORMAT)
 	if typeMsg == "Send" {
-		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("send") + " to process(" + strconv.Itoa(idNodeDest) + ")")
+		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.ToString("send") + " to process(" + strconv.Itoa(idNodeDest) + ")")
 	}
 	if typeMsg == "Receive" {
-		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("receive"))
+		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.ToString("receive"))
 		_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
 	}
 	_, err = f.WriteString("\n")
@@ -177,10 +177,10 @@ func WriteMsgToFile2(id int, typeMsg string, message Message, idNodeDest int, ti
 	//save new address on file
 	date := time.Now().Format(DATE_FORMAT)
 	if typeMsg == "Send" {
-		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("send") + " to p" + strconv.Itoa(idNodeDest) + ".")
+		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.ToString("send") + " to p" + strconv.Itoa(idNodeDest) + ".")
 	}
 	if typeMsg == "Receive" {
-		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.MessageToString("receive"))
+		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.ToString("receive"))
 		_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
 	}
 	_, err = f.WriteString("\n")
@@ -201,10 +201,10 @@ func WriteMsgToFile3(path string, id string, typeMsg string, message Message, ti
 	//save new address on file
 	date := time.Now().Format(DATE_FORMAT)
 	if typeMsg == "Send" {
-		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.MessageToString("send") + " to " + message.Receiver + ".")
+		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.ToString("send") + " to " + message.Receiver + ".")
 	}
 	if typeMsg == "Receive" {
-		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.MessageToString("receive"))
+		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.ToString("receive"))
 		_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
 	}
 	_, err = f.WriteString("\n")

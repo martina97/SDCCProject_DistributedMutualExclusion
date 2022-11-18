@@ -94,7 +94,7 @@ func handleConnection(conn net.Conn) error {
 
 	dec := gob.NewDecoder(conn)
 	dec.Decode(msg)
-	fmt.Println("il msg == ", msg.MessageToString("receive"))
+	fmt.Println("il msg == ", msg.ToString("receive"))
 
 	//ogni volta che ricevo un msg devo aggiornare TS
 	//aggiorno timestamp
@@ -125,7 +125,7 @@ func handleConnection(conn net.Conn) error {
 			}
 			//save new address on file
 			date := time.Now().Format("15:04:05.000")
-			_, err = f.WriteString("[" + date + "] : Receive " + msg.MessageToString())
+			_, err = f.WriteString("[" + date + "] : Receive " + msg.ToString())
 			_, err = f.WriteString("\n")
 			err = f.Sync()
 			if err != nil {
@@ -171,7 +171,7 @@ func handleConnection(conn net.Conn) error {
 
 				//save new address on file
 				date := time.Now().Format("15:04:05.000")
-				_, err = f.WriteString("[" + date + "] : Receive" + msg.MessageToString())
+				_, err = f.WriteString("[" + date + "] : Receive" + msg.ToString())
 				_, err = f.WriteString("\n")
 				err = f.Sync()
 				if err != nil {
@@ -196,7 +196,7 @@ func handleConnection(conn net.Conn) error {
 				log.Fatalf("error opening file: %v", err)
 			}
 			//save new msg on file
-			_, err = f.WriteString("[" + date + "] : Receive " + msg.MessageToString())
+			_, err = f.WriteString("[" + date + "] : Receive " + msg.ToString())
 			_, err = f.WriteString("\n")
 			err = f.Sync()
 				if err != nil {

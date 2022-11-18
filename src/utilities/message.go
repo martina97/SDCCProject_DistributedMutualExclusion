@@ -111,7 +111,7 @@ Date MESSAGGIO E' ==== 2022/04/04 10:37:35
 
 */
 
-func (m *Message) MessageToString(role string) string {
+func (m *Message) ToString(role string) string {
 	var name string
 	//date := time.Now().Format("2006/01/02 15:04:05")
 
@@ -124,8 +124,8 @@ func (m *Message) MessageToString(role string) string {
 		name = "Reply"
 	}
 
-	fmt.Println("sto in MessageToString -----", m.Sender)
-	fmt.Println("sto in MessageToString -----", m.Receiver)
+	fmt.Println("sto in ToString -----", m.Sender)
+	fmt.Println("sto in ToString -----", m.Receiver)
 	if role == "send" {
 		//Request message: {Request [] p3 p1 17:39:42.230 [1]} to p0.
 		//return fmt.Sprintf(" %s message: {%s %s %s %s [%d]}", name, name, m.Sender, m.Receiver, m.Date, m.TS)

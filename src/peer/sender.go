@@ -213,7 +213,7 @@ func sendRelease() error {
 				}
 				//save new address on file
 				date = time.Now().Format("15:04:05.000")
-				_, err = f.WriteString("[" + date + "] : Send " + releaseMsg.MessageToString() + " to peer " + strconv.Itoa(dest.ID))
+				_, err = f.WriteString("[" + date + "] : Send " + releaseMsg.ToString() + " to peer " + strconv.Itoa(dest.ID))
 				_, err = f.WriteString("\n")
 				err = f.Sync()
 				if err != nil {
@@ -268,7 +268,7 @@ func sendRequest(msg utilities.Message) error {
 				}
 				//save new address on file
 				date := time.Now().Format("15:04:05.000")
-				_, err = f.WriteString("[" + date + "] : Send " + msg.MessageToString() + " to peer " + strconv.Itoa(dest.ID))
+				_, err = f.WriteString("[" + date + "] : Send " + msg.ToString() + " to peer " + strconv.Itoa(dest.ID))
 				_, err = f.WriteString("\n")
 				err = f.Sync()
 				if err != nil {
@@ -321,7 +321,7 @@ func sendAck(msg *utilities.Message) error {
 			}
 			//save new address on file
 			date := time.Now().Format(utilities.DATE_FORMAT)
-			_, err = f.WriteString("[" + date + "] : Send" + msg.MessageToString("send") + " to peer " + strconv.Itoa(dest.ID))
+			_, err = f.WriteString("[" + date + "] : Send" + msg.ToString("send") + " to peer " + strconv.Itoa(dest.ID))
 			_, err = f.WriteString("\n")
 			err = f.Sync()
 			if err != nil {

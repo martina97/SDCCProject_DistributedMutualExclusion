@@ -5,6 +5,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"net"
+	"time"
 )
 
 /*
@@ -47,7 +48,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 
 	dec := gob.NewDecoder(conn)
 	dec.Decode(msg)
-	fmt.Println("il msg == ", msg.MessageToString("receive"))
+	fmt.Println("il msg == ", msg.ToString("receive"))
 
 	mutex := MyRApeer.GetMutex()
 	if msg.MsgType == utilities.Request {
@@ -66,7 +67,13 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 
 		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Receive", *msg, MyRApeer.Num, "RicartAgrawala")
 
-		checkConditions(msg)
+		if checkConditions(msg) { //se è true --> inserisco msg in coda
+			MyRApeer.DeferSet.PushBack(msg)
+		} else { //se è false --> invio REPLY al peer che ha inviato msg REQUEST
+			date := time.Now().Format(utilities.DATE_FORMAT)
+			replyMsg := utilities.NewReply2(MyRApeer.Username, msg.Sender, date, MyRApeer.Num)
+			fmt.Println("il msg di REPLY ===", replyMsg.ToString("send"))
+		}
 		mutex.Unlock()
 
 	}
@@ -78,7 +85,6 @@ func checkConditions(msg *utilities.Message) bool {
 
 	if (MyRApeer.state == CS) || (MyRApeer.state == Requesting && checkTS(msg)) {
 		fmt.Println("sto in checkConditions -->  non invio reply e metto msg in coda")
-		MyRApeer.DeferSet.PushBack(msg)
 		return true
 	}
 	fmt.Println("invio reply!!!!!!")

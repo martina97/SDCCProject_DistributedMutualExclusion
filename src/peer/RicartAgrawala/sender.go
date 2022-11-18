@@ -47,7 +47,7 @@ func SendRicart(peer *RApeer) {
 	//	3. for j=1 to N-1 send REQUEST to pj; --> INVIO MSG REQUEST AGLI ALTRI PEER
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := *utilities.NewRequest2(MyRApeer.Username, date, MyRApeer.lastReq)
-	fmt.Println("IL MESSAGGIO E' ====", msg.MessageToString("send"))
+	fmt.Println("IL MESSAGGIO E' ====", msg.ToString("send"))
 	sendRicartAgrawalaRequest(msg)
 
 	mu.Unlock()
@@ -90,10 +90,10 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 			}
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
-			fmt.Println("dopo encode msg, msg == ", msg.MessageToString("send"))
+			fmt.Println("dopo encode msg, msg == ", msg.ToString("send"))
 
 			msg.Receiver = dest.Username
-			fmt.Println("dopo encode msg, msg == ", msg.MessageToString("send"))
+			fmt.Println("dopo encode msg, msg == ", msg.ToString("send"))
 
 			//err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
 			//err = utilities.WriteMsgToFile2(MyRApeer.ID, "Send", msg, dest.ID, MyRApeer.Num, algorithm)
