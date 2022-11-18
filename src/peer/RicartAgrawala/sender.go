@@ -48,7 +48,7 @@ func SendRicart(peer *RApeer) {
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := *utilities.NewRequest2(MyRApeer.Username, date, MyRApeer.lastReq)
 	fmt.Println("IL MESSAGGIO E' ====", msg.ToString("send"))
-	sendRicartAgrawalaRequest(msg)
+	sendRequest(msg)
 
 	mu.Unlock()
 	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " wait all peer reply messages.", false)
@@ -67,9 +67,9 @@ func SendRicart(peer *RApeer) {
 
 }
 
-func sendRicartAgrawalaRequest(msg utilities.Message) error {
+func sendRequest(msg utilities.Message) error {
 
-	fmt.Println("sto in sendRicartAgrawalaRequest")
+	fmt.Println("sto in sendRequest")
 	//scrivo sul log che ho aggiornato il TS
 	//utilities.WriteTSInfoToFile(myID, MyRApeer.Num, algorithm)
 	utilities.WriteTSInfoToFile2(MyRApeer.LogPath, MyRApeer.Username, MyRApeer.Num, "RicartAgrawala")
@@ -115,5 +115,15 @@ func sendRicartAgrawalaRequest(msg utilities.Message) error {
 
 	*/
 
+	return nil
+}
+
+func sendAck(msg *utilities.Message) error {
+	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
+		dest := e.Value.(utilities.NodeInfo)
+		if dest.Username == msg.Receiver {
+			fmt.Println("mando reply a ", msg.Receiver)
+		}
+	}
 	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
 	"fmt"
+	"log"
 	"net"
 	"time"
 )
@@ -73,6 +74,10 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 			date := time.Now().Format(utilities.DATE_FORMAT)
 			replyMsg := utilities.NewReply2(MyRApeer.Username, msg.Sender, date, MyRApeer.Num)
 			fmt.Println("il msg di REPLY ===", replyMsg.ToString("send"))
+			err := sendAck(replyMsg)
+			if err != nil {
+				log.Fatalf("error sending ack %v", err)
+			}
 		}
 		mutex.Unlock()
 
