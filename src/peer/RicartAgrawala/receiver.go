@@ -37,6 +37,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 	if MyRApeer == (RApeer{}) {
 		fmt.Println("RA_PEER VUOTA")
 		MyRApeer = *peer
+		peerCnt = MyRApeer.PeerList.Len()
 	} else {
 		fmt.Println("RA_PEER NON VUOTA")
 	}
