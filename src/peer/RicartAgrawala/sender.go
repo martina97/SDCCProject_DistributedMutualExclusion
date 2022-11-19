@@ -98,10 +98,18 @@ func SendRicart(peer *RApeer) {
 		fmt.Println("-----")
 		queueMsg := e.Value.(*utilities.Message)
 		fmt.Println("queueMsg.sender = ", queueMsg.Sender)
+		date := time.Now().Format(utilities.DATE_FORMAT)
+		replyMsg := utilities.NewReply2(MyRApeer.Username, queueMsg.Sender, date, MyRApeer.Num)
+		fmt.Println("il msg di REPLY ===", replyMsg.ToString("send"))
+
 		for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 			dest := e.Value.(utilities.NodeInfo)
 			if dest.Username == queueMsg.Sender {
 				fmt.Println("invio msg reply a ---> ", queueMsg.Sender)
+				err := sendReply(replyMsg, &dest)
+				if err != nil {
+					log.Fatalf("error sending ack %v", err)
+				}
 			}
 		}
 
