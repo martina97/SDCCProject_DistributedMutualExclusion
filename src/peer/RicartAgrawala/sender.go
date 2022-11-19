@@ -91,6 +91,7 @@ func SendRicart(peer *RApeer) {
 	fmt.Println("la lista dei msg in coda MyRApeer.DeferSet.Front()== ", MyRApeer.DeferSet.Front())
 
 	MyRApeer.mutex.Lock()
+	MyRApeer.state = NCS
 	for e := MyRApeer.DeferSet.Front(); e != nil; e = e.Next() {
 		fmt.Println("msg ==", e.Value)
 		//fmt.Println("msg ==", e)
