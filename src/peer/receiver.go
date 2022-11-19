@@ -1,7 +1,7 @@
 package main
 
 import (
-	"SDCCProject_DistributedMutualExclusion/src/peer/RicartAgrawala"
+	"SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
 	"fmt"
@@ -58,8 +58,8 @@ func message_handler() {
 		}
 
 		switch algorithm {
-		case "RicartAgrawala":
-			go RicartAgrawala.HandleConnection(connection, &myRApeer)
+		case "ricartAgrawala":
+			go ricartAgrawala.HandleConnection(connection, &myRApeer)
 		}
 
 		//go handleConnection(connection)

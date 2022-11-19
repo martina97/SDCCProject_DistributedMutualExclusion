@@ -3,7 +3,8 @@ package main
 //è il main
 
 import (
-	"SDCCProject_DistributedMutualExclusion/src/peer/RicartAgrawala"
+	"SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala"
+	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"bufio"
 	"container/list"
@@ -16,14 +17,15 @@ import (
 )
 
 var (
-	listNodes  []utilities.NodeInfo
-	peers      *list.List
-	myID       int
-	myUsername string
-	allID      []int
-	myNode     utilities.NodeInfo
-	myRApeer   RicartAgrawala.RApeer
-	algorithm  string
+	listNodes   []utilities.NodeInfo
+	peers       *list.List
+	myID        int
+	myUsername  string
+	allID       []int
+	myNode      utilities.NodeInfo
+	myRApeer    ricartAgrawala.RApeer
+	myTokenPeer tokenAsking.TokenPeer
+	algorithm   string
 	//lock   utilities.InfoLock
 	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
 
@@ -235,15 +237,17 @@ func CreateLog(typeInfo string, id string, header string) *log.Logger {
 func setAlgorithmPeer() {
 	fmt.Println(" -------  sto in setAlgorithmPeer  -------")
 	switch algorithm {
-	case "RicartAgrawala":
-		myRApeer = *RicartAgrawala.NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)
+	case "ricartAgrawala":
+		myRApeer = *ricartAgrawala.NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)
 		fmt.Println("myRApeer ====", myRApeer)
 		fmt.Println("myNode ====", myNode)
 		utilities.StartTS(myRApeer.Num)
 		fmt.Println("myRApeer.Num ==== ", myRApeer.Num)
-		//myRApeer.LogPath = "/docker/node_volume/RicartAgrawala/peer_" + strconv.Itoa(myRApeer.ID+1) + ".log"
+		//myRApeer.LogPath = "/docker/node_volume/ricartAgrawala/peer_" + strconv.Itoa(myRApeer.ID+1) + ".log"
 		myRApeer.PeerList = peers
 		fmt.Println("myRApeer.PeerList = ", myRApeer.PeerList)
+
+	case "tokenAsking":
 
 	}
 

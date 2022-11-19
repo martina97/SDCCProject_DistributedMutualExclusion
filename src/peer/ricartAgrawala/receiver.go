@@ -1,4 +1,4 @@
-package RicartAgrawala
+package ricartAgrawala
 
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
@@ -33,7 +33,7 @@ func Message_handler() {
 //Save message
 func HandleConnection(conn net.Conn, peer *RApeer) error {
 
-	fmt.Println("sto in handleConnection dentro RicartAgrawala package")
+	fmt.Println("sto in handleConnection dentro ricartAgrawala package")
 	if MyRApeer == (RApeer{}) {
 		fmt.Println("RA_PEER VUOTA")
 		MyRApeer = *peer
@@ -65,9 +65,9 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		*/
 		fmt.Println("MESS REQUEST !!!!!! ")
 		MyRApeer.mutex.Lock()
-		utilities.UpdateTS(&MyRApeer.Num, &msg.TS, "RicartAgrawala")
+		utilities.UpdateTS(&MyRApeer.Num, &msg.TS, "ricartAgrawala")
 
-		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "RicartAgrawala")
+		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
 
 		if checkConditions(msg) { //se è true --> inserisco msg in coda
 			MyRApeer.DeferSet.PushBack(msg)
@@ -100,7 +100,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		//MyRApeer.replies =MyRApeer.replies + 1
 		MyRApeer.replies++
 		fmt.Println("replies = ", MyRApeer.replies)
-		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "RicartAgrawala")
+		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
 		fmt.Println("peerCnt = ", peerCnt)
 
 		if MyRApeer.replies == peerCnt-1 {

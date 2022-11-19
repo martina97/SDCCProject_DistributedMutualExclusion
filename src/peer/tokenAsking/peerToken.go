@@ -1,4 +1,4 @@
-package RicartAgrawala
+package tokenAsking
 
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
@@ -11,15 +11,7 @@ import (
 	"sync"
 )
 
-type State string
-
-const (
-	Requesting State = "Requesting"
-	CS         State = "CS"  //sto in sezione critica
-	NCS        State = "NCS" //non in sezione critica
-)
-
-type RApeer struct {
+type TokenPeer struct {
 	//info su nodo
 	Username string //nome nodo
 	ID       int    //id nodo
@@ -35,56 +27,20 @@ type RApeer struct {
 	Listener net.Listener
 	Num      utilities.TimeStamp
 	lastReq  utilities.TimeStamp //timestamp del msg di richiesta
-	state    State
 	//Waiting  bool
 	ChanAcquireLock chan bool
 
 	PeerList *list.List //lista peer
-
-	DeferSet *list.List
-	replySet *list.List
-	replies  int //numero di risposte ricevute (inizializzato a 0)
-
-	/*
-		state string // Requesting, CS, NCS (inizializzato a NCS)
-		queue *list.List // coda di richeste pendenti (inizialmente vuota)
-
-		num utilities.Timestamp //clock logico scalare
-
-	*/
-
-	/*
-		// algorithim
-			shouldDefer     bool //è lo stato!!!!!!
-			requestTS       msgp2.Num
-			replyProSet     *list.List
-			deferProSet     *list.List
-			chanRcvMsg      chan msgp2.Message
-			chanSendMsg     chan *msgp2.Message
-			logger          *log.Logger
-
-			// process handler
-			p *process
-			// sata info
-			readCnt  int
-			writeCnt int
-	*/
+	vc       utilities.VectorClock
 }
 
-func (p RApeer) GetMutex() sync.Mutex {
-	return p.mutex
-}
-
-func NewRicartAgrawalaPeer(username string, ID int, address string, port string) *RApeer {
-	peer := &RApeer{
+func NewTokenAskingPeer(username string, ID int, address string, port string) *TokenPeer {
+	peer := &TokenPeer{
 		Username: username,
 		ID:       ID,
 		Address:  address,
 		Port:     port,
-		state:    NCS,
-		DeferSet: list.New(),
-		replySet: list.New(),
-		LogPath:  "/docker/node_volume/RicartAgrawala/peer_" + strconv.Itoa(ID+1) + ".log",
+		LogPath:  "/docker/node_volume/TokenAsking/peer_" + strconv.Itoa(ID+1) + ".log",
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		ChanAcquireLock: make(chan bool, utilities.CHAN_SIZE),
@@ -94,12 +50,7 @@ func NewRicartAgrawalaPeer(username string, ID int, address string, port string)
 
 }
 
-func (m *RApeer) ToString() string {
-
-	return fmt.Sprintf("myRapeer: {%s, num = %d, lastReq = %d, state = %s", m.Username, m.Num, m.lastReq, m.state+"}")
-}
-
-func (p RApeer) setInfos() {
+func (p *TokenPeer) setInfos() {
 	fmt.Println("sono in setInfos, logPAth == " + p.LogPath)
 	utilities.CreateLog2(p.LogPath, "[peer]") // in nodeIdentification.go
 
@@ -110,7 +61,12 @@ func (p RApeer) setInfos() {
 	_, err = f.WriteString("Initial timestamp of " + p.Username + " is " + strconv.Itoa(int(p.Num)))
 	_, err = f.WriteString("\n")
 
-	defer f.Close()
+	defer func(f *os.File) {
+		err := f.Close()
+		if err != nil {
+			log.Fatalf("error closing file: %v", err)
+		}
+	}(f)
 
 	/* todo: scommentare
 	myNode.FileLog.SetOutput(f)
@@ -124,8 +80,4 @@ func (p RApeer) setInfos() {
 	//todo: serve?
 	//NewProcess(&myNode)
 
-}
-
-func (p *RApeer) incrementNumReplies() {
-	p.replies = p.replies + 1
 }

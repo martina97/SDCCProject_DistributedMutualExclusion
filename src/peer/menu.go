@@ -12,7 +12,7 @@ func openMenu() {
 	for {                                     //infinite loop
 		prompt := promptui.Select{
 			Label: "Select Option",
-			Items: []string{"Run centralized", "Run Lamport", "Run Ricart-Agrawala", "exit"},
+			Items: []string{"Run Token-Asking", "Run Lamport", "Run Ricart-Agrawala", "exit"},
 		}
 
 		i, result, err := prompt.Run() //i : indice di cosa ho scelto
@@ -24,11 +24,11 @@ func openMenu() {
 
 		fmt.Printf("You choose number %d: %s\n", i+1, result)
 
-		if i+1 == 1 { //ossia Run centralized
+		if i+1 == 1 { //ossia Run tokenAsking
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
-			algorithm = "centralized"
-			openSecondMenu()
+			algorithm = "tokenAsking"
 			setAlgorithmPeer()
+			openSecondMenu()
 			//openCentralizedMenu()
 		}
 		if i+1 == 2 { //ossia Run Lamport
@@ -38,7 +38,7 @@ func openMenu() {
 			//openLamportMenu()
 		}
 		if i+1 == 3 { //exit
-			algorithm = "RicartAgrawala"
+			algorithm = "ricartAgrawala"
 			setAlgorithmPeer()
 			//setPeerUtils2()
 			openSecondMenu()
@@ -61,7 +61,7 @@ func openSecondMenu() {
 	for { //infinite loop
 		prompt := promptui.Select{
 			Label: "Select Option",
-			Items: []string{"send message", "show message received", "exit"},
+			Items: []string{"send request", "show message received", "exit"},
 		}
 
 		i, result, err := prompt.Run() //i : indice di cosa ho scelto

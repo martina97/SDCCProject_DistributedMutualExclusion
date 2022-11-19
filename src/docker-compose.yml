@@ -37,7 +37,7 @@ services:
       - "1234"
     volumes:
       - ./peer/volumes/logs/Lamport:/docker/node_volume/Lamport
-      - ./peer/volumes/logs/RicartAgrawala:/docker/node_volume/RicartAgrawala
+      - ./peer/volumes/logs/ricartAgrawala:/docker/node_volume/ricartAgrawala
 
     stdin_open: true # docker run -i
     tty: true        # docker run -t

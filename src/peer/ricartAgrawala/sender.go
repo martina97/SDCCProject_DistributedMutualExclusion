@@ -1,4 +1,4 @@
-package RicartAgrawala
+package ricartAgrawala
 
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
@@ -125,7 +125,7 @@ func sendRequest(msg utilities.Message) error {
 	fmt.Println("sto in sendRequest")
 	//scrivo sul log che ho aggiornato il TS
 	//utilities.WriteTSInfoToFile(myID, MyRApeer.Num, algorithm)
-	utilities.WriteTSInfoToFile2(MyRApeer.LogPath, MyRApeer.Username, MyRApeer.Num, "RicartAgrawala")
+	utilities.WriteTSInfoToFile2(MyRApeer.LogPath, MyRApeer.Username, MyRApeer.Num, "ricartAgrawala")
 
 	fmt.Println("dopo WriteTSInfoToFile2")
 	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
@@ -150,7 +150,7 @@ func sendRequest(msg utilities.Message) error {
 
 			//err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
 			//err = utilities.WriteMsgToFile2(MyRApeer.ID, "Send", msg, dest.ID, MyRApeer.Num, algorithm)
-			err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "send", msg, MyRApeer.Num, "RicartAgrawala")
+			err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "send", msg, MyRApeer.Num, "ricartAgrawala")
 			if err != nil {
 				return err
 			}
@@ -198,7 +198,7 @@ func sendReply(msg *utilities.Message, receiver *utilities.NodeInfo) error {
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	_, err = f.WriteString("[" + date + "] : " + MyRApeer.Username + " send" + msg.ToString("send") + " to " + receiver.Username)
 	_, err = f.WriteString("\n")
-	//err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Send", msg, MyRApeer.Num, "RicartAgrawala")
+	//err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Send", msg, MyRApeer.Num, "ricartAgrawala")
 
 	err = f.Sync()
 	if err != nil {

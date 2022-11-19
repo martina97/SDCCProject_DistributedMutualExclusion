@@ -1,7 +1,7 @@
 package main
 
 import (
-	"SDCCProject_DistributedMutualExclusion/src/peer/RicartAgrawala"
+	"SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"container/list"
 	"encoding/gob"
@@ -21,8 +21,8 @@ func sendMessage() error {
 		sendCentralized()
 	case "Lamport":
 		sendLamport()
-	case "RicartAgrawala":
-		RicartAgrawala.SendRicart(&myRApeer)
+	case "ricartAgrawala":
+		ricartAgrawala.SendRicart(&myRApeer)
 	}
 	return nil
 }

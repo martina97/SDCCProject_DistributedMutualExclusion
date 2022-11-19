@@ -14,8 +14,8 @@ func UpdateTS(ts, tsMsg *TimeStamp, algo string) {
 	switch algo {
 	case "Lamport":
 		*ts = Max(*ts, *tsMsg) + 1 // se Lamport, ts = max(ts, tsMessaggio) + 1
-	case "RicartAgrawala":
-		*ts = Max(*ts, *tsMsg) //se RicartAgrawala, Num = max(Num, tsMessaggio)
+	case "ricartAgrawala":
+		*ts = Max(*ts, *tsMsg) //se ricartAgrawala, Num = max(Num, tsMessaggio)
 	}
 
 }
