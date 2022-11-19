@@ -67,8 +67,8 @@ func SendRicart(peer *RApeer) {
 	fmt.Println("IL MESSAGGIO E' ====", msg.ToString("send"))
 	sendRequest(msg)
 
-	MyRApeer.mutex.Unlock()
 	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, "wait all peer reply messages.", false)
+	MyRApeer.mutex.Unlock()
 
 	//4. Wait until #replies=N-1;
 	<-MyRApeer.ChanAcquireLock
