@@ -74,10 +74,16 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 			date := time.Now().Format(utilities.DATE_FORMAT)
 			replyMsg := utilities.NewReply2(MyRApeer.Username, msg.Sender, date, MyRApeer.Num)
 			fmt.Println("il msg di REPLY ===", replyMsg.ToString("send"))
-			err := sendReply(replyMsg)
-			if err != nil {
-				log.Fatalf("error sending ack %v", err)
+			for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
+				dest := e.Value.(utilities.NodeInfo)
+				if dest.Username == msg.Receiver {
+					err := sendReply(replyMsg, dest)
+					if err != nil {
+						log.Fatalf("error sending ack %v", err)
+					}
+				}
 			}
+
 		}
 		MyRApeer.mutex.Unlock()
 	}

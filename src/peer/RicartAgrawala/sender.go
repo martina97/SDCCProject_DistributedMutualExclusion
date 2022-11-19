@@ -152,36 +152,42 @@ func sendRequest(msg utilities.Message) error {
 	return nil
 }
 
-func sendReply(msg *utilities.Message) error {
-	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
-		dest := e.Value.(utilities.NodeInfo)
-		if dest.Username == msg.Receiver {
-			fmt.Println("mando reply a ", msg.Receiver)
-			//open connection whit peer
-			peerConn := dest.Address + ":" + dest.Port
-			conn, err := net.Dial("tcp", peerConn)
-			defer conn.Close()
-			if err != nil {
-				log.Println("Send response error on Dial")
-			}
-			enc := gob.NewEncoder(conn)
-			enc.Encode(msg)
+func sendReply(msg *utilities.Message, receiver utilities.NodeInfo) error {
+	/*
+		for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
+			dest := e.Value.(utilities.NodeInfo)
+			if dest.Username == msg.Receiver {
 
-			f, err := os.OpenFile(MyRApeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-			if err != nil {
-				log.Fatalf("error opening file: %v", err)
-			}
-			//save new address on file
-			date := time.Now().Format(utilities.DATE_FORMAT)
-			_, err = f.WriteString("[" + date + "] : " + MyRApeer.Username + " send" + msg.ToString("send") + " to " + dest.Username)
-			_, err = f.WriteString("\n")
-			//err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Send", msg, MyRApeer.Num, "RicartAgrawala")
+	*/
+	fmt.Println("mando reply a ", msg.Receiver)
+	//open connection whit peer
+	peerConn := receiver.Address + ":" + receiver.Port
+	conn, err := net.Dial("tcp", peerConn)
+	defer conn.Close()
+	if err != nil {
+		log.Println("Send response error on Dial")
+	}
+	enc := gob.NewEncoder(conn)
+	enc.Encode(msg)
 
-			err = f.Sync()
-			if err != nil {
-				return err
+	f, err := os.OpenFile(MyRApeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	//save new address on file
+	date := time.Now().Format(utilities.DATE_FORMAT)
+	_, err = f.WriteString("[" + date + "] : " + MyRApeer.Username + " send" + msg.ToString("send") + " to " + receiver.Username)
+	_, err = f.WriteString("\n")
+	//err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Send", msg, MyRApeer.Num, "RicartAgrawala")
+
+	err = f.Sync()
+	if err != nil {
+		return err
+	}
+	/*
 			}
 		}
-	}
+
+	*/
 	return nil
 }
