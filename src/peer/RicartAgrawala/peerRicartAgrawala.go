@@ -42,9 +42,10 @@ type RApeer struct {
 	PeerList *list.List //lista peer
 
 	DeferSet *list.List
+	replySet *list.List
+	replies  int //numero di risposte ricevute (inizializzato a 0)
 
 	/*
-		replies int //numero di risposte ricevute (inizializzato a 0)
 		state string // Requesting, CS, NCS (inizializzato a NCS)
 		queue *list.List // coda di richeste pendenti (inizialmente vuota)
 
@@ -122,4 +123,8 @@ func (p RApeer) setInfos() {
 	//todo: serve?
 	//NewProcess(&myNode)
 
+}
+
+func (p RApeer) incrementNumReplies() {
+	p.replies = p.replies + 1
 }

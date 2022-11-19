@@ -15,11 +15,25 @@ var (
 )
 
 func SendRicart(peer *RApeer) {
-	MyRApeer = *peer
+
+	if MyRApeer == (RApeer{}) {
+		fmt.Println("sto in SendRicart --- RA_PEER VUOTA")
+		MyRApeer = *peer
+	} else {
+		fmt.Println("sto in SendRicart --- RA_PEER NON VUOTA")
+	}
+
+	mu := MyRApeer.GetMutex()
+	mu.Lock()
 	fmt.Println("sono in sendRicart!!!!! il peer ==", MyRApeer.ToString())
 	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		fmt.Println("e ==", e)
 	}
+
+	//inizializzo le variabili che mi servono
+	MyRApeer.DeferSet = MyRApeer.DeferSet.Init()
+	MyRApeer.replySet = MyRApeer.replySet.Init()
+	MyRApeer.replies = 0
 
 	/*
 		1. State = Requesting;
@@ -35,8 +49,6 @@ func SendRicart(peer *RApeer) {
 	// 1. State = Requesting;
 	MyRApeer.state = Requesting
 
-	mu := MyRApeer.GetMutex()
-	mu.Lock()
 	fmt.Println("sono in sendRicard --- MyRApeer.Num ==== ", MyRApeer.Num)
 
 	//	2. Num = Num+1; Last_Req = Num;

@@ -88,12 +88,20 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		*/
 		fmt.Println("MESS REPLY !!!!!! ")
 		mutex.Lock()
+		//MyRApeer.replies =MyRApeer.replies + 1
+		MyRApeer.incrementNumReplies()
+		fmt.Println("replies = ", MyRApeer.replies)
 		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "RicartAgrawala")
+		checkReplies()
 		mutex.Unlock()
 
 	}
 
 	return nil
+}
+
+func checkReplies() {
+
 }
 
 func checkConditions(msg *utilities.Message) bool {
