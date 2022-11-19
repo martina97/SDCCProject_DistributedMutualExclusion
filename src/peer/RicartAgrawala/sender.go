@@ -73,8 +73,11 @@ func SendRicart(peer *RApeer) {
 	//4. Wait until #replies=N-1;
 	<-MyRApeer.ChanAcquireLock
 
-	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " receive all peer reply messages successfully.", false)
+	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, "receive all peer reply messages successfully.", false)
 	//5. State = CS;
+	MyRApeer.state = CS
+
+	//6. CS
 	fmt.Println("entro in CS")
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
@@ -83,9 +86,8 @@ func SendRicart(peer *RApeer) {
 	date = time.Now().Format(utilities.DATE_FORMAT)
 	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " exited the critical section at "+date, true)
 
-	//6. CS
-
 	//7. ∀ r∈Q send REPLY to r
+	fmt.Println("la lista dei msg in coda == ", MyRApeer.DeferSet)
 
 	//8. Q=∅; State=NCS; #replies=0;
 
@@ -142,7 +144,7 @@ func sendRequest(msg utilities.Message) error {
 	return nil
 }
 
-func sendAck(msg *utilities.Message) error {
+func sendReply(msg *utilities.Message) error {
 	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
 		if dest.Username == msg.Receiver {
@@ -163,7 +165,7 @@ func sendAck(msg *utilities.Message) error {
 			}
 			//save new address on file
 			date := time.Now().Format(utilities.DATE_FORMAT)
-			_, err = f.WriteString("[" + date + "]: " + MyRApeer.Username + " send" + msg.ToString("send") + " to " + dest.Username)
+			_, err = f.WriteString("[" + date + "] : " + MyRApeer.Username + " send" + msg.ToString("send") + " to " + dest.Username)
 			_, err = f.WriteString("\n")
 			//err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Send", msg, MyRApeer.Num, "RicartAgrawala")
 
