@@ -88,6 +88,9 @@ func SendRicart(peer *RApeer) {
 
 	//7. ∀ r∈Q send REPLY to r
 	fmt.Println("la lista dei msg in coda == ", MyRApeer.DeferSet)
+	fmt.Println("la lista dei msg in coda MyRApeer.DeferSet.Front()== ", MyRApeer.DeferSet.Front())
+
+	MyRApeer.mutex.Lock()
 	for e := MyRApeer.DeferSet.Front(); e != nil; e = e.Next() {
 		fmt.Println("msg ==", e.Value)
 		//fmt.Println("msg ==", e)
@@ -103,6 +106,7 @@ func SendRicart(peer *RApeer) {
 		}
 
 	}
+	MyRApeer.mutex.Unlock()
 	//8. Q=∅; State=NCS; #replies=0;
 
 }
