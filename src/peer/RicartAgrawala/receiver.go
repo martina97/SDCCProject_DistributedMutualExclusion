@@ -92,16 +92,16 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		MyRApeer.incrementNumReplies()
 		fmt.Println("replies = ", MyRApeer.replies)
 		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "RicartAgrawala")
-		checkReplies()
+		fmt.Println("peerCnt = ", peerCnt)
+
+		if MyRApeer.replies == peerCnt-1 {
+			fmt.Println("ho ricevuto tutti i msg di reply")
+		}
 		mutex.Unlock()
 
 	}
 
 	return nil
-}
-
-func checkReplies() {
-
 }
 
 func checkConditions(msg *utilities.Message) bool {

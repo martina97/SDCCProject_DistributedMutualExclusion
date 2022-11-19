@@ -12,6 +12,7 @@ import (
 
 var (
 	MyRApeer RApeer
+	peerCnt  int
 )
 
 func SendRicart(peer *RApeer) {
@@ -19,6 +20,7 @@ func SendRicart(peer *RApeer) {
 	if MyRApeer == (RApeer{}) {
 		fmt.Println("sto in SendRicart --- RA_PEER VUOTA")
 		MyRApeer = *peer
+		peerCnt = MyRApeer.PeerList.Len()
 	} else {
 		fmt.Println("sto in SendRicart --- RA_PEER NON VUOTA")
 	}
