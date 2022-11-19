@@ -51,7 +51,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 	dec.Decode(msg)
 	fmt.Println("il msg == ", msg.ToString("receive"))
 
-	mutex := MyRApeer.GetMutex()
+	//mutex := MyRApeer.GetMutex()
 	if msg.MsgType == utilities.Request {
 
 		/*
@@ -63,7 +63,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 			4. Num = max(t, Num)
 		*/
 		fmt.Println("MESS REQUEST !!!!!! ")
-		mutex.Lock()
+		MyRApeer.mutex.Lock()
 		utilities.UpdateTS(&MyRApeer.Num, &msg.TS, "RicartAgrawala")
 
 		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "RicartAgrawala")
@@ -79,7 +79,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 				log.Fatalf("error sending ack %v", err)
 			}
 		}
-		mutex.Unlock()
+		MyRApeer.mutex.Unlock()
 	}
 	if msg.MsgType == utilities.Reply {
 		/*
@@ -87,17 +87,18 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 			1. #replies = #replies+1
 		*/
 		fmt.Println("MESS REPLY !!!!!! ")
-		mutex.Lock()
+		MyRApeer.mutex.Lock()
 		//MyRApeer.replies =MyRApeer.replies + 1
-		MyRApeer.incrementNumReplies()
+		MyRApeer.replies++
 		fmt.Println("replies = ", MyRApeer.replies)
 		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "RicartAgrawala")
 		fmt.Println("peerCnt = ", peerCnt)
 
 		if MyRApeer.replies == peerCnt-1 {
 			fmt.Println("ho ricevuto tutti i msg di reply")
+			MyRApeer.ChanAcquireLock <- true
 		}
-		mutex.Unlock()
+		MyRApeer.mutex.Unlock()
 
 	}
 

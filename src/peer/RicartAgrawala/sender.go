@@ -25,8 +25,7 @@ func SendRicart(peer *RApeer) {
 		fmt.Println("sto in SendRicart --- RA_PEER NON VUOTA")
 	}
 
-	mu := MyRApeer.GetMutex()
-	mu.Lock()
+	MyRApeer.mutex.Lock()
 	fmt.Println("sono in sendRicart!!!!! il peer ==", MyRApeer.ToString())
 	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		fmt.Println("e ==", e)
@@ -34,11 +33,11 @@ func SendRicart(peer *RApeer) {
 
 	//inizializzo le variabili che mi servono
 	MyRApeer.DeferSet.Init()
-	fmt.Println("MyRApeer.DeferSet.Init()")
+	//fmt.Println("MyRApeer.DeferSet.Init()")
 	MyRApeer.replySet.Init()
-	fmt.Println("MyRApeer.replySet.Init()")
+	//fmt.Println("MyRApeer.replySet.Init()")
 	MyRApeer.replies = 0
-	fmt.Println("MyRApeer.replies = 0")
+	//fmt.Println("MyRApeer.replies = 0")
 
 	/*
 		1. State = Requesting;
@@ -68,7 +67,7 @@ func SendRicart(peer *RApeer) {
 	fmt.Println("IL MESSAGGIO E' ====", msg.ToString("send"))
 	sendRequest(msg)
 
-	mu.Unlock()
+	MyRApeer.mutex.Unlock()
 	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, "wait all peer reply messages.", false)
 
 	//4. Wait until #replies=N-1;
