@@ -75,6 +75,13 @@ func SendRicart(peer *RApeer) {
 
 	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " receive all peer reply messages successfully.", false)
 	//5. State = CS;
+	fmt.Println("entro in CS")
+	date = time.Now().Format(utilities.DATE_FORMAT)
+
+	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " entered the critical section at "+date, true)
+	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
+	date = time.Now().Format(utilities.DATE_FORMAT)
+	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " exited the critical section at "+date, true)
 
 	//6. CS
 

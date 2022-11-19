@@ -244,7 +244,7 @@ func WriteInfoToFile2(username string, path string, text string, infoCS bool) {
 	if infoCS == false {
 		_, err = f.WriteString("[" + date + "] : " + username + " " + text)
 	} else {
-		_, err = f.WriteString("\n " + username + text + date)
+		_, err = f.WriteString("\n " + username + text)
 
 	}
 	_, err = f.WriteString("\n")
