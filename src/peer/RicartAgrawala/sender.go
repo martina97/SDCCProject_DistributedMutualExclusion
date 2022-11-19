@@ -32,8 +32,11 @@ func SendRicart(peer *RApeer) {
 
 	//inizializzo le variabili che mi servono
 	MyRApeer.DeferSet.Init()
+	fmt.Println("MyRApeer.DeferSet.Init()")
 	MyRApeer.replySet.Init()
+	fmt.Println("MyRApeer.replySet.Init()")
 	MyRApeer.replies = 0
+	fmt.Println("MyRApeer.replies = 0")
 
 	/*
 		1. State = Requesting;
