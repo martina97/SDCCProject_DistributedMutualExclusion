@@ -205,7 +205,9 @@ func WriteMsgToFile3(path string, id string, typeMsg string, message Message, ti
 	}
 	if typeMsg == "receive" {
 		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.ToString("receive"))
-		_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
+		if message.MsgType != Reply { //in ricart il TS lo aggiorno solo quando ricevo REQUEST
+			_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
+		}
 	}
 	_, err = f.WriteString("\n")
 	err = f.Sync()
