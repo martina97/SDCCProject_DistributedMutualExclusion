@@ -160,6 +160,7 @@ func sendReply(msg *utilities.Message, receiver utilities.NodeInfo) error {
 
 	*/
 	fmt.Println("mando reply a ", msg.Receiver)
+	fmt.Println("receiver = ", receiver.Username)
 	//open connection whit peer
 	peerConn := receiver.Address + ":" + receiver.Port
 	conn, err := net.Dial("tcp", peerConn)

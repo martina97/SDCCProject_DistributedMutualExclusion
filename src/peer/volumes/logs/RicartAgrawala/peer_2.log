@@ -1,8 +1,3 @@
 Initial timestamp of p2 is 0
-[11:12:51.680] : p2 receive Request message: {Request 11:12:51.676 [1]} from p1 and update its local logical timestamp to 1
-[11:12:51.686] : p2 send Reply message: {Reply p1 11:12:51.686 [1]} to p1
-[11:12:53.485] : p2 update its local logical timeStamp to 2
-[11:12:53.488] : p2 send Request message: {Request p1 11:12:53.485 [2]} to p1.
-[11:12:53.492] : p2 send Request message: {Request p3 11:12:53.485 [2]} to p3.
-[11:12:53.495] : p2 wait all peer reply messages.
-[11:12:53.498] : p2 receive Reply message: {Reply 11:12:53.495 [2]} from p3
+[14:24:17.316] : p2 receive Request message: {Request 14:24:17.310 [1]} from p1 and update its local logical timestamp to 1
+[14:24:17.325] : p2 receive Reply message: {Reply 14:24:17.324 [1]} from p3
