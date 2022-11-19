@@ -90,8 +90,8 @@ func SendRicart(peer *RApeer) {
 	fmt.Println("la lista dei msg in coda == ", MyRApeer.DeferSet)
 	for e := MyRApeer.DeferSet.Front(); e != nil; e = e.Next() {
 		fmt.Println("msg ==", e.Value)
-		fmt.Println("msg ==", e)
-		fmt.Println("msg ==", e.Value.(utilities.Message))
+		//fmt.Println("msg ==", e)
+		fmt.Println("msg ==", e.Value.(*utilities.Message))
 		fmt.Println("-----")
 	}
 	//8. Q=∅; State=NCS; #replies=0;
