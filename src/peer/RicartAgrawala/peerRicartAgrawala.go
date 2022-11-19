@@ -126,6 +126,6 @@ func (p RApeer) setInfos() {
 
 }
 
-func (p RApeer) incrementNumReplies() {
+func (p *RApeer) incrementNumReplies() {
 	p.replies = p.replies + 1
 }
