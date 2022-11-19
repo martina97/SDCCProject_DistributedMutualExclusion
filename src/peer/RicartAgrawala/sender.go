@@ -93,6 +93,9 @@ func SendRicart(peer *RApeer) {
 		//fmt.Println("msg ==", e)
 		fmt.Println("msg ==", e.Value.(*utilities.Message))
 		fmt.Println("-----")
+		queueMsg := e.Value.(*utilities.Message)
+		fmt.Println("queueMsg.sender = ", queueMsg.Sender)
+
 	}
 	//8. Q=∅; State=NCS; #replies=0;
 
