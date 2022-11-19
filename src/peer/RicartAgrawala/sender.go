@@ -31,8 +31,8 @@ func SendRicart(peer *RApeer) {
 	}
 
 	//inizializzo le variabili che mi servono
-	MyRApeer.DeferSet = MyRApeer.DeferSet.Init()
-	MyRApeer.replySet = MyRApeer.replySet.Init()
+	MyRApeer.DeferSet.Init()
+	MyRApeer.replySet.Init()
 	MyRApeer.replies = 0
 
 	/*
