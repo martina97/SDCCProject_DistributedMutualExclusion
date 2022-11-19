@@ -79,7 +79,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 			for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 				dest := e.Value.(utilities.NodeInfo)
 				if dest.Username == replyMsg.Receiver {
-					err := sendReply(replyMsg, dest)
+					err := sendReply(replyMsg, &dest)
 					if err != nil {
 						log.Fatalf("error sending ack %v", err)
 					}

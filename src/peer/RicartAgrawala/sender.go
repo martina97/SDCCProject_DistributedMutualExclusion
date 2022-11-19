@@ -95,6 +95,12 @@ func SendRicart(peer *RApeer) {
 		fmt.Println("-----")
 		queueMsg := e.Value.(*utilities.Message)
 		fmt.Println("queueMsg.sender = ", queueMsg.Sender)
+		for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
+			dest := e.Value.(utilities.NodeInfo)
+			if dest.Username == queueMsg.Sender {
+				fmt.Println("invio msg reply a ---> ", queueMsg.Sender)
+			}
+		}
 
 	}
 	//8. Q=∅; State=NCS; #replies=0;
@@ -152,7 +158,7 @@ func sendRequest(msg utilities.Message) error {
 	return nil
 }
 
-func sendReply(msg *utilities.Message, receiver utilities.NodeInfo) error {
+func sendReply(msg *utilities.Message, receiver *utilities.NodeInfo) error {
 	/*
 		for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 			dest := e.Value.(utilities.NodeInfo)
