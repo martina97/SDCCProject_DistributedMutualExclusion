@@ -6,7 +6,7 @@ var myPeer TokenPeer
 var myCoordinator Coordinator
 
 func SendRequest(peer *TokenPeer, coordinator *Coordinator) {
-	if myPeer == (TokenPeer{}) {
+	if myPeer.Username == "" {
 		fmt.Println("sto in SendRequest --- RA_PEER VUOTA")
 		myPeer = *peer
 
