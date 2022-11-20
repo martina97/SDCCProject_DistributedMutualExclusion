@@ -31,6 +31,8 @@ type TokenPeer struct {
 
 	PeerList *list.List //lista peer
 	VC       utilities.VectorClock
+
+	Coordinator Coordinator
 }
 
 func NewTokenAskingPeer(username string, ID int, address string, port string) *TokenPeer {

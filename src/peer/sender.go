@@ -19,7 +19,7 @@ import (
 func sendMessage() error {
 	switch algorithm {
 	case "tokenAsking":
-		tokenAsking.SendRequest(&myTokenPeer, &myCoordinator)
+		tokenAsking.SendRequest(&myTokenPeer)
 	case "Lamport":
 		sendLamport()
 	case "ricartAgrawala":
