@@ -17,15 +17,16 @@ import (
 )
 
 var (
-	listNodes   []utilities.NodeInfo
-	peers       *list.List
-	myID        int
-	myUsername  string
-	allID       []int
-	myNode      utilities.NodeInfo
-	myRApeer    ricartAgrawala.RApeer
-	myTokenPeer tokenAsking.TokenPeer
-	algorithm   string
+	listNodes     []utilities.NodeInfo
+	peers         *list.List
+	myID          int
+	myUsername    string
+	allID         []int
+	myNode        utilities.NodeInfo
+	myRApeer      ricartAgrawala.RApeer
+	myTokenPeer   tokenAsking.TokenPeer
+	myCoordinator tokenAsking.Coordinator
+	algorithm     string
 	//lock   utilities.InfoLock
 	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
 
@@ -248,6 +249,14 @@ func setAlgorithmPeer() {
 		fmt.Println("myRApeer.PeerList = ", myRApeer.PeerList)
 
 	case "tokenAsking":
+		if myUsername == utilities.COORDINATOR {
+			myCoordinator = *tokenAsking.NewCoordinator(myUsername, myID, myNode.Address, myNode.Port)
+			fmt.Println("myCoordinator ====", myCoordinator)
+			fmt.Println("myNode ====", myNode)
+			utilities.StartVC2(myCoordinator.VC)
+			myCoordinator.PeerList = peers
+			fmt.Println("myCoordinator.PeerList = ", myCoordinator.PeerList)
+		}
 
 	}
 

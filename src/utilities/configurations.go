@@ -1,11 +1,11 @@
 package utilities
 
 const (
-	MAXCONNECTION  int    = 3 //MAXPEERS + 1 sequencer
-	ID_COORDINATOR int    = 0
-	MAXPEERS       int    = 3
-	Server_port    int    = 4321
-	Server_addr    string = "10.10.1.50"
+	MAXCONNECTION int    = 3 //MAXPEERS + 1 sequencer
+	COORDINATOR   string = "p0"
+	MAXPEERS      int    = 3
+	Server_port   int    = 4321
+	Server_addr   string = "10.10.1.50"
 	// Server_addr string = "localhost" //if running outside docker
 	Client_port       int    = 2345
 	Peer_msg_sca_file string = "/docker/node_volume/messageSca.txt"

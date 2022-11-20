@@ -31,7 +31,7 @@ func openMenu() {
 			//qui, in base al fatto se sono coordinatore o meno, ho 2 diverse cose, infatti va in openSecondMenu solo
 			//chi non è coordinatore
 			//decido che il coordinatore è p0
-			if myUsername == "p0" {
+			if myUsername == utilities.COORDINATOR {
 				fmt.Println("sono il coordinatore")
 			} else {
 				fmt.Println("non sono il coordinatore")
@@ -91,34 +91,6 @@ func openSecondMenu() {
 
 	}
 
-}
-
-func openCentralizedMenu() {
-
-	for { //infinite loop
-		prompt := promptui.Select{
-			Label: "Select Option",
-			Items: []string{"send message", "show message received", "exit"},
-		}
-
-		i, result, err := prompt.Run() //i : indice di cosa ho scelto
-
-		if err != nil {
-			fmt.Printf("Prompt failed %v\n", err)
-			return
-		}
-
-		fmt.Printf("You choose number %d: %s\n", i+1, result)
-
-		if i+1 == 1 { //send message
-			sendMessage()
-		}
-
-		if i+1 == 3 { //exit
-			break
-		}
-
-	}
 }
 
 func openLamportMenu() {
