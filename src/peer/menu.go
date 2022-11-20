@@ -27,9 +27,17 @@ func openMenu() {
 		if i+1 == 1 { //ossia Run tokenAsking
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
 			algorithm = "tokenAsking"
-			setAlgorithmPeer()
-			openSecondMenu()
-			//openCentralizedMenu()
+
+			//qui, in base al fatto se sono coordinatore o meno, ho 2 diverse cose, infatti va in openSecondMenu solo
+			//chi non è coordinatore
+			//decido che il coordinatore è p0
+			if myUsername == "p0" {
+				fmt.Println("sono il coordinatore")
+			} else {
+				fmt.Println("non sono il coordinatore")
+			}
+			//setAlgorithmPeer()
+			//openSecondMenu()
 		}
 		if i+1 == 2 { //ossia Run Lamport
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)

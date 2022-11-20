@@ -84,7 +84,7 @@ func NewRicartAgrawalaPeer(username string, ID int, address string, port string)
 		state:    NCS,
 		DeferSet: list.New(),
 		replySet: list.New(),
-		LogPath:  "/docker/node_volume/ricartAgrawala/peer_" + strconv.Itoa(ID+1) + ".log",
+		LogPath:  "/docker/node_volume/ricartAgrawala/peer_" + strconv.Itoa(ID) + ".log",
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		ChanAcquireLock: make(chan bool, utilities.CHAN_SIZE),

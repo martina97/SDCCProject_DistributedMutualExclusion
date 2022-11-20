@@ -25,8 +25,7 @@ type TokenPeer struct {
 	mutex    sync.Mutex
 	fileLog  *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
 	Listener net.Listener
-	Num      utilities.TimeStamp
-	lastReq  utilities.TimeStamp //timestamp del msg di richiesta
+
 	//Waiting  bool
 	ChanAcquireLock chan bool
 
@@ -58,7 +57,8 @@ func (p *TokenPeer) setInfos() {
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	_, err = f.WriteString("Initial timestamp of " + p.Username + " is " + strconv.Itoa(int(p.Num)))
+	//_, err = f.WriteString("Initial timestamp of " + p.Username + " is " + strconv.Itoa(int(p.Num)))
+	_, err = f.WriteString("Initial timestamp of " + p.Username + " is " + fmt.Sprint(p.vc))
 	_, err = f.WriteString("\n")
 
 	defer func(f *os.File) {
