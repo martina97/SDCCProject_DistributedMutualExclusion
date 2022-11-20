@@ -2,6 +2,7 @@ package main
 
 import (
 	"SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala"
+	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"container/list"
 	"encoding/gob"
@@ -17,8 +18,8 @@ import (
 //send msg (o request o ack o release)
 func sendMessage() error {
 	switch algorithm {
-	case "Centralized":
-		sendCentralized()
+	case "tokenAsking":
+		tokenAsking.SendRequest(&myTokenPeer, &myCoordinator)
 	case "Lamport":
 		sendLamport()
 	case "ricartAgrawala":

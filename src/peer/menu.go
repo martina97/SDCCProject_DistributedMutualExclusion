@@ -36,8 +36,10 @@ func openMenu() {
 			} else {
 				fmt.Println("non sono il coordinatore")
 			}
-			//setAlgorithmPeer()
-			//openSecondMenu()
+			setAlgorithmPeer()
+			if myUsername != utilities.COORDINATOR {
+				openSecondMenu()
+			}
 		}
 		if i+1 == 2 { //ossia Run Lamport
 			//utilities.Registration(peers, utilities.Client_port, username, listNodes)

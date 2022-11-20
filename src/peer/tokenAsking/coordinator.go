@@ -34,7 +34,7 @@ func NewCoordinator(username string, ID int, address string, port string) *Coord
 		Address:  address,
 		Port:     port,
 		ReqList:  list.New(),
-		LogPath:  "/docker/node_volume/ricartAgrawala/coordinator.log",
+		LogPath:  "/docker/node_volume/tokenAsking/coordinator.log",
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
 	}

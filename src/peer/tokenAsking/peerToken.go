@@ -30,7 +30,7 @@ type TokenPeer struct {
 	ChanAcquireLock chan bool
 
 	PeerList *list.List //lista peer
-	vc       utilities.VectorClock
+	VC       utilities.VectorClock
 }
 
 func NewTokenAskingPeer(username string, ID int, address string, port string) *TokenPeer {
@@ -39,7 +39,7 @@ func NewTokenAskingPeer(username string, ID int, address string, port string) *T
 		ID:       ID,
 		Address:  address,
 		Port:     port,
-		LogPath:  "/docker/node_volume/TokenAsking/peer_" + strconv.Itoa(ID+1) + ".log",
+		LogPath:  "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(ID+1) + ".log",
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		ChanAcquireLock: make(chan bool, utilities.CHAN_SIZE),
@@ -58,7 +58,7 @@ func (p *TokenPeer) setInfos() {
 		log.Fatalf("error opening file: %v", err)
 	}
 	//_, err = f.WriteString("Initial timestamp of " + p.Username + " is " + strconv.Itoa(int(p.Num)))
-	_, err = f.WriteString("Initial timestamp of " + p.Username + " is " + fmt.Sprint(p.vc))
+	_, err = f.WriteString("Initial timestamp of " + p.Username + " is " + fmt.Sprint(p.VC))
 	_, err = f.WriteString("\n")
 
 	defer func(f *os.File) {

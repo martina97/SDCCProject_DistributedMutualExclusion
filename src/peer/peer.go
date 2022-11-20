@@ -253,9 +253,18 @@ func setAlgorithmPeer() {
 			myCoordinator = *tokenAsking.NewCoordinator(myUsername, myID, myNode.Address, myNode.Port)
 			fmt.Println("myCoordinator ====", myCoordinator)
 			fmt.Println("myNode ====", myNode)
+			myCoordinator.VC = make(map[string]int)
 			utilities.StartVC2(myCoordinator.VC)
 			myCoordinator.PeerList = peers
 			fmt.Println("myCoordinator.PeerList = ", myCoordinator.PeerList)
+		} else {
+			myTokenPeer = *tokenAsking.NewTokenAskingPeer(myUsername, myID, myNode.Address, myNode.Port)
+			fmt.Println("myTokenPeer ====", myTokenPeer)
+			fmt.Println("myNode ====", myNode)
+			myTokenPeer.VC = make(map[string]int)
+			utilities.StartVC2(myTokenPeer.VC)
+			myTokenPeer.PeerList = peers
+			fmt.Println("myTokenPeer.PeerList = ", myTokenPeer.PeerList)
 		}
 
 	}
