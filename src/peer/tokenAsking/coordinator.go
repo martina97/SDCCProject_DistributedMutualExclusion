@@ -27,7 +27,7 @@ type Coordinator struct {
 	ReqList  *list.List
 }
 
-func NewCoordinator(username string, ID int, address string, port string) *Coordinator {
+func NewCoordinator(username string, ID int, address string, port string, isCoord bool) *Coordinator {
 	coordinator := &Coordinator{
 		Username: username,
 		ID:       ID,
@@ -38,19 +38,25 @@ func NewCoordinator(username string, ID int, address string, port string) *Coord
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
 	}
-	coordinator.setInfos()
+	if isCoord {
+		coordinator.setInfos()
+	}
 	return coordinator
 
 }
 
 func (c *Coordinator) setInfos() {
 	fmt.Println("sono in setInfos, logPAth == " + c.LogPath)
+	c.VC = make(map[string]int)
+	utilities.StartVC2(c.VC)
+
 	utilities.CreateLog2(c.LogPath, "[coordinator]")
 
 	f, err := os.OpenFile(c.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
+
 	_, err = f.WriteString("Initial timestamp of " + c.Username + " is " + fmt.Sprint(c.VC))
 	_, err = f.WriteString("\n")
 

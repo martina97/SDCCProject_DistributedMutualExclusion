@@ -250,11 +250,14 @@ func setAlgorithmPeer() {
 
 	case "tokenAsking":
 		if myUsername == utilities.COORDINATOR {
-			myCoordinator = *tokenAsking.NewCoordinator(myUsername, myID, myNode.Address, myNode.Port)
+			myCoordinator = *tokenAsking.NewCoordinator(myUsername, myID, myNode.Address, myNode.Port, true)
 			fmt.Println("myCoordinator ====", myCoordinator)
 			fmt.Println("myNode ====", myNode)
-			myCoordinator.VC = make(map[string]int)
-			utilities.StartVC2(myCoordinator.VC)
+			/*
+				myCoordinator.VC = make(map[string]int)
+				utilities.StartVC2(myCoordinator.VC)
+
+			*/
 			myCoordinator.PeerList = peers
 			fmt.Println("myCoordinator.PeerList = ", myCoordinator.PeerList)
 		} else {
@@ -271,8 +274,9 @@ func setAlgorithmPeer() {
 				peer := e.Value.(utilities.NodeInfo)
 				if peer.Username == utilities.COORDINATOR {
 					fmt.Println("il coordinatore è = ", peer.Username)
-					myTokenPeer.Coordinator = *tokenAsking.NewCoordinator(peer.Username, peer.ID, peer.Address, peer.Port)
-
+					myTokenPeer.Coordinator = *tokenAsking.NewCoordinator(peer.Username, peer.ID, peer.Address, peer.Port, false)
+					myTokenPeer.Coordinator.VC = make(map[string]int)
+					utilities.StartVC2(myTokenPeer.Coordinator.VC)
 				}
 			}
 		}
