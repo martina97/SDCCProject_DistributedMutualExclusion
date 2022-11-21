@@ -76,8 +76,10 @@ func sendProgramMessage() {
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		fmt.Println("sto nel for")
+		fmt.Println("il msg == ", msg)
 		receiver := e.Value.(utilities.NodeInfo)
 		if receiver.Username != utilities.COORDINATOR && receiver.Username != myPeer.Username {
+			fmt.Println("sto nell'if ")
 			//open connection whit peer
 			peerConn := receiver.Address + ":" + receiver.Port
 			conn, err := net.Dial("tcp", peerConn)
