@@ -8,6 +8,7 @@ import (
 type VectorClock = map[string]int
 
 func ToString(vc VectorClock) string {
+	fmt.Println("sto in ToString dentro VectorkClock, vc == ", vc)
 	values := make([]int, 0, len(vc))
 
 	for _, v := range vc {

@@ -9,53 +9,53 @@ import (
 func openMenu() {
 
 	myNode.ScalarMap = utilities.MessageMap{} //inizializzo mappa
-	//for {                                     //infinite loop
-	prompt := promptui.Select{
-		Label: "Select Option",
-		Items: []string{"Run Token-Asking", "Run Lamport", "Run Ricart-Agrawala"},
-	}
-
-	i, result, err := prompt.Run() //i : indice di cosa ho scelto
-
-	if err != nil {
-		fmt.Printf("Prompt failed %v\n", err)
-		return
-	}
-
-	fmt.Printf("You choose number %d: %s\n", i+1, result)
-
-	if i+1 == 1 { //ossia Run tokenAsking
-		//utilities.Registration(peers, utilities.Client_port, username, listNodes)
-		algorithm = "tokenAsking"
-
-		//qui, in base al fatto se sono coordinatore o meno, ho 2 diverse cose, infatti va in openSecondMenu solo
-		//chi non è coordinatore
-		//decido che il coordinatore è p0
-		if myUsername == utilities.COORDINATOR {
-			fmt.Println("sono il coordinatore")
-		} else {
-			fmt.Println("non sono il coordinatore")
+	for {                                     //infinite loop
+		prompt := promptui.Select{
+			Label: "Select Option",
+			Items: []string{"Run Token-Asking", "Run Lamport", "Run Ricart-Agrawala"},
 		}
-		setAlgorithmPeer()
-		if myUsername != utilities.COORDINATOR {
+
+		i, result, err := prompt.Run() //i : indice di cosa ho scelto
+
+		if err != nil {
+			fmt.Printf("Prompt failed %v\n", err)
+			return
+		}
+
+		fmt.Printf("You choose number %d: %s\n", i+1, result)
+
+		if i+1 == 1 { //ossia Run tokenAsking
+			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
+			algorithm = "tokenAsking"
+
+			//qui, in base al fatto se sono coordinatore o meno, ho 2 diverse cose, infatti va in openSecondMenu solo
+			//chi non è coordinatore
+			//decido che il coordinatore è p0
+			if myUsername == utilities.COORDINATOR {
+				fmt.Println("sono il coordinatore")
+			} else {
+				fmt.Println("non sono il coordinatore")
+			}
+			setAlgorithmPeer()
+			if myUsername != utilities.COORDINATOR {
+				openSecondMenu()
+			}
+		}
+		if i+1 == 2 { //ossia Run Lamport
+			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
+			algorithm = "Lamport"
 			openSecondMenu()
+			//openLamportMenu()
 		}
-	}
-	if i+1 == 2 { //ossia Run Lamport
-		//utilities.Registration(peers, utilities.Client_port, username, listNodes)
-		algorithm = "Lamport"
-		openSecondMenu()
-		//openLamportMenu()
-	}
-	if i+1 == 3 { //ricartAgrawala
-		algorithm = "ricartAgrawala"
-		setAlgorithmPeer()
-		//setPeerUtils2()
-		openSecondMenu()
+		if i+1 == 3 { //ricartAgrawala
+			algorithm = "ricartAgrawala"
+			setAlgorithmPeer()
+			//setPeerUtils2()
+			openSecondMenu()
+
+		}
 
 	}
-
-	//}
 
 }
 
