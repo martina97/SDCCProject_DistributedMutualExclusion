@@ -63,10 +63,10 @@ func (c *Coordinator) setInfos() {
 		log.Fatalf("error opening file: %v", err)
 	}
 	date := time.Now().Format(utilities.DATE_FORMAT)
-	_, err = f.WriteString(date + " : initial vector clock of coordinator is " + utilities.ToString(c.VC) + ".")
+	_, err = f.WriteString("[" + date + "] : initial vector clock of coordinator is " + utilities.ToString(c.VC) + ".")
 	_, err = f.WriteString("\n")
 	date = time.Now().Format(utilities.DATE_FORMAT)
-	_, err = f.WriteString(date + " : coordinator owns the token in starting up. ")
+	_, err = f.WriteString("[" + date + "] : coordinator owns the token in starting up. ")
 	_, err = f.WriteString("\n")
 
 	defer func(f *os.File) {

@@ -1,2 +1,2 @@
-Initial vector clock of coordinator is [0 0]
-Coordinator owns the token in starting up. 
+16:53:41.702 : initial vector clock of coordinator is [0 0].
+16:53:41.702 : coordinator owns the token in starting up. 
