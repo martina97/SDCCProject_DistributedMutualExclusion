@@ -87,6 +87,8 @@ func WriteMsgToFile(action string, message Message) error {
 		switch message.MsgType {
 		case Request:
 			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("send") + " to coordinator.")
+		case ProgramMessage:
+			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("send") + " to " + message.Receiver + ".")
 
 		}
 	}
