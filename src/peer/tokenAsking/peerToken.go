@@ -27,7 +27,7 @@ type TokenPeer struct {
 	Listener net.Listener
 
 	//Waiting  bool
-	ChanAcquireLock chan bool
+	HasToken chan bool
 
 	PeerList *list.List //lista peer
 	VC       utilities.VectorClock
@@ -44,8 +44,8 @@ func NewTokenAskingPeer(username string, ID int, address string, port string) *T
 		LogPath:  "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(ID) + ".log",
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
-		ChanAcquireLock: make(chan bool, utilities.CHAN_SIZE),
-		VC:              make(map[string]int),
+		HasToken: make(chan bool, utilities.CHAN_SIZE),
+		VC:       make(map[string]int),
 	}
 	peer.setInfos()
 	return peer

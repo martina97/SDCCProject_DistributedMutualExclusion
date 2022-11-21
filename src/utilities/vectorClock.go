@@ -61,3 +61,9 @@ func IsEligible(vc0 VectorClock, vcPeer VectorClock, usernamePeer string) bool {
 	return eligible
 
 }
+
+func IncrementVC(vc VectorClock, username string) {
+
+	vc[username] = vc[username] + 1
+
+}

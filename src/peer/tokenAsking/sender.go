@@ -1,6 +1,9 @@
 package tokenAsking
 
-import "fmt"
+import (
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
+	"fmt"
+)
 
 var myPeer TokenPeer
 var myCoordinator Coordinator
@@ -14,6 +17,13 @@ func SendRequest(peer *TokenPeer) {
 		fmt.Println("sto in SendRequest --- RA_PEER NON VUOTA")
 	}
 	fmt.Println("myPeer.Coordinator= ", myPeer.Coordinator)
+
+	myPeer.mutex.Lock()
+	//incremento Vector Clock!!!
+	fmt.Println("myTokenPeer.VC =", myPeer.VC)
+	fmt.Println("incremento VC")
+	utilities.IncrementVC(myPeer.VC, myPeer.Username)
+
 	fmt.Println("myTokenPeer.VC =", myPeer.VC)
 
 }

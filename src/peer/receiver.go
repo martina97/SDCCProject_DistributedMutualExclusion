@@ -64,7 +64,6 @@ func message_handler() {
 		case "tokenAsking":
 			if myUsername == utilities.COORDINATOR {
 				go tokenAsking.HandleConnectionCoordinator(connection, &myCoordinator)
-
 			} else {
 				go tokenAsking.HandleConnectionPeer(connection, &myTokenPeer)
 			}
