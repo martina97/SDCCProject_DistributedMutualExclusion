@@ -35,6 +35,15 @@ func NewRequest(sender string, date string, vc utilities.VectorClock) *Message {
 	}
 }
 
+func NewProgramMessage(sender string, date string, vc utilities.VectorClock) *Message {
+	return &Message{
+		MsgType: ProgramMessage,
+		Sender:  sender,
+		Date:    date,
+		VC:      vc,
+	}
+}
+
 func (m *Message) ToString(role string) string {
 	var name string
 	//date := time.Now().Format("2006/01/02 15:04:05")

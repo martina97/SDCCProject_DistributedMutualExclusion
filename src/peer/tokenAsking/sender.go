@@ -61,9 +61,40 @@ func SendRequest(peer *TokenPeer) {
 		log.Fatalf("error writing file: %v", err)
 	}
 
-	WriteInfosToFile("try to get the token.")
+	//ora invio msg di programma agli altri peer
+	sendProgramMessage()
+
 
 	myPeer.mutex.Unlock()
 	<-myPeer.HasToken
 	fmt.Println("ho il token!!!!")
+}
+
+func sendProgramMessage() {
+	date := time.Now().Format(utilities.DATE_FORMAT)
+	msg := NewProgramMessage(myPeer.Username, date, myPeer.VC)
+
+	for e:= myPeer.PeerList.Front(); e!=nil; e = e.Next() {
+		receiver := e.Value.(TokenPeer)
+		if receiver.Username != utilities.COORDINATOR && receiver.Username != myPeer.Username {
+			//open connection whit peer
+			peerConn := receiver.Address + ":" + receiver.Port
+			conn, err := net.Dial("tcp", peerConn)
+			defer conn.Close()
+			if err != nil {
+				log.Println("Send response error on Dial")
+			}
+			enc := gob.NewEncoder(conn)
+			enc.Encode(msg)
+
+			msg.Receiver = receiver.Username
+
+			err = WriteMsgToFile("send", *msg)
+
+			if err != nil {
+				log.Fatalf("error writing msg %v", err)
+			}
+		}
+		}
+	}
 }
