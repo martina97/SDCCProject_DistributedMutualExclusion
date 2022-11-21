@@ -266,6 +266,7 @@ func setAlgorithmPeer() {
 			fmt.Println("myNode ====", myNode)
 			myTokenPeer.VC = make(map[string]int)
 			utilities.StartVC2(myTokenPeer.VC)
+			fmt.Println("myTokenPeer.VC =", myTokenPeer.VC)
 			myTokenPeer.PeerList = peers
 			fmt.Println("myTokenPeer.PeerList = ", myTokenPeer.PeerList)
 			for e := peers.Front(); e != nil; e = e.Next() {

@@ -13,5 +13,6 @@ func SendRequest(peer *TokenPeer) {
 		fmt.Println("sto in SendRequest --- RA_PEER NON VUOTA")
 	}
 	fmt.Println("myPeer.Coordinator= ", myPeer.Coordinator)
+	fmt.Println("myTokenPeer.VC =", myPeer.VC)
 
 }
