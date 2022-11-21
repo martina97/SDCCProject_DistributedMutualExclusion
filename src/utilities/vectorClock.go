@@ -2,13 +2,14 @@ package utilities
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 )
 
 type VectorClock = map[string]int
 
 func ToString(vc VectorClock) string {
-	fmt.Println("sto in ToString dentro VectorkClock, vc == ", vc)
+	fmt.Println("sto in ToString dentro VectorClock, vc == ", vc)
 	keys := make([]string, 0, len(vc))
 	values := make([]int, 0, len(vc))
 
@@ -18,13 +19,17 @@ func ToString(vc VectorClock) string {
 		//values = append(values, v)
 		keys = append(keys, k)
 	}
-
 	fmt.Println("keys =", keys)
+	sort.Strings(keys)
+	fmt.Println("keys =", keys)
+	for _, k := range keys {
+		fmt.Println(k, vc[k])
+		values = append(values, vc[k])
+	}
+	fmt.Println("values =", values)
+
 	string := fmt.Sprint(values)
 
-	for k := range vc {
-		fmt.Printf("key[%s] value[%s]\n", k, vc[k])
-	}
 	return string
 }
 

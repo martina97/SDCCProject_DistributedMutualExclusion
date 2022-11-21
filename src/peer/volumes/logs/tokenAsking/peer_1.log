@@ -1,3 +1,3 @@
-Initial vector clock of p1 is [0 0]
-[15:46:50.379] : p1 update its local vector clock to [1 0]
-[15:46:50.389] : p1 send Request message: {Request p0 15:46:50.379 [0 1]} to coordinator.
+Initial vector clock of p1 is []
+[16:29:20.830] : p1 update its local vector clock to []
+[16:29:21.841] : p1 send Request message: {Request p0 16:29:20.830 []} to coordinator.
