@@ -64,4 +64,6 @@ func SendRequest(peer *TokenPeer) {
 	WriteInfosToFile("try to get the token.")
 
 	myPeer.mutex.Unlock()
+	<-myPeer.HasToken
+	fmt.Println("ho il token!!!!")
 }

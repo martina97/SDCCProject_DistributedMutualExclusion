@@ -1,5 +1,5 @@
 Initial vector clock of p2 is [0 0]
-[16:53:45.881] : p2 try to get the token..
-[16:53:45.916] : p2 update its local vector clock to [0 1]
-[16:53:45.919] : p2 send Request message: {Request p0 16:53:45.916 [0 1]} to coordinator.
-[16:53:45.922] : p2 try to get the token..
+[16:57:17.038] : p2 try to get the token..
+[16:57:17.042] : p2 update its local vector clock to [0 1]
+[16:57:17.045] : p2 send Request message: {Request p0 16:57:17.042 [0 1]} to coordinator.
+[16:57:17.047] : p2 try to get the token..
