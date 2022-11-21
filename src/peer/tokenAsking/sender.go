@@ -2,7 +2,10 @@ package tokenAsking
 
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
+	"encoding/gob"
 	"fmt"
+	"log"
+	"net"
 	"time"
 )
 
@@ -32,5 +35,24 @@ func SendRequest(peer *TokenPeer) {
 
 	utilities.WriteVCInfoToFile(myPeer.LogPath, myPeer.Username, myPeer.VC)
 	fmt.Println("dopo WriteVCInfoToFile")
+
+	//ora mando REQUEST al coordinatore (è un campo di myPeer)
+	fmt.Println("devo inviare req al coordinatore")
+	connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
+
+	conn, err := net.Dial("tcp", connection)
+	defer conn.Close()
+	if err != nil {
+		log.Println("Send response error on Dial")
+	}
+	enc := gob.NewEncoder(conn)
+	enc.Encode(msg)
+	fmt.Println("dopo encode msg, msg == ", msg.ToString("send"))
+	msg.Receiver = utilities.COORDINATOR
+	fmt.Println("dopo encode msg, msg == ", msg.ToString("send"))
+	err = WriteMsgToFile("send", *msg)
+	if err != nil {
+		log.Fatalf("error writing file: %v", err)
+	}
 
 }

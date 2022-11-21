@@ -1,6 +1,7 @@
 package tokenAsking
 
 import (
+	"encoding/gob"
 	"fmt"
 	"net"
 )
@@ -10,6 +11,13 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 
 	fmt.Println("sto in HandleConnectionCoordinator dentro tokenAsking package")
 	fmt.Println("coordinator === ", coordinator)
+	myCoordinator = *coordinator
+
+	defer conn.Close()
+	msg := new(Message)
+	dec := gob.NewDecoder(conn)
+	dec.Decode(msg)
+	fmt.Println("il msg == ", msg.ToString("receive"))
 
 	return nil
 }

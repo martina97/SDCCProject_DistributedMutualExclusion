@@ -3,6 +3,9 @@ package tokenAsking
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"fmt"
+	"log"
+	"os"
+	"time"
 )
 
 type MessageType string
@@ -52,11 +55,37 @@ func (m *Message) ToString(role string) string {
 		//return fmt.Sprintf(" %s message: {%s %s %s %s [%d]}", name, name, m.Sender, m.Receiver, m.Date, m.TS)
 
 		//Request message: {Request [] p1 17:39:42.230 [1]} --- p1=receiver, [1] = timestamp
-		return fmt.Sprintf(" %s message: {%s %s %s [%d]}", name, name, m.Receiver, m.Date, utilities.ToString(m.VC))
+		return fmt.Sprintf(" %s message: {%s %s %s %s}", name, name, m.Receiver, m.Date, utilities.ToString(m.VC))
 	}
 	if role == "receive" {
-		return fmt.Sprintf(" %s message: {%s %s [%d]} from %s", name, name, m.Date, utilities.ToString(m.VC), m.Sender)
+		return fmt.Sprintf(" %s message: {%s %s %s} from %s", name, name, m.Date, utilities.ToString(m.VC), m.Sender)
 	}
 
 	return ""
+}
+
+func WriteMsgToFile(action string, message Message) error {
+	fmt.Println("sto in WriteMsgToFile")
+	fmt.Println("path == ", myPeer.LogPath)
+	f, err := os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	//save new address on file
+	date := time.Now().Format(utilities.DATE_FORMAT)
+
+	if action == "send" {
+		switch message.MsgType {
+		case Request:
+			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("send") + " to coordinator.")
+
+		}
+	}
+	_, err = f.WriteString("\n")
+	err = f.Sync()
+	if err != nil {
+		return err
+	}
+	return nil
+
 }

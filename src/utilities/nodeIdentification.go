@@ -212,7 +212,7 @@ func WriteMsgToFile3(path string, id string, typeMsg string, message Message, ti
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 	if err != nil {
-		return err
+		log.Fatalf("error writing file: %v", err)
 	}
 	return nil
 }

@@ -64,7 +64,7 @@ func (p *TokenPeer) setInfos() {
 		log.Fatalf("error opening file: %v", err)
 	}
 	//_, err = f.WriteString("Initial timestamp of " + p.Username + " is " + strconv.Itoa(int(p.Num)))
-	_, err = f.WriteString("Initial timestamp of " + p.Username + " is " + utilities.ToString(p.VC))
+	_, err = f.WriteString("Initial vector clock of " + p.Username + " is " + utilities.ToString(p.VC))
 
 	_, err = f.WriteString("\n")
 
