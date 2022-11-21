@@ -64,7 +64,6 @@ func SendRequest(peer *TokenPeer) {
 	//ora invio msg di programma agli altri peer
 	sendProgramMessage()
 
-
 	myPeer.mutex.Unlock()
 	<-myPeer.HasToken
 	fmt.Println("ho il token!!!!")
@@ -74,7 +73,7 @@ func sendProgramMessage() {
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := NewProgramMessage(myPeer.Username, date, myPeer.VC)
 
-	for e:= myPeer.PeerList.Front(); e!=nil; e = e.Next() {
+	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		receiver := e.Value.(TokenPeer)
 		if receiver.Username != utilities.COORDINATOR && receiver.Username != myPeer.Username {
 			//open connection whit peer
@@ -95,6 +94,6 @@ func sendProgramMessage() {
 				log.Fatalf("error writing msg %v", err)
 			}
 		}
-		}
+
 	}
 }
