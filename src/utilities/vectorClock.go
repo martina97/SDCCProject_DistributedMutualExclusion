@@ -11,12 +11,17 @@ func ToString(vc VectorClock) string {
 	fmt.Println("sto in ToString dentro VectorkClock, vc == ", vc)
 	values := make([]int, 0, len(vc))
 
-	for _, v := range vc {
+	for k, v := range vc {
+		fmt.Println("k = ", k)
 		fmt.Println("v = ", v)
 		values = append(values, v)
 	}
 	fmt.Println("values =", values)
 	string := fmt.Sprint(values)
+
+	for k := range vc {
+		fmt.Printf("key[%s] value[%s]\n", k, vc[k])
+	}
 	return string
 }
 
