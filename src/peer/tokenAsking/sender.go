@@ -70,11 +70,13 @@ func SendRequest(peer *TokenPeer) {
 }
 
 func sendProgramMessage() {
+	fmt.Println("sto in sendProgramMessage")
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := NewProgramMessage(myPeer.Username, date, myPeer.VC)
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
-		receiver := e.Value.(TokenPeer)
+		fmt.Println("sto nel for")
+		receiver := e.Value.(utilities.NodeInfo)
 		if receiver.Username != utilities.COORDINATOR && receiver.Username != myPeer.Username {
 			//open connection whit peer
 			peerConn := receiver.Address + ":" + receiver.Port

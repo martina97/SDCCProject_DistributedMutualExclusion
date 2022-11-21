@@ -24,7 +24,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 
 func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 
-	fmt.Println("sto in HandleConnectionCoordinator dentro tokenAsking package")
+	fmt.Println("sto in HandleConnection dentro tokenAsking package")
 	fmt.Println("peer === ", peer)
 
 	if myPeer.Username == "" {
