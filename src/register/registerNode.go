@@ -57,7 +57,7 @@ func main() {
 	*/
 
 	//Wait connection
-	for connect_num < 3 { //todo: mettere 3 , anche sotto
+	for connect_num < utilities.MAXPEERS { //todo: mettere 3 , anche sotto
 		ch := <-utilities.Connection
 		if ch == true {
 			connect_num++
@@ -66,7 +66,7 @@ func main() {
 
 	log.Printf("Max Number of Connection reached up")
 
-	utilities.Wg.Add(-3) //quando tutti e 3 sono registrati si ritorna a #src
+	utilities.Wg.Add(-utilities.MAXPEERS) //quando tutti e 3 sono registrati si ritorna a #src
 
 	//send client a responce for max number of peer registered
 
