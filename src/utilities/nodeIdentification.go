@@ -282,3 +282,18 @@ func WriteTSInfoToFile2(path string, id string, timestamp TimeStamp, algorithm s
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 }
+
+func WriteVCInfoToFile(path string, id string, vc VectorClock) {
+
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+
+	//save new address on file
+	date := time.Now().Format(DATE_FORMAT)
+
+	_, err = f.WriteString("[" + date + "] : " + id + " update its local vector clock to " + ToString(vc))
+	_, err = f.WriteString("\n")
+	err = f.Sync()
+}

@@ -3,6 +3,7 @@ package tokenAsking
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"fmt"
+	"time"
 )
 
 var myPeer TokenPeer
@@ -25,5 +26,11 @@ func SendRequest(peer *TokenPeer) {
 	utilities.IncrementVC(myPeer.VC, myPeer.Username)
 
 	fmt.Println("myTokenPeer.VC =", myPeer.VC)
+	date := time.Now().Format(utilities.DATE_FORMAT)
+	msg := NewRequest(myPeer.Username, date, myPeer.VC)
+	fmt.Println("IL MESSAGGIO E' ====", msg.ToString("send"))
+
+	utilities.WriteVCInfoToFile(myPeer.LogPath, myPeer.Username, myPeer.VC)
+	fmt.Println("dopo WriteVCInfoToFile")
 
 }
