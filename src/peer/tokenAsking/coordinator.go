@@ -62,7 +62,7 @@ func (c *Coordinator) setInfos() {
 		log.Fatalf("error opening file: %v", err)
 	}
 
-	_, err = f.WriteString("Initial timestamp of " + c.Username + " is " + fmt.Sprint(c.VC))
+	_, err = f.WriteString("Initial timestamp of " + c.Username + " is " + utilities.ToString(c.VC))
 	_, err = f.WriteString("\n")
 
 	defer func(f *os.File) {

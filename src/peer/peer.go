@@ -23,9 +23,9 @@ var (
 	myUsername    string
 	allID         []int
 	myNode        utilities.NodeInfo
-	myRApeer      ricartAgrawala.RApeer
-	myTokenPeer   tokenAsking.TokenPeer
-	myCoordinator tokenAsking.Coordinator
+	myRApeer      ricartAgrawala.RApeer   //todo: serve? non posso semplicemente mandarlo al sender?
+	myTokenPeer   tokenAsking.TokenPeer   //todo: serve?
+	myCoordinator tokenAsking.Coordinator //todo: serve?
 	algorithm     string
 	//lock   utilities.InfoLock
 	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
@@ -269,14 +269,16 @@ func setAlgorithmPeer() {
 			fmt.Println("myTokenPeer.VC =", myTokenPeer.VC)
 			myTokenPeer.PeerList = peers
 			fmt.Println("myTokenPeer.PeerList = ", myTokenPeer.PeerList)
+			//fmt.Println("toString 2 ----", (myTokenPeer.VC).ToString2())
 			for e := peers.Front(); e != nil; e = e.Next() {
 				fmt.Println("e ==", e)
 				fmt.Println("e.Value ==", e.Value)
 				peer := e.Value.(utilities.NodeInfo)
 				if peer.Username == utilities.COORDINATOR {
 					fmt.Println("il coordinatore è = ", peer.Username)
+					myTokenPeer.Coordinator = *tokenAsking.NewCoordinator(peer.Username, peer.ID, peer.Address, peer.Port, false)
+
 					/*
-						myTokenPeer.Coordinator = *tokenAsking.NewCoordinator(peer.Username, peer.ID, peer.Address, peer.Port, false)
 						utilities.StartVC2(myTokenPeer.Coordinator.VC)
 
 					*/

@@ -2,6 +2,7 @@ package main
 
 import (
 	"SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala"
+	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
 	"fmt"
@@ -60,6 +61,13 @@ func message_handler() {
 		switch algorithm {
 		case "ricartAgrawala":
 			go ricartAgrawala.HandleConnection(connection, &myRApeer)
+		case "tokenAsking":
+			if myUsername == utilities.COORDINATOR {
+				go tokenAsking.HandleConnectionCoordinator(connection, &myCoordinator)
+
+			} else {
+				go tokenAsking.HandleConnectionPeer(connection, &myTokenPeer)
+			}
 		}
 
 		//go handleConnection(connection)

@@ -18,6 +18,20 @@ func ToString(vc VectorClock) string {
 	return string
 }
 
+/*
+func (vc *VectorClock) ToString2() string {
+	values := make([]int, 0, len(*vc))
+
+	for _, v := range *vc {
+		values = append(values, v)
+	}
+	fmt.Println("values =", values)
+	string := fmt.Sprint(values)
+	return string
+}
+
+*/
+
 func StartVC2(vc VectorClock) {
 	//vc = make(map[string]int)
 	fmt.Println("sto in StartVC")
