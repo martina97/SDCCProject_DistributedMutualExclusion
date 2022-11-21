@@ -89,3 +89,17 @@ func WriteMsgToFile(action string, message Message) error {
 	return nil
 
 }
+
+func WriteInfosToFile(text string) {
+	f, err := os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	//save new address on file
+	date := time.Now().Format(utilities.DATE_FORMAT)
+
+	_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + text)
+
+	_, err = f.WriteString("\n")
+	err = f.Sync()
+}

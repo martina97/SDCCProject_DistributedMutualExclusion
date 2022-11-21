@@ -64,6 +64,8 @@ func (c *Coordinator) setInfos() {
 
 	_, err = f.WriteString("Initial vector clock of coordinator is " + utilities.ToString(c.VC))
 	_, err = f.WriteString("\n")
+	_, err = f.WriteString("Coordinator owns the token in starting up. ")
+	_, err = f.WriteString("\n")
 
 	defer func(f *os.File) {
 		err := f.Close()

@@ -23,6 +23,7 @@ func SendRequest(peer *TokenPeer) {
 	fmt.Println("myPeer.Coordinator= ", myPeer.Coordinator)
 
 	myPeer.mutex.Lock()
+	WriteInfosToFile("try to get the token.")
 	//incremento Vector Clock!!!
 	fmt.Println("myTokenPeer.VC =", myPeer.VC)
 	fmt.Println("incremento VC")
@@ -59,6 +60,8 @@ func SendRequest(peer *TokenPeer) {
 	if err != nil {
 		log.Fatalf("error writing file: %v", err)
 	}
+
+	WriteInfosToFile("try to get the token.")
 
 	myPeer.mutex.Unlock()
 }
