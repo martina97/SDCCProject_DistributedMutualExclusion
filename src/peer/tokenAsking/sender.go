@@ -38,6 +38,8 @@ func SendRequest(peer *TokenPeer) {
 
 	//ora mando REQUEST al coordinatore (è un campo di myPeer)
 	fmt.Println("devo inviare req al coordinatore")
+	fmt.Println(" myPeer.Coordinator.Address  ==", myPeer.Coordinator.Address)
+	fmt.Println(" myPeer.Coordinator.Port  ==", myPeer.Coordinator.Port)
 	connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
 
 	conn, err := net.Dial("tcp", connection)
