@@ -34,7 +34,7 @@ func SendRequest(peer *TokenPeer) {
 	msg := NewRequest(myPeer.Username, date, myPeer.VC)
 	fmt.Println("IL MESSAGGIO E' ====", msg.ToString("send"))
 
-	utilities.WriteVCInfoToFile(myPeer.LogPath, myPeer.Username, myPeer.VC)
+	WriteVCInfoToFile()
 	fmt.Println("dopo WriteVCInfoToFile")
 
 	//ora mando REQUEST al coordinatore (è un campo di myPeer)

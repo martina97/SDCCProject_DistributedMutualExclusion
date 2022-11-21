@@ -103,3 +103,18 @@ func WriteInfosToFile(text string) {
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 }
+
+func WriteVCInfoToFile() {
+
+	f, err := os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+
+	//save new address on file
+	date := time.Now().Format(utilities.DATE_FORMAT)
+
+	_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " update its vector clock to " + utilities.ToString(myPeer.VC))
+	_, err = f.WriteString("\n")
+	err = f.Sync()
+}
