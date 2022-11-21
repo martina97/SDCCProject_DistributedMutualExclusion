@@ -37,7 +37,9 @@ func NewCoordinator(username string, ID int, address string, port string, isCoor
 		LogPath:  "/docker/node_volume/tokenAsking/coordinator.log",
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
+		VC: make(map[string]int),
 	}
+	utilities.StartVC2(coordinator.VC)
 	if isCoord {
 		coordinator.setInfos()
 	}
@@ -47,8 +49,11 @@ func NewCoordinator(username string, ID int, address string, port string, isCoor
 
 func (c *Coordinator) setInfos() {
 	fmt.Println("sono in setInfos, logPAth == " + c.LogPath)
-	c.VC = make(map[string]int)
-	utilities.StartVC2(c.VC)
+	/*
+		c.VC = make(map[string]int)
+		utilities.StartVC2(c.VC)
+
+	*/
 
 	utilities.CreateLog2(c.LogPath, "[coordinator]")
 

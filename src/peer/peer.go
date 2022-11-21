@@ -264,8 +264,8 @@ func setAlgorithmPeer() {
 			myTokenPeer = *tokenAsking.NewTokenAskingPeer(myUsername, myID, myNode.Address, myNode.Port)
 			fmt.Println("myTokenPeer ====", myTokenPeer)
 			fmt.Println("myNode ====", myNode)
-			myTokenPeer.VC = make(map[string]int)
-			utilities.StartVC2(myTokenPeer.VC)
+			//myTokenPeer.VC = make(map[string]int)
+			//utilities.StartVC2(myTokenPeer.VC)
 			fmt.Println("myTokenPeer.VC =", myTokenPeer.VC)
 			myTokenPeer.PeerList = peers
 			fmt.Println("myTokenPeer.PeerList = ", myTokenPeer.PeerList)
@@ -275,9 +275,11 @@ func setAlgorithmPeer() {
 				peer := e.Value.(utilities.NodeInfo)
 				if peer.Username == utilities.COORDINATOR {
 					fmt.Println("il coordinatore è = ", peer.Username)
-					myTokenPeer.Coordinator = *tokenAsking.NewCoordinator(peer.Username, peer.ID, peer.Address, peer.Port, false)
-					myTokenPeer.Coordinator.VC = make(map[string]int)
-					utilities.StartVC2(myTokenPeer.Coordinator.VC)
+					/*
+						myTokenPeer.Coordinator = *tokenAsking.NewCoordinator(peer.Username, peer.ID, peer.Address, peer.Port, false)
+						utilities.StartVC2(myTokenPeer.Coordinator.VC)
+
+					*/
 				}
 			}
 		}

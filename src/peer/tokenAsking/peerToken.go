@@ -45,6 +45,7 @@ func NewTokenAskingPeer(username string, ID int, address string, port string) *T
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		ChanAcquireLock: make(chan bool, utilities.CHAN_SIZE),
+		VC:              make(map[string]int),
 	}
 	peer.setInfos()
 	return peer
@@ -53,6 +54,9 @@ func NewTokenAskingPeer(username string, ID int, address string, port string) *T
 
 func (p *TokenPeer) setInfos() {
 	fmt.Println("sono in setInfos, logPAth == " + p.LogPath)
+
+	utilities.StartVC2(p.VC)
+
 	utilities.CreateLog2(p.LogPath, "[peer]") // in nodeIdentification.go
 
 	f, err := os.OpenFile(p.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
