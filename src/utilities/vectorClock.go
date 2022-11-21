@@ -12,6 +12,7 @@ func ToString(vc VectorClock) string {
 	values := make([]int, 0, len(vc))
 
 	for _, v := range vc {
+		fmt.Println("v = ", v)
 		values = append(values, v)
 	}
 	fmt.Println("values =", values)
