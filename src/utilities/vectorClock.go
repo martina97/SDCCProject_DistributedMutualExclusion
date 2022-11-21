@@ -7,6 +7,17 @@ import (
 
 type VectorClock = map[string]int
 
+func ToString(vc VectorClock) string {
+	values := make([]int, 0, len(vc))
+
+	for _, v := range vc {
+		values = append(values, v)
+	}
+	fmt.Println("values =", values)
+	string := fmt.Sprint(values)
+	return string
+}
+
 func StartVC2(vc VectorClock) {
 	//vc = make(map[string]int)
 	fmt.Println("sto in StartVC")
