@@ -98,7 +98,7 @@ func WriteInfosToFile(text string) {
 	//save new address on file
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
-	_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + text)
+	_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + text + ".")
 
 	_, err = f.WriteString("\n")
 	err = f.Sync()

@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"sync"
+	"time"
 )
 
 type Coordinator struct {
@@ -61,10 +62,11 @@ func (c *Coordinator) setInfos() {
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-
-	_, err = f.WriteString("Initial vector clock of coordinator is " + utilities.ToString(c.VC))
+	date := time.Now().Format(utilities.DATE_FORMAT)
+	_, err = f.WriteString(date + " : initial vector clock of coordinator is " + utilities.ToString(c.VC) + ".")
 	_, err = f.WriteString("\n")
-	_, err = f.WriteString("Coordinator owns the token in starting up. ")
+	date = time.Now().Format(utilities.DATE_FORMAT)
+	_, err = f.WriteString(date + " : coordinator owns the token in starting up. ")
 	_, err = f.WriteString("\n")
 
 	defer func(f *os.File) {
