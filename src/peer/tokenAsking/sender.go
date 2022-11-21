@@ -49,7 +49,9 @@ func SendRequest(peer *TokenPeer) {
 		log.Println("Send response error on Dial")
 	}
 	enc := gob.NewEncoder(conn)
+	fmt.Println("dopo NewEncoder")
 	enc.Encode(msg)
+
 	fmt.Println("dopo encode msg, msg == ", msg.ToString("send"))
 	msg.Receiver = utilities.COORDINATOR
 	fmt.Println("dopo encode msg, msg == ", msg.ToString("send"))
