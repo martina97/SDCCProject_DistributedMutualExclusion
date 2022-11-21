@@ -43,6 +43,7 @@ func SendRequest(peer *TokenPeer) {
 	connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
 
 	conn, err := net.Dial("tcp", connection)
+	fmt.Println("dopo Dial")
 	defer conn.Close()
 	if err != nil {
 		log.Println("Send response error on Dial")
