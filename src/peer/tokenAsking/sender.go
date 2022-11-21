@@ -60,4 +60,5 @@ func SendRequest(peer *TokenPeer) {
 		log.Fatalf("error writing file: %v", err)
 	}
 
+	myPeer.mutex.Unlock()
 }
