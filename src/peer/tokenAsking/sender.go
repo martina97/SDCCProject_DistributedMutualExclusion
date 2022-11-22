@@ -28,9 +28,6 @@ func SendRequest(peer *TokenPeer) {
 	fmt.Println("myTokenPeer.VC =", myPeer.VC)
 	fmt.Println("incremento VC")
 	utilities.IncrementVC(myPeer.VC, myPeer.Username)
-	if myPeer.Username == "p2" {
-		myPeer.VC["p1"] = 1
-	}
 
 	fmt.Println("myTokenPeer.VC =", myPeer.VC)
 	date := time.Now().Format(utilities.DATE_FORMAT)
