@@ -57,6 +57,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		myCoordinator.mutex.Unlock()
 	}
 	if msg.MsgType == Token {
+		fmt.Println("msg Type === TOKEN, msg = ", msg)
 		myCoordinator.mutex.Lock()
 		WriteMsgToFile("receive", *msg, true)
 

@@ -122,7 +122,7 @@ func WriteMsgToFile(action string, message Message, isCoord bool) error {
 		case Request:
 			_, err = f.WriteString("[" + date + "] : coordinator " + action + message.ToString("receive") + ".")
 		case Token:
-			_, err = f.WriteString("[" + date + "] : " + username + " " + action + message.ToString("receive") + ".")
+			_, err = f.WriteString("[" + date + "] : " + username + " " + action + message.ToString("receive") + ".\n")
 			_, err = f.WriteString("[" + date + "] : " + username + " gets the token.")
 		}
 
