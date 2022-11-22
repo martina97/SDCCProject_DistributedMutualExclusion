@@ -59,11 +59,11 @@ func (m *Message) ToString(role string) string {
 
 	switch m.MsgType {
 	case Request:
-		name = "Request"
+		name = "REQUEST"
 	case ProgramMessage:
-		name = "ProgramMessage"
+		name = "PROGRAM"
 	case Token:
-		name = "Token"
+		name = "TOKEN"
 	}
 
 	fmt.Println("sto in ToString -----", m.Sender)
@@ -73,10 +73,10 @@ func (m *Message) ToString(role string) string {
 		//return fmt.Sprintf(" %s message: {%s %s %s %s [%d]}", name, name, m.Sender, m.Receiver, m.Date, m.TS)
 
 		//Request message: {Request [] p1 17:39:42.230 [1]} --- p1=receiver, [1] = timestamp
-		return fmt.Sprintf(" %s message: {%s %s %s %s}", name, name, m.Receiver, m.Date, utilities.ToString(m.VC))
+		return fmt.Sprintf(" %s message: {%s %s %s %s}", name, m.MsgType, m.Receiver, m.Date, utilities.ToString(m.VC))
 	}
 	if role == "receive" {
-		return fmt.Sprintf(" %s message: {%s %s %s} from %s", name, name, m.Date, utilities.ToString(m.VC), m.Sender)
+		return fmt.Sprintf(" %s message: {%s %s %s} from %s", name, m.MsgType, m.Date, utilities.ToString(m.VC), m.Sender)
 	}
 
 	return ""
@@ -119,7 +119,7 @@ func WriteMsgToFile(action string, message Message, isCoord bool) error {
 		case Request:
 			_, err = f.WriteString("[" + date + "] : coordinator " + action + message.ToString("receive") + ".")
 		case Token:
-			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("receive") + " from coordinator and gets the token.")
+			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("receive") + " and gets the token.")
 		}
 
 	}
