@@ -1,2 +1,2 @@
 Initial vector clock of p2 is [0 0]
-[10:29:24.482] : p2 receive ProgramMessage message: {ProgramMessage 10:29:24.481 [1 0]} from p1 and update its vector clock to [1 0].
+[10:38:38.160] : p2 receive ProgramMessage message: {ProgramMessage 10:38:38.159 [1 0]} from p1 and update its vector clock to [1 0].

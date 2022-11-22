@@ -102,7 +102,7 @@ func WriteMsgToFile(action string, message Message, isCoord bool) error {
 		case ProgramMessage:
 			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("receive") + " and update its vector clock to " + utilities.ToString(myPeer.VC) + ".")
 		case Request:
-			_, err = f.WriteString("[" + date + "] : " + myCoordinator.Username + " " + action + message.ToString("receive") + ".")
+			_, err = f.WriteString("[" + date + "] : coordinator " + action + message.ToString("receive") + ".")
 		}
 
 	}

@@ -54,6 +54,13 @@ func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 		utilities.UpdateVC(myPeer.VC, msg.VC)
 		WriteMsgToFile("receive", *msg, false)
 
+		//devo controllare se è eleggibile!
+		if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) {
+			fmt.Println("msg eleggibile!")
+		} else {
+			fmt.Println("msg non eleggibile")
+		}
+
 		myPeer.mutex.Unlock()
 	}
 
