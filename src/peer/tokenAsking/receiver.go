@@ -48,6 +48,8 @@ func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 		//update VC !
 		utilities.UpdateVC(myPeer.VC, msg.VC)
 		WriteMsgToFile("receive", *msg)
+
+		myPeer.mutex.Unlock()
 	}
 
 	return nil
