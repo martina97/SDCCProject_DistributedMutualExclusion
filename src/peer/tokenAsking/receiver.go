@@ -46,6 +46,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
 			sendToken(msg.Sender, true)
 			myCoordinator.HasToken = false
+			WriteInfosToFile("releases the token")
 			fmt.Println("il coordinatore non ha piu token! ")
 			fmt.Println("hasToken ==", myCoordinator.HasToken)
 
@@ -69,6 +70,20 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			pendingMsg := myCoordinator.ReqList.Front().Value.(*Message)
 			fmt.Println("pendingMsg :", pendingMsg)
 			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
+
+			//ora il coordinatore deve prendere la prima richiesta nella coda e controllare se è eleggibile,
+			//se sì invia token
+			if utilities.IsEligible(myCoordinator.VC, pendingMsg.VC, pendingMsg.Sender) {
+				myCoordinator.VC[pendingMsg.Sender]++
+				fmt.Println("vc coord = ", myCoordinator.VC)
+				WriteVCInfoToFile(true)
+
+				//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
+				sendToken(pendingMsg.Sender, true)
+				myCoordinator.HasToken = false
+
+			}
+
 		} else {
 			fmt.Println("coda richieste pendenti vuota!")
 		}
