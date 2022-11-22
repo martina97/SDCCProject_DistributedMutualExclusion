@@ -42,7 +42,7 @@ func NewCoordinator(username string, ID int, address string, port string, isCoor
 		VC:       make(map[string]int),
 		HasToken: true,
 	}
-	coordinator.ReqList.Init()
+
 	utilities.StartVC2(coordinator.VC)
 	if isCoord {
 		coordinator.setInfos()
@@ -58,7 +58,7 @@ func (c *Coordinator) setInfos() {
 		utilities.StartVC2(c.VC)
 
 	*/
-
+	c.ReqList.Init()
 	utilities.CreateLog2(c.LogPath, "[coordinator]")
 
 	f, err := os.OpenFile(c.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)

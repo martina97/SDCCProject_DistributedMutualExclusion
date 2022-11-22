@@ -92,6 +92,7 @@ func SendRicart(peer *RApeer) {
 
 	MyRApeer.mutex.Lock()
 	MyRApeer.state = NCS
+	//todo: se DeferSet vuota?
 	for e := MyRApeer.DeferSet.Front(); e != nil; e = e.Next() {
 		fmt.Println("msg ==", e.Value)
 		//fmt.Println("msg ==", e)
