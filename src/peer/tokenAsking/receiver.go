@@ -70,6 +70,11 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			pendingMsg := myCoordinator.ReqList.Front().Value.(*Message)
 			fmt.Println("pendingMsg :", pendingMsg)
 			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
+
+			//vedo se il msg è eleggibile, e se sì invio msg con il token al sender del pendingMsg
+			if utilities.IsEligible(myCoordinator.VC, pendingMsg.VC, pendingMsg.Sender) {
+				fmt.Println("posso inviare il token al peer")
+			}
 		} else {
 			fmt.Println("coda richieste pendenti vuota!")
 		}
