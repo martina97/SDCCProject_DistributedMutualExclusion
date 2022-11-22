@@ -60,6 +60,8 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		fmt.Println("msg Type === TOKEN, msg = ", msg)
 		myCoordinator.mutex.Lock()
 		WriteMsgToFile("receive", *msg, true)
+		myCoordinator.HasToken = true
+		//WriteInfosToFile("gets the token.")
 
 		fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
 		pendingMsg := myCoordinator.ReqList.Front().Value.(Message)

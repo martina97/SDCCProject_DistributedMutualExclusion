@@ -67,9 +67,11 @@ func SendRequest(peer *TokenPeer) {
 	myPeer.mutex.Unlock()
 	<-myPeer.HasToken
 	fmt.Println("ho il token!!!!")
+	date = time.Now().Format(utilities.DATE_FORMAT)
+	WriteInfosToFile("enters the critical section at " + date + ".")
 	time.Sleep(time.Minute / 2)
 	fmt.Println("rilascio il token!!!!")
-	WriteInfosToFile("releases the token")
+	WriteInfosToFile("exits the critical section at " + date + "and releases the token.")
 
 	//devo inviare msg con il token al coordinatore
 	sendToken("coordinator", false)

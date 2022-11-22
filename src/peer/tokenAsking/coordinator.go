@@ -42,6 +42,7 @@ func NewCoordinator(username string, ID int, address string, port string, isCoor
 		VC:       make(map[string]int),
 		HasToken: true,
 	}
+	coordinator.ReqList.Init()
 	utilities.StartVC2(coordinator.VC)
 	if isCoord {
 		coordinator.setInfos()
