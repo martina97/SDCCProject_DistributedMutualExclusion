@@ -72,8 +72,7 @@ func SendRequest(peer *TokenPeer) {
 	time.Sleep(time.Minute / 2)
 	fmt.Println("rilascio il token!!!!")
 	date = time.Now().Format(utilities.DATE_FORMAT)
-	WriteInfosToFile("exits the critical section at " + date + ".")
-	WriteInfosToFile("releases the token.")
+	WriteInfosToFile("exits the critical section at " + date + " and releases the token.")
 
 	myCoordinator.mutex.Lock()
 	//devo inviare msg con il token al coordinatore
