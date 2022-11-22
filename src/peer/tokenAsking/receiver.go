@@ -60,7 +60,12 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		myCoordinator.mutex.Lock()
 		WriteMsgToFile("receive", *msg, true)
 		fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
+		pendingMsg := myCoordinator.ReqList.Front().Value
+		fmt.Println("pendingMsg :", pendingMsg)
+		fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
+
 		myCoordinator.mutex.Unlock()
+
 	}
 
 	return nil
