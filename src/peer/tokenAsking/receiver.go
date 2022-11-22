@@ -22,7 +22,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 
 	if msg.MsgType == Request {
 		myCoordinator.mutex.Lock()
-		WriteMsgToFile("receive", *msg)
+		WriteMsgToFile("receive", *msg, true)
 	}
 
 	return nil
@@ -52,7 +52,7 @@ func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 		myPeer.mutex.Lock()
 		//update VC !
 		utilities.UpdateVC(myPeer.VC, msg.VC)
-		WriteMsgToFile("receive", *msg)
+		WriteMsgToFile("receive", *msg, false)
 
 		myPeer.mutex.Unlock()
 	}

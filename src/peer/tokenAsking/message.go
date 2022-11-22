@@ -73,10 +73,16 @@ func (m *Message) ToString(role string) string {
 	return ""
 }
 
-func WriteMsgToFile(action string, message Message) error {
+func WriteMsgToFile(action string, message Message, isCoord bool) error {
 	fmt.Println("sto in WriteMsgToFile")
 	fmt.Println("path == ", myPeer.LogPath)
-	f, err := os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	var f *os.File
+	var err error
+	if isCoord {
+		f, err = os.OpenFile(myCoordinator.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	} else {
+		f, err = os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	}
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}

@@ -56,7 +56,7 @@ func SendRequest(peer *TokenPeer) {
 	fmt.Println("dopo encode msg, msg == ", msg.ToString("send"))
 	msg.Receiver = utilities.COORDINATOR
 	fmt.Println("dopo encode msg, msg == ", msg.ToString("send"))
-	err = WriteMsgToFile("send", *msg)
+	err = WriteMsgToFile("send", *msg, false)
 	if err != nil {
 		log.Fatalf("error writing file: %v", err)
 	}
@@ -92,7 +92,7 @@ func sendProgramMessage() {
 
 			msg.Receiver = receiver.Username
 
-			err = WriteMsgToFile("send", *msg)
+			err = WriteMsgToFile("send", *msg, false)
 
 			if err != nil {
 				log.Fatalf("error writing msg %v", err)
