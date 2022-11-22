@@ -72,7 +72,7 @@ func UpdateVC(vc VectorClock, vcMsg VectorClock) {
 	for k, _ := range vc {
 		max := max(vc[k], vcMsg[k])
 		fmt.Println("max == ", max)
-		vcMsg[k] = max
+		vc[k] = max
 	}
 	fmt.Println("vcMsg ==", vcMsg)
 

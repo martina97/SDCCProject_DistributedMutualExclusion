@@ -94,7 +94,7 @@ func WriteMsgToFile(action string, message Message) error {
 	} else {
 		switch message.MsgType {
 		case ProgramMessage:
-			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("receive") + " from " + message.Sender + " and update its vector clock to " + utilities.ToString(myPeer.VC) + ".")
+			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("receive") + " and update its vector clock to " + utilities.ToString(myPeer.VC) + ".")
 
 		}
 	}
