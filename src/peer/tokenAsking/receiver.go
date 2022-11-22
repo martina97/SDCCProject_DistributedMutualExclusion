@@ -41,11 +41,11 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			//update VC
 			myCoordinator.VC[msg.Sender]++
 			fmt.Println("vc coord = ", myCoordinator.VC)
-			WriteVCInfoToFile(true)
 
 			//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
 			sendToken(msg.Sender, true)
 			myCoordinator.HasToken = false
+			WriteVCInfoToFile(true)
 			fmt.Println("il coordinatore non ha piu token! ")
 			WriteInfosToFile("gives token to "+msg.Sender, true)
 			fmt.Println("hasToken ==", myCoordinator.HasToken)
@@ -79,9 +79,9 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 				myCoordinator.HasToken = false
 				WriteInfosToFile("gives token to "+pendingMsg.Sender, true)
 				myCoordinator.ReqList.Remove(e)
-				WriteVCInfoToFile(true)
-
 				myCoordinator.VC[pendingMsg.Sender]++
+
+				WriteVCInfoToFile(true)
 
 				fmt.Println("req List == ", myCoordinator.ReqList)
 			}
