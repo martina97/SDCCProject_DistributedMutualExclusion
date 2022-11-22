@@ -43,10 +43,10 @@ func NewProgramMessage(sender string, date string, vc utilities.VectorClock) *Me
 		VC:      vc,
 	}
 }
-func NewTokenMessage(date string, receiver string, vc utilities.VectorClock) *Message {
+func NewTokenMessage(date string, sender string, receiver string, vc utilities.VectorClock) *Message {
 	return &Message{
 		MsgType:  Token,
-		Sender:   "coordinator",
+		Sender:   sender,
 		Receiver: receiver,
 		Date:     date,
 		VC:       vc,

@@ -117,7 +117,7 @@ func sendToken(receiver string, isCoord bool) {
 			dest := e.Value.(utilities.NodeInfo)
 			if dest.Username == receiver {
 				date := time.Now().Format(utilities.DATE_FORMAT)
-				msg := NewTokenMessage(date, receiver, myCoordinator.VC)
+				msg := NewTokenMessage(date, "coordinator", receiver, myCoordinator.VC)
 				peerConn := dest.Address + ":" + dest.Port
 				conn, err := net.Dial("tcp", peerConn)
 				defer conn.Close()
@@ -134,7 +134,7 @@ func sendToken(receiver string, isCoord bool) {
 		}
 	} else {
 		date := time.Now().Format(utilities.DATE_FORMAT)
-		msg := NewTokenMessage(date, "coordinator", myPeer.VC)
+		msg := NewTokenMessage(date, myPeer.Username, "coordinator", myPeer.VC)
 		coordConn := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
 		conn, err := net.Dial("tcp", coordConn)
 		defer conn.Close()
