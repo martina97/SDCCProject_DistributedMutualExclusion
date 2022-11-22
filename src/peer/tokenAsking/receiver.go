@@ -21,8 +21,15 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 	fmt.Println("il msg == ", msg.ToString("receive"))
 
 	if msg.MsgType == Request {
+		fmt.Println("sto dentro if")
 		myCoordinator.mutex.Lock()
 		WriteMsgToFile("receive", *msg, true)
+		//devo controllare se è eleggibile!
+		if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) {
+			fmt.Println("msg eleggibile!")
+		} else {
+			fmt.Println("msg non eleggibile")
+		}
 	}
 
 	return nil
@@ -53,13 +60,6 @@ func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 		//update VC !
 		utilities.UpdateVC(myPeer.VC, msg.VC)
 		WriteMsgToFile("receive", *msg, false)
-
-		//devo controllare se è eleggibile!
-		if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) {
-			fmt.Println("msg eleggibile!")
-		} else {
-			fmt.Println("msg non eleggibile")
-		}
 
 		myPeer.mutex.Unlock()
 	}
