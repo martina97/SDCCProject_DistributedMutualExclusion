@@ -66,7 +66,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 
 		if myCoordinator.ReqList.Front() != nil {
 			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
-			pendingMsg := myCoordinator.ReqList.Front().Value.(Message)
+			pendingMsg := myCoordinator.ReqList.Front().Value.(*Message)
 			fmt.Println("pendingMsg :", pendingMsg)
 			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
 		} else {
