@@ -16,7 +16,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 	if myCoordinator.Username == "" { //vuol dire che non ho ancora inizializzato il coordinatore
 		fmt.Println("sto in HandleConnectionCoordinator --- coordinator VUOTA")
 		myCoordinator = *coordinator
-		myCoordinator.ReqList.Init()
+		//myCoordinator.ReqList.Init()
 
 	} else {
 		fmt.Println("sto in HandleConnectionCoordinator --- coordinator NON VUOTA")
@@ -63,6 +63,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		WriteMsgToFile("receive", *msg, true)
 		myCoordinator.HasToken = true
 		//WriteInfosToFile("gets the token.")
+		fmt.Println("STO QUA!")
 
 		fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
 		pendingMsg := myCoordinator.ReqList.Front().Value.(Message)
