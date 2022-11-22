@@ -20,6 +20,11 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 	dec.Decode(msg)
 	fmt.Println("il msg == ", msg.ToString("receive"))
 
+	if msg.MsgType == Request {
+		myCoordinator.mutex.Lock()
+		WriteMsgToFile("receive", *msg)
+	}
+
 	return nil
 }
 
