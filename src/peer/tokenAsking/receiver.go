@@ -24,6 +24,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		fmt.Println("sto dentro if")
 		myCoordinator.mutex.Lock()
 		WriteMsgToFile("receive", *msg, true)
+		fmt.Println("ricevo ", msg, "e hastoken == ", myCoordinator.HasToken)
 		//devo controllare se è eleggibile!
 		if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) && myCoordinator.HasToken {
 			fmt.Println("msg eleggibile!")
@@ -31,10 +32,11 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			myCoordinator.VC[msg.Sender]++
 			fmt.Println("vc coord = ", myCoordinator.VC)
 			WriteVCInfoToFile(true)
-			myCoordinator.HasToken = false
 
 			//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
 			sendToken(msg.Sender, true)
+			myCoordinator.HasToken = false
+			fmt.Println("il coordinatore non ha piu token! ")
 
 		} else {
 			fmt.Println("msg non eleggibile")
