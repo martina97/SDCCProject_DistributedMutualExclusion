@@ -87,10 +87,13 @@ func WriteMsgToFile(action string, message Message, isCoord bool) error {
 	fmt.Println("path == ", myPeer.LogPath)
 	var f *os.File
 	var err error
+	var username string
 	if isCoord {
 		f, err = os.OpenFile(myCoordinator.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+		username = "coordinator"
 	} else {
 		f, err = os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+		username = myPeer.Username
 	}
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
@@ -119,7 +122,8 @@ func WriteMsgToFile(action string, message Message, isCoord bool) error {
 		case Request:
 			_, err = f.WriteString("[" + date + "] : coordinator " + action + message.ToString("receive") + ".")
 		case Token:
-			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("receive") + " and gets the token.")
+			_, err = f.WriteString("[" + date + "] : " + username + " " + action + message.ToString("receive") + ".")
+			_, err = f.WriteString("[" + date + "] : " + username + " gets the token.")
 		}
 
 	}
