@@ -26,6 +26,7 @@ type Coordinator struct {
 	PeerList *list.List //lista peer
 	VC       utilities.VectorClock
 	ReqList  *list.List
+	HasToken bool
 }
 
 func NewCoordinator(username string, ID int, address string, port string, isCoord bool) *Coordinator {
@@ -38,7 +39,8 @@ func NewCoordinator(username string, ID int, address string, port string, isCoor
 		LogPath:  "/docker/node_volume/tokenAsking/coordinator.log",
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
-		VC: make(map[string]int),
+		VC:       make(map[string]int),
+		HasToken: true,
 	}
 	utilities.StartVC2(coordinator.VC)
 	if isCoord {

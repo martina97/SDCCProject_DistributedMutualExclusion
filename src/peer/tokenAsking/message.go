@@ -11,9 +11,9 @@ import (
 type MessageType string
 
 const (
-	Request        MessageType = "REQUEST"
-	ProgramMessage MessageType = "PROGRAM_MESSAGE"
-	Token          MessageType = "TOKEN"
+	Request        MessageType = "Request"
+	ProgramMessage MessageType = "Program message"
+	Token          MessageType = "Token"
 )
 
 type Message struct {

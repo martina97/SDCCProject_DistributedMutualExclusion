@@ -67,6 +67,13 @@ func SendRequest(peer *TokenPeer) {
 	myPeer.mutex.Unlock()
 	<-myPeer.HasToken
 	fmt.Println("ho il token!!!!")
+	time.Sleep(time.Minute / 2)
+	fmt.Println("rilascio il token!!!!")
+	WriteInfosToFile("releases the token")
+
+	//devo inviare msg con il token al coordinatore
+	sendToken("coordinator", false)
+
 }
 
 func sendProgramMessage() {
@@ -102,27 +109,44 @@ func sendProgramMessage() {
 	}
 }
 
-func sendToken(receiver string) {
+func sendToken(receiver string, isCoord bool) {
 	fmt.Println("sto in sendToken")
-	for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
-		dest := e.Value.(utilities.NodeInfo)
-		if dest.Username == receiver {
-			date := time.Now().Format(utilities.DATE_FORMAT)
-			msg := NewTokenMessage(date, receiver, myCoordinator.VC)
-			peerConn := dest.Address + ":" + dest.Port
-			conn, err := net.Dial("tcp", peerConn)
-			defer conn.Close()
-			if err != nil {
-				log.Println("Send response error on Dial")
-			}
-			enc := gob.NewEncoder(conn)
-			enc.Encode(msg)
-			err = WriteMsgToFile("send", *msg, true)
-			if err != nil {
-				log.Fatalf("error writing msg %v", err)
+
+	if isCoord {
+		for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
+			dest := e.Value.(utilities.NodeInfo)
+			if dest.Username == receiver {
+				date := time.Now().Format(utilities.DATE_FORMAT)
+				msg := NewTokenMessage(date, receiver, myCoordinator.VC)
+				peerConn := dest.Address + ":" + dest.Port
+				conn, err := net.Dial("tcp", peerConn)
+				defer conn.Close()
+				if err != nil {
+					log.Println("Send response error on Dial")
+				}
+				enc := gob.NewEncoder(conn)
+				enc.Encode(msg)
+				err = WriteMsgToFile("send", *msg, true)
+				if err != nil {
+					log.Fatalf("error writing msg %v", err)
+				}
 			}
 		}
-
+	} else {
+		date := time.Now().Format(utilities.DATE_FORMAT)
+		msg := NewTokenMessage(date, "coordinator", myPeer.VC)
+		coordConn := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
+		conn, err := net.Dial("tcp", coordConn)
+		defer conn.Close()
+		if err != nil {
+			log.Println("Send response error on Dial")
+		}
+		enc := gob.NewEncoder(conn)
+		enc.Encode(msg)
+		err = WriteMsgToFile("send", *msg, false)
+		if err != nil {
+			log.Fatalf("error writing msg %v", err)
+		}
 	}
 
 }
