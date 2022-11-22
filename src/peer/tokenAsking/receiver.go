@@ -12,7 +12,17 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 
 	fmt.Println("sto in HandleConnectionCoordinator dentro tokenAsking package")
 	fmt.Println("coordinator === ", coordinator)
-	myCoordinator = *coordinator
+
+	if myCoordinator.Username == "" { //vuol dire che non ho ancora inizializzato il coordinatore
+		fmt.Println("sto in HandleConnectionCoordinator --- coordinator VUOTA")
+		myCoordinator = *coordinator
+
+	} else {
+		fmt.Println("sto in HandleConnectionCoordinator --- coordinator NON VUOTA")
+	}
+	fmt.Println("myCoordinator = ", myCoordinator)
+
+	//myCoordinator = *coordinator
 
 	defer conn.Close()
 	msg := new(Message)
