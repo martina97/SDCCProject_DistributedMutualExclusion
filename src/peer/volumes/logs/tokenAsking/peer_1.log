@@ -1,5 +1,5 @@
 Initial vector clock of p1 is [0 0]
-[11:15:01.228] : p1 try to get the token.
-[11:15:01.233] : p1 update its vector clock to [1 0]
-[11:15:01.237] : p1 send Request message: {Request p0 11:15:01.233 [1 0]} to coordinator.
-[11:15:01.240] : p1 send ProgramMessage message: {ProgramMessage p2 11:15:01.239 [1 0]} to p2.
+[11:27:59.093] : p1 try to get the token.
+[11:27:59.097] : p1 update its vector clock to [1 0]
+[11:27:59.101] : p1 send Request message: {Request p0 11:27:59.097 [1 0]} to coordinator.
+[11:27:59.104] : p1 send ProgramMessage message: {ProgramMessage p2 11:27:59.104 [1 0]} to p2.

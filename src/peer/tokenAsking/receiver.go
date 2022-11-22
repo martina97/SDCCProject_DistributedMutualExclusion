@@ -27,16 +27,18 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		//devo controllare se è eleggibile!
 		if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) {
 			fmt.Println("msg eleggibile!")
-
-			//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
-			sendToken(msg.Sender)
-
 			//update VC
 			myCoordinator.VC[msg.Sender]++
 			fmt.Println("vc coord = ", myCoordinator.VC)
 			WriteVCInfoToFile(true)
+
+			//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
+			sendToken(msg.Sender)
+
 		} else {
 			fmt.Println("msg non eleggibile")
+			//metto il msg in coda
+			myCoordinator.ReqList.PushBack(msg)
 		}
 		myCoordinator.mutex.Unlock()
 	}
@@ -71,6 +73,14 @@ func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 		WriteMsgToFile("receive", *msg, false)
 
 		myPeer.mutex.Unlock()
+	}
+	if msg.MsgType == Token {
+		// ho il token !
+		myPeer.mutex.Lock()
+		WriteMsgToFile("receive", *msg, false)
+		myPeer.HasToken <- true
+		myPeer.mutex.Unlock()
+
 	}
 
 	return nil
