@@ -30,9 +30,14 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 
 			//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
 			sendToken(msg.Sender)
+
+			//update VC
+			myCoordinator.VC[msg.Sender]++
+			WriteVCInfoToFile(true)
 		} else {
 			fmt.Println("msg non eleggibile")
 		}
+		myCoordinator.mutex.Unlock()
 	}
 
 	return nil

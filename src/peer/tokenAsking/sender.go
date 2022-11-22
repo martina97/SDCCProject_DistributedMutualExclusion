@@ -34,7 +34,7 @@ func SendRequest(peer *TokenPeer) {
 	msg := NewRequest(myPeer.Username, date, myPeer.VC)
 	fmt.Println("IL MESSAGGIO E' ====", msg.ToString("send"))
 
-	WriteVCInfoToFile()
+	WriteVCInfoToFile(false)
 	fmt.Println("dopo WriteVCInfoToFile")
 
 	//ora mando REQUEST al coordinatore (è un campo di myPeer)
@@ -108,7 +108,7 @@ func sendToken(receiver string) {
 		dest := e.Value.(utilities.NodeInfo)
 		if dest.Username == receiver {
 			date := time.Now().Format(utilities.DATE_FORMAT)
-			msg := NewTokenMessage(receiver, date, myPeer.VC)
+			msg := NewTokenMessage(date, receiver, myPeer.VC)
 			peerConn := dest.Address + ":" + dest.Port
 			conn, err := net.Dial("tcp", peerConn)
 			defer conn.Close()

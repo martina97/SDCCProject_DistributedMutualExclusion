@@ -1,3 +1,4 @@
-[10:48:10.565] : initial vector clock of coordinator is [0 0 0 0].
-[10:48:10.565] : coordinator owns the token in starting up. 
-[10:48:11.484] : coordinator receive Request message: {Request 10:48:11.480 [1 0 1 0]} from p1.
+[11:03:40.853] : initial vector clock of coordinator is [0 0 0 0].
+[11:03:40.853] : coordinator owns the token in starting up. 
+[11:03:56.853] : coordinator receive Request message: {Request 11:03:56.848 [1 0 1 0]} from p1.
+[11:03:56.857] : coordinator send Token message: {Token 11:03:56.857 p1 []} to 11:03:56.857.

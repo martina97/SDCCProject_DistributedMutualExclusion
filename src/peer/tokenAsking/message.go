@@ -144,9 +144,17 @@ func WriteInfosToFile(text string) {
 	err = f.Sync()
 }
 
-func WriteVCInfoToFile() {
+func WriteVCInfoToFile(isCoord bool) {
+	var f *os.File
+	var err error
 
-	f, err := os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if isCoord {
+		f, err = os.OpenFile(myCoordinator.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+
+	} else {
+		f, err = os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+
+	}
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
