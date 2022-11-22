@@ -23,7 +23,7 @@ func SendRequest(peer *TokenPeer) {
 	fmt.Println("myPeer.Coordinator= ", myPeer.Coordinator)
 
 	myPeer.mutex.Lock()
-	WriteInfosToFile("try to get the token.")
+	WriteInfosToFile("try to get the token.", false)
 	//incremento Vector Clock!!!
 	fmt.Println("myTokenPeer.VC =", myPeer.VC)
 	fmt.Println("incremento VC")
@@ -68,11 +68,11 @@ func SendRequest(peer *TokenPeer) {
 	<-myPeer.HasToken
 	fmt.Println("ho il token!!!!")
 	date = time.Now().Format(utilities.DATE_FORMAT)
-	WriteInfosToFile("enters the critical section at " + date + ".")
+	WriteInfosToFile("enters the critical section at "+date+".", false)
 	time.Sleep(time.Minute / 2)
 	fmt.Println("rilascio il token!!!!")
 	date = time.Now().Format(utilities.DATE_FORMAT)
-	WriteInfosToFile("exits the critical section at " + date + " and releases the token.")
+	WriteInfosToFile("exits the critical section at "+date+" and releases the token.", false)
 
 	myCoordinator.mutex.Lock()
 	//devo inviare msg con il token al coordinatore
