@@ -79,6 +79,10 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 				myCoordinator.HasToken = false
 				WriteInfosToFile("gives token to "+pendingMsg.Sender, true)
 				myCoordinator.ReqList.Remove(e)
+				WriteVCInfoToFile(true)
+
+				myCoordinator.VC[pendingMsg.Sender]++
+
 				fmt.Println("req List == ", myCoordinator.ReqList)
 			}
 
