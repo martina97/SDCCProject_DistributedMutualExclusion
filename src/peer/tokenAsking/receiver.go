@@ -16,7 +16,6 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 	if myCoordinator.Username == "" { //vuol dire che non ho ancora inizializzato il coordinatore
 		fmt.Println("sto in HandleConnectionCoordinator --- coordinator VUOTA")
 		myCoordinator = *coordinator
-		//myCoordinator.ReqList.Init()
 
 	} else {
 		fmt.Println("sto in HandleConnectionCoordinator --- coordinator NON VUOTA")
@@ -65,10 +64,14 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		//WriteInfosToFile("gets the token.")
 		fmt.Println("STO QUA!")
 
-		fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
-		pendingMsg := myCoordinator.ReqList.Front().Value.(Message)
-		fmt.Println("pendingMsg :", pendingMsg)
-		fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
+		if myCoordinator.ReqList.Front() != nil {
+			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
+			pendingMsg := myCoordinator.ReqList.Front().Value.(Message)
+			fmt.Println("pendingMsg :", pendingMsg)
+			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
+		} else {
+			fmt.Println("coda richieste pendenti vuota!")
+		}
 
 		myCoordinator.mutex.Unlock()
 
