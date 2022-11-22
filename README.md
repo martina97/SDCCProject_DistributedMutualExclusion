@@ -7,7 +7,7 @@ sudo docker-compose up --build
 
 per collegarsi al nodo register, in un altro terminale fare
 ``` sh
-sudo docker exec -it app_register_node_1 /bin/sh
+sudo docker exec -it src_register_node_1 /bin/sh
 ```
 dove il nome del nodo lo prendo leggendo da
 ``` sh
@@ -18,7 +18,7 @@ in questo modo il register si mette in attesa.
 
 poi fare
 ``` sh
-sudo docker exec -it app_peer_3 /bin/sh
+sudo docker exec -it src_peer_1 /bin/sh
 ``` 
 
 per eliminare i file nei volumi fare da 

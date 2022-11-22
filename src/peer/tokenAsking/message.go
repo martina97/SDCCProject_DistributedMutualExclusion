@@ -26,7 +26,6 @@ type Message struct {
 
 func NewRequest(sender string, date string, vc utilities.VectorClock) *Message {
 	return &Message{
-		//MsgID:      RandStringBytes(msgIDCnt),
 		MsgType: Request,
 		Sender:  sender,
 		//Receiver:   receiver,	//non serve specificarlo perche la richiesta viene mandata a tutti
@@ -85,19 +84,16 @@ func (m *Message) ToString(role string) string {
 func WriteMsgToFile(action string, message Message, isCoord bool) error {
 	fmt.Println("sto in WriteMsgToFile")
 	fmt.Println("path == ", myPeer.LogPath)
-	var f *os.File
-	var err error
 	var username string
+	var err error
+
+	f := openFile(isCoord)
 	if isCoord {
-		f, err = os.OpenFile(myCoordinator.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 		username = "coordinator"
 	} else {
-		f, err = os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 		username = myPeer.Username
 	}
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
+
 	//save new address on file
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
@@ -136,46 +132,55 @@ func WriteMsgToFile(action string, message Message, isCoord bool) error {
 
 }
 
-func WriteInfosToFile(text string) {
-	f, err := os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
+func WriteInfosToFile(text string, isCoord bool) {
+
+	f := openFile(isCoord)
+
 	//save new address on file
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
-	_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + text)
+	_, _ = f.WriteString("[" + date + "] : " + myPeer.Username + " " + text)
 
-	_, err = f.WriteString("\n")
-	err = f.Sync()
+	_, _ = f.WriteString("\n")
+	_ = f.Sync()
 }
 
-func WriteVCInfoToFile(isCoord bool) {
-	var f *os.File
+func openFile(isCoord bool) *os.File {
 	var err error
-
-	var vc utilities.VectorClock
-	var username string
+	var f *os.File
 
 	if isCoord {
 		f, err = os.OpenFile(myCoordinator.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-		vc = myCoordinator.VC
-		username = "coordinator"
-
 	} else {
 		f, err = os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-		vc = myPeer.VC
-		username = myPeer.Username
-
 	}
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
+	}
+	return f
+}
+
+func WriteVCInfoToFile(isCoord bool) {
+	var vc utilities.VectorClock
+	var username string
+
+	f := openFile(isCoord)
+
+	if isCoord {
+		vc = myCoordinator.VC
+		username = "coordinator"
+	} else {
+		vc = myPeer.VC
+		username = myPeer.Username
 	}
 
 	//save new address on file
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
-	_, err = f.WriteString("[" + date + "] : " + username + " update its vector clock to " + utilities.ToString(vc))
+	_, err := f.WriteString("[" + date + "] : " + username + " update its vector clock to " + utilities.ToString(vc))
 	_, err = f.WriteString("\n")
 	err = f.Sync()
+	if err != nil {
+		log.Fatalf("error writing file: %v", err)
+	}
 }
