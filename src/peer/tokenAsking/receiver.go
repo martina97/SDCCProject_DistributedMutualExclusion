@@ -33,6 +33,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 
 			//update VC
 			myCoordinator.VC[msg.Sender]++
+			fmt.Println("vc coord = ", myCoordinator.VC)
 			WriteVCInfoToFile(true)
 		} else {
 			fmt.Println("msg non eleggibile")
