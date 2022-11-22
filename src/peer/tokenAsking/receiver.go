@@ -27,6 +27,9 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		//devo controllare se è eleggibile!
 		if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) {
 			fmt.Println("msg eleggibile!")
+
+			//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
+			sendToken(msg.Sender)
 		} else {
 			fmt.Println("msg non eleggibile")
 		}

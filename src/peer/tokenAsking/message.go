@@ -43,6 +43,15 @@ func NewProgramMessage(sender string, date string, vc utilities.VectorClock) *Me
 		VC:      vc,
 	}
 }
+func NewTokenMessage(date string, receiver string, vc utilities.VectorClock) *Message {
+	return &Message{
+		MsgType:  Token,
+		Sender:   "coordinator",
+		Receiver: receiver,
+		Date:     date,
+		VC:       vc,
+	}
+}
 
 func (m *Message) ToString(role string) string {
 	var name string
@@ -95,6 +104,12 @@ func WriteMsgToFile(action string, message Message, isCoord bool) error {
 			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("send") + " to coordinator.")
 		case ProgramMessage:
 			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("send") + " to " + message.Receiver + ".")
+		case Token:
+			if isCoord {
+				_, err = f.WriteString("[" + date + "] : coordinator " + action + message.ToString("send") + " to " + message.Receiver + ".")
+			} else {
+				_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("send") + " to coordinator.")
+			}
 
 		}
 	} else {

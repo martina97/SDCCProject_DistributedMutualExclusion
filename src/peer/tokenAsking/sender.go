@@ -101,3 +101,28 @@ func sendProgramMessage() {
 
 	}
 }
+
+func sendToken(receiver string) {
+	fmt.Println("sto in sendToken")
+	for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
+		dest := e.Value.(utilities.NodeInfo)
+		if dest.Username == receiver {
+			date := time.Now().Format(utilities.DATE_FORMAT)
+			msg := NewTokenMessage(receiver, date, myPeer.VC)
+			peerConn := dest.Address + ":" + dest.Port
+			conn, err := net.Dial("tcp", peerConn)
+			defer conn.Close()
+			if err != nil {
+				log.Println("Send response error on Dial")
+			}
+			enc := gob.NewEncoder(conn)
+			enc.Encode(msg)
+			err = WriteMsgToFile("send", *msg, true)
+			if err != nil {
+				log.Fatalf("error writing msg %v", err)
+			}
+		}
+
+	}
+
+}
