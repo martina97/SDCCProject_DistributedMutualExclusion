@@ -67,6 +67,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 
 		if myCoordinator.ReqList.Front() != nil {
 			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
+			e := myCoordinator.ReqList.Front()
 			pendingMsg := myCoordinator.ReqList.Front().Value.(*Message)
 			fmt.Println("pendingMsg :", pendingMsg)
 			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
@@ -74,7 +75,13 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			//vedo se il msg è eleggibile, e se sì invio msg con il token al sender del pendingMsg
 			if utilities.IsEligible(myCoordinator.VC, pendingMsg.VC, pendingMsg.Sender) {
 				fmt.Println("posso inviare il token al peer")
+				sendToken(pendingMsg.Sender, true)
+				myCoordinator.HasToken = false
+				WriteInfosToFile("gives token to "+pendingMsg.Sender, true)
+				myCoordinator.ReqList.Remove(e)
+				fmt.Println("req List == ", myCoordinator.ReqList)
 			}
+
 		} else {
 			fmt.Println("coda richieste pendenti vuota!")
 		}
