@@ -56,6 +56,11 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		}
 		myCoordinator.mutex.Unlock()
 	}
+	if msg.MsgType == Token {
+		myCoordinator.mutex.Lock()
+		WriteMsgToFile("receive", *msg, true)
+		fmt.Println("in coda c'è :", myCoordinator.ReqList)
+	}
 
 	return nil
 }
