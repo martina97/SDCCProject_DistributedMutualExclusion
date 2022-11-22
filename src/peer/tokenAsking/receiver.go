@@ -37,6 +37,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			sendToken(msg.Sender, true)
 			myCoordinator.HasToken = false
 			fmt.Println("il coordinatore non ha piu token! ")
+			fmt.Println("hasToken ==", myCoordinator.HasToken)
 
 		} else {
 			fmt.Println("msg non eleggibile")
