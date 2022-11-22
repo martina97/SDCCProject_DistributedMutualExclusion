@@ -148,11 +148,18 @@ func WriteVCInfoToFile(isCoord bool) {
 	var f *os.File
 	var err error
 
+	var vc utilities.VectorClock
+	var username string
+
 	if isCoord {
 		f, err = os.OpenFile(myCoordinator.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+		vc = myCoordinator.VC
+		username = "coordinator"
 
 	} else {
 		f, err = os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+		vc = myPeer.VC
+		username = myPeer.Username
 
 	}
 	if err != nil {
@@ -162,7 +169,7 @@ func WriteVCInfoToFile(isCoord bool) {
 	//save new address on file
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
-	_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " update its vector clock to " + utilities.ToString(myPeer.VC))
+	_, err = f.WriteString("[" + date + "] : " + username + " update its vector clock to " + utilities.ToString(vc))
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 }

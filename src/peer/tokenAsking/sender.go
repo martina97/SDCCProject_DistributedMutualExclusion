@@ -108,7 +108,7 @@ func sendToken(receiver string) {
 		dest := e.Value.(utilities.NodeInfo)
 		if dest.Username == receiver {
 			date := time.Now().Format(utilities.DATE_FORMAT)
-			msg := NewTokenMessage(date, receiver, myPeer.VC)
+			msg := NewTokenMessage(date, receiver, myCoordinator.VC)
 			peerConn := dest.Address + ":" + dest.Port
 			conn, err := net.Dial("tcp", peerConn)
 			defer conn.Close()
