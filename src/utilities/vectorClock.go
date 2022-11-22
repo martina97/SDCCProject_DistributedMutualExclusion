@@ -8,6 +8,16 @@ import (
 
 type VectorClock = map[string]int
 
+func StartVC2(vc VectorClock) {
+	//vc = make(map[string]int)
+	fmt.Println("sto in StartVC")
+	numKeys := MAXPEERS - 1
+	for i := 0; i < numKeys; i++ {
+		username := "p" + strconv.Itoa(i+1)
+		fmt.Println("username == ", username)
+		vc[username] = 0
+	}
+}
 func ToString(vc VectorClock) string {
 	fmt.Println("sto in ToString dentro VectorClock, vc == ", vc)
 	keys := make([]string, 0, len(vc))
@@ -33,31 +43,6 @@ func ToString(vc VectorClock) string {
 	return string
 }
 
-/*
-func (vc *VectorClock) ToString2() string {
-	values := make([]int, 0, len(*vc))
-
-	for _, v := range *vc {
-		values = append(values, v)
-	}
-	fmt.Println("values =", values)
-	string := fmt.Sprint(values)
-	return string
-}
-
-*/
-
-func StartVC2(vc VectorClock) {
-	//vc = make(map[string]int)
-	fmt.Println("sto in StartVC")
-	numKeys := MAXPEERS - 1
-	for i := 0; i < numKeys; i++ {
-		username := "p" + strconv.Itoa(i+1)
-		fmt.Println("username == ", username)
-		vc[username] = 0
-	}
-}
-
 func IsEligible(vc0 VectorClock, vcPeer VectorClock, usernamePeer string) bool {
 	var eligible bool
 	for username, clock := range vc0 {
@@ -81,4 +66,21 @@ func IncrementVC(vc VectorClock, username string) {
 
 	vc[username] = vc[username] + 1
 
+}
+
+func UpdateVC(vc VectorClock, vcMsg VectorClock) {
+	for k, _ := range vc {
+		max := max(vc[k], vcMsg[k])
+		fmt.Println("max == ", max)
+		vcMsg[k] = max
+	}
+	fmt.Println("vcMsg ==", vcMsg)
+
+}
+
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
 }

@@ -17,29 +17,6 @@ var (
 	msgScaFile *os.File
 )
 
-func message_handler_centr() {
-	//listener, err := net.Listen("tcp", ":"+strconv.Itoa(utilities.Client_port))
-	listener, err := net.Listen("tcp", ":1234")
-
-	if err != nil {
-		log.Fatal("tcp.Lister fail")
-	}
-	defer listener.Close()
-
-	//open file for save msg
-	open_files()
-	defer close_files()
-
-	for {
-		connection, err := listener.Accept()
-		if err != nil {
-			log.Fatal("Accept fail")
-		}
-		//go handleConnection(connection)
-		go handleConnectionCentralized(connection)
-	}
-}
-
 func message_handler() {
 
 	listener, err := net.Listen("tcp", ":"+strconv.Itoa(utilities.Client_port))
