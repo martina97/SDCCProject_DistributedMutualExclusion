@@ -16,6 +16,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 	if myCoordinator.Username == "" { //vuol dire che non ho ancora inizializzato il coordinatore
 		fmt.Println("sto in HandleConnectionCoordinator --- coordinator VUOTA")
 		myCoordinator = *coordinator
+		myCoordinator.ReqList.Init()
 
 	} else {
 		fmt.Println("sto in HandleConnectionCoordinator --- coordinator NON VUOTA")
