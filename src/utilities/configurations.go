@@ -1,9 +1,9 @@
 package utilities
 
 const (
-	MAXCONNECTION int    = 4 //MAXPEERS + 1 sequencer
+	MAXCONNECTION int    = 3 //MAXPEERS + 1 sequencer
 	COORDINATOR   string = "p0"
-	MAXPEERS      int    = 4
+	MAXPEERS      int    = 3
 	Server_port   int    = 4321
 	Server_addr   string = "10.10.1.50"
 	// Server_addr string = "localhost" //if running outside docker
