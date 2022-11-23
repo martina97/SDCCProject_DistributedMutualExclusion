@@ -42,9 +42,19 @@ func SendRequest(peer *TokenPeer) {
 	fmt.Println(" myPeer.Coordinator.Address  ==", myPeer.Coordinator.Address)
 	fmt.Println(" myPeer.Coordinator.Port  ==", myPeer.Coordinator.Port)
 	connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
+	addr, err := net.ResolveTCPAddr("tcp", connection)
+	if err != nil {
+		fmt.Printf("Unable to resolve IP")
+	}
 
-	conn, err := net.Dial("tcp", connection)
+	//conn, err := net.Dial("tcp", connection)
+	conn, err := net.DialTCP("tcp", nil, addr)
 	fmt.Println("dopo Dial")
+	err = conn.SetKeepAlive(true)
+	if err != nil {
+		fmt.Printf("Unable to set keepalive - %s", err)
+	}
+
 	defer conn.Close()
 	if err != nil {
 		log.Println("Send response error on Dial")

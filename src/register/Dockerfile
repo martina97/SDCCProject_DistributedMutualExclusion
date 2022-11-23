@@ -18,5 +18,5 @@ COPY register/*.go ./register/
 RUN go install ./register
 #RUN go install ./peer1
 
-#CMD [ "sh", "-c", "${GOPATH}/bin/register" ]
+CMD [ "sh", "-c", "${GOPATH}/bin/register" ]
 

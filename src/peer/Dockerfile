@@ -23,4 +23,5 @@ COPY /peer/tokenAsking/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclu
 RUN go install ./peer
 #RUN go install ./menu
 
-#CMD [ "sh", "-c", "${GOPATH}/bin/peer1" ]
+
+CMD [ "sh", "-c", "${GOPATH}/bin/peer" ]

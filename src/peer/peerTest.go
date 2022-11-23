@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func startTests() {
 
@@ -10,7 +13,15 @@ func startTests() {
 func runTest(i int, s string) {
 	fmt.Println("sto in runTest")
 	fmt.Println(myTokenPeer)
+	fmt.Println("algorithm == ", algorithm)
 
 	algorithm = "tokenAsking"
+	setAlgorithmPeer()
+	fmt.Println(myTokenPeer)
+	if myTokenPeer.Username == "p1" {
+		sendMessage()
+	} else {
+		time.Sleep(time.Minute / 2)
+	}
 
 }

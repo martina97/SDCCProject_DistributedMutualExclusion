@@ -9,7 +9,6 @@ import (
 	"log"
 	"net"
 	"os"
-	"strconv"
 	"time"
 )
 
@@ -19,7 +18,13 @@ var (
 
 func message_handler() {
 
-	listener, err := net.Listen("tcp", ":"+strconv.Itoa(utilities.Client_port))
+	addr, err := net.ResolveTCPAddr("tcp", ":2345")
+	if err != nil {
+		fmt.Printf("Unable to resolve IP")
+	}
+
+	//listener, err := net.ListenTCP("tcp", ":"+strconv.Itoa(utilities.Client_port))
+	listener, err := net.ListenTCP("tcp", addr)
 	if err != nil {
 		log.Fatal("net.Lister fail")
 	}
@@ -30,9 +35,15 @@ func message_handler() {
 	defer close_files()
 
 	for {
-		connection, err := listener.Accept()
+		connection, err := listener.AcceptTCP()
 		if err != nil {
 			log.Fatal("Accept fail")
+		}
+
+		// Enable Keepalives
+		err = connection.SetKeepAlive(true)
+		if err != nil {
+			fmt.Printf("Unable to set keepalive - %s", err)
 		}
 
 		switch algorithm {
