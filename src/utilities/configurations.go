@@ -9,10 +9,9 @@ const (
 	// Server_addr string = "localhost" //if running outside docker
 	Client_port       int    = 2345
 	Peer_msg_sca_file string = "/docker/node_volume/messageSca.txt"
-	Launch_Test       bool   = false //launch all peer in test mode
 	Clean_Test_Dir    bool   = true
 	MSG_BUFFERED_SIZE int    = 100
 	CHAN_SIZE         int    = 1
 	DATE_FORMAT       string = "15:04:05.000"
-	Test              bool   = false
+	Test              bool   = true
 )
