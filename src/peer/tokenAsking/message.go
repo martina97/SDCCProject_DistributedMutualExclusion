@@ -156,7 +156,7 @@ func openFile(isCoord bool) *os.File {
 	var f *os.File
 
 	if isCoord {
-		f, err = os.OpenFile(myCoordinator.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+		f, err = os.OpenFile(myCoordinator.LogPath, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0755)
 	} else {
 		f, err = os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	}

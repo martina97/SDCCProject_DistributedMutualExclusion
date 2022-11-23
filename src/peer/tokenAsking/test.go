@@ -47,9 +47,13 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 
 	//provo a farlo con coordinator.log
 	f := openFile(true)
+	fmt.Println("sto qua3")
+
 	fileScanner := bufio.NewScanner(f)
+	fmt.Println("sto qua4")
 
 	fileScanner.Split(bufio.ScanLines)
+	fmt.Println("sto qua5")
 
 	for fileScanner.Scan() {
 		fmt.Println(fileScanner.Text())
