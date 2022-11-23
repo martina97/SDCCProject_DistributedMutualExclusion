@@ -27,9 +27,9 @@ func runTest(i int, s string) {
 	fmt.Println(myTokenPeer)
 
 	if myUsername != utilities.COORDINATOR {
-		tokenAsking.ExecuteTestPeer(&myTokenPeer)
+		tokenAsking.ExecuteTestPeer(&myTokenPeer, i)
 	} else {
-		tokenAsking.ExecuteTestCoordinator(&myCoordinator)
+		tokenAsking.ExecuteTestCoordinator(&myCoordinator, i)
 	}
 
 	/*

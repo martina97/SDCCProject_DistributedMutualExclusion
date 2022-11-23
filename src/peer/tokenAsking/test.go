@@ -1,24 +1,37 @@
 package tokenAsking
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func ExecuteTestPeer(peer *TokenPeer) {
-	if myPeer.Username == "" { //vuol dire che non ho ancora inizializzato il peer
-		fmt.Println("sto in ExecuteTestPeer --- RA_PEER VUOTA")
-		myPeer = *peer
+var num_msg int
 
+func ExecuteTestPeer(peer *TokenPeer, numSender int) {
+	fmt.Println("sto in ExecuteTestPeer")
+	myPeer = *peer
+
+	if numSender == 1 && myPeer.ID == 1 {
+		fmt.Println("mando il msg")
 	} else {
-		fmt.Println("sto in ExecuteTestPeer --- RA_PEER NON VUOTA")
+		fmt.Println("sleep")
 	}
 
 }
 
-func ExecuteTestCoordinator(coordinator *Coordinator) {
-	if myCoordinator.Username == "" { //vuol dire che non ho ancora inizializzato il coordinatore
-		fmt.Println("sto in ExecuteTestCoordinator --- coordinator VUOTA")
-		myCoordinator = *coordinator
+func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
+	fmt.Println("sto in ExecuteTestCoordinator")
 
-	} else {
-		fmt.Println("sto in ExecuteTestCoordinator --- coordinator NON VUOTA")
+	myCoordinator = *coordinator
+
+	//aspetta finche il numero di token msg ricevuti è pari a numSender
+	//Wait connection
+	for num_msg < numSender { //todo: mettere 3 , anche sotto
+		ch := <-Connection
+		if ch == true {
+			num_msg++
+		}
 	}
+	fmt.Println("sto qua")
+	Wg.Add(-numSender)
+	fmt.Println("sto qua2")
 }

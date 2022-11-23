@@ -10,6 +10,11 @@ import (
 	"time"
 )
 
+var (
+	Connection = make(chan bool)
+	Wg         = new(sync.WaitGroup)
+)
+
 type Coordinator struct {
 	//info su nodo
 	Username string //nome nodo
