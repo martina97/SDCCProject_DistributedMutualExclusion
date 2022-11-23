@@ -28,7 +28,7 @@ func message_handler() {
 	if err != nil {
 		log.Fatal("net.Lister fail")
 	}
-	defer listener.Close()
+	//defer listener.Close()
 
 	//open file for save msg
 	open_files()

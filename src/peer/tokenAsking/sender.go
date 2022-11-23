@@ -55,7 +55,7 @@ func SendRequest(peer *TokenPeer) {
 		fmt.Printf("Unable to set keepalive - %s", err)
 	}
 
-	defer conn.Close()
+	//defer conn.Close()
 	if err != nil {
 		log.Println("Send response error on Dial")
 	}
