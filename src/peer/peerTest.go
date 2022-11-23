@@ -9,5 +9,8 @@ func startTests() {
 
 func runTest(i int, s string) {
 	fmt.Println("sto in runTest")
+	fmt.Println(myTokenPeer)
+
+	algorithm = "tokenAsking"
 
 }

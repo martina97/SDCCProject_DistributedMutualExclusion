@@ -223,25 +223,6 @@ func setPeerUtils2() {
 
 }
 
-/*
-func CreateLog(typeInfo string, id string, header string) *log.Logger {
-	serverLogFile, err := os.Create("/docker/node_volume/" + typeInfo + id + ".log")
-	if err != nil {
-		log.Printf("unable to read file: %v", err)
-	}
-	serverLogFile.Close()
-	/*
-		newpath := filepath.Join(".", "log")
-		os.MkdirAll(newpath, os.ModePerm)
-		serverLogFile, _ := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
-		// return log.New(serverLogFile, header, log.Lmicroseconds|log.Lshortfile)
-
-
-	return log.New(serverLogFile, header, log.Lshortfile)
-}
-
-*/
-
 func setAlgorithmPeer() {
 	fmt.Println(" -------  sto in setAlgorithmPeer  -------")
 	switch algorithm {
