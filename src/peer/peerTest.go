@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 func startTests() {
@@ -21,7 +20,8 @@ func runTest(i int, s string) {
 	if myTokenPeer.Username == "p1" {
 		sendMessage()
 	} else {
-		time.Sleep(time.Minute / 2)
+		//time.Sleep(time.Minute / 2)
+		select {}
 	}
 
 }
