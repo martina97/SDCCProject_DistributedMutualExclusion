@@ -1,9 +1,9 @@
 package main
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"fmt"
-	"log"
-	"time"
 )
 
 func startTests() {
@@ -26,28 +26,37 @@ func runTest(i int, s string) {
 	setAlgorithmPeer()
 	fmt.Println(myTokenPeer)
 
-	if i == 1 {
-		if myTokenPeer.Username == "p2" {
-			err := sendMessage()
-			if err != nil {
-				log.Fatalf("error sending request %v", err)
-			}
-		} else {
-			//time.Sleep(time.Minute / 2)
-			//select {}
-			time.Sleep(time.Minute)
-		}
+	if myUsername != utilities.COORDINATOR {
+		tokenAsking.ExecuteTestPeer(&myTokenPeer)
 	} else {
-		if myTokenPeer.Username == "p1" || myTokenPeer.Username == "p2" {
-			err := sendMessage()
-			if err != nil {
-				log.Fatalf("error sending request %v", err)
+		tokenAsking.ExecuteTestCoordinator(&myCoordinator)
+	}
+
+	/*
+		if i == 1 {
+			if myTokenPeer.Username == "p2" {
+				err := sendMessage()
+				if err != nil {
+					log.Fatalf("error sending request %v", err)
+				}
+			} else {
+				//time.Sleep(time.Minute / 2)
+				//select {}
+				time.Sleep(time.Minute)
 			}
 		} else {
-			//time.Sleep(time.Minute / 2)
-			//select {}
-			time.Sleep(time.Minute + time.Minute/2)
+			if myTokenPeer.Username == "p1" || myTokenPeer.Username == "p2" {
+				err := sendMessage()
+				if err != nil {
+					log.Fatalf("error sending request %v", err)
+				}
+			} else {
+				//time.Sleep(time.Minute / 2)
+				//select {}
+				time.Sleep(time.Minute + time.Minute/2)
+			}
 		}
-	}
+
+	*/
 
 }

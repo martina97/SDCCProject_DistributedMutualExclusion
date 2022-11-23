@@ -36,6 +36,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		myCoordinator.mutex.Lock()
 		WriteMsgToFile("receive", *msg, true)
 		fmt.Println("ricevo ", msg, "e hastoken == ", myCoordinator.HasToken)
+
 		time.Sleep(time.Second * 15)
 
 		//devo controllare se è eleggibile!
@@ -61,8 +62,10 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		myCoordinator.mutex.Unlock()
 	}
 	if msg.MsgType == Token {
+
 		fmt.Println("msg Type === TOKEN, msg = ", msg)
 		myCoordinator.mutex.Lock()
+		myCoordinator.numTokenMsgs++
 		WriteMsgToFile("receive", *msg, true)
 		myCoordinator.HasToken = true
 		//WriteInfosToFile("gets the token.")
