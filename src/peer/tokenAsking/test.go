@@ -53,6 +53,7 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 			//fmt.Println(i)
 			LogPath := "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(i) + ".log"
 			logPaths.PushBack(LogPath)
+
 			//fmt.Println(LogPath)
 		}
 	}
@@ -77,14 +78,20 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 func checkSafety() {
 
 	for e := logPaths.Front(); e != nil; e = e.Next() {
+		fileScanner := getFileSplit(e.Value.(string))
+		for fileScanner.Scan() {
+			//line := fileScanner.Text()
 
+			fmt.Println(fileScanner.Text())
+		}
+		fmt.Println("\n---------------------------------\n\n")
 	}
 
 }
 
 func getFileSplit(path string) *bufio.Scanner {
 	//provo a farlo con coordinator.log
-	f, err := os.OpenFile(myCoordinator.LogPath, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0755)
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -95,5 +102,6 @@ func getFileSplit(path string) *bufio.Scanner {
 
 	fileScanner.Split(bufio.ScanLines)
 	fmt.Println("sto qua5")
+	f.Close()
 	return fileScanner
 }
