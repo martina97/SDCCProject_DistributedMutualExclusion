@@ -71,7 +71,7 @@ func checkSafety() {
 
 	//devo aprire i file dei processi
 	for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
-		peer := e.Value.(utilities.NodeInfo)
+		peer := e.Value.(*utilities.NodeInfo)
 		if peer.Username != utilities.COORDINATOR {
 			fmt.Println(peer.LogPath)
 		}
