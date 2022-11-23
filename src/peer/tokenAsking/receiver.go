@@ -24,7 +24,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 
 	//myCoordinator = *coordinator
 
-	//defer conn.Close()
+	defer conn.Close()
 
 	msg := new(Message)
 	dec := gob.NewDecoder(conn)
