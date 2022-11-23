@@ -69,9 +69,12 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 
 func checkSafety() {
 
+	for i := 0; i < utilities.MAXPEERS; i++ {
+		fmt.Println(i)
+	}
 	//devo aprire i file dei processi
 	for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
-		peer := e.Value.(*utilities.NodeInfo)
+		peer := e.Value.(utilities.NodeInfo)
 		if peer.Username != utilities.COORDINATOR {
 			fmt.Println(peer.LogPath)
 		}
