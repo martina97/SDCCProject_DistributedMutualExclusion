@@ -11,89 +11,87 @@ import (
 func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error {
 	defer conn.Close()
 
-	for {
-		fmt.Println("sto in HandleConnectionCoordinator dentro tokenAsking package")
-		fmt.Println("coordinator === ", coordinator)
+	fmt.Println("sto in HandleConnectionCoordinator dentro tokenAsking package")
+	fmt.Println("coordinator === ", coordinator)
 
-		if myCoordinator.Username == "" { //vuol dire che non ho ancora inizializzato il coordinatore
-			fmt.Println("sto in HandleConnectionCoordinator --- coordinator VUOTA")
-			myCoordinator = *coordinator
+	if myCoordinator.Username == "" { //vuol dire che non ho ancora inizializzato il coordinatore
+		fmt.Println("sto in HandleConnectionCoordinator --- coordinator VUOTA")
+		myCoordinator = *coordinator
+
+	} else {
+		fmt.Println("sto in HandleConnectionCoordinator --- coordinator NON VUOTA")
+	}
+	fmt.Println("myCoordinator = ", myCoordinator)
+
+	//myCoordinator = *coordinator
+
+	msg := new(Message)
+	dec := gob.NewDecoder(conn)
+	dec.Decode(msg)
+	fmt.Println("il msg == ", msg.ToString("receive"))
+
+	if msg.MsgType == Request {
+		fmt.Println("sto dentro if")
+		myCoordinator.mutex.Lock()
+		WriteMsgToFile("receive", *msg, true)
+		fmt.Println("ricevo ", msg, "e hastoken == ", myCoordinator.HasToken)
+		//devo controllare se è eleggibile!
+		if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) && myCoordinator.HasToken {
+			fmt.Println("msg eleggibile!")
+			//update VC
+			myCoordinator.VC[msg.Sender]++
+			fmt.Println("vc coord = ", myCoordinator.VC)
+
+			//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
+			sendToken(msg.Sender, true)
+			myCoordinator.HasToken = false
+			WriteVCInfoToFile(true)
+			fmt.Println("il coordinatore non ha piu token! ")
+			WriteInfosToFile("gives token to "+msg.Sender, true)
+			fmt.Println("hasToken ==", myCoordinator.HasToken)
 
 		} else {
-			fmt.Println("sto in HandleConnectionCoordinator --- coordinator NON VUOTA")
+			fmt.Println("msg non eleggibile")
+			//metto il msg in coda
+			myCoordinator.ReqList.PushBack(msg)
 		}
-		fmt.Println("myCoordinator = ", myCoordinator)
+		myCoordinator.mutex.Unlock()
+	}
+	if msg.MsgType == Token {
+		fmt.Println("msg Type === TOKEN, msg = ", msg)
+		myCoordinator.mutex.Lock()
+		WriteMsgToFile("receive", *msg, true)
+		myCoordinator.HasToken = true
+		//WriteInfosToFile("gets the token.")
+		fmt.Println("STO QUA!")
 
-		//myCoordinator = *coordinator
+		if myCoordinator.ReqList.Front() != nil {
+			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
+			e := myCoordinator.ReqList.Front()
+			pendingMsg := myCoordinator.ReqList.Front().Value.(*Message)
+			fmt.Println("pendingMsg :", pendingMsg)
+			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
 
-		msg := new(Message)
-		dec := gob.NewDecoder(conn)
-		dec.Decode(msg)
-		fmt.Println("il msg == ", msg.ToString("receive"))
-
-		if msg.MsgType == Request {
-			fmt.Println("sto dentro if")
-			myCoordinator.mutex.Lock()
-			WriteMsgToFile("receive", *msg, true)
-			fmt.Println("ricevo ", msg, "e hastoken == ", myCoordinator.HasToken)
-			//devo controllare se è eleggibile!
-			if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) && myCoordinator.HasToken {
-				fmt.Println("msg eleggibile!")
-				//update VC
-				myCoordinator.VC[msg.Sender]++
-				fmt.Println("vc coord = ", myCoordinator.VC)
-
-				//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
-				sendToken(msg.Sender, true)
+			//vedo se il msg è eleggibile, e se sì invio msg con il token al sender del pendingMsg
+			if utilities.IsEligible(myCoordinator.VC, pendingMsg.VC, pendingMsg.Sender) {
+				fmt.Println("posso inviare il token al peer")
+				sendToken(pendingMsg.Sender, true)
 				myCoordinator.HasToken = false
+				WriteInfosToFile("gives token to "+pendingMsg.Sender, true)
+				myCoordinator.ReqList.Remove(e)
+				myCoordinator.VC[pendingMsg.Sender]++
+
 				WriteVCInfoToFile(true)
-				fmt.Println("il coordinatore non ha piu token! ")
-				WriteInfosToFile("gives token to "+msg.Sender, true)
-				fmt.Println("hasToken ==", myCoordinator.HasToken)
 
-			} else {
-				fmt.Println("msg non eleggibile")
-				//metto il msg in coda
-				myCoordinator.ReqList.PushBack(msg)
-			}
-			myCoordinator.mutex.Unlock()
-		}
-		if msg.MsgType == Token {
-			fmt.Println("msg Type === TOKEN, msg = ", msg)
-			myCoordinator.mutex.Lock()
-			WriteMsgToFile("receive", *msg, true)
-			myCoordinator.HasToken = true
-			//WriteInfosToFile("gets the token.")
-			fmt.Println("STO QUA!")
-
-			if myCoordinator.ReqList.Front() != nil {
-				fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
-				e := myCoordinator.ReqList.Front()
-				pendingMsg := myCoordinator.ReqList.Front().Value.(*Message)
-				fmt.Println("pendingMsg :", pendingMsg)
-				fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
-
-				//vedo se il msg è eleggibile, e se sì invio msg con il token al sender del pendingMsg
-				if utilities.IsEligible(myCoordinator.VC, pendingMsg.VC, pendingMsg.Sender) {
-					fmt.Println("posso inviare il token al peer")
-					sendToken(pendingMsg.Sender, true)
-					myCoordinator.HasToken = false
-					WriteInfosToFile("gives token to "+pendingMsg.Sender, true)
-					myCoordinator.ReqList.Remove(e)
-					myCoordinator.VC[pendingMsg.Sender]++
-
-					WriteVCInfoToFile(true)
-
-					fmt.Println("req List == ", myCoordinator.ReqList)
-				}
-
-			} else {
-				fmt.Println("coda richieste pendenti vuota!")
+				fmt.Println("req List == ", myCoordinator.ReqList)
 			}
 
-			myCoordinator.mutex.Unlock()
-
+		} else {
+			fmt.Println("coda richieste pendenti vuota!")
 		}
+
+		myCoordinator.mutex.Unlock()
+
 	}
 
 	return nil

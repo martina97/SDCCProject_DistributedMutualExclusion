@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 )
 
 func startTests() {
@@ -18,7 +19,10 @@ func runTest(i int, s string) {
 	setAlgorithmPeer()
 	fmt.Println(myTokenPeer)
 	if myTokenPeer.Username == "p1" {
-		sendMessage()
+		err := sendMessage()
+		if err != nil {
+			log.Fatalf("error sending request %v", err)
+		}
 	} else {
 		//time.Sleep(time.Minute / 2)
 		select {}
