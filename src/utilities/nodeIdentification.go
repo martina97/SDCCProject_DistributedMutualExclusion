@@ -51,6 +51,7 @@ type NodeInfo struct {
 
 	ScalarMap MessageMap
 	TimeStamp TimeStamp
+	LogPath   string
 	//LockInfo *infoLock
 }
 

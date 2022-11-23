@@ -1,6 +1,7 @@
 package tokenAsking
 
 import (
+	"bufio"
 	"fmt"
 	"time"
 )
@@ -37,4 +38,22 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 	fmt.Println("sto qua")
 	Wg.Add(-numSender)
 	fmt.Println("sto qua2")
+
+	/*
+		ora posso controllare i vari file di log!!
+		1 coordinator.log
+		n-1 peer_n.log
+	*/
+
+	//provo a farlo con coordinator.log
+	f := openFile(true)
+	fileScanner := bufio.NewScanner(f)
+
+	fileScanner.Split(bufio.ScanLines)
+
+	for fileScanner.Scan() {
+		fmt.Println(fileScanner.Text())
+	}
+
+	f.Close()
 }
