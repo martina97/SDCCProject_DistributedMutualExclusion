@@ -248,7 +248,7 @@ func setAlgorithmPeer() {
 			*/
 			myCoordinator.PeerList = peers
 			for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
-				peer := e.Value.(*utilities.NodeInfo)
+				peer := e.Value.(utilities.NodeInfo)
 				if peer.Username != utilities.COORDINATOR {
 					peer.LogPath = "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(peer.ID) + ".log"
 				}
