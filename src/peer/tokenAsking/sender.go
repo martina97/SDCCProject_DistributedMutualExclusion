@@ -153,7 +153,7 @@ func sendToken(receiver string, isCoord bool) {
 		msg := NewTokenMessage(date, myPeer.Username, "coordinator", myPeer.VC)
 		coordConn := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
 		conn, err := net.Dial("tcp", coordConn)
-		defer conn.Close()
+		//defer conn.Close()
 		if err != nil {
 			log.Println("Send response error on Dial")
 		}

@@ -24,4 +24,4 @@ RUN go install ./peer
 #RUN go install ./menu
 
 
-CMD [ "sh", "-c", "${GOPATH}/bin/peer" ]
+#CMD [ "sh", "-c", "${GOPATH}/bin/peer" ]
