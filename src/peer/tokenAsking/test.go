@@ -102,6 +102,6 @@ func getFileSplit(path string) *bufio.Scanner {
 
 	fileScanner.Split(bufio.ScanLines)
 	fmt.Println("sto qua5")
-	f.Close()
+	//f.Close()
 	return fileScanner
 }
