@@ -1,11 +1,12 @@
 Initial vector clock of p1 is [0 0]
-[15:07:13.088] : p1 try to get the token.
-[15:07:13.091] : p1 update its vector clock to [1 0]
-[15:07:13.095] : p1 send REQUEST message: {Request p0 15:07:13.091 [1 0]} to coordinator.
-[15:07:13.098] : p1 send PROGRAM message: {Program message p2 15:07:13.097 [1 0]} to p2.
-[15:07:13.104] : p1 receive TOKEN message: {Token 15:07:13.100 [1 0]} from coordinator.
-[15:07:13.104] : p1 gets the token.
-[15:07:13.108] : p1 enters the critical section at 15:07:13.108.
-[15:07:43.121] : p1 exits the critical section at 15:07:43.121.
-[15:07:43.124] : p1 releases the token.
-[15:07:43.127] : p1 send TOKEN message: {Token coordinator 15:07:43.127 [1 0]} to coordinator.
+[15:41:54.699] : p1 try to get the token.
+[15:41:54.704] : p1 update its vector clock to [1 0]
+[15:41:54.709] : p1 send REQUEST message: {Request p0 15:41:54.704 [1 0]} to coordinator.
+[15:41:54.716] : p1 send PROGRAM message: {Program message p2 15:41:54.716 [1 0]} to p2.
+[15:41:54.721] : p1 receive PROGRAM message: {Program message 15:41:54.713 [0 1]} from p2 and update its vector clock to [1 1].
+[15:42:24.769] : p1 receive TOKEN message: {Token 15:42:24.768 [0 1]} from coordinator.
+[15:42:24.769] : p1 gets the token.
+[15:42:24.772] : p1 enters the critical section at 15:42:24.772.
+[15:42:54.803] : p1 exits the critical section at 15:42:54.803.
+[15:42:54.887] : p1 releases the token.
+[15:42:54.919] : p1 send TOKEN message: {Token coordinator 15:42:54.919 [1 1]} to coordinator.
