@@ -36,7 +36,8 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		myCoordinator.mutex.Lock()
 		WriteMsgToFile("receive", *msg, true)
 		fmt.Println("ricevo ", msg, "e hastoken == ", myCoordinator.HasToken)
-		time.Sleep(time.Second * 4)
+		time.Sleep(time.Second * 15)
+
 		//devo controllare se è eleggibile!
 		if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) && myCoordinator.HasToken {
 			fmt.Println("msg eleggibile!")
