@@ -2,6 +2,7 @@ package tokenAsking
 
 import (
 	"fmt"
+	"time"
 )
 
 var num_msg int
@@ -12,8 +13,10 @@ func ExecuteTestPeer(peer *TokenPeer, numSender int) {
 
 	if numSender == 1 && myPeer.ID == 1 {
 		fmt.Println("mando il msg")
+		SendRequest(&myPeer)
 	} else {
 		fmt.Println("sleep")
+		time.Sleep(time.Minute / 2)
 	}
 
 }
