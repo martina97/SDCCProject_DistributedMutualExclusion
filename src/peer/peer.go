@@ -109,7 +109,14 @@ func main() {
 	//go message_handler()
 	//go message_handler_centr()
 
-	openMenu() //qui devo scegliere tra Lamport e Ricart Agrawala
+	if utilities.Test {
+		//lancio i test
+		startTests()
+
+	} else {
+		openMenu() //qui devo scegliere tra Lamport e Ricart Agrawala
+
+	}
 
 	// creo file "peer_ID.log"
 
