@@ -3,11 +3,16 @@ package tokenAsking
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"bufio"
+	"container/list"
 	"fmt"
+	"log"
+	"os"
+	"strconv"
 	"time"
 )
 
 var num_msg int
+var logPaths *list.List
 
 func ExecuteTestPeer(peer *TokenPeer, numSender int) {
 	fmt.Println("sto in ExecuteTestPeer")
@@ -24,6 +29,8 @@ func ExecuteTestPeer(peer *TokenPeer, numSender int) {
 }
 
 func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
+
+	logPaths.Init()
 	fmt.Println("sto in ExecuteTestCoordinator")
 
 	myCoordinator = *coordinator
@@ -40,6 +47,14 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 	Wg.Add(-numSender)
 	fmt.Println("sto qua2")
 
+	for i := 0; i < utilities.MAXPEERS; i++ {
+		if i != myCoordinator.ID {
+			//fmt.Println(i)
+			LogPath := "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(i) + ".log"
+			logPaths.PushBack(LogPath)
+			//fmt.Println(LogPath)
+		}
+	}
 	checkSafety()
 
 	/*
@@ -48,8 +63,30 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 		n-1 peer_n.log
 	*/
 
+	fileScanner := getFileSplit(myCoordinator.LogPath)
+	for fileScanner.Scan() {
+		//line := fileScanner.Text()
+
+		fmt.Println(fileScanner.Text())
+	}
+
+	//f.Close()
+}
+
+func checkSafety() {
+
+	for e := logPaths.Front(); e != nil; e = e.Next() {
+
+	}
+
+}
+
+func getFileSplit(path string) *bufio.Scanner {
 	//provo a farlo con coordinator.log
-	f := openFile(true)
+	f, err := os.OpenFile(myCoordinator.LogPath, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
 	fmt.Println("sto qua3")
 
 	fileScanner := bufio.NewScanner(f)
@@ -57,26 +94,5 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 
 	fileScanner.Split(bufio.ScanLines)
 	fmt.Println("sto qua5")
-
-	for fileScanner.Scan() {
-		//line := fileScanner.Text()
-
-		fmt.Println(fileScanner.Text())
-	}
-
-	f.Close()
-}
-
-func checkSafety() {
-
-	for i := 0; i < utilities.MAXPEERS; i++ {
-		fmt.Println(i)
-	}
-	//devo aprire i file dei processi
-	for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
-		peer := e.Value.(utilities.NodeInfo)
-		if peer.Username != utilities.COORDINATOR {
-			fmt.Println(peer.LogPath)
-		}
-	}
+	return fileScanner
 }
