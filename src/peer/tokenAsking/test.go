@@ -30,7 +30,8 @@ func ExecuteTestPeer(peer *TokenPeer, numSender int) {
 
 func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 
-	logPaths.Init()
+	logPaths = list.New().Init()
+	//logPaths.Init()
 	fmt.Println("sto in ExecuteTestCoordinator")
 
 	myCoordinator = *coordinator
