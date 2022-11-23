@@ -1,6 +1,7 @@
 package tokenAsking
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"bufio"
 	"fmt"
 	"time"
@@ -39,6 +40,8 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 	Wg.Add(-numSender)
 	fmt.Println("sto qua2")
 
+	checkSafety()
+
 	/*
 		ora posso controllare i vari file di log!!
 		1 coordinator.log
@@ -56,8 +59,21 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 	fmt.Println("sto qua5")
 
 	for fileScanner.Scan() {
+		//line := fileScanner.Text()
+
 		fmt.Println(fileScanner.Text())
 	}
 
 	f.Close()
+}
+
+func checkSafety() {
+
+	//devo aprire i file dei processi
+	for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
+		peer := e.Value.(utilities.NodeInfo)
+		if peer.Username != utilities.COORDINATOR {
+			fmt.Println(peer.LogPath)
+		}
+	}
 }
