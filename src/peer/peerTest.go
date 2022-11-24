@@ -1,6 +1,7 @@
 package main
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala"
 	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"fmt"
@@ -8,11 +9,6 @@ import (
 
 func startTests() {
 
-	/*
-		runTest(1, "tokenAsking") //invia msg solo il peer con ID 1
-		fmt.Println("runTest1 finito")
-
-	*/
 	runTest(1, "tokenAsking") //invia msg solo il peer con ID 1
 	runTest(2, "tokenAsking") //invia msg solo il peer con ID 1
 
@@ -27,10 +23,16 @@ func runTest(i int, s string) {
 	setAlgorithmPeer()
 	fmt.Println(myTokenPeer)
 
-	if myUsername != utilities.COORDINATOR {
-		tokenAsking.ExecuteTestPeer(&myTokenPeer, i)
-	} else {
-		tokenAsking.ExecuteTestCoordinator(&myCoordinator, i)
+	switch s {
+	case "tokenAsking":
+		if myUsername != utilities.COORDINATOR {
+			tokenAsking.ExecuteTestPeer(&myTokenPeer, i)
+		} else {
+			tokenAsking.ExecuteTestCoordinator(&myCoordinator, i)
+		}
+	case "ricartAgrawala":
+		ricartAgrawala.ExecuteTestPeer(&myRApeer, 1)
+
 	}
 
 	/*
