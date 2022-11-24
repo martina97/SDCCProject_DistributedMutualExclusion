@@ -1,8 +1,11 @@
 package ricartAgrawala
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"container/list"
 	"fmt"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -28,4 +31,46 @@ func ExecuteTestPeer(peer *RApeer, num int) {
 		time.Sleep(time.Minute)
 	}
 
+	fmt.Println(" ####################### TEST #############################")
+
+	for i := 0; i < num; i++ {
+		//fmt.Println(i)
+		LogPath := "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(i) + ".log"
+		logPaths.PushBack(LogPath)
+	}
+
+	if MyRApeer.ID == 1 {
+		testNoStarvation()
+	}
+
+}
+
+func testNoStarvation() {
+	var csEntries int
+
+	for e := logPaths.Front(); e != nil; e = e.Next() {
+
+		fileScanner := utilities.GetFileSplit(e.Value.(string))
+		for fileScanner.Scan() {
+			//line := fileScanner.Text()
+
+			fmt.Println(fileScanner.Text())
+			if strings.Contains(fileScanner.Text(), "enters the critical section") {
+				//fmt.Println("CONTIENE !!!!! ")
+				csEntries++
+			}
+		}
+		if numSender == 1 {
+			break
+		}
+		//fmt.Println("\n---------------------------------\n\n")
+	}
+	//fmt.Println("csEntries == ", csEntries)
+
+	if csEntries == numSender {
+		fmt.Println(" === TEST NO STARVATION: PASSED !!")
+	} else {
+		fmt.Println(" === TEST NO STARVATION: FAILED !!")
+
+	}
 }

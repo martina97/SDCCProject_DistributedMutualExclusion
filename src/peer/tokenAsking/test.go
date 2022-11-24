@@ -2,11 +2,8 @@ package tokenAsking
 
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
-	"bufio"
 	"container/list"
 	"fmt"
-	"log"
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -94,7 +91,7 @@ func testMessageNumber() {
 
 	for e := logPaths.Front(); e != nil; e = e.Next() {
 		numMsg := 0
-		fileScanner := getFileSplit(e.Value.(string))
+		fileScanner := utilities.GetFileSplit(e.Value.(string))
 		for fileScanner.Scan() {
 			//line := fileScanner.Text()
 
@@ -126,7 +123,7 @@ func testNoStarvation() {
 
 	for e := logPaths.Front(); e != nil; e = e.Next() {
 
-		fileScanner := getFileSplit(e.Value.(string))
+		fileScanner := utilities.GetFileSplit(e.Value.(string))
 		for fileScanner.Scan() {
 			//line := fileScanner.Text()
 
@@ -170,7 +167,7 @@ func testSafety() {
 		var exitDate time.Time
 		//var index int //mi serve per vedere a quante iterazioni sto
 
-		fileScanner := getFileSplit(e.Value.(string))
+		fileScanner := utilities.GetFileSplit(e.Value.(string))
 		for fileScanner.Scan() {
 			//line := fileScanner.Text()
 			//fmt.Println(fileScanner.Text())
@@ -211,21 +208,4 @@ func testSafety() {
 		fmt.Println(" === TEST SAFETY: FAILED !!")
 
 	}
-}
-
-func getFileSplit(path string) *bufio.Scanner {
-	//provo a farlo con coordinator.log
-	f, err := os.OpenFile(path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-	fmt.Println("sto qua3")
-
-	fileScanner := bufio.NewScanner(f)
-	fmt.Println("sto qua4")
-
-	fileScanner.Split(bufio.ScanLines)
-	fmt.Println("sto qua5")
-	//f.Close()
-	return fileScanner
 }
