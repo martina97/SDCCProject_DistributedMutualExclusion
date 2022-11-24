@@ -127,7 +127,7 @@ func checkConditions(msg *utilities.Message) bool {
 
 func checkTS(msg *utilities.Message) bool {
 	// true se {Last_Req, i} < {t, j})
-	if (MyRApeer.lastReq < msg.TS) && (MyRApeer.Username < msg.Sender) {
+	if (MyRApeer.lastReq <= msg.TS) && (MyRApeer.Username < msg.Sender) {
 		fmt.Println("sto in checkTS e la condizione e' true --> non invio reply e metto msg in coda")
 		return true
 	}
