@@ -15,6 +15,8 @@ var numSender int
 
 func ExecuteTestPeer(peer *RApeer, num int) {
 	numSender = num
+	logPaths = list.New().Init()
+
 	fmt.Println("sto in ExecuteTestPeer")
 	MyRApeer = *peer
 	peerCnt = MyRApeer.PeerList.Len()
