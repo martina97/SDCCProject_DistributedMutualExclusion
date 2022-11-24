@@ -10,8 +10,8 @@ import (
 func startTests() {
 
 	//runTest(1, "tokenAsking") //invia msg solo il peer con ID 1
-	//runTest(2, "tokenAsking") //invia msg solo il peer con ID 1
-	runTest(2, "ricartAgrawala") //invia msg solo il peer con ID 1
+	runTest(2, "tokenAsking") //invia msg solo il peer con ID 1
+	//runTest(2, "ricartAgrawala") //invia msg solo il peer con ID 1
 
 }
 
@@ -32,7 +32,7 @@ func runTest(i int, s string) {
 			tokenAsking.ExecuteTestCoordinator(&myCoordinator, i)
 		}
 	case "ricartAgrawala":
-		ricartAgrawala.ExecuteTestPeer(&myRApeer, 2)
+		ricartAgrawala.ExecuteTestPeer(&myRApeer, i)
 
 	}
 

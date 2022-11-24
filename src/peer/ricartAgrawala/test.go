@@ -56,15 +56,18 @@ func testNoStarvation() {
 		for fileScanner.Scan() {
 			//line := fileScanner.Text()
 
-			fmt.Println(fileScanner.Text())
+			//fmt.Println(fileScanner.Text())
 			if strings.Contains(fileScanner.Text(), "enters the critical section") {
 				//fmt.Println("CONTIENE !!!!! ")
 				csEntries++
 			}
 		}
-		if numSender == 1 {
-			break
-		}
+		/*
+			if numSender == 1 {
+				break
+			}
+
+		*/
 		//fmt.Println("\n---------------------------------\n\n")
 	}
 	//fmt.Println("csEntries == ", csEntries)

@@ -52,14 +52,13 @@ func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
 	Wg.Add(-numSender)
 	//fmt.Println("sto qua2")
 
-	for i := 0; i < utilities.MAXPEERS; i++ {
-		if i != myCoordinator.ID {
-			//fmt.Println(i)
-			LogPath := "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(i) + ".log"
-			logPaths.PushBack(LogPath)
+	for i := 1; i < num+1; i++ {
+		//fmt.Println(i)
+		LogPath := "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(i) + ".log"
+		logPaths.PushBack(LogPath)
 
-			//fmt.Println(LogPath)
-		}
+		//fmt.Println(LogPath)
+
 	}
 	testNoStarvation()
 	if numSender == 2 {
@@ -67,12 +66,6 @@ func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
 		testSafety()
 	}
 	testMessageNumber()
-
-	/*
-		ora posso controllare i vari file di log!!
-		1 coordinator.log
-		n-1 peer_n.log
-	*/
 
 	/*
 		fileScanner := getFileSplit(myCoordinator.LogPath)
@@ -111,9 +104,12 @@ func testMessageNumber() {
 			fmt.Println(" === TEST NUMBER OF MESSAGES: FAILED !!")
 		}
 
-		if numSender == 1 {
-			break
-		}
+		/*
+			if numSender == 1 {
+				break
+			}
+
+		*/
 	}
 }
 
@@ -133,9 +129,12 @@ func testNoStarvation() {
 				csEntries++
 			}
 		}
-		if numSender == 1 {
-			break
-		}
+		/*
+			if numSender == 1 {
+				break
+			}
+
+		*/
 		//fmt.Println("\n---------------------------------\n\n")
 	}
 	//fmt.Println("csEntries == ", csEntries)
