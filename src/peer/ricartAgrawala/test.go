@@ -25,7 +25,7 @@ func ExecuteTestPeer(peer *RApeer, num int) {
 		SendRicart(&MyRApeer)
 	} else {
 		fmt.Println("sleep")
-		time.Sleep(time.Minute / 2)
+		time.Sleep(time.Minute)
 	}
 
 }
