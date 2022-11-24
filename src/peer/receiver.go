@@ -222,33 +222,6 @@ func handleConnection(conn net.Conn) error {
 	return nil
 }
 
-//Save message
-func handleConnectionCentralized(conn net.Conn) error {
-	// read msg and save on file
-	defer conn.Close()
-	msg := new(utilities.CentralizedMessage)
-
-	dec := gob.NewDecoder(conn)
-	dec.Decode(msg)
-	fmt.Println("sto in handleConnectionCentralized")
-	fmt.Println("msg == ", msg)
-
-	//time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
-
-	//mutex := lock.GetMutex()
-	//	mutex := myNode.GetMutex()
-	if msg.MsgTypeCentr == utilities.Granted {
-		fmt.Println("MESS REPLY !!!!!! ")
-
-		myNode.Waiting = false
-		myNode.ChanAcquireLock <- true
-
-		//ora il processo puo entrare in CS
-	}
-
-	return nil
-}
-
 func checkAcks(process *utilities.NodeInfo) {
 
 	//todo: quando azzero lista ReplyProSet ?????

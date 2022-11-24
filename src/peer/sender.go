@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"net/rpc"
 	"os"
 	"strconv"
 	"time"
@@ -25,51 +24,6 @@ func sendMessage() error {
 	case "ricartAgrawala":
 		ricartAgrawala.SendRicart(&myRApeer)
 	}
-	return nil
-}
-
-func sendCentralized() error {
-
-	//myNode.SetReplyProSet(list.New())	//in questa lista metto il msg reply
-	mu := myNode.GetMutex()
-	mu.Lock()
-
-	var res utilities.Result_file
-
-	fmt.Println("SONO IN sendCentralized --- PORTA == ", myNode.Port)
-
-	//only peer are destination of msgs
-
-	//open connection whit peer
-	//peerConn := dest.Address + ":" + dest.Port
-	// todo: invece che peerConn mettere addr
-	peerConn := utilities.Server_addr + ":" + strconv.Itoa(utilities.Server_port)
-
-	conn, err := rpc.Dial("tcp", peerConn)
-	defer conn.Close()
-	if err != nil {
-		log.Fatal("Error in dialing: ", err)
-	}
-	date := time.Now().Format(utilities.DATE_FORMAT)
-
-	//msg := *utilities.NewEnterMsg(myNode, date)
-	msg := *utilities.NewEnterMsg(myNode, date)
-	fmt.Println("msg ==== ", msg)
-
-	//call procedure
-	log.Printf("Call to coordinator peer")
-	err = conn.Call("Utility.CentralizedSincro", &msg, &res)
-	if err != nil {
-		log.Fatal("Error save_registration procedure: ", err)
-	}
-
-	myNode.Waiting = true
-
-	mu.Unlock()
-
-	<-myNode.ChanAcquireLock //il processo sta in attesa finche non riceve reply!!
-	fmt.Println("dopo  <-myNode.ChanAcquireLock")
-
 	return nil
 }
 
