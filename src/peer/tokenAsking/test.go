@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -57,7 +58,7 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 			//fmt.Println(LogPath)
 		}
 	}
-	checkSafety(numSender)
+	checkNoStarvation(numSender)
 
 	/*
 		ora posso controllare i vari file di log!!
@@ -65,17 +66,22 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 		n-1 peer_n.log
 	*/
 
-	fileScanner := getFileSplit(myCoordinator.LogPath)
-	for fileScanner.Scan() {
-		//line := fileScanner.Text()
+	/*
+		fileScanner := getFileSplit(myCoordinator.LogPath)
+		for fileScanner.Scan() {
+			//line := fileScanner.Text()
 
-		fmt.Println(fileScanner.Text())
-	}
+			fmt.Println(fileScanner.Text())
+		}
+
+	*/
 
 	//f.Close()
 }
 
-func checkSafety(numSender int) {
+func checkNoStarvation(numSender int) {
+
+	var csEntries int
 
 	for e := logPaths.Front(); e != nil; e = e.Next() {
 
@@ -84,12 +90,17 @@ func checkSafety(numSender int) {
 			//line := fileScanner.Text()
 
 			fmt.Println(fileScanner.Text())
+			if strings.Contains(fileScanner.Text(), "enters the critical section") {
+				fmt.Println("CONTIENE !!!!! ")
+				csEntries++
+			}
 		}
 		if numSender == 1 {
 			break
 		}
 		fmt.Println("\n---------------------------------\n\n")
 	}
+	fmt.Println("csEntries == ", csEntries)
 
 }
 
