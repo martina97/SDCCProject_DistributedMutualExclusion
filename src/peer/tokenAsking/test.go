@@ -22,6 +22,10 @@ func ExecuteTestPeer(peer *TokenPeer, numSender int) {
 	if numSender == 1 && myPeer.ID == 1 {
 		fmt.Println("mando il msg")
 		SendRequest(&myPeer)
+	}
+	if numSender == 2 && (myPeer.ID == 1 || myPeer.ID == 2) {
+		fmt.Println("mando il msg")
+		SendRequest(&myPeer)
 	} else {
 		fmt.Println("sleep")
 		time.Sleep(time.Minute / 2)
