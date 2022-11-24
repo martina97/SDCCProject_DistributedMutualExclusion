@@ -1,0 +1,3 @@
+Initial timestamp of p1 is 0
+[16:13:52.771] : p1 receive Request message: {Request 16:13:51.415 [1]} from p0 and update its local logical timestamp to 1
+[16:13:52.779] : p1 send Reply message: {Reply p0 16:13:52.779 [1]} to p0

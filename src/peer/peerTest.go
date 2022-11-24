@@ -20,7 +20,7 @@ func runTest(i int, s string) {
 	fmt.Println(myTokenPeer)
 	fmt.Println("algorithm == ", algorithm)
 
-	algorithm = "tokenAsking"
+	algorithm = s
 	setAlgorithmPeer()
 	fmt.Println(myTokenPeer)
 
