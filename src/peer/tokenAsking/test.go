@@ -129,11 +129,12 @@ func testSafety(numSender int) {
 	var enterP2 time.Time
 	var exitP1 time.Time
 	var exitP2 time.Time
+	index := 0
 
 	for e := logPaths.Front(); e != nil; e = e.Next() {
 		var enterDate time.Time
 		var exitDate time.Time
-		var index int //mi serve per vedere a quante iterazioni sto
+		//var index int //mi serve per vedere a quante iterazioni sto
 
 		fileScanner := getFileSplit(e.Value.(string))
 		for fileScanner.Scan() {
