@@ -9,8 +9,9 @@ import (
 
 func startTests() {
 
-	runTest(1, "tokenAsking") //invia msg solo il peer con ID 1
-	runTest(2, "tokenAsking") //invia msg solo il peer con ID 1
+	//runTest(1, "tokenAsking") //invia msg solo il peer con ID 1
+	//runTest(2, "tokenAsking") //invia msg solo il peer con ID 1
+	runTest(1, "ricartAgrawala") //invia msg solo il peer con ID 1
 
 }
 
