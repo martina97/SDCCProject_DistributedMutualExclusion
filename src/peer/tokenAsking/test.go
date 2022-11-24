@@ -14,8 +14,10 @@ import (
 
 var numMsg int
 var logPaths *list.List
+var numSender int
 
-func ExecuteTestPeer(peer *TokenPeer, numSender int) {
+func ExecuteTestPeer(peer *TokenPeer, num int) {
+	numSender = num
 	fmt.Println("sto in ExecuteTestPeer")
 	myPeer = *peer
 
@@ -33,8 +35,8 @@ func ExecuteTestPeer(peer *TokenPeer, numSender int) {
 
 }
 
-func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
-
+func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
+	numSender = num
 	logPaths = list.New().Init()
 	//logPaths.Init()
 	fmt.Println("sto in ExecuteTestCoordinator")
@@ -49,9 +51,9 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 			numMsg++
 		}
 	}
-	fmt.Println("sto qua")
+	//fmt.Println("sto qua")
 	Wg.Add(-numSender)
-	fmt.Println("sto qua2")
+	//fmt.Println("sto qua2")
 
 	for i := 0; i < utilities.MAXPEERS; i++ {
 		if i != myCoordinator.ID {
@@ -62,11 +64,12 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 			//fmt.Println(LogPath)
 		}
 	}
-	testNoStarvation(numSender)
+	testNoStarvation()
 	if numSender == 2 {
-		fmt.Println("test safety !!!! ")
-		testSafety(numSender)
+		//fmt.Println("test safety !!!! ")
+		testSafety()
 	}
+	testMessageNumber()
 
 	/*
 		ora posso controllare i vari file di log!!
@@ -87,7 +90,37 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 	//f.Close()
 }
 
-func testNoStarvation(numSender int) {
+func testMessageNumber() {
+
+	for e := logPaths.Front(); e != nil; e = e.Next() {
+		numMsg := 0
+		fileScanner := getFileSplit(e.Value.(string))
+		for fileScanner.Scan() {
+			//line := fileScanner.Text()
+
+			fmt.Println(fileScanner.Text())
+			if strings.Contains(fileScanner.Text(), "send REQUEST message") ||
+				strings.Contains(fileScanner.Text(), "receive TOKEN message") ||
+				strings.Contains(fileScanner.Text(), "send TOKEN message") {
+				//fmt.Println("CONTIENE !!!!! ")
+				numMsg++
+			}
+		}
+		fmt.Println("numMsg ===", numMsg)
+
+		if numSender == 3 {
+			fmt.Println(" === TEST NUMBER OF MESSAGES: PASSED !!")
+		} else {
+			fmt.Println(" === TEST NUMBER OF MESSAGES: FAILED !!")
+		}
+
+		if numSender == 1 {
+			break
+		}
+	}
+}
+
+func testNoStarvation() {
 
 	var csEntries int
 
@@ -99,16 +132,16 @@ func testNoStarvation(numSender int) {
 
 			fmt.Println(fileScanner.Text())
 			if strings.Contains(fileScanner.Text(), "enters the critical section") {
-				fmt.Println("CONTIENE !!!!! ")
+				//fmt.Println("CONTIENE !!!!! ")
 				csEntries++
 			}
 		}
 		if numSender == 1 {
 			break
 		}
-		fmt.Println("\n---------------------------------\n\n")
+		//fmt.Println("\n---------------------------------\n\n")
 	}
-	fmt.Println("csEntries == ", csEntries)
+	//fmt.Println("csEntries == ", csEntries)
 
 	if csEntries == numSender {
 		fmt.Println(" === TEST NO STARVATION: PASSED !!")
@@ -120,7 +153,7 @@ func testNoStarvation(numSender int) {
 }
 
 //solo se numSender = 2
-func testSafety(numSender int) {
+func testSafety() {
 
 	stringEnter := "enters the critical section at "
 	stringExit := "exits the critical section at "
