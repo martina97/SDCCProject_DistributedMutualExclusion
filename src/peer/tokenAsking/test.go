@@ -111,9 +111,9 @@ func testNoStarvation(numSender int) {
 	fmt.Println("csEntries == ", csEntries)
 
 	if csEntries == numSender {
-		fmt.Println("TEST NO STARVATION: PASSED !!")
+		fmt.Println(" === TEST NO STARVATION: PASSED !!")
 	} else {
-		fmt.Println("TEST NO STARVATION: FAILED !!")
+		fmt.Println(" === TEST NO STARVATION: FAILED !!")
 
 	}
 
@@ -129,6 +129,7 @@ func testSafety(numSender int) {
 	var enterP2 time.Time
 	var exitP1 time.Time
 	var exitP2 time.Time
+	var result bool
 	index := 0
 
 	for e := logPaths.Front(); e != nil; e = e.Next() {
@@ -139,7 +140,7 @@ func testSafety(numSender int) {
 		fileScanner := getFileSplit(e.Value.(string))
 		for fileScanner.Scan() {
 			//line := fileScanner.Text()
-			fmt.Println(fileScanner.Text())
+			//fmt.Println(fileScanner.Text())
 			if strings.Contains(fileScanner.Text(), stringEnter) {
 				//fmt.Println("CONTIENE !!!!! ")
 				enterDate = utilities.ConvertStringToDate(fileScanner.Text(), stringEnter)
@@ -165,6 +166,18 @@ func testSafety(numSender int) {
 	fmt.Println("exitP1 ==", exitP1)
 	fmt.Println("enterP2 ==", enterP2)
 	fmt.Println("exitP2 ==", exitP2)
+
+	if enterP1.Before(enterP2) {
+		result = exitP1.Before(enterP2)
+	} else {
+		result = exitP2.Before(enterP1)
+	}
+	if result {
+		fmt.Println(" === TEST SAFETY: PASSED !!")
+	} else {
+		fmt.Println(" === TEST SAFETY: FAILED !!")
+
+	}
 }
 
 func getFileSplit(path string) *bufio.Scanner {
