@@ -14,6 +14,7 @@ func ExecuteTestPeer(peer *RApeer, num int) {
 	numSender = num
 	fmt.Println("sto in ExecuteTestPeer")
 	MyRApeer = *peer
+	peerCnt = MyRApeer.PeerList.Len()
 
 	if numSender == 1 && MyRApeer.ID == 0 {
 		fmt.Println("mando il msg")
