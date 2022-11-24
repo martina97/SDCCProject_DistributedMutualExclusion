@@ -20,7 +20,7 @@ func ExecuteTestPeer(peer *RApeer, num int) {
 		fmt.Println("mando il msg")
 		SendRicart(&MyRApeer)
 	}
-	if numSender == 2 && (MyRApeer.ID == 1 || MyRApeer.ID == 2) {
+	if numSender == 1 && (MyRApeer.ID == 0 || MyRApeer.ID == 1) {
 		fmt.Println("mando il msg")
 		SendRicart(&MyRApeer)
 	} else {
