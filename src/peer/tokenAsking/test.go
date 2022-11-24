@@ -57,7 +57,7 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 			//fmt.Println(LogPath)
 		}
 	}
-	checkSafety()
+	checkSafety(numSender)
 
 	/*
 		ora posso controllare i vari file di log!!
@@ -75,14 +75,18 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 	//f.Close()
 }
 
-func checkSafety() {
+func checkSafety(numSender int) {
 
 	for e := logPaths.Front(); e != nil; e = e.Next() {
+
 		fileScanner := getFileSplit(e.Value.(string))
 		for fileScanner.Scan() {
 			//line := fileScanner.Text()
 
 			fmt.Println(fileScanner.Text())
+		}
+		if numSender == 1 {
+			break
 		}
 		fmt.Println("\n---------------------------------\n\n")
 	}
