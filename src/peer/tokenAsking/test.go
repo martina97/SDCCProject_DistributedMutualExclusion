@@ -108,7 +108,7 @@ func testMessageNumber() {
 		}
 		fmt.Println("numMsg ===", numMsg)
 
-		if numSender == 3 {
+		if numMsg == 3 {
 			fmt.Println(" === TEST NUMBER OF MESSAGES: PASSED !!")
 		} else {
 			fmt.Println(" === TEST NUMBER OF MESSAGES: FAILED !!")
