@@ -13,6 +13,7 @@ func startTests() {
 		fmt.Println("runTest1 finito")
 
 	*/
+	runTest(1, "tokenAsking") //invia msg solo il peer con ID 1
 	runTest(2, "tokenAsking") //invia msg solo il peer con ID 1
 
 }

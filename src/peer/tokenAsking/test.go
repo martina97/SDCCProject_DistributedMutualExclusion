@@ -98,7 +98,7 @@ func testMessageNumber() {
 		for fileScanner.Scan() {
 			//line := fileScanner.Text()
 
-			fmt.Println(fileScanner.Text())
+			//fmt.Println(fileScanner.Text())
 			if strings.Contains(fileScanner.Text(), "send REQUEST message") ||
 				strings.Contains(fileScanner.Text(), "receive TOKEN message") ||
 				strings.Contains(fileScanner.Text(), "send TOKEN message") {
