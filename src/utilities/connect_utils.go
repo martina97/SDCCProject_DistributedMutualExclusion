@@ -3,14 +3,12 @@ package utilities
 import (
 	"bufio"
 	"container/list"
-	"encoding/gob"
 	"errors"
 	"fmt"
 	"log"
 	"net"
 	"os"
 	"sync"
-	"time"
 )
 
 /*
@@ -107,62 +105,6 @@ func (utils *Utility) Save_registration(arg *NodeInfo, res *Result_file) error {
 	if err != nil {
 		log.Fatal(err)
 		return err
-	}
-
-	return nil
-}
-
-func (utils *Utility) CentralizedSincro(arg *CentralizedMessage, res *Result_file) error {
-	log.Printf("sono in CentralizedSincro")
-	log.Printf("*arg == ", *arg)
-	log.Printf("&arg == ", &arg)
-	log.Printf("msg == ", arg.MessageToString("receive"))
-
-	if arg.MsgTypeCentr == Enter { //msg di request
-		if resourceState == true {
-			// processo puo accedere in CS
-			log.Printf("processo puo accedere in CS")
-
-			//devo inviare msg granted al processo
-			peerConn := arg.Sender.Address + ":" + arg.Sender.Port
-
-			conn, err := net.Dial("tcp", peerConn)
-			defer conn.Close()
-			if err != nil {
-				log.Println("Send response error on Dial")
-			}
-			//msg2 := new(CentralizedMessage)
-
-			/*
-				dec := gob.NewDecoder(conn)
-				dec.Decode(msg2)
-				dec.Decode(arg)
-				log.Printf("sono DENTRO IF")
-				log.Printf("*msg2 == ", *msg2)
-				log.Printf("&msg2 == ", &msg2)
-				log.Printf("*arg == ", *arg)
-				log.Printf("&arg == ", &arg)
-
-			*/
-
-			date := time.Now().Format("15:04:05.000")
-
-			msg := NewGrantedMsg(arg.Sender.ID, date) //mando un msg di REPLY al processo, che puo accedere in CS
-			enc := gob.NewEncoder(conn)
-			enc.Encode(msg)
-
-			resourceState = false
-		} else { //se è false, il processo non puo accedere in CS, quindi metto msg in coda
-			if queue.Len() == 0 {
-				queue.PushBack(arg)
-				msg := queue.Front()
-				log.Printf("first queue ==", msg.Value)
-			}
-
-		}
-	} else if arg.MsgTypeCentr == Granted {
-		log.Printf("msg di release")
-
 	}
 
 	return nil

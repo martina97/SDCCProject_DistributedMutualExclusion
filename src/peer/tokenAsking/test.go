@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-var num_msg int
+var numMsg int
 var logPaths *list.List
 
 func ExecuteTestPeer(peer *TokenPeer, numSender int) {
@@ -43,10 +43,10 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 
 	//aspetta finche il numero di token msg ricevuti è pari a numSender
 	//Wait connection
-	for num_msg < numSender { //todo: mettere 3 , anche sotto
+	for numMsg < numSender { //todo: mettere 3 , anche sotto
 		ch := <-Connection
 		if ch == true {
-			num_msg++
+			numMsg++
 		}
 	}
 	fmt.Println("sto qua")
@@ -62,7 +62,11 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 			//fmt.Println(LogPath)
 		}
 	}
-	checkNoStarvation(numSender)
+	testNoStarvation(numSender)
+	if numSender == 2 {
+		fmt.Println("test safety !!!! ")
+		testSafety(numSender)
+	}
 
 	/*
 		ora posso controllare i vari file di log!!
@@ -83,7 +87,7 @@ func ExecuteTestCoordinator(coordinator *Coordinator, numSender int) {
 	//f.Close()
 }
 
-func checkNoStarvation(numSender int) {
+func testNoStarvation(numSender int) {
 
 	var csEntries int
 
@@ -106,6 +110,60 @@ func checkNoStarvation(numSender int) {
 	}
 	fmt.Println("csEntries == ", csEntries)
 
+	if csEntries == numSender {
+		fmt.Println("TEST NO STARVATION: PASSED !!")
+	} else {
+		fmt.Println("TEST NO STARVATION: FAILED !!")
+
+	}
+
+}
+
+//solo se numSender = 2
+func testSafety(numSender int) {
+
+	stringEnter := "enters the critical section at "
+	stringExit := "exits the critical section at "
+
+	var enterP1 time.Time
+	var enterP2 time.Time
+	var exitP1 time.Time
+	var exitP2 time.Time
+
+	for e := logPaths.Front(); e != nil; e = e.Next() {
+		var enterDate time.Time
+		var exitDate time.Time
+		var index int //mi serve per vedere a quante iterazioni sto
+
+		fileScanner := getFileSplit(e.Value.(string))
+		for fileScanner.Scan() {
+			//line := fileScanner.Text()
+			fmt.Println(fileScanner.Text())
+			if strings.Contains(fileScanner.Text(), stringEnter) {
+				//fmt.Println("CONTIENE !!!!! ")
+				enterDate = utilities.ConvertStringToDate(fileScanner.Text(), stringEnter)
+			}
+			if strings.Contains(fileScanner.Text(), stringExit) {
+				exitDate = utilities.ConvertStringToDate(fileScanner.Text(), stringExit)
+			}
+		}
+		if index == 0 {
+			//prima iterazione
+			enterP1 = enterDate
+			exitP1 = exitDate
+		} else {
+			enterP2 = enterDate
+			exitP2 = exitDate
+		}
+
+		fmt.Println("\n---------------------------------\n\n")
+		index++
+
+	}
+	fmt.Println("enterP1 ==", enterP1)
+	fmt.Println("exitP1 ==", exitP1)
+	fmt.Println("enterP2 ==", enterP2)
+	fmt.Println("exitP2 ==", exitP2)
 }
 
 func getFileSplit(path string) *bufio.Scanner {
