@@ -37,7 +37,7 @@ func ExecuteTestPeer(peer *RApeer, num int) {
 
 	for i := 0; i < num; i++ {
 		//fmt.Println(i)
-		LogPath := "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(i) + ".log"
+		LogPath := "/docker/node_volume/ricartAgrawala/peer_" + strconv.Itoa(i) + ".log"
 		logPaths.PushBack(LogPath)
 	}
 
