@@ -1,14 +1,15 @@
 Initial timestamp of p1 is 0
-[16:27:29.749] : p1 update its local logical timeStamp to 1
-[16:27:29.753] : p1 send Request message: {Request p0 16:27:29.749 [1]} to p0.
-[16:27:29.757] : p1 send Request message: {Request p2 16:27:29.749 [1]} to p2.
-[16:27:29.761] : p1 wait all peer reply messages.
-[16:27:29.766] : p1 receive Reply message: {Reply 16:27:29.761 [1]} from p2
-[16:27:29.770] : p1 receive Request message: {Request 16:27:29.754 [1]} from p0 and update its local logical timestamp to 1
-[16:27:29.775] : p1 send Reply message: {Reply p0 16:27:29.774 [1]} to p0
-[16:27:29.780] : p1 receive Reply message: {Reply 16:27:29.779 [1]} from p0
-[16:27:29.783] : p1 receive all peer reply messages successfully.
+[16:37:02.763] : p1 update its local logical timeStamp to 1
+[16:37:02.771] : p1 send Request message: {Request p0 16:37:02.763 [1]} to p0.
+[16:37:02.823] : p1 send Request message: {Request p2 16:37:02.763 [1]} to p2.
+[16:37:02.847] : p1 wait all peer reply messages.
+[16:37:02.855] : p1 receive Request message: {Request 16:37:02.762 [1]} from p0 and update its local logical timestamp to 1
+[16:37:02.862] : p1 send Reply message: {Reply p0 16:37:02.861 [1]} to p0
+[16:37:02.868] : p1 receive Reply message: {Reply 16:37:02.858 [1]} from p2
+[16:37:32.906] : p1 receive Reply message: {Reply 16:37:32.905 [1]} from p0
+[16:37:32.909] : p1 receive all peer reply messages successfully.
 
-p1 entered the critical section at 16:27:29.785
+p1 entered the critical section at 16:37:32.912
+[16:37:32.913] : p1 receive Request message: {Request 16:37:32.909 [2]} from p0 and update its local logical timestamp to 2
 
-p1 exited the critical section at 16:27:59.817
+p1 exited the critical section at 16:38:02.915

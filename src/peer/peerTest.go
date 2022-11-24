@@ -32,7 +32,7 @@ func runTest(i int, s string) {
 			tokenAsking.ExecuteTestCoordinator(&myCoordinator, i)
 		}
 	case "ricartAgrawala":
-		ricartAgrawala.ExecuteTestPeer(&myRApeer, 1)
+		ricartAgrawala.ExecuteTestPeer(&myRApeer, 2)
 
 	}
 
