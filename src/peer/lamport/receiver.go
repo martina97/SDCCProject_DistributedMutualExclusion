@@ -31,7 +31,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 	tmp := msg.SeqNum
 	//ogni peer ha il suo clock scalare, e' var globale come myNode e myID
 
-	time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
+	//time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
 
 	//mutex := lock.GetMutex()
 

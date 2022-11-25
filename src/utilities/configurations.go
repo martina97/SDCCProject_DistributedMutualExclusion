@@ -13,5 +13,5 @@ const (
 	MSG_BUFFERED_SIZE int    = 100
 	CHAN_SIZE         int    = 1
 	DATE_FORMAT       string = "15:04:05.000"
-	Test              bool   = false
+	Test              bool   = true
 )
