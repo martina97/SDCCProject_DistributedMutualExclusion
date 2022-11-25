@@ -32,6 +32,7 @@ type LamportPeer struct {
 	ChanRcvMsg      chan utilities.Message
 	ChanSendMsg     chan *utilities.Message
 	ChanAcquireLock chan bool
+	StartTest       chan bool
 	//replyProSet     *list.List // then Message.Sender is the key.
 	deferProSet *list.List // then Message.Sender is the key.
 
@@ -41,6 +42,8 @@ type LamportPeer struct {
 
 	DeferSet *list.List
 	replySet *list.List
+
+	numRelease int
 }
 
 func NewLamportPeer(username string, ID int, address string, port string) *LamportPeer {
@@ -57,8 +60,10 @@ func NewLamportPeer(username string, ID int, address string, port string) *Lampo
 		ChanAcquireLock: make(chan bool, utilities.CHAN_SIZE),
 		ChanRcvMsg:      make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE),
 		ChanSendMsg:     make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE),
+		StartTest:       make(chan bool, utilities.CHAN_SIZE),
 		deferProSet:     list.New(),
 		ScalarMap:       utilities.MessageMap{},
+		numRelease:      0,
 	}
 	peer.setInfos()
 	return peer

@@ -48,14 +48,20 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 		fmt.Println("numMsg ==", numMsg)
 		fmt.Println("numSender ==", numSender)
 		fmt.Println("wg ==", Wg)
-		for numMsg < numSender {
-			ch := <-Connection
-			if ch == true {
-				numMsg++
+
+		<-myPeer.StartTest
+
+		/*
+			for numMsg < numSender {
+				ch := <-Connection
+				if ch == true {
+					numMsg++
+				}
 			}
-		}
-		//fmt.Println("sto qua")
-		Wg.Add(-numSender)
+			//fmt.Println("sto qua")
+			Wg.Add(-numSender)
+
+		*/
 
 		testMessageNumber()
 		testNoStarvation()
