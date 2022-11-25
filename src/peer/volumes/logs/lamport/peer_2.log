@@ -1,7 +1,7 @@
 Initial timestamp of p2 is 0
-[17:49:15.593] : p2 receive Request message: {Request 17:48:41.554 [1]} from p0 and update its local logical timestamp to 1
-[17:49:15.600] : p2 update its local logical timeStamp to 1
-[17:49:15.799] : p2 receive Request message: {Request 17:48:43.347 [1]} from p1 and update its local logical timestamp to 1
-[17:49:15.806] : p2 update its local logical timeStamp to 1
-[17:50:45.695] : p2 receive Release message: {Release 17:50:15.658 [1]} from p0 and update its local logical timestamp to 1
-[17:51:45.859] : p2 receive Release message: {Release 17:51:15.849 [1]} from p1 and update its local logical timestamp to 1
+[17:54:15.652] : p2 receive Request message: {Request 17:53:42.683 [1]} from p0 and update its local logical timestamp to 1
+[17:54:15.658] : p2 update its local logical timeStamp to 1
+[17:54:15.754] : p2 receive Request message: {Request 17:53:43.730 [1]} from p1 and update its local logical timestamp to 1
+[17:54:15.788] : p2 update its local logical timeStamp to 1
+[17:55:45.739] : p2 receive Release message: {Release 17:55:15.712 [1]} from p0 and update its local logical timestamp to 1
+[17:56:45.788] : p2 receive Release message: {Release 17:56:15.756 [1]} from p1 and update its local logical timestamp to 1

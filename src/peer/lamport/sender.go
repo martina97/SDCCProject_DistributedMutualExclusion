@@ -59,6 +59,8 @@ func SendLamport(peer *LamportPeer) {
 
 	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " entered the critical section at "+date+".", true)
 	time.Sleep(time.Minute / 2)
+	date = time.Now().Format(utilities.DATE_FORMAT)
+
 	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " exited the critical section at "+date+".", true)
 
 	//lascio CS e mando msg release a tutti
