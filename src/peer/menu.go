@@ -98,7 +98,8 @@ func openTestMenu() (int, string) {
 	prompt := promptui.Select{
 		Label: "Select Option",
 		Items: []string{"Test TokenAsking 1 sender", "Test TokenAsking 2 senders",
-			"Test RicartAgrawala 1 sender", "Test RicartAgrawala 2 senders"},
+			"Test RicartAgrawala 1 sender", "Test RicartAgrawala 2 senders",
+			"Test Lamport 1 sender", "Test Lamport 2 senders"},
 	}
 
 	i, result, err := prompt.Run() //i: indice di cosa ho scelto
@@ -121,6 +122,12 @@ func openTestMenu() (int, string) {
 	}
 	if i+1 == 4 { //send new request
 		return 2, "ricartAgrawala"
+	}
+	if i+1 == 5 { //send new request
+		return 1, "lamport"
+	}
+	if i+1 == 6 { //send new request
+		return 2, "lamport"
 	}
 	return 0, ""
 }

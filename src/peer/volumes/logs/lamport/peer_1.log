@@ -1,17 +1,17 @@
 Initial timestamp of p1 is 0
-[17:53:43.731] : p1 update its local logical timeStamp to 1
-[17:53:44.361] : p1 send Request message: {Request p0 17:53:43.730 [1]} to p0.
-[17:53:45.752] : p1 send Request message: {Request p2 17:53:43.730 [1]} to p2.
-[17:53:46.020] : p1 wait all peer reply messages.
-[17:54:14.020] : p1 receive Request message: {Request 17:53:42.683 [1]} from p0 and update its local logical timestamp to 1
-[17:54:14.027] : p1 update its local logical timeStamp to 1
-[17:54:44.407] : p1 receive Reply message: {Reply 17:54:14.369 [1]} from p0
-[17:54:45.816] : p1 receive Reply message: {Reply 17:54:15.788 [1]} from p2
-[17:55:45.718] : p1 receive Release message: {Release 17:55:15.712 [1]} from p0 and update its local logical timestamp to 1
-[17:55:45.734] : p1  receive all peer reply messages successfully.
+[18:04:12.269] : p1 update its local logical timeStamp to 1
+[18:04:12.274] : p1 send Request message: {Request p0 18:04:12.269 [1]} to p0.
+[18:04:12.278] : p1 send Request message: {Request p2 18:04:12.269 [1]} to p2.
+[18:04:12.281] : p1 wait all peer reply messages.
+[18:04:39.485] : p1 receive Request message: {Request 18:04:09.460 [1]} from p0 and update its local logical timestamp to 1
+[18:04:39.490] : p1 update its local logical timeStamp to 1
+[18:05:12.343] : p1 receive Reply message: {Reply 18:04:42.315 [1]} from p2
+[18:05:12.361] : p1 receive Reply message: {Reply 18:04:42.312 [1]} from p0
+[18:06:09.616] : p1 receive Release message: {Release 18:05:39.613 [1]} from p0 and update its local logical timestamp to 1
+[18:06:09.621] : p1  receive all peer reply messages successfully.
 
-p1 entered the critical section at 17:55:45.737.
+p1 entered the critical section at 18:06:09.626.
 
-p1 exited the critical section at 17:55:45.737.
-[17:56:15.757] : p1 send Release message: {Release p0 17:56:15.756 [1]} to p0.
-[17:56:15.760] : p1 send Release message: {Release p2 17:56:15.756 [1]} to p2.
+p1 exited the critical section at 18:06:39.656.
+[18:06:39.666] : p1 send Release message: {Release p0 18:06:39.663 [1]} to p0.
+[18:06:40.055] : p1 send Release message: {Release p2 18:06:39.663 [1]} to p2.
