@@ -45,18 +45,19 @@ func SendLamport(peer *LamportPeer) {
 	myPeer.Waiting = true
 
 	myPeer.mutex.Unlock()
-	utilities.WriteInfoToFile(myPeer.ID, " wait all peer reply messages.", false)
+
+	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, "wait all peer reply messages.", false)
 
 	<-myPeer.ChanAcquireLock
 
-	utilities.WriteInfoToFile(myPeer.ID, " receive all peer reply messages successfully.", false)
+	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " receive all peer reply messages successfully.", false)
 
 	//ho ricevuto tutti msg reply, ora entro in cs
 	fmt.Println("lista di msg in coda ==", myPeer.ScalarMap)
 	fmt.Println("entro in CS")
-	utilities.WriteInfoToFile(myPeer.ID, " entered the critical section at ", true)
+	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " entered the critical section at ", true)
 	time.Sleep(time.Minute / 2)
-	utilities.WriteInfoToFile(myPeer.ID, " exited the critical section at ", true)
+	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " exited the critical section at ", true)
 
 	//lascio CS e mando msg release a tutti
 	sendRelease()
@@ -65,7 +66,8 @@ func SendLamport(peer *LamportPeer) {
 
 func sendRequest(msg utilities.Message) error {
 
-	utilities.WriteTSInfoToFile(myPeer.ID, myPeer.Timestamp, "lamport")
+	utilities.WriteTSInfoToFile2(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
+
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
 		//only peer are destination of msgs

@@ -55,34 +55,6 @@ type NodeInfo struct {
 	//LockInfo *infoLock
 }
 
-func (p *NodeInfo) GetReplyProSet() *list.List {
-	return p.replyProSet
-}
-
-func (p *NodeInfo) SetReplyProSet(replyProSet *list.List) {
-	p.replyProSet = replyProSet
-}
-
-func (p *NodeInfo) GetDeferProSet() *list.List {
-	return p.deferProSet
-}
-
-func (p *NodeInfo) SetDeferProSet(deferProSet *list.List) {
-	p.deferProSet = deferProSet
-}
-
-func (p *NodeInfo) GetFileLog() *log.Logger {
-	return p.fileLog
-}
-
-func (p *NodeInfo) SetFileLog(fileLog *log.Logger) {
-	p.fileLog = fileLog
-}
-
-func (p NodeInfo) GetMutex() sync.Mutex {
-	return p.mutex
-}
-
 func TypeToString(nodeType NodeType) string {
 	switch nodeType {
 	case Peer:
@@ -108,25 +80,6 @@ func ParseLine(s string, sep string) (string, string, string, string) {
 	return res[0], res[1], res[2], res[3]
 }
 
-func CreateLog(process *NodeInfo, typeInfo string, id string, header string) *log.Logger {
-	serverLogFile, err := os.Create("/docker/node_volume/" + typeInfo + id + ".log")
-	if err != nil {
-		log.Printf("unable to read file: %v", err)
-	}
-	serverLogFile.Close()
-	/*
-		newpath := filepath.Join(".", "log")
-		os.MkdirAll(newpath, os.ModePerm)
-		serverLogFile, _ := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
-		// return log.New(serverLogFile, header, log.Lmicroseconds|log.Lshortfile)
-
-	*/
-
-	process.SetFileLog(log.New(serverLogFile, header, log.Lshortfile))
-
-	return log.New(serverLogFile, header, log.Lshortfile)
-}
-
 func CreateLog2(path string, header string) *log.Logger {
 	serverLogFile, err := os.Create(path)
 	if err != nil {
@@ -144,52 +97,6 @@ func CreateLog2(path string, header string) *log.Logger {
 	//process.SetFileLog(log.New(serverLogFile, header, log.Lshortfile))
 
 	return log.New(serverLogFile, header, log.Lshortfile)
-}
-
-// scrivo nel file tutte le info sui msg ricevuti / mandati
-func WriteMsgToFile(process *NodeInfo, typeMsg string, message Message, idNodeDest int, timestamp TimeStamp) error {
-	f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(process.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-	//save new address on file
-	date := time.Now().Format(DATE_FORMAT)
-	if typeMsg == "Send" {
-		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.ToString("send") + " to process(" + strconv.Itoa(idNodeDest) + ")")
-	}
-	if typeMsg == "Receive" {
-		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.ToString("receive"))
-		_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
-	}
-	_, err = f.WriteString("\n")
-	err = f.Sync()
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func WriteMsgToFile2(id int, typeMsg string, message Message, idNodeDest int, timestamp TimeStamp, algo string) error {
-	fmt.Println("sto in WriteMsgToFile2")
-	f, err := os.OpenFile("/docker/node_volume/"+algo+"/peer_"+strconv.Itoa(id)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-	//save new address on file
-	date := time.Now().Format(DATE_FORMAT)
-	if typeMsg == "Send" {
-		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.ToString("send") + " to p" + strconv.Itoa(idNodeDest) + ".")
-	}
-	if typeMsg == "Receive" {
-		_, err = f.WriteString("[" + date + "] : " + typeMsg + message.ToString("receive"))
-		_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
-	}
-	_, err = f.WriteString("\n")
-	err = f.Sync()
-	if err != nil {
-		return err
-	}
-	return nil
 }
 
 func WriteMsgToFile3(path string, id string, typeMsg string, message Message, timestamp TimeStamp, algo string) error {
@@ -218,24 +125,6 @@ func WriteMsgToFile3(path string, id string, typeMsg string, message Message, ti
 	return nil
 }
 
-func WriteInfoToFile(processID int, text string, infoCS bool) {
-	f, err := os.OpenFile("/docker/node_volume/peer_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-	//save new address on file
-	date := time.Now().Format(DATE_FORMAT)
-
-	if infoCS == false {
-		_, err = f.WriteString("[" + date + "] : p" + strconv.Itoa(processID) + " " + text)
-	} else {
-		_, err = f.WriteString("\nprocess " + strconv.Itoa(processID) + text + date)
-
-	}
-	_, err = f.WriteString("\n")
-	err = f.Sync()
-}
-
 func WriteInfoToFile2(username string, path string, text string, infoCS bool) {
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
@@ -250,21 +139,6 @@ func WriteInfoToFile2(username string, path string, text string, infoCS bool) {
 		_, err = f.WriteString("\n" + username + text)
 
 	}
-	_, err = f.WriteString("\n")
-	err = f.Sync()
-}
-
-func WriteTSInfoToFile(processID int, timestamp TimeStamp, algorithm string) {
-
-	f, err := os.OpenFile("/docker/node_volume/"+algorithm+"/peer_"+strconv.Itoa(processID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-
-	//save new address on file
-	date := time.Now().Format(DATE_FORMAT)
-
-	_, err = f.WriteString("[" + date + "] : " + strconv.Itoa(processID) + " update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 }
