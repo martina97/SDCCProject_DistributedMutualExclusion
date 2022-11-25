@@ -1,3 +1,3 @@
 Initial vector clock of p2 is [0 0]
-[11:30:13.251] : p2 try to get the token.
-[11:30:13.384] : p2 update its vector clock to [0 1]
+[11:33:54.554] : p2 try to get the token.
+[11:33:54.558] : p2 update its vector clock to [0 1]

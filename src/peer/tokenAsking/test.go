@@ -31,8 +31,11 @@ func ExecuteTestPeer(peer *TokenPeer, num int) {
 	}
 
 	//aspetto 30s e resetto
-	time.Sleep(time.Minute)
-	myPeer = TokenPeer{}
+	/*
+		time.Sleep(time.Minute)
+		myPeer = TokenPeer{}
+
+	*/
 
 }
 
@@ -54,6 +57,10 @@ func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
 	}
 	//fmt.Println("sto qua")
 	Wg.Add(-numSender)
+
+	Connection <- false
+	numMsg = 0
+
 	//fmt.Println("sto qua2")
 
 	for i := 1; i < num+1; i++ {
@@ -88,7 +95,7 @@ func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
 
 	//aspetto 30s e resetto
 	//time.Sleep(time.Minute / 2)
-	myCoordinator = Coordinator{}
+	//myCoordinator = Coordinator{}
 }
 
 func testMessageNumber() {
