@@ -13,7 +13,7 @@ import (
 
 func HandleConnection(conn net.Conn, peer *LamportPeer) {
 	fmt.Println("sto in handleConnection dentro lamport package")
-	if myPeer == (LamportPeer{}) {
+	if myPeer.Username == "" {
 		fmt.Println("LamportPeer VUOTA")
 		myPeer = *peer
 		//peerCnt = MyRApeer.PeerList.Len()

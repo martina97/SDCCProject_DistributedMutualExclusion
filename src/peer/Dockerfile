@@ -17,6 +17,7 @@ COPY peer/*.go ./peer/
 COPY utilities/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/src/utilities/
 COPY /peer/ricartAgrawala/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala/
 COPY /peer/tokenAsking/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking/
+COPY /peer/lamport/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/src/peer/lamport/
 
 #COPY menu/*.go ./menu/
 

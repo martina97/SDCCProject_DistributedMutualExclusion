@@ -13,7 +13,7 @@ var myPeer LamportPeer
 
 func SendLamport(peer *LamportPeer) {
 
-	if myPeer == (LamportPeer{}) {
+	if myPeer.Username == "" {
 		fmt.Println("sto in SendLamport --- RA_PEER VUOTA")
 		myPeer = *peer
 		//peerCnt = MyRApeer.PeerList.Len()
