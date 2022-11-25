@@ -115,7 +115,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 			Wg.Add(1)
 		}
 
-		fmt.Println("wg ==", Wg)
+		//fmt.Println("wg ==", Wg)
 
 		//utilities.WriteMsgToFile(&myNode, "Receive", *msg, 0, myNode.TimeStamp)
 		utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
