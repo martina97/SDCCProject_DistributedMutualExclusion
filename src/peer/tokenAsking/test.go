@@ -31,7 +31,7 @@ func ExecuteTestPeer(peer *TokenPeer, num int) {
 	}
 
 	//aspetto 30s e resetto
-	time.Sleep(time.Minute / 2)
+	time.Sleep(time.Minute)
 	myPeer = TokenPeer{}
 
 }
