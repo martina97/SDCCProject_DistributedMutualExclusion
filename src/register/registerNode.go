@@ -6,6 +6,8 @@ import (
 	"net"
 	"net/rpc"
 	"os"
+	"time"
+
 	//"provaMutualExLamport/src/utilities"
 	"strconv"
 )
@@ -69,9 +71,13 @@ func main() {
 	utilities.Wg.Add(-utilities.MAXPEERS) //quando tutti e 3 sono registrati si ritorna a #src
 
 	//send client a responce for max number of peer registered
+	time.Sleep(time.Minute)
 
-	for {
-		//TODO after registration this peer must be off ??
-	}
+	/*
+		for {
+			//TODO after registration this peer must be off ??
+		}
+
+	*/
 
 }

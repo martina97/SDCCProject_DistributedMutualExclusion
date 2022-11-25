@@ -26,10 +26,10 @@ func ExecuteTestPeer(peer *TokenPeer, num int) {
 		fmt.Println("mando il msg")
 		SendRequest(&myPeer)
 	} else {
+		fmt.Println("sto nella sleep nei test!")
 		fmt.Println("sleep")
 		time.Sleep(time.Minute / 2)
 	}
-	time.Sleep(time.Second * 40)
 
 	//aspetto 30s e resetto
 	/*
@@ -91,9 +91,6 @@ func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
 
 	//f.Close()
 
-	//aspetto 30s e resetto
-	//time.Sleep(time.Minute / 2)
-	//myCoordinator = Coordinator{}
 }
 
 func testMessageNumber() {

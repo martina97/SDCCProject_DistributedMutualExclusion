@@ -49,8 +49,6 @@ func ExecuteTestPeer(peer *RApeer, num int) {
 		if numSender == 2 {
 			testSafety()
 		}
-	} else {
-		time.Sleep(time.Second * 40)
 	}
 
 }

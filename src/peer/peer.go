@@ -50,6 +50,10 @@ func main() {
 	*/
 	peers = list.New()
 
+	if utilities.Test {
+		numSenders, algorithm = openTestMenu()
+	}
+
 	fmt.Println("Choose a username")
 	in := bufio.NewReader(os.Stdin)
 	// 2 peer non possono avere stesso username
@@ -116,7 +120,6 @@ func main() {
 		//lancio i test
 		//p0 sceglie il test (x semplicità 1 solo lo sceglie)
 		//if myID == 0 {
-		numSenders, algorithm = openTestMenu()
 		//}
 		startTests()
 
