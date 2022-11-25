@@ -58,9 +58,6 @@ func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
 	//fmt.Println("sto qua")
 	Wg.Add(-numSender)
 
-	Connection <- false
-	numMsg = 0
-
 	//fmt.Println("sto qua2")
 
 	for i := 1; i < num+1; i++ {
