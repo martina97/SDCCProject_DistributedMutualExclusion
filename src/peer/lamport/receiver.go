@@ -112,6 +112,8 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 
 		Connection <- true
 		Wg.Add(1)
+		Wg.Wait()
+
 		fmt.Println("wg ==", Wg)
 
 		//utilities.WriteMsgToFile(&myNode, "Receive", *msg, 0, myNode.TimeStamp)
