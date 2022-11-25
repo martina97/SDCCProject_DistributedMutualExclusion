@@ -55,9 +55,11 @@ func SendLamport(peer *LamportPeer) {
 	//ho ricevuto tutti msg reply, ora entro in cs
 	fmt.Println("lista di msg in coda ==", myPeer.ScalarMap)
 	fmt.Println("entro in CS")
-	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " entered the critical section at ", true)
+	date = time.Now().Format(utilities.DATE_FORMAT)
+
+	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " entered the critical section at "+date+".", true)
 	time.Sleep(time.Minute / 2)
-	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " exited the critical section at ", true)
+	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " exited the critical section at "+date+".", true)
 
 	//lascio CS e mando msg release a tutti
 	sendRelease()

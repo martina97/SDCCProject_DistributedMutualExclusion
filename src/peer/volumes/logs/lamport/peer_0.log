@@ -1,15 +1,17 @@
 Initial timestamp of p0 is 0
-[17:33:02.833] : p0 update its local logical timeStamp to 1
-[17:33:02.837] : p0 send Request message: {Request p1 17:33:02.833 [1]} to p1.
-[17:33:02.859] : p0 send Request message: {Request p2 17:33:02.833 [1]} to p2.
-[17:33:02.862] : p0 wait all peer reply messages.
-[17:34:02.958] : p0 receive Reply message: {Reply 17:33:32.906 [2]} from p2
-[17:34:02.966] : p0 receive Reply message: {Reply 17:33:32.885 [2]} from p1
-[17:34:02.971] : p0  receive all peer reply messages successfully.
+[17:48:41.554] : p0 update its local logical timeStamp to 1
+[17:48:44.226] : p0 send Request message: {Request p1 17:48:41.554 [1]} to p1.
+[17:48:45.541] : p0 send Request message: {Request p2 17:48:41.554 [1]} to p2.
+[17:48:45.801] : p0 wait all peer reply messages.
+[17:49:15.179] : p0 receive Request message: {Request 17:48:43.347 [1]} from p1 and update its local logical timestamp to 1
+[17:49:15.184] : p0 update its local logical timeStamp to 1
+[17:49:44.263] : p0 receive Reply message: {Reply 17:49:14.256 [1]} from p1
+[17:49:45.616] : p0 receive Reply message: {Reply 17:49:15.600 [1]} from p2
+[17:49:45.620] : p0  receive all peer reply messages successfully.
 
 p0 entered the critical section at 
 
 p0 exited the critical section at 
-[17:34:33.102] : p0 update its local logical timeStamp to 3
-[17:34:33.105] : p0 send Release message: {Release p1 17:34:33.102 [3]} to p1.
-[17:34:33.108] : p0 send Release message: {Release p2 17:34:33.102 [3]} to p2.
+[17:50:15.658] : p0 send Release message: {Release p1 17:50:15.658 [1]} to p1.
+[17:50:15.662] : p0 send Release message: {Release p2 17:50:15.658 [1]} to p2.
+[17:51:45.862] : p0 receive Release message: {Release 17:51:15.849 [1]} from p1 and update its local logical timestamp to 1
