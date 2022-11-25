@@ -34,7 +34,7 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 		SendLamport(&myPeer)
 	} else {
 		fmt.Println("sleep")
-		time.Sleep(time.Minute + time.Minute/2)
+		time.Sleep(time.Minute * 3)
 	}
 
 	fmt.Println(" ####################### TEST #############################")
