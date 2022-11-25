@@ -34,7 +34,7 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 		SendLamport(&myPeer)
 	} else {
 		fmt.Println("sleep")
-		time.Sleep(time.Minute)
+		time.Sleep(time.Minute + time.Minute/2)
 	}
 
 	fmt.Println(" ####################### TEST #############################")
@@ -48,7 +48,7 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 	//faccio eseguire a p2 i test, ossia legge tutti i file, per farlo devo aspettare che riceva numSender msg di release!!
 	if myPeer.ID == 2 {
 
-		fmt.Println("numMsg ==", num)
+		fmt.Println("numMsg ==", numMsg)
 		fmt.Println("numSender ==", numSender)
 		fmt.Println("wg ==", Wg)
 		for numMsg < numSender {
