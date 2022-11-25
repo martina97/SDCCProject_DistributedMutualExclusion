@@ -30,6 +30,10 @@ func ExecuteTestPeer(peer *TokenPeer, num int) {
 		time.Sleep(time.Minute / 2)
 	}
 
+	//aspetto 30s e resetto
+	time.Sleep(time.Minute / 2)
+	myPeer = TokenPeer{}
+
 }
 
 func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
@@ -60,6 +64,9 @@ func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
 		//fmt.Println(LogPath)
 
 	}
+
+	fmt.Println(" ####################### TEST #############################")
+
 	testNoStarvation()
 	if numSender == 2 {
 		//fmt.Println("test safety !!!! ")
@@ -78,10 +85,15 @@ func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
 	*/
 
 	//f.Close()
+
+	//aspetto 30s e resetto
+	//time.Sleep(time.Minute / 2)
+	myCoordinator = Coordinator{}
 }
 
 func testMessageNumber() {
 
+	index := 1
 	for e := logPaths.Front(); e != nil; e = e.Next() {
 		numMsg := 0
 		fileScanner := utilities.GetFileSplit(e.Value.(string))
@@ -96,20 +108,15 @@ func testMessageNumber() {
 				numMsg++
 			}
 		}
-		fmt.Println("numMsg ===", numMsg)
+		//fmt.Println("numMsg ===", numMsg)
 
 		if numMsg == 3 {
-			fmt.Println(" === TEST NUMBER OF MESSAGES: PASSED !!")
+			fmt.Println(" === TEST NUMBER OF MESSAGES p", index, ": PASSED !!")
 		} else {
-			fmt.Println(" === TEST NUMBER OF MESSAGES: FAILED !!")
+			fmt.Println(" === TEST NUMBER OF MESSAGES p", index, ": FAILED !!")
 		}
+		index++
 
-		/*
-			if numSender == 1 {
-				break
-			}
-
-		*/
 	}
 }
 
@@ -123,7 +130,7 @@ func testNoStarvation() {
 		for fileScanner.Scan() {
 			//line := fileScanner.Text()
 
-			fmt.Println(fileScanner.Text())
+			//fmt.Println(fileScanner.Text())
 			if strings.Contains(fileScanner.Text(), "enters the critical section") {
 				//fmt.Println("CONTIENE !!!!! ")
 				csEntries++
@@ -187,14 +194,16 @@ func testSafety() {
 			exitP2 = exitDate
 		}
 
-		fmt.Println("\n---------------------------------\n\n")
+		//fmt.Println("\n---------------------------------\n\n")
 		index++
 
 	}
-	fmt.Println("enterP1 ==", enterP1)
-	fmt.Println("exitP1 ==", exitP1)
-	fmt.Println("enterP2 ==", enterP2)
-	fmt.Println("exitP2 ==", exitP2)
+	/*
+		fmt.Println("enterP1 ==", enterP1)
+		fmt.Println("exitP1 ==", exitP1)
+		fmt.Println("enterP2 ==", enterP2)
+		fmt.Println("exitP2 ==", exitP2)
+	*/
 
 	if enterP1.Before(enterP2) {
 		result = exitP1.Before(enterP2)
