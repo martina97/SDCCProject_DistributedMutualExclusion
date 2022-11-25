@@ -1,6 +1,7 @@
 package main
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala"
 	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
@@ -55,6 +56,9 @@ func message_handler() {
 			} else {
 				go tokenAsking.HandleConnectionPeer(connection, &myTokenPeer)
 			}
+		case "lamport":
+			go lamport.HandleConnection(connection, &myLamportPeer)
+
 		}
 
 		//go handleConnection(connection)

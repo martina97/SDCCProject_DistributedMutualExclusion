@@ -3,6 +3,7 @@ package main
 //è il main
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala"
 	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
@@ -23,6 +24,7 @@ var (
 	myUsername    string
 	allID         []int
 	myNode        utilities.NodeInfo
+	myLamportPeer lamport.LamportPeer
 	myRApeer      ricartAgrawala.RApeer   //todo: serve? non posso semplicemente mandarlo al sender?
 	myTokenPeer   tokenAsking.TokenPeer   //todo: serve?
 	myCoordinator tokenAsking.Coordinator //todo: serve?
@@ -236,6 +238,14 @@ func setPeerUtils2() {
 func setAlgorithmPeer() {
 	fmt.Println(" -------  sto in setAlgorithmPeer  -------")
 	switch algorithm {
+	case "lamport":
+		myLamportPeer = *lamport.NewLamportPeer(myUsername, myID, myNode.Address, myNode.Port)
+		fmt.Println("myLamportPeer ====", myLamportPeer)
+		fmt.Println("myNode ====", myNode)
+		utilities.StartTS(myLamportPeer.Timestamp)
+		myLamportPeer.PeerList = peers
+		fmt.Println("myLamportPeer.PeerList = ", myLamportPeer.PeerList)
+
 	case "ricartAgrawala":
 		myRApeer = *ricartAgrawala.NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)
 		fmt.Println("myRApeer ====", myRApeer)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala"
 	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
@@ -20,7 +21,7 @@ func sendMessage() error {
 	case "tokenAsking":
 		tokenAsking.SendRequest(&myTokenPeer)
 	case "Lamport":
-		sendLamport()
+		lamport.SendLamport(&myLamportPeer)
 	case "ricartAgrawala":
 		ricartAgrawala.SendRicart(&myRApeer)
 	}
