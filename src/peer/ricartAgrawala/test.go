@@ -125,14 +125,17 @@ func testSafety() {
 			exitP2 = exitDate
 		}
 
-		fmt.Println("\n---------------------------------\n\n")
+		//fmt.Println("\n---------------------------------\n\n")
 		index++
 
 	}
-	fmt.Println("enterP1 ==", enterP1)
-	fmt.Println("exitP1 ==", exitP1)
-	fmt.Println("enterP2 ==", enterP2)
-	fmt.Println("exitP2 ==", exitP2)
+	/*
+		fmt.Println("enterP1 ==", enterP1)
+		fmt.Println("exitP1 ==", exitP1)
+		fmt.Println("enterP2 ==", enterP2)
+		fmt.Println("exitP2 ==", exitP2)
+
+	*/
 
 	if enterP1.Before(enterP2) {
 		result = exitP1.Before(enterP2)
@@ -154,6 +157,7 @@ func testMessageNumber() {
 			• N-1 messaggi di reply
 	*/
 
+	index := 0
 	for e := logPaths.Front(); e != nil; e = e.Next() {
 		numMsg := 0
 		fileScanner := utilities.GetFileSplit(e.Value.(string))
@@ -167,19 +171,14 @@ func testMessageNumber() {
 				numMsg++
 			}
 		}
-		fmt.Println("numMsg ===", numMsg)
+		//fmt.Println("numMsg ===", numMsg)
 
 		if numMsg == 2*(utilities.MAXPEERS-1) {
-			fmt.Println(" === TEST NUMBER OF MESSAGES: PASSED !!")
+			fmt.Println(" === TEST NUMBER OF MESSAGES p", index, ": PASSED !!")
 		} else {
-			fmt.Println(" === TEST NUMBER OF MESSAGES: FAILED !!")
+			fmt.Println(" === TEST NUMBER OF MESSAGES p", index, ": FAILED !!")
 		}
+		index++
 
-		/*
-			if numSender == 1 {
-				break
-			}
-
-		*/
 	}
 }

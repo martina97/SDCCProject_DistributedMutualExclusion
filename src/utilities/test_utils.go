@@ -2,7 +2,6 @@ package utilities
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -37,13 +36,13 @@ func GetFileSplit(path string) *bufio.Scanner {
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	fmt.Println("sto qua3")
+	//fmt.Println("sto qua3")
 
 	fileScanner := bufio.NewScanner(f)
-	fmt.Println("sto qua4")
+	//fmt.Println("sto qua4")
 
 	fileScanner.Split(bufio.ScanLines)
-	fmt.Println("sto qua5")
+	//fmt.Println("sto qua5")
 	//f.Close()
 	return fileScanner
 }
