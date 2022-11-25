@@ -9,30 +9,32 @@ import (
 
 func startTests() {
 
-	runTest(1, "tokenAsking") //invia msg solo il peer con ID 1
+	runTest()
+	//runTest(1, "tokenAsking") //invia msg solo il peer con ID 1
 	//runTest(2, "tokenAsking") //invia msg solo il peer con ID 1
-	runTest(1, "ricartAgrawala") //invia msg solo il peer con ID 1
+	//runTest(1, "ricartAgrawala") //invia msg solo il peer con ID 1
 
 }
 
-func runTest(i int, s string) {
-	fmt.Println("sto in runTest")
+//func runTest(i int, s string) {
+func runTest() {
+	fmt.Println("sto in runTest: ", algorithm, "num sender = ", numSenders)
 	fmt.Println(myTokenPeer)
 	fmt.Println("algorithm == ", algorithm)
 
-	algorithm = s
+	//algorithm = s
 	setAlgorithmPeer()
 	fmt.Println(myTokenPeer)
 
-	switch s {
+	switch algorithm {
 	case "tokenAsking":
 		if myUsername != utilities.COORDINATOR {
-			tokenAsking.ExecuteTestPeer(&myTokenPeer, i)
+			tokenAsking.ExecuteTestPeer(&myTokenPeer, numSenders)
 		} else {
-			tokenAsking.ExecuteTestCoordinator(&myCoordinator, i)
+			tokenAsking.ExecuteTestCoordinator(&myCoordinator, numSenders)
 		}
 	case "ricartAgrawala":
-		ricartAgrawala.ExecuteTestPeer(&myRApeer, i)
+		ricartAgrawala.ExecuteTestPeer(&myRApeer, numSenders)
 
 	}
 

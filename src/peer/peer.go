@@ -35,6 +35,9 @@ var (
 		timeStamp utilities.Num //todo: mettere tutte queste var in una struttura per ogni processo
 
 	*/
+
+	//utili per test
+	numSenders int
 )
 
 func main() {
@@ -111,6 +114,10 @@ func main() {
 
 	if utilities.Test {
 		//lancio i test
+		//p0 sceglie il test (x semplicità 1 solo lo sceglie)
+		//if myID == 0 {
+		numSenders, algorithm = openTestMenu()
+		//}
 		startTests()
 
 	} else {
