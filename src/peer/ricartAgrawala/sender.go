@@ -81,10 +81,10 @@ func SendRicart(peer *RApeer) {
 	fmt.Println("entro in CS")
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
-	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " enters the critical section at "+date, true)
+	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " enters the critical section at "+date+".", true)
 	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
 	date = time.Now().Format(utilities.DATE_FORMAT)
-	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " exits the critical section at "+date, true)
+	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " exits the critical section at "+date+".", true)
 
 	//7. ∀ r∈Q send REPLY to r
 	fmt.Println("la lista dei msg in coda == ", MyRApeer.DeferSet)
