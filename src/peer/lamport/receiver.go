@@ -110,9 +110,10 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		fmt.Println(" RICEVO RELEASE !! ")
 		myPeer.mutex.Lock()
 
-		Connection <- true
-		Wg.Add(1)
-		Wg.Wait()
+		if myPeer.ID == 2 {
+			Connection <- true
+			Wg.Add(1)
+		}
 
 		fmt.Println("wg ==", Wg)
 
