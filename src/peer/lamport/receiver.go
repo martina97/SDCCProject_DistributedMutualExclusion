@@ -5,7 +5,13 @@ import (
 	"encoding/gob"
 	"fmt"
 	"net"
+	"sync"
 	"time"
+)
+
+var (
+	Connection = make(chan bool)
+	Wg         = new(sync.WaitGroup)
 )
 
 func HandleConnection(conn net.Conn, peer *LamportPeer) {
@@ -104,12 +110,9 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		fmt.Println(" RICEVO RELEASE !! ")
 		myPeer.mutex.Lock()
 
-		/*
-			Connection <- true
-			Wg.Add(1)
-			fmt.Println("wg ==", Wg)
-
-		*/
+		Connection <- true
+		Wg.Add(1)
+		fmt.Println("wg ==", Wg)
 
 		//utilities.WriteMsgToFile(&myNode, "Receive", *msg, 0, myNode.TimeStamp)
 		utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")

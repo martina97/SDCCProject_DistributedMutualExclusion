@@ -6,16 +6,13 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 )
 
 var (
-	Connection = make(chan bool)
-	Wg         = new(sync.WaitGroup)
-	numSender  int
-	logPaths   *list.List
-	numMsg     int
+	numSender int
+	logPaths  *list.List
+	numMsg    int
 )
 
 func ExecuteTestPeer(peer *LamportPeer, num int) {
