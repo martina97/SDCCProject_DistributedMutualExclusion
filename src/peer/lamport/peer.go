@@ -55,6 +55,7 @@ func NewLamportPeer(username string, ID int, address string, port string) *Lampo
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		ChanAcquireLock: make(chan bool, utilities.CHAN_SIZE),
+		ScalarMap:       utilities.MessageMap{},
 	}
 	peer.setInfos()
 	return peer

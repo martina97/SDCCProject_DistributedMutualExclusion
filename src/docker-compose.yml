@@ -36,7 +36,7 @@ services:
     ports:
       - "1234"
     volumes:
-      - ./peer/volumes/logs/lamport:/docker/node_volume/Lamport
+      - ./peer/volumes/logs/lamport:/docker/node_volume/lamport
       - ./peer/volumes/logs/ricartAgrawala:/docker/node_volume/ricartAgrawala
       - ./peer/volumes/logs/tokenAsking:/docker/node_volume/tokenAsking
 

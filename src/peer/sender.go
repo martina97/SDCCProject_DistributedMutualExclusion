@@ -20,7 +20,7 @@ func sendMessage() error {
 	switch algorithm {
 	case "tokenAsking":
 		tokenAsking.SendRequest(&myTokenPeer)
-	case "Lamport":
+	case "lamport":
 		lamport.SendLamport(&myLamportPeer)
 	case "ricartAgrawala":
 		ricartAgrawala.SendRicart(&myRApeer)
