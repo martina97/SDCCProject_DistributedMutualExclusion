@@ -103,7 +103,7 @@ func sendProgramMessage() {
 		receiver := e.Value.(utilities.NodeInfo)
 		if receiver.Username != utilities.COORDINATOR && receiver.Username != myPeer.Username {
 			fmt.Println("sto nell'if ")
-			//open connection whit peer
+			//open connection with peer
 
 			/*
 				peerConn := receiver.Address + ":" + receiver.Port

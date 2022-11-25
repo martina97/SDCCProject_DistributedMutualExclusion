@@ -135,7 +135,7 @@ func sendRequest(msg utilities.Message) error {
 		//only peer are destination of msgs
 		if dest.Type == utilities.Peer && dest.ID != MyRApeer.ID { //non voglio mandarlo a me stesso
 
-			//open connection whit peer
+			//open connection with peer
 			peerConn := dest.Address + ":" + dest.Port
 			conn, err := net.Dial("tcp", peerConn)
 			defer conn.Close()
@@ -181,7 +181,7 @@ func sendReply(msg *utilities.Message, receiver *utilities.NodeInfo) error {
 	*/
 	fmt.Println("mando reply a ", msg.Receiver)
 	fmt.Println("receiver = ", receiver.Username)
-	//open connection whit peer
+	//open connection with peer
 	peerConn := receiver.Address + ":" + receiver.Port
 	conn, err := net.Dial("tcp", peerConn)
 	defer conn.Close()

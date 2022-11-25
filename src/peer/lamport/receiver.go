@@ -4,10 +4,7 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
 	"fmt"
-	"log"
 	"net"
-	"os"
-	"strconv"
 	"time"
 )
 
@@ -65,7 +62,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		fmt.Println("------------------------------------------------------------- DOPO INVIATO REPLY --- > timestamp  ==", myPeer.Timestamp)
 		date := time.Now().Format(utilities.DATE_FORMAT)
 		replyMsg := utilities.NewReply(tmp, myPeer.Username, msg.Sender, date, myPeer.Timestamp)
-		sendAck(replyMsg)
+		sendReply(replyMsg)
 		myPeer.mutex.Unlock()
 	}
 
@@ -168,39 +165,4 @@ func checkAcks() {
 		}
 
 	}
-}
-
-func sendAck(msg *utilities.Message) error {
-	// mando ack al peer con id msg.receiver
-	utilities.WriteTSInfoToFile2(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
-
-	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
-		dest := e.Value.(utilities.NodeInfo)
-		if dest.Username == msg.Receiver {
-			//open connection whit peer
-			peerConn := dest.Address + ":" + dest.Port
-			conn, err := net.Dial("tcp", peerConn)
-			defer conn.Close()
-			if err != nil {
-				log.Println("Send response error on Dial")
-			}
-			enc := gob.NewEncoder(conn)
-			enc.Encode(msg)
-
-			f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myPeer.ID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-			if err != nil {
-				log.Fatalf("error opening file: %v", err)
-			}
-			//save new address on file
-			date := time.Now().Format(utilities.DATE_FORMAT)
-			_, err = f.WriteString("[" + date + "] : Send" + msg.ToString("send") + " to peer " + strconv.Itoa(dest.ID))
-			_, err = f.WriteString("\n")
-			err = f.Sync()
-			if err != nil {
-				return err
-			}
-		}
-	}
-	return nil
-
 }

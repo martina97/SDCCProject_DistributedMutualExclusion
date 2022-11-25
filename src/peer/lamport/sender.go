@@ -77,7 +77,7 @@ func sendRequest(msg utilities.Message) error {
 		//only peer are destination of msgs
 		if dest.Type == utilities.Peer && dest.ID != myPeer.ID { //non voglio mandarlo a me stesso
 
-			//open connection whit peer
+			//open connection with peer
 			peerConn := dest.Address + ":" + dest.Port
 			conn, err := net.Dial("tcp", peerConn)
 			defer conn.Close()
@@ -133,7 +133,7 @@ func sendRelease() error {
 		//only peer are destination of msgs
 		if dest.Type == utilities.Peer && dest.ID != myPeer.ID { //non voglio mandarlo a me stesso
 
-			//open connection whit peer
+			//open connection with peer
 			peerConn := dest.Address + ":" + dest.Port
 			conn, err := net.Dial("tcp", peerConn)
 			defer conn.Close()
@@ -157,4 +157,28 @@ func sendRelease() error {
 	utilities.RemoveFirstElementMap(myPeer.ScalarMap)
 	fmt.Println("ora la mappa ===", myPeer.ScalarMap)
 	return nil
+}
+func sendReply(msg *utilities.Message) error {
+	// mando ack al peer con id msg.receiver
+	utilities.WriteTSInfoToFile2(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
+
+	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
+		dest := e.Value.(utilities.NodeInfo)
+		if dest.Username == msg.Receiver {
+			//open connection with peer
+			peerConn := dest.Address + ":" + dest.Port
+			conn, err := net.Dial("tcp", peerConn)
+			defer conn.Close()
+			if err != nil {
+				log.Println("Send response error on Dial")
+			}
+			enc := gob.NewEncoder(conn)
+			enc.Encode(msg)
+
+			utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "send", *msg, myPeer.Timestamp, "lamport")
+
+		}
+	}
+	return nil
+
 }
