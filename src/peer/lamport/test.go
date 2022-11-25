@@ -48,6 +48,9 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 	//faccio eseguire a p2 i test, ossia legge tutti i file, per farlo devo aspettare che riceva numSender msg di release!!
 	if myPeer.ID == 2 {
 
+		fmt.Println("numMsg ==", num)
+		fmt.Println("numSender ==", numSender)
+		fmt.Println("wg ==", Wg)
 		for numMsg < numSender {
 			ch := <-Connection
 			if ch == true {

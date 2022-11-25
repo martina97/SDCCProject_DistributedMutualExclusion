@@ -105,6 +105,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 
 		Connection <- true
 		Wg.Add(1)
+		fmt.Println("wg ==", Wg)
 
 		/*
 			date := time.Now().Format("15:04:05.000")
