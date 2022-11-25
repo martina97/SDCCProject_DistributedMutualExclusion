@@ -101,27 +101,13 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		//todo: sez critica?!?!??!
 		myPeer.mutex.Unlock()
 	} else if msg.MsgType == utilities.Release {
+		fmt.Println(" RICEVO RELEASE !! ")
 		myPeer.mutex.Lock()
 
 		Connection <- true
 		Wg.Add(1)
 		fmt.Println("wg ==", Wg)
 
-		/*
-			date := time.Now().Format("15:04:05.000")
-			f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-			if err != nil {
-				log.Fatalf("error opening file: %v", err)
-			}
-			//save new msg on file
-			_, err = f.WriteString("[" + date + "] : Receive " + msg.ToString())
-			_, err = f.WriteString("\n")
-			err = f.Sync()
-				if err != nil {
-					return err
-				}
-
-		*/
 		//utilities.WriteMsgToFile(&myNode, "Receive", *msg, 0, myNode.TimeStamp)
 		utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
 
@@ -135,13 +121,6 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 	}
 
 	fmt.Println("msg ricevuti -----", myPeer.ScalarMap)
-	/*
-		for key, element := range scalarMap {
-			fmt.Println("Key:", key, "=>", "Element:", element)
-		}
-
-	*/
-	//fmt.Println("PRIMO MESS ==", utilities.GetFirstElementMap(scalarMap))
 
 }
 
