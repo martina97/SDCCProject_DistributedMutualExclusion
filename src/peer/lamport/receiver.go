@@ -103,6 +103,9 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 	} else if msg.MsgType == utilities.Release {
 		myPeer.mutex.Lock()
 
+		Connection <- true
+		Wg.Add(1)
+
 		/*
 			date := time.Now().Format("15:04:05.000")
 			f, err := os.OpenFile("/docker/node_volume/process_"+strconv.Itoa(myID)+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)

@@ -6,12 +6,17 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
 
-var numMsg int
-var logPaths *list.List
-var numSender int
+var (
+	Connection = make(chan bool)
+	Wg         = new(sync.WaitGroup)
+	numSender  int
+	logPaths   *list.List
+	numMsg     int
+)
 
 func ExecuteTestPeer(peer *LamportPeer, num int) {
 	numSender = num
@@ -40,9 +45,18 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 		logPaths.PushBack(LogPath)
 	}
 
-	//faccio eseguire a p1 i test, ossia legge tutti i file (perchè è l'ultimo che esegue
-	// l'algoritmo)
-	if myPeer.ID == 1 {
+	//faccio eseguire a p2 i test, ossia legge tutti i file, per farlo devo aspettare che riceva numSender msg di release!!
+	if myPeer.ID == 2 {
+
+		for numMsg < numSender {
+			ch := <-Connection
+			if ch == true {
+				numMsg++
+			}
+		}
+		//fmt.Println("sto qua")
+		Wg.Add(-numSender)
+
 		testMessageNumber()
 		testNoStarvation()
 		if numSender == 2 {
