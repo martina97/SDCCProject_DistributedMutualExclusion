@@ -36,11 +36,10 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 
 	time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
 
-	utilities.UpdateTS(&myPeer.Timestamp, &msg.TS, "Lamport")
-
 	//mutex := lock.GetMutex()
 
 	if msg.MsgType == utilities.Request {
+		utilities.UpdateTS(&myPeer.Timestamp, &msg.TS, "Lamport")
 		/*
 			quando ricevo una richiesta da un processo devo decidere se mandare ACK al processo oppure se voglio entrare in CS
 		*/
@@ -61,7 +60,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		//mando msg reply
 		//date := time.Now().Format("17:06:04")
 		//prima di mandare reply aggiorno di nuovo il TS !!
-		utilities.IncrementTS(&myPeer.Timestamp)
+		//utilities.IncrementTS(&myPeer.Timestamp)
 
 		fmt.Println("------------------------------------------------------------- DOPO INVIATO REPLY --- > timestamp  ==", myPeer.Timestamp)
 		date := time.Now().Format(utilities.DATE_FORMAT)

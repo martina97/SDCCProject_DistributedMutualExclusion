@@ -116,12 +116,13 @@ func sendRequest(msg utilities.Message) error {
 
 func sendRelease() error {
 	//incremento timestamp
-	utilities.IncrementTS(&myPeer.Timestamp)
 
+	/*
+		utilities.IncrementTS(&myPeer.Timestamp)
+		utilities.WriteTSInfoToFile2(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
+	*/
 	date := time.Now().Format(utilities.DATE_FORMAT)
-
 	releaseMsg := *utilities.NewRelease(myPeer.Username, date, myPeer.Timestamp)
-	utilities.WriteTSInfoToFile2(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
