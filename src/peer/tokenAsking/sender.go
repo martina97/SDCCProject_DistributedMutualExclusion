@@ -18,45 +18,26 @@ func SendRequest(peer *TokenPeer) {
 	}
 
 	myPeer.mutex.Lock()
-	WriteInfosToFile("try to get the token.", false)
+	WriteInfosToFile("tries to get the token.", false)
 	//incremento Vector Clock!!!
-	fmt.Println("myTokenPeer.VC =", myPeer.VC)
-	fmt.Println("incremento VC")
 	utilities.IncrementVC(myPeer.VC, myPeer.Username)
 
-	fmt.Println("myTokenPeer.VC =", myPeer.VC)
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := NewRequest(myPeer.Username, date, myPeer.VC)
-	fmt.Println("IL MESSAGGIO E' ====", msg.ToString("send"))
-
 	WriteVCInfoToFile(false)
-	fmt.Println("dopo WriteVCInfoToFile")
 
 	//ora mando REQUEST al coordinatore (è un campo di myPeer)
-	fmt.Println("devo inviare req al coordinatore")
-	fmt.Println(" myPeer.Coordinator.Address  ==", myPeer.Coordinator.Address)
-	fmt.Println(" myPeer.Coordinator.Port  ==", myPeer.Coordinator.Port)
 	connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
 	addr, err := net.ResolveTCPAddr("tcp", connection)
-	if err != nil {
-		fmt.Printf("Unable to resolve IP")
-	}
+	utilities.CheckError(err, "Unable to resolve IP")
 
-	//conn, err := net.Dial("tcp", connection)
 	conn, err := net.DialTCP("tcp", nil, addr)
-	fmt.Println("dopo Dial")
 	err = conn.SetKeepAlive(true)
-	if err != nil {
-		fmt.Printf("Unable to set keepalive - %s", err)
-	}
+	utilities.CheckError(err, "Unable to set keepalive")
 
-	//defer conn.Close()
-	if err != nil {
-		log.Println("Send response error on Dial")
-	}
 	enc := gob.NewEncoder(conn)
-	fmt.Println("dopo NewEncoder")
-	enc.Encode(msg)
+	err = enc.Encode(msg)
+	utilities.CheckError(err, "Unable to encode message")
 
 	fmt.Println("dopo encode msg, msg == ", msg.ToString("send"))
 	msg.Receiver = utilities.COORDINATOR
