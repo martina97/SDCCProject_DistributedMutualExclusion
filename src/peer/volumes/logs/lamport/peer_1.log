@@ -1,16 +1,18 @@
 Initial timestamp of p1 is 0
-[12:15:03.888] : p1 update its local logical timeStamp to 1
-[12:15:03.893] : p1 send Request message: {Request p0 12:15:03.888 [1]} to p0.
-[12:15:03.897] : p1 send Request message: {Request p2 12:15:03.888 [1]} to p2.
-[12:15:03.901] : p1 receive Request message: {Request 12:15:03.888 [1]} from p0[12:15:03.901] : p1 wait all peer reply messages. and update its local logical timestamp to 1
+[12:17:26.862] : p1 update its local logical timeStamp to 1
+[12:17:26.869] : p1 send Request message: {Request p0 12:17:26.862 [1]} to p0.
+[12:17:26.873] : p1 send Request message: {Request p2 12:17:26.862 [1]} to p2.
+[12:17:26.879] : p1 wait all peer reply messages.
+[12:17:26.879] : p1 receive Request message: {Request 12:17:26.856 [1]} from p0 and update its local logical timestamp to 1
+[12:17:26.885] : p1 update its local logical timeStamp to 1
+[12:17:26.892] : p1 send Reply message: {Reply p0 12:17:26.884 [1]} to p0.
+[12:17:26.896] : p1 receive Reply message: {Reply 12:17:26.877 [1]} from p2
+[12:17:26.900] : p1 receive Reply message: {Reply 12:17:26.888 [1]} from p0
+[12:17:56.932] : p1 receive Release message: {Release 12:17:56.929 [1]} from p0 and update its local logical timestamp to 1
+[12:17:56.938] : p1  receive all peer reply messages successfully.
 
-[12:15:03.906] : p1 update its local logical timeStamp to 1
-[12:15:03.912] : p1 send Reply message: {Reply p0 12:15:03.906 [1]} to p0.
-[12:15:03.917] : p1 receive Reply message: {Reply 12:15:03.904 [1]} from p2
-[12:15:03.922] : p1 receive Reply message: {Reply 12:15:03.909 [1]} from p0
-[12:15:33.971] : p1 receive Release message: {Release 12:15:33.967 [1]} from p0 and update its local logical timestamp to 1
-[12:15:33.979] : p1  receive all peer reply messages successfully.
+p1 enters the critical section at 12:17:56.942.
 
-p1 enters the critical section at 12:15:33.984.
-
-p1 exits the critical section at 12:16:03.998.
+p1 exits the critical section at 12:18:26.978.
+[12:18:26.983] : p1 send Release message: {Release p0 12:18:26.983 [1]} to p0.
+[12:18:26.987] : p1 send Release message: {Release p2 12:18:26.983 [1]} to p2.

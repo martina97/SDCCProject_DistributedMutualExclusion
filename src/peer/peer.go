@@ -63,7 +63,7 @@ func main() {
 	myUsername = strings.TrimSpace(myUsername)
 
 	listener, err := net.Listen("tcp", ":1234")
-	utilities.Check_error(err)
+	utilities.CheckError(err)
 	defer listener.Close()
 
 	/* passo il result file a registration in modo che in esso vengono inserite

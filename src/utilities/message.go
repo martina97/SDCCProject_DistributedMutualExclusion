@@ -1,7 +1,6 @@
 package utilities
 
 import (
-	"container/list"
 	"fmt"
 )
 
@@ -35,54 +34,17 @@ type Message struct {
 }
 
 // NewRequest returns a new distributed mutual lock message.
-func NewRequest(ts []uint64, sender string, date string, timeStamp TimeStamp) *Message {
+func NewRequest(sender string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
-		//MsgID:      RandStringBytes(msgIDCnt),
 		MsgType: Request,
-		SeqNum:  ts,
 		Sender:  sender,
 		//Receiver:   receiver,	//non serve specificarlo perche la richiesta viene mandata a tutti
-		//MsgContent: msgContent,
 		Date: date,
 		TS:   timeStamp,
 	}
 }
 
-// NewRequest returns a new distributed mutual lock message.
-func NewRequest2(sender string, date string, timeStamp TimeStamp) *Message {
-	return &Message{
-		//MsgID:      RandStringBytes(msgIDCnt),
-		MsgType: Request,
-		Sender:  sender,
-		//Receiver:   receiver,	//non serve specificarlo perche la richiesta viene mandata a tutti
-		//MsgContent: msgContent,
-		Date: date,
-		TS:   timeStamp,
-	}
-}
-func NewRequest3(process NodeInfo, date string, timeStamp TimeStamp) *Message {
-	return &Message{
-		//MsgID:      RandStringBytes(msgIDCnt),
-		MsgType: Request,
-		Sender:  process.Username,
-		//Receiver:   receiver,	//non serve specificarlo perche la richiesta viene mandata a tutti
-		//MsgContent: msgContent,
-		Date: date,
-		TS:   timeStamp,
-	}
-}
-
-func NewReply(ts []uint64, sender string, receiver string, date string, timeStamp TimeStamp) *Message {
-	return &Message{
-		SeqNum:   ts,
-		MsgType:  Reply,
-		Sender:   sender,
-		Receiver: receiver,
-		Date:     date,
-		TS:       timeStamp,
-	}
-}
-func NewReply2(sender string, receiver string, date string, timeStamp TimeStamp) *Message {
+func NewReply(sender string, receiver string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 		MsgType:  Reply,
 		Sender:   sender,
@@ -113,7 +75,6 @@ Date MESSAGGIO E' ==== 2022/04/04 10:37:35
 
 func (m *Message) ToString(role string) string {
 	var name string
-	//date := time.Now().Format("2006/01/02 15:04:05")
 
 	switch m.MsgType {
 	case Request:
@@ -124,8 +85,6 @@ func (m *Message) ToString(role string) string {
 		name = "Reply"
 	}
 
-	fmt.Println("sto in ToString -----", m.Sender)
-	fmt.Println("sto in ToString -----", m.Receiver)
 	if role == "send" {
 		//Request message: {Request [] p3 p1 17:39:42.230 [1]} to p0.
 		//return fmt.Sprintf(" %s message: {%s %s %s %s [%d]}", name, name, m.Sender, m.Receiver, m.Date, m.TS)
@@ -140,19 +99,3 @@ func (m *Message) ToString(role string) string {
 	return ""
 }
 
-func InsertInOrder(l *list.List, msg Message) *list.List {
-	tmp := msg.SeqNum[0]
-
-	fmt.Println("SONO IN InsertInOrder, MSG === ", msg)
-	//scorro lista msg gia presenti
-	for e := l.Front(); e != nil; e = e.Next() {
-		item := e.Value.(Message)
-
-		if tmp < item.SeqNum[0] { //msg ha TS minore del primo in lista
-			l.InsertBefore(msg, e)
-			return l
-		}
-	}
-	l.PushBack(msg)
-	return l
-}

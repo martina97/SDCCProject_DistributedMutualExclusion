@@ -29,9 +29,12 @@ func message_handler() {
 	}
 	//defer listener.Close()
 
-	//open file for save msg
-	open_files()
-	defer close_files()
+	/*
+		//open file for save msg
+		open_files()
+		defer close_files()
+
+	*/
 
 	for {
 		connection, err := listener.AcceptTCP()
@@ -64,6 +67,7 @@ func message_handler() {
 	}
 }
 
+/*
 func open_files() {
 	var err error
 	msgScaFile, err = os.OpenFile(utilities.Peer_msg_sca_file, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0755)
@@ -80,3 +84,5 @@ func close_files() {
 	}
 
 }
+
+*/

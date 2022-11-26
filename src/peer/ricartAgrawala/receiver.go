@@ -65,7 +65,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		*/
 		fmt.Println("MESS REQUEST !!!!!! ")
 		MyRApeer.mutex.Lock()
-		utilities.UpdateTS(&MyRApeer.Num, &msg.TS, "ricartAgrawala")
+		utilities.UpdateTS(&MyRApeer.Num, &msg.TS)
 
 		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
 
@@ -73,7 +73,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 			MyRApeer.DeferSet.PushBack(msg)
 		} else { //se è false --> invio REPLY al peer che ha inviato msg REQUEST
 			date := time.Now().Format(utilities.DATE_FORMAT)
-			replyMsg := utilities.NewReply2(MyRApeer.Username, msg.Sender, date, MyRApeer.Num)
+			replyMsg := utilities.NewReply(MyRApeer.Username, msg.Sender, date, MyRApeer.Num)
 			fmt.Println("il msg di REPLY ===", replyMsg.ToString("send"))
 
 			//devo inviare reply al replyMsg.receiver

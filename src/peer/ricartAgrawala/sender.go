@@ -63,7 +63,7 @@ func SendRicart(peer *RApeer) {
 
 	//	3. for j=1 to N-1 send REQUEST to pj; --> INVIO MSG REQUEST AGLI ALTRI PEER
 	date := time.Now().Format(utilities.DATE_FORMAT)
-	msg := *utilities.NewRequest2(MyRApeer.Username, date, MyRApeer.lastReq)
+	msg := *utilities.NewRequest(MyRApeer.Username, date, MyRApeer.lastReq)
 	fmt.Println("IL MESSAGGIO E' ====", msg.ToString("send"))
 	sendRequest(msg)
 	MyRApeer.mutex.Unlock()
@@ -101,7 +101,7 @@ func SendRicart(peer *RApeer) {
 		queueMsg := e.Value.(*utilities.Message)
 		fmt.Println("queueMsg.sender = ", queueMsg.Sender)
 		date := time.Now().Format(utilities.DATE_FORMAT)
-		replyMsg := utilities.NewReply2(MyRApeer.Username, queueMsg.Sender, date, MyRApeer.Num)
+		replyMsg := utilities.NewReply(MyRApeer.Username, queueMsg.Sender, date, MyRApeer.Num)
 		fmt.Println("il msg di REPLY ===", replyMsg.ToString("send"))
 
 		for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
@@ -162,7 +162,7 @@ func sendRequest(msg utilities.Message) error {
 		//una volta inviato il msg, lo salvo nella coda locale del peer sender
 		fmt.Println(" ------------------------------------------ STO QUA 2 ----------------------------")
 
-		utilities.AppendHashMap2(myNode.ScalarMap, msg)
+		utilities.AppendHashMap(myNode.ScalarMap, msg)
 		fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
 
 		fmt.Println("MAPPA SENDER ====", myNode.ScalarMap)

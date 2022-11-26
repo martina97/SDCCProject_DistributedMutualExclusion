@@ -2,7 +2,6 @@ package utilities
 
 import (
 	"bufio"
-	"container/list"
 	"errors"
 	"fmt"
 	"log"
@@ -17,25 +16,14 @@ import (
 
 type Utility int
 
-// Constant value
-
-/*
-	Non optimal solution:
-	MAXCONNECTION = numberOfPeer + 1 (sequencer)
-*/
-
 var (
 	Connection = make(chan bool)
 	Wg         = new(sync.WaitGroup)
-
-	// per algo centralizzato
-	resourceState bool = true // è true: risorsa libera, false: risorsa occupata
-	queue              = list.New()
 )
 
 type Result_file struct {
 	PeerNum int
-	Peers   [MAXCONNECTION]string
+	Peers   [MAXPEERS]string
 }
 
 func GetLocalIP() string {
@@ -100,7 +88,7 @@ func (utils *Utility) Save_registration(arg *NodeInfo, res *Result_file) error {
 	Wg.Wait()
 
 	//send back file
-	err = prepare_response(res)
+	err = prepareResponse(res)
 
 	if err != nil {
 		log.Fatal(err)
@@ -110,8 +98,8 @@ func (utils *Utility) Save_registration(arg *NodeInfo, res *Result_file) error {
 	return nil
 }
 
-func prepare_response(res *Result_file) error {
-	res.PeerNum = MAXCONNECTION
+func prepareResponse(res *Result_file) error {
+	res.PeerNum = MAXPEERS
 	file, err := os.Open("/docker/register_volume/nodes.txt")
 	if err != nil {
 		return errors.New("error on open file[prepare_file]")
@@ -143,8 +131,8 @@ func prepare_response(res *Result_file) error {
 	return nil
 }
 
-// This function allow to verify if there is error and return it.
-func Check_error(err error) error {
+// CheckError : This function allow to verify if there is error and return it.
+func CheckError(err error) error {
 	if err != nil {
 		log.Printf("unable to read file: %v", err)
 	}

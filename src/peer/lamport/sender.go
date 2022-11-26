@@ -32,7 +32,7 @@ func SendLamport(peer *LamportPeer) {
 
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
-	msg := *utilities.NewRequest2(myPeer.Username, date, myPeer.Timestamp)
+	msg := *utilities.NewRequest(myPeer.Username, date, myPeer.Timestamp)
 
 	fmt.Println("IL MESSAGGIO E' ====", msg)
 	//fmt.Println("ID MESSAGGIO E' ====", msg.MsgID)
@@ -101,7 +101,7 @@ func sendRequest(msg utilities.Message) error {
 	//una volta inviato il msg, lo salvo nella coda locale del peer sender
 	fmt.Println(" ------------------------------------------ STO QUA 2 ----------------------------")
 
-	utilities.AppendHashMap2(myPeer.ScalarMap, msg)
+	utilities.AppendHashMap(myPeer.ScalarMap, msg)
 	fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
 
 	/*

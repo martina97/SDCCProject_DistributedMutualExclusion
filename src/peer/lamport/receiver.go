@@ -34,7 +34,6 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 
 	//ogni volta che ricevo un msg devo aggiornare TS
 	//aggiorno timestamp
-	tmp := msg.SeqNum
 	//ogni peer ha il suo clock scalare, e' var globale come myNode e myID
 
 	//time.Sleep(time.Minute / 2) //PRIMA DI AUMENTARE TS METTO SLEEP COSI PROVO A INVIARE 2 REQ INSIEME E VEDO CHE SUCCEDE
@@ -42,7 +41,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 	//mutex := lock.GetMutex()
 
 	if msg.MsgType == utilities.Request {
-		utilities.UpdateTS(&myPeer.Timestamp, &msg.TS, "Lamport")
+		utilities.UpdateTS(&myPeer.Timestamp, &msg.TS)
 		/*
 			quando ricevo una richiesta da un processo devo decidere se mandare ACK al processo oppure se voglio entrare in CS
 		*/
@@ -53,7 +52,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
 
 		//metto msg in mappa
-		utilities.AppendHashMap2(myPeer.ScalarMap, *msg)
+		utilities.AppendHashMap(myPeer.ScalarMap, *msg)
 
 		//QUA DEVO DECIDERE SE MANDARE ACK O REQUEST (msg REPLY O REQUEST)
 
@@ -67,7 +66,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 
 		fmt.Println("------------------------------------------------------------- DOPO INVIATO REPLY --- > timestamp  ==", myPeer.Timestamp)
 		date := time.Now().Format(utilities.DATE_FORMAT)
-		replyMsg := utilities.NewReply(tmp, myPeer.Username, msg.Sender, date, myPeer.Timestamp)
+		replyMsg := utilities.NewReply(myPeer.Username, msg.Sender, date, myPeer.Timestamp)
 		sendReply(replyMsg)
 		myPeer.mutex.Unlock()
 	}
@@ -148,7 +147,7 @@ func checkAcks() {
 		fmt.Println("MSG IN CHECK ACKS ===", msg)
 
 		if msg.Sender == myPeer.Username {
-			//il primo msg in lista e' il mio, quindi posso accedere in CS
+			//il primo msg in lista è il mio, quindi posso accedere in CS
 			myPeer.Waiting = false
 			myPeer.ChanAcquireLock <- true
 		}
