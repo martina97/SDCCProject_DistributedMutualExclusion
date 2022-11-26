@@ -42,10 +42,6 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 	}
 	if msg.MsgType == Token {
 		myCoordinator.mutex.Lock()
-		if utilities.Test {
-			Connection <- true
-			Wg.Add(1)
-		}
 
 		myCoordinator.numTokenMsgs++
 		fmt.Println("ricevo token")
@@ -69,6 +65,10 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 				myCoordinator.VC[pendingMsg.Sender]++
 				WriteVCInfoToFile(true)
 			}
+		}
+		if utilities.Test {
+			Connection <- true
+			Wg.Add(1)
 		}
 		myCoordinator.mutex.Unlock()
 	}
