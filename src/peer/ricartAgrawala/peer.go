@@ -127,5 +127,6 @@ func (p *RApeer) setInfos() {
 	//setto info sul processo in esecuzione sul peer
 	//todo: serve?
 	//NewProcess(&myNode)
+	utilities.StartTS(p.Num)
 
 }

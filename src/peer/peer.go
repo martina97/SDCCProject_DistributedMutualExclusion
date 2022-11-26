@@ -12,7 +12,6 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -94,60 +93,37 @@ func setAlgorithmPeer() {
 	switch algorithm {
 	case "lamport":
 		myLamportPeer = *lamport.NewLamportPeer(myUsername, myID, myNode.Address, myNode.Port)
-		//utilities.StartTS(myLamportPeer.Timestamp)
 		myLamportPeer.PeerList = peers
 
 	case "ricartAgrawala":
 		myRApeer = *ricartAgrawala.NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)
-		fmt.Println("myRApeer ====", myRApeer)
-		fmt.Println("myNode ====", myNode)
-		utilities.StartTS(myRApeer.Num)
-		fmt.Println("myRApeer.Num ==== ", myRApeer.Num)
-
-		//myRApeer.LogPath = "/docker/node_volume/ricartAgrawala/peer_" + strconv.Itoa(myRApeer.ID+1) + ".log"
 		myRApeer.PeerList = peers
-		fmt.Println("myRApeer.PeerList = ", myRApeer.PeerList)
 
 	case "tokenAsking":
 		if myUsername == utilities.COORDINATOR {
 			myCoordinator = *tokenAsking.NewCoordinator(myUsername, myID, myNode.Address, myNode.Port, true)
-			fmt.Println("myCoordinator ====", myCoordinator)
-			fmt.Println("myNode ====", myNode)
+			myCoordinator.PeerList = peers
 			/*
-				myCoordinator.VC = make(map[string]int)
-				utilities.StartVC(myCoordinator.VC)
+				for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
+					peer := e.Value.(utilities.NodeInfo)
+					if peer.Username != utilities.COORDINATOR {
+						peer.LogPath = "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(peer.ID) + ".log"
+					}
+				}
 
 			*/
-			myCoordinator.PeerList = peers
-			for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
-				peer := e.Value.(utilities.NodeInfo)
-				if peer.Username != utilities.COORDINATOR {
-					peer.LogPath = "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(peer.ID) + ".log"
-				}
-			}
 			fmt.Println("myCoordinator.PeerList = ", myCoordinator.PeerList)
 		} else {
 			myTokenPeer = *tokenAsking.NewTokenAskingPeer(myUsername, myID, myNode.Address, myNode.Port)
-			fmt.Println("myTokenPeer ====", myTokenPeer)
-			fmt.Println("myNode ====", myNode)
-			//myTokenPeer.VC = make(map[string]int)
-			//utilities.StartVC(myTokenPeer.VC)
-			fmt.Println("myTokenPeer.VC =", myTokenPeer.VC)
+
 			myTokenPeer.PeerList = peers
-			fmt.Println("myTokenPeer.PeerList = ", myTokenPeer.PeerList)
-			//fmt.Println("toString 2 ----", (myTokenPeer.VC).ToString2())
+
 			for e := peers.Front(); e != nil; e = e.Next() {
-				fmt.Println("e ==", e)
-				fmt.Println("e.Value ==", e.Value)
+
 				peer := e.Value.(utilities.NodeInfo)
 				if peer.Username == utilities.COORDINATOR {
 					fmt.Println("il coordinatore è = ", peer.Username)
 					myTokenPeer.Coordinator = *tokenAsking.NewCoordinator(peer.Username, peer.ID, peer.Address, peer.Port, false)
-
-					/*
-						utilities.StartVC(myTokenPeer.Coordinator.VC)
-
-					*/
 				}
 			}
 		}
