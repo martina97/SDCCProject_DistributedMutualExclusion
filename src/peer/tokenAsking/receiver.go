@@ -3,7 +3,6 @@ package tokenAsking
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
-	"fmt"
 	"net"
 )
 
@@ -28,108 +27,79 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 
 		//devo controllare se è eleggibile!
 		if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) && myCoordinator.HasToken {
-
-			//update VC
-			myCoordinator.VC[msg.Sender]++
-
 			//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
+			myCoordinator.VC[msg.Sender]++
 			sendToken(msg.Sender, true)
 			myCoordinator.HasToken = false
 			WriteVCInfoToFile(true)
-			fmt.Println("il coordinatore non ha piu token! ")
 			WriteInfosToFile("gives token to "+msg.Sender, true)
-			fmt.Println("hasToken ==", myCoordinator.HasToken)
-
 		} else {
-			fmt.Println("msg non eleggibile")
 			//metto il msg in coda
 			myCoordinator.ReqList.PushBack(msg)
 		}
 		myCoordinator.mutex.Unlock()
 	}
 	if msg.MsgType == Token {
-
-		fmt.Println("msg Type === TOKEN, msg = ", msg)
 		myCoordinator.mutex.Lock()
 		if utilities.Test {
 			Connection <- true
 			Wg.Add(1)
-			fmt.Println("Wg.Add(1)")
 		}
 
 		myCoordinator.numTokenMsgs++
-		WriteMsgToFile("receive", *msg, true)
+		err := WriteMsgToFile("receive", *msg, true)
+		utilities.CheckError(err, "error writing message")
+
 		myCoordinator.HasToken = true
-		//WriteInfosToFile("gets the token.")
-		fmt.Println("STO QUA!")
 
 		if myCoordinator.ReqList.Front() != nil {
-			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
-			e := myCoordinator.ReqList.Front()
+			e := myCoordinator.ReqList.Front() //primo msg in coda
 			pendingMsg := myCoordinator.ReqList.Front().Value.(*Message)
-			fmt.Println("pendingMsg :", pendingMsg)
-			fmt.Println("in coda c'è :", myCoordinator.ReqList.Front().Value)
 
 			//vedo se il msg è eleggibile, e se sì invio msg con il token al sender del pendingMsg
 			if utilities.IsEligible(myCoordinator.VC, pendingMsg.VC, pendingMsg.Sender) {
-				fmt.Println("posso inviare il token al peer")
 				sendToken(pendingMsg.Sender, true)
 				myCoordinator.HasToken = false
 				WriteInfosToFile("gives token to "+pendingMsg.Sender, true)
 				myCoordinator.ReqList.Remove(e)
+
 				myCoordinator.VC[pendingMsg.Sender]++
-
 				WriteVCInfoToFile(true)
-
-				fmt.Println("req List == ", myCoordinator.ReqList)
 			}
-
-		} else {
-			fmt.Println("coda richieste pendenti vuota!")
 		}
-
 		myCoordinator.mutex.Unlock()
-
 	}
-
 	return nil
 }
 
 func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 
-	fmt.Println("sto in HandleConnection dentro tokenAsking package")
-	fmt.Println("peer === ", peer)
-
 	if myPeer.Username == "" {
-		fmt.Println("peer VUOTA")
 		myPeer = *peer
-		//peerCnt = MyRApeer.PeerList.Len()
-	} else {
-		fmt.Println("peer NON VUOTA")
 	}
-
-	fmt.Println("peer == ", myPeer)
 	defer conn.Close()
 
 	msg := new(Message)
 	dec := gob.NewDecoder(conn)
-	dec.Decode(msg)
-	fmt.Println("il msg == ", msg.ToString("receive"))
+	err := dec.Decode(msg)
+	utilities.CheckError(err, "error decoding msg")
+
 	if msg.MsgType == ProgramMessage {
 		myPeer.mutex.Lock()
 		//update VC !
 		utilities.UpdateVC(myPeer.VC, msg.VC)
-		WriteMsgToFile("receive", *msg, false)
-
+		err := WriteMsgToFile("receive", *msg, false)
+		utilities.CheckError(err, "error writing msg")
 		myPeer.mutex.Unlock()
 	}
+
 	if msg.MsgType == Token {
 		// ho il token !
 		myPeer.mutex.Lock()
-		WriteMsgToFile("receive", *msg, false)
+		err := WriteMsgToFile("receive", *msg, false)
+		utilities.CheckError(err, "error writing msg")
 		myPeer.HasToken <- true
 		myPeer.mutex.Unlock()
-
 	}
 
 	return nil
