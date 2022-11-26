@@ -31,14 +31,14 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 		SendLamport(&myPeer)
 	} else {
 		fmt.Println("sleep")
-		time.Sleep(time.Minute * 3)
+		time.Sleep(time.Minute)
 	}
 
 	fmt.Println(" ####################### TEST #############################")
 
 	for i := 0; i < num; i++ {
 		//fmt.Println(i)
-		LogPath := "/docker/node_volume/ricartAgrawala/peer_" + strconv.Itoa(i) + ".log"
+		LogPath := "/docker/node_volume/lamport/peer_" + strconv.Itoa(i) + ".log"
 		logPaths.PushBack(LogPath)
 	}
 
