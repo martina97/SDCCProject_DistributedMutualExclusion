@@ -28,7 +28,7 @@ func NewRequest(sender string, date string, vc utilities.VectorClock) *Message {
 	return &Message{
 		MsgType: Request,
 		Sender:  sender,
-		//Receiver:   receiver,	//non serve specificarlo perche la richiesta viene mandata a tutti
+		//Receiver:   receiver,	//non serve specificarlo perche la richiesta viene mandata solo al coordinatore
 		Date: date,
 		VC:   vc,
 	}
@@ -54,7 +54,6 @@ func NewTokenMessage(date string, sender string, receiver string, vc utilities.V
 
 func (m *Message) ToString(role string) string {
 	var name string
-	//date := time.Now().Format("2006/01/02 15:04:05")
 
 	switch m.MsgType {
 	case Request:
@@ -65,8 +64,6 @@ func (m *Message) ToString(role string) string {
 		name = "TOKEN"
 	}
 
-	fmt.Println("sto in ToString -----", m.Sender)
-	fmt.Println("sto in ToString -----", m.Receiver)
 	if role == "send" {
 		//Request message: {Request [] p3 p1 17:39:42.230 [1]} to p0.
 		//return fmt.Sprintf(" %s message: {%s %s %s %s [%d]}", name, name, m.Sender, m.Receiver, m.Date, m.TS)
@@ -82,8 +79,7 @@ func (m *Message) ToString(role string) string {
 }
 
 func WriteMsgToFile(action string, message Message, isCoord bool) error {
-	fmt.Println("sto in WriteMsgToFile")
-	fmt.Println("path == ", myPeer.LogPath)
+
 	var username string
 	var err error
 
@@ -100,25 +96,25 @@ func WriteMsgToFile(action string, message Message, isCoord bool) error {
 	if action == "send" {
 		switch message.MsgType {
 		case Request:
-			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("send") + " to coordinator.")
+			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " sends" + message.ToString("send") + " to coordinator.")
 		case ProgramMessage:
-			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("send") + " to " + message.Receiver + ".")
+			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " sends" + message.ToString("send") + " to " + message.Receiver + ".")
 		case Token:
 			if isCoord {
-				_, err = f.WriteString("[" + date + "] : coordinator " + action + message.ToString("send") + " to " + message.Receiver + ".")
+				_, err = f.WriteString("[" + date + "] : coordinator sends" + message.ToString("send") + " to " + message.Receiver + ".")
 			} else {
-				_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("send") + " to coordinator.")
+				_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " sends" + message.ToString("send") + " to coordinator.")
 			}
 
 		}
 	} else {
 		switch message.MsgType {
 		case ProgramMessage:
-			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " " + action + message.ToString("receive") + " and update its vector clock to " + utilities.ToString(myPeer.VC) + ".")
+			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " receives" + message.ToString("receive") + " and update its vector clock to " + utilities.ToString(myPeer.VC) + ".")
 		case Request:
-			_, err = f.WriteString("[" + date + "] : coordinator " + action + message.ToString("receive") + ".")
+			_, err = f.WriteString("[" + date + "] : coordinator receives" + message.ToString("receive") + ".")
 		case Token:
-			_, err = f.WriteString("[" + date + "] : " + username + " " + action + message.ToString("receive") + ".\n")
+			_, err = f.WriteString("[" + date + "] : " + username + " receives" + message.ToString("receive") + ".\n")
 			_, err = f.WriteString("[" + date + "] : " + username + " gets the token.")
 		}
 

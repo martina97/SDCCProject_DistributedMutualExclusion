@@ -3,7 +3,6 @@ package tokenAsking
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"container/list"
-	"fmt"
 	"log"
 	"os"
 	"sync"
@@ -37,14 +36,12 @@ type Coordinator struct {
 
 func NewCoordinator(username string, ID int, address string, port string, isCoord bool) *Coordinator {
 	coordinator := &Coordinator{
-		Username: username,
-		ID:       ID,
-		Address:  address,
-		Port:     port,
-		ReqList:  list.New(),
-		LogPath:  "/docker/node_volume/tokenAsking/coordinator.log",
-		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
-		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
+		Username:     username,
+		ID:           ID,
+		Address:      address,
+		Port:         port,
+		ReqList:      list.New(),
+		LogPath:      "/docker/node_volume/tokenAsking/coordinator.log",
 		VC:           make(map[string]int),
 		HasToken:     true,
 		numTokenMsgs: 0,
@@ -59,19 +56,12 @@ func NewCoordinator(username string, ID int, address string, port string, isCoor
 }
 
 func (c *Coordinator) setInfos() {
-	fmt.Println("sono in setInfos, logPAth == " + c.LogPath)
-	/*
-		c.VC = make(map[string]int)
-		utilities.StartVC(c.VC)
+	var err error
 
-	*/
 	c.ReqList.Init()
 	utilities.CreateLog2(c.LogPath, "[coordinator]")
 
-	f, err := os.OpenFile(c.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
+	f := openFile(true)
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	_, err = f.WriteString("[" + date + "] : initial vector clock of coordinator is " + utilities.ToString(c.VC) + ".")
 	_, err = f.WriteString("\n")
@@ -80,7 +70,7 @@ func (c *Coordinator) setInfos() {
 	_, err = f.WriteString("\n")
 
 	defer func(f *os.File) {
-		err := f.Close()
+		err = f.Close()
 		if err != nil {
 			log.Fatalf("error closing file: %v", err)
 		}
