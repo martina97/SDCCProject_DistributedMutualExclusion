@@ -34,7 +34,6 @@ var (
 )
 
 func main() {
-	//var res utilities.Result_file //contiene stringhe del file di log client.txt
 
 	// Per fare la registrazione, il peer deve specificare il proprio nome (in questo modo nel file metto il nome del peer)
 	peers = list.New()
@@ -50,7 +49,7 @@ func main() {
 	myUsername = strings.TrimSpace(myUsername)
 
 	listener, err := net.Listen("tcp", ":1234")
-	utilities.CheckError(err)
+	utilities.CheckError(err, "error listening")
 	defer listener.Close()
 
 	/* passo il result file a registration in modo che in esso vengono inserite
@@ -58,79 +57,32 @@ func main() {
 	*/
 	utilities.Registration(peers, utilities.Client_port, myUsername, listNodes)
 
-	/*
-		for e := peers.Front(); e != nil; e = e.Next() {
-			// do something with e.Value
-			fmt.Println("PROVA STAMPA PEER1", reflect.TypeOf(e.Value))
-
-			fmt.Println("PROVA STAMPA PEER1", e.Value)
-
-		}
-
-	*/
-
 	//a questo punto tutti sanno quali sono gli altri peer
-	// prova a mandare dal peer marti un messaggio agli altri 2
-	// TODO: per ogni peer faccio lock ??!???
-	//devo prendermi ID del nodo e la porta del nodo!
+
 	setID()
-	//processo relativo al nodo che sto  considerando. il processo avrà info su
-	// id nodo e indirizzo e porta nodo
-	//fmt.Println("MY PEER =====", myNode.Username)
-
-	//fmt.Println("sono il peer ", myUsername, "il mio id ===", myID)
-
-	//startClocks()
-	//utilities.StartTS(myNode.TimeStamp)
-	fmt.Println("START CLOCKS TERMINATO")
-	fmt.Println("OPEN MENU")
-
 	//open listen channel for messages
 	//service on port 2345
 
 	go message_handler()
 
-	//go message_handler()
-	//go message_handler_centr()
-
 	if utilities.Test {
 		//lancio i test
-		//p0 sceglie il test (x semplicità 1 solo lo sceglie)
-		//if myID == 0 {
-		//}
 		startTests()
-
 	} else {
-		openMenu() //qui devo scegliere tra Lamport e Ricart Agrawala
-
+		openMenu() //qui devo scegliere tra Lamport, Ricart-Agrawala e Token-Asking
 	}
-
-	// creo file "peer_ID.log"
-
-	//creo nuovo processo in esecuzione sul peer
-	//p, err := NewProcess(myNode)
-
-	//TODO: scommentare
 }
 
+//Setto le variabili globali myNode, myID e allID
 func setID() {
-	/* devo settare la variabile globale myID per sapere qual è ID del peer
-	che dovra' fare determinate azioni, e devo creare una lista che ha tutti gli
-	ID degli altri peer
-	*/
-	//ora setto la variabile globale myNode
-	//scorro peers, che e' *list, in cui ci sono i peer
+	//in peers ci sono tutti i peer
 	for i := peers.Front(); i != nil; i = i.Next() {
-		//fmt.Println("PROVA SET ID ", i.Value.(utilities.nodeInfo)) //i.value e' interface{}
 		elem := i.Value.(utilities.NodeInfo)
-		//fmt.Println(" myUsername ==== ", myUsername)
-		//fmt.Println(" elem.Username ==== ", elem.Username)
 
 		if elem.Username == myUsername {
 			myNode = elem
 			myID = elem.ID
 			allID = append(allID, myID)
-			//fmt.Println(" SONO ", myUsername, "IL MIO ID == ", myID)
 		} else {
 			allID = append(allID, myID)
 		}
@@ -139,15 +91,11 @@ func setID() {
 }
 
 func setAlgorithmPeer() {
-	fmt.Println(" -------  sto in setAlgorithmPeer  -------")
 	switch algorithm {
 	case "lamport":
 		myLamportPeer = *lamport.NewLamportPeer(myUsername, myID, myNode.Address, myNode.Port)
-		fmt.Println("myLamportPeer ====", myLamportPeer)
-		fmt.Println("myNode ====", myNode)
-		utilities.StartTS(myLamportPeer.Timestamp)
+		//utilities.StartTS(myLamportPeer.Timestamp)
 		myLamportPeer.PeerList = peers
-		fmt.Println("myLamportPeer.PeerList = ", myLamportPeer.PeerList)
 
 	case "ricartAgrawala":
 		myRApeer = *ricartAgrawala.NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)

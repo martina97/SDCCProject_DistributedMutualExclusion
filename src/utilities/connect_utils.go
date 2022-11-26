@@ -132,9 +132,8 @@ func prepareResponse(res *Result_file) error {
 }
 
 // CheckError : This function allow to verify if there is error and return it.
-func CheckError(err error) error {
+func CheckError(err error, text string) {
 	if err != nil {
-		log.Printf("unable to read file: %v", err)
+		log.Fatalf("%s: %v", text, err)
 	}
-	return err
 }

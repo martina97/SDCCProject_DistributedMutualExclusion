@@ -88,4 +88,5 @@ func (p *LamportPeer) setInfos() {
 		}
 	}(f)
 
+	utilities.StartTS(p.Timestamp)
 }

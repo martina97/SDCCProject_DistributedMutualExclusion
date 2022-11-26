@@ -76,7 +76,6 @@ func Registration(peers *list.List, port int, username string, listNodes []NodeI
 		res contiene Result_file con tutte le info sul file di log che sono state memorizzate da Save_registration
 		perche gli ho passato come parametro Result_file
 	*/
-	fmt.Println("PROVA STAMPA RES	 == ", res)
 
 	return res
 }
