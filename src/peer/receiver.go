@@ -23,15 +23,6 @@ func message_handler() {
 	}
 	defer listener.Close()
 
-	//defer listener.Close()
-
-	/*
-		//open file for save msg
-		open_files()
-		defer close_files()
-
-	*/
-
 	for {
 		connection, err := listener.Accept()
 		if err != nil {

@@ -3,8 +3,6 @@ package tokenAsking
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
-	"fmt"
-	"log"
 	"net"
 	"time"
 )
@@ -71,33 +69,21 @@ func sendProgramMessage() {
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		receiver := e.Value.(utilities.NodeInfo)
 		if receiver.Username != utilities.COORDINATOR && receiver.Username != myPeer.Username {
-			fmt.Println("sto nell'if ")
 			//open connection with peer
-
 			peerConn := receiver.Address + ":" + receiver.Port
 			conn, err := net.Dial("tcp", peerConn)
 			defer conn.Close()
-			if err != nil {
-				log.Println("Send response error on Dial")
-			}
-
+			utilities.CheckError(err, "Send response error on Dial")
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
-
 			msg.Receiver = receiver.Username
-
 			err = WriteMsgToFile("send", *msg, false)
-
-			if err != nil {
-				log.Fatalf("error writing msg %v", err)
-			}
+			utilities.CheckError(err, "error writing msg")
 		}
-
 	}
 }
 
 func sendToken(receiver string, isCoord bool) {
-	fmt.Println("sto in sendToken")
 
 	if isCoord {
 		for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
@@ -109,16 +95,12 @@ func sendToken(receiver string, isCoord bool) {
 				peerConn := dest.Address + ":" + dest.Port
 				conn, err := net.Dial("tcp", peerConn)
 				defer conn.Close()
-				if err != nil {
-					log.Println("Send response error on Dial")
-				}
+				utilities.CheckError(err, "Send response error on Dial")
 
 				enc := gob.NewEncoder(conn)
 				enc.Encode(msg)
 				err = WriteMsgToFile("send", *msg, true)
-				if err != nil {
-					log.Fatalf("error writing msg %v", err)
-				}
+				utilities.CheckError(err, "error writing msg")
 			}
 		}
 	} else {
@@ -128,16 +110,11 @@ func sendToken(receiver string, isCoord bool) {
 
 		conn, err := net.Dial("tcp", connection)
 		defer conn.Close()
-		if err != nil {
-			log.Println("Send response error on Dial")
-		}
+		utilities.CheckError(err, "Send response error on Dial")
 
 		enc := gob.NewEncoder(conn)
 		enc.Encode(msg)
 		err = WriteMsgToFile("send", *msg, false)
-		if err != nil {
-			log.Fatalf("error writing msg %v", err)
-		}
+		utilities.CheckError(err, "error writing msg")
 	}
-
 }
