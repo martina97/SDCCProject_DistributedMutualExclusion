@@ -8,8 +8,7 @@ import (
 
 func openMenu() {
 
-	myNode.ScalarMap = utilities.MessageMap{} //inizializzo mappa
-	for {                                     //infinite loop
+	for { //infinite loop
 		prompt := promptui.Select{
 			Label: "Select Option",
 			Items: []string{"Run Token-Asking", "Run Lamport", "Run Ricart-Agrawala"},
@@ -31,13 +30,13 @@ func openMenu() {
 			//qui, in base al fatto se sono coordinatore o meno, ho 2 diverse cose, infatti va in openSecondMenu solo
 			//chi non è coordinatore
 			//decido che il coordinatore è p0
-			if myUsername == utilities.COORDINATOR {
+			if myNode.Username == utilities.COORDINATOR {
 				fmt.Println("sono il coordinatore")
 			} else {
 				fmt.Println("non sono il coordinatore")
 			}
 			setAlgorithmPeer()
-			if myUsername != utilities.COORDINATOR {
+			if myNode.Username != utilities.COORDINATOR {
 				openSecondMenu()
 			}
 		}

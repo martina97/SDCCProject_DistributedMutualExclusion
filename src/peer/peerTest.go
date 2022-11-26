@@ -29,7 +29,7 @@ func runTest() {
 
 	switch algorithm {
 	case "tokenAsking":
-		if myUsername != utilities.COORDINATOR {
+		if myNode.Username != utilities.COORDINATOR {
 			tokenAsking.ExecuteTestPeer(&myTokenPeer, numSenders)
 		} else {
 			tokenAsking.ExecuteTestCoordinator(&myCoordinator, numSenders)

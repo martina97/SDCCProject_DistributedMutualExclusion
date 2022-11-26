@@ -52,7 +52,7 @@ func message_handler() {
 		case "ricartAgrawala":
 			go ricartAgrawala.HandleConnection(connection, &myRApeer)
 		case "tokenAsking":
-			if myUsername == utilities.COORDINATOR {
+			if myNode.Username == utilities.COORDINATOR {
 				go tokenAsking.HandleConnectionCoordinator(connection, &myCoordinator)
 			} else {
 				go tokenAsking.HandleConnectionPeer(connection, &myTokenPeer)

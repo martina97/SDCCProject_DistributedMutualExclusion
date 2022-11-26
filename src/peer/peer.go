@@ -10,7 +10,6 @@ import (
 	"bufio"
 	"container/list"
 	"fmt"
-	"log"
 	"net"
 	"os"
 	"strconv"
@@ -18,27 +17,19 @@ import (
 )
 
 var (
-	listNodes     []utilities.NodeInfo
-	peers         *list.List
-	myID          int
-	myUsername    string
-	allID         []int
+	listNodes []utilities.NodeInfo
+	peers     *list.List
+	//myID          int
+	myUsername string
+	//allID         []int
 	myNode        utilities.NodeInfo
 	myLamportPeer lamport.LamportPeer
-	myRApeer      ricartAgrawala.RApeer   //todo: serve? non posso semplicemente mandarlo al sender?
-	myTokenPeer   tokenAsking.TokenPeer   //todo: serve?
-	myCoordinator tokenAsking.Coordinator //todo: serve?
+	myRApeer      ricartAgrawala.RApeer
+	myTokenPeer   tokenAsking.TokenPeer
+	myCoordinator tokenAsking.Coordinator
 	algorithm     string
-	//lock   utilities.InfoLock
-	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
 
-	/*
-		scalarMap utilities.MessageMap
-		timeStamp utilities.Num //todo: mettere tutte queste var in una struttura per ogni processo
-
-	*/
-
-	//utili per test
+	//utile per test
 	numSenders int
 )
 
@@ -59,8 +50,8 @@ func main() {
 	fmt.Println("Choose a username")
 	in := bufio.NewReader(os.Stdin)
 	// 2 peer non possono avere stesso username
-	myUsername, _ = in.ReadString('\n')
-	myUsername = strings.TrimSpace(myUsername)
+	myNode.Username, _ = in.ReadString('\n')
+	myNode.Username = strings.TrimSpace(myNode.Username)
 
 	listener, err := net.Listen("tcp", ":1234")
 	utilities.CheckError(err)
@@ -69,7 +60,7 @@ func main() {
 	/* passo il result file a registration in modo che in esso vengono inserite
 	le info del file!
 	*/
-	res = utilities.Registration(peers, utilities.Client_port, myUsername, listNodes)
+	res = utilities.Registration(peers, utilities.Client_port, myNode.Username, listNodes)
 
 	fmt.Println("PROVA DOPO REG")
 	fmt.Println("res.PeerNum ====", res.PeerNum)
@@ -106,7 +97,7 @@ func main() {
 	//fmt.Println("sono il peer ", myUsername, "il mio id ===", myID)
 
 	//startClocks()
-	utilities.StartTS(myNode.TimeStamp)
+
 	fmt.Println("START CLOCKS TERMINATO")
 	fmt.Println("OPEN MENU")
 
@@ -151,62 +142,23 @@ func setID() {
 		//fmt.Println(" myUsername ==== ", myUsername)
 		//fmt.Println(" elem.Username ==== ", elem.Username)
 
-		if elem.Username == myUsername {
+		if elem.Username == myNode.Username {
 			myNode = elem
-			myID = elem.ID
-			allID = append(allID, myID)
+			myNode.ID = elem.ID
+			//allID = append(allID, myID)
 			//fmt.Println(" SONO ", myUsername, "IL MIO ID == ", myID)
 		} else {
-			allID = append(allID, myID)
+			//allID = append(allID, myID)
 		}
 
 	}
-}
-
-func setPeerUtils() {
-	// creo file "peer_ID.log"
-
-	//utilities.CreateLog(&myNode, "peer_", strconv.Itoa(myNode.ID), "[peer]") // in nodeIdentification.go
-	fmt.Println("sono in SetPeerUtils, logPAth == " + myRApeer.LogPath)
-	utilities.CreateLog2(myRApeer.LogPath, "[peer]") // in nodeIdentification.go
-
-	f, err := os.OpenFile(myRApeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-	_, err = f.WriteString("Initial timestamp of p" + strconv.Itoa(myID) + " is " + strconv.Itoa(int(myNode.TimeStamp)))
-	_, err = f.WriteString("\n")
-
-	defer f.Close()
-
-	/* todo: scommentare
-	myNode.FileLog.SetOutput(f)
-	myNode.FileLog.Println("infoProcess(" + strconv.Itoa(myNode.ID) + ") created.\n")
-
-	*/
-
-	//fmt.Println("logger ???? ", logger)
-
-	//setto info sul processo in esecuzione sul peer
-	//todo: serve?
-	//NewProcess(&myNode)
-
-	/*
-		myNode.ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
-		myNode.ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
-		myNode.ChanAcquireLock = make(chan bool, utilities.CHAN_SIZE)
-		myNode.SetDeferProSet(list.New())
-		myNode.SetReplyProSet(list.New())
-
-	*/
-
 }
 
 func setAlgorithmPeer() {
 	fmt.Println(" -------  sto in setAlgorithmPeer  -------")
 	switch algorithm {
 	case "lamport":
-		myLamportPeer = *lamport.NewLamportPeer(myUsername, myID, myNode.Address, myNode.Port)
+		myLamportPeer = *lamport.NewLamportPeer(myNode.Username, myNode.ID, myNode.Address, myNode.Port)
 		fmt.Println("myLamportPeer ====", myLamportPeer)
 		fmt.Println("myNode ====", myNode)
 		utilities.StartTS(myLamportPeer.Timestamp)
@@ -214,7 +166,7 @@ func setAlgorithmPeer() {
 		fmt.Println("myLamportPeer.PeerList = ", myLamportPeer.PeerList)
 
 	case "ricartAgrawala":
-		myRApeer = *ricartAgrawala.NewRicartAgrawalaPeer(myUsername, myID, myNode.Address, myNode.Port)
+		myRApeer = *ricartAgrawala.NewRicartAgrawalaPeer(myNode.Username, myNode.ID, myNode.Address, myNode.Port)
 		fmt.Println("myRApeer ====", myRApeer)
 		fmt.Println("myNode ====", myNode)
 		utilities.StartTS(myRApeer.Num)
@@ -225,13 +177,13 @@ func setAlgorithmPeer() {
 		fmt.Println("myRApeer.PeerList = ", myRApeer.PeerList)
 
 	case "tokenAsking":
-		if myUsername == utilities.COORDINATOR {
-			myCoordinator = *tokenAsking.NewCoordinator(myUsername, myID, myNode.Address, myNode.Port, true)
+		if myNode.Username == utilities.COORDINATOR {
+			myCoordinator = *tokenAsking.NewCoordinator(myNode.Username, myNode.ID, myNode.Address, myNode.Port, true)
 			fmt.Println("myCoordinator ====", myCoordinator)
 			fmt.Println("myNode ====", myNode)
 			/*
 				myCoordinator.VC = make(map[string]int)
-				utilities.StartVC2(myCoordinator.VC)
+				utilities.StartVC(myCoordinator.VC)
 
 			*/
 			myCoordinator.PeerList = peers
@@ -243,11 +195,11 @@ func setAlgorithmPeer() {
 			}
 			fmt.Println("myCoordinator.PeerList = ", myCoordinator.PeerList)
 		} else {
-			myTokenPeer = *tokenAsking.NewTokenAskingPeer(myUsername, myID, myNode.Address, myNode.Port)
+			myTokenPeer = *tokenAsking.NewTokenAskingPeer(myNode.Username, myNode.ID, myNode.Address, myNode.Port)
 			fmt.Println("myTokenPeer ====", myTokenPeer)
 			fmt.Println("myNode ====", myNode)
 			//myTokenPeer.VC = make(map[string]int)
-			//utilities.StartVC2(myTokenPeer.VC)
+			//utilities.StartVC(myTokenPeer.VC)
 			fmt.Println("myTokenPeer.VC =", myTokenPeer.VC)
 			myTokenPeer.PeerList = peers
 			fmt.Println("myTokenPeer.PeerList = ", myTokenPeer.PeerList)
@@ -260,10 +212,6 @@ func setAlgorithmPeer() {
 					fmt.Println("il coordinatore è = ", peer.Username)
 					myTokenPeer.Coordinator = *tokenAsking.NewCoordinator(peer.Username, peer.ID, peer.Address, peer.Port, false)
 
-					/*
-						utilities.StartVC2(myTokenPeer.Coordinator.VC)
-
-					*/
 				}
 			}
 		}

@@ -50,7 +50,7 @@ func NewCoordinator(username string, ID int, address string, port string, isCoor
 		numTokenMsgs: 0,
 	}
 
-	utilities.StartVC2(coordinator.VC)
+	utilities.StartVC(coordinator.VC)
 	if isCoord {
 		coordinator.setInfos()
 	}
@@ -62,7 +62,7 @@ func (c *Coordinator) setInfos() {
 	fmt.Println("sono in setInfos, logPAth == " + c.LogPath)
 	/*
 		c.VC = make(map[string]int)
-		utilities.StartVC2(c.VC)
+		utilities.StartVC(c.VC)
 
 	*/
 	c.ReqList.Init()

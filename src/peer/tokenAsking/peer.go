@@ -55,7 +55,7 @@ func NewTokenAskingPeer(username string, ID int, address string, port string) *T
 func (p *TokenPeer) setInfos() {
 	fmt.Println("sono in setInfos, logPAth == " + p.LogPath)
 
-	utilities.StartVC2(p.VC)
+	utilities.StartVC(p.VC)
 
 	utilities.CreateLog2(p.LogPath, "[peer]") // in nodeIdentification.go
 

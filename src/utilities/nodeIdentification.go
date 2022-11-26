@@ -1,14 +1,11 @@
 package utilities
 
 import (
-	"container/list"
 	"fmt"
 	"log"
-	"net"
 	"os"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 )
 
@@ -18,41 +15,18 @@ const (
 	Peer     NodeType = 0
 	Register          = 1
 )
-const (
-	//MSG_BUFFERED_SIZE  = 100
-	//CHAN_SIZE          = 1
-	CONN_BUFFERED_SIZE = 1
-)
 
-// Struct to send information about peer
-// processo in esecuzione sul peer
+// NodeInfo : infos about peer
 type NodeInfo struct {
 
 	//info su nodo su cui e' in esecuzione il processo
-	Username string   //nome nodo
-	Type     NodeType // tipo di nodo
-	ID       int      //id nodo
-	Address  string   //indirizzo nodo
-	Port     string   //porta nodo
+	Username string   //peer name
+	Type     NodeType //peer type
+	ID       int      //peer ID
+	Address  string   //node address
+	Port     string   //node port
 
-	// utili per mutua esclusione
-	mutex     sync.Mutex
-	timestamp TimeStamp
-	fileLog   *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
-	Listener  net.Listener
-
-	// algorithim
-	Waiting         bool //serve a vedere se chi ha mandato msg request e' in attesa di tutti i msg reply
-	ChanRcvMsg      chan Message
-	ChanSendMsg     chan *Message
-	ChanAcquireLock chan bool
-	replyProSet     *list.List // then Message.Sender is the key.
-	deferProSet     *list.List // then Message.Sender is the key.
-
-	ScalarMap MessageMap
-	TimeStamp TimeStamp
-	LogPath   string
-	//LockInfo *infoLock
+	LogPath string
 }
 
 func TypeToString(nodeType NodeType) string {
@@ -86,16 +60,6 @@ func CreateLog2(path string, header string) *log.Logger {
 		log.Printf("unable to read file: %v", err)
 	}
 	serverLogFile.Close()
-	/*
-		newpath := filepath.Join(".", "log")
-		os.MkdirAll(newpath, os.ModePerm)
-		serverLogFile, _ := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
-		// return log.New(serverLogFile, header, log.Lmicroseconds|log.Lshortfile)
-
-	*/
-
-	//process.SetFileLog(log.New(serverLogFile, header, log.Lshortfile))
-
 	return log.New(serverLogFile, header, log.Lshortfile)
 }
 

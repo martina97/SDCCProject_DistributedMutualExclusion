@@ -8,7 +8,7 @@ import (
 
 type VectorClock = map[string]int
 
-func StartVC2(vc VectorClock) {
+func StartVC(vc VectorClock) {
 	numKeys := MAXPEERS - 1
 	for i := 0; i < numKeys; i++ {
 		username := "p" + strconv.Itoa(i+1)
