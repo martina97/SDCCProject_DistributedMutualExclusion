@@ -5,10 +5,10 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala"
 	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
-	"fmt"
 	"log"
 	"net"
 	"os"
+	"strconv"
 )
 
 var (
@@ -17,16 +17,12 @@ var (
 
 func message_handler() {
 
-	addr, err := net.ResolveTCPAddr("tcp", ":2345")
-	if err != nil {
-		fmt.Printf("Unable to resolve IP")
-	}
-
-	//listener, err := net.ListenTCP("tcp", ":"+strconv.Itoa(utilities.Client_port))
-	listener, err := net.ListenTCP("tcp", addr)
+	listener, err := net.Listen("tcp", ":"+strconv.Itoa(utilities.Client_port))
 	if err != nil {
 		log.Fatal("net.Lister fail")
 	}
+	defer listener.Close()
+
 	//defer listener.Close()
 
 	/*
@@ -37,15 +33,9 @@ func message_handler() {
 	*/
 
 	for {
-		connection, err := listener.AcceptTCP()
+		connection, err := listener.Accept()
 		if err != nil {
 			log.Fatal("Accept fail")
-		}
-
-		// Enable Keepalives
-		err = connection.SetKeepAlive(true)
-		if err != nil {
-			fmt.Printf("Unable to set keepalive - %s", err)
 		}
 
 		switch algorithm {

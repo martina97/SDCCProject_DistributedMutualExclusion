@@ -1,2 +1,2 @@
-Initial vector clock of p1 is [0 0]
-[14:57:43.754] : p1 receive PROGRAM message: {Program message 14:57:43.752 [0 1]} from p2 and update its vector clock to [0 1].
+Initial vector clock of p2 is [0 0]
+[15:06:01.711] : p2 receive PROGRAM message: {Program message 15:06:01.710 [1 0]} from p1 and update its vector clock to [1 0].

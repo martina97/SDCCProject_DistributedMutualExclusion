@@ -65,39 +65,22 @@ func SendRequest(peer *TokenPeer) {
 }
 
 func sendProgramMessage() {
-	fmt.Println("sto in sendProgramMessage")
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := NewProgramMessage(myPeer.Username, date, myPeer.VC)
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
-		fmt.Println("sto nel for")
-		fmt.Println("il msg == ", msg)
 		receiver := e.Value.(utilities.NodeInfo)
 		if receiver.Username != utilities.COORDINATOR && receiver.Username != myPeer.Username {
 			fmt.Println("sto nell'if ")
 			//open connection with peer
 
-			/*
-				peerConn := receiver.Address + ":" + receiver.Port
-				conn, err := net.Dial("tcp", peerConn)
-				defer conn.Close()
-				if err != nil {
-					log.Println("Send response error on Dial")
-				}
-			*/
-			connection := receiver.Address + ":" + receiver.Port
-			addr, err := net.ResolveTCPAddr("tcp", connection)
+			peerConn := receiver.Address + ":" + receiver.Port
+			conn, err := net.Dial("tcp", peerConn)
+			defer conn.Close()
 			if err != nil {
-				fmt.Printf("Unable to resolve IP")
+				log.Println("Send response error on Dial")
 			}
 
-			//conn, err := net.Dial("tcp", connection)
-			conn, err := net.DialTCP("tcp", nil, addr)
-			fmt.Println("dopo Dial")
-			err = conn.SetKeepAlive(true)
-			if err != nil {
-				fmt.Printf("Unable to set keepalive - %s", err)
-			}
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
 
@@ -123,28 +106,13 @@ func sendToken(receiver string, isCoord bool) {
 				date := time.Now().Format(utilities.DATE_FORMAT)
 				msg := NewTokenMessage(date, "coordinator", receiver, myCoordinator.VC)
 
-				/*
-					peerConn := dest.Address + ":" + dest.Port
-					conn, err := net.Dial("tcp", peerConn)
-					defer conn.Close()
-					if err != nil {
-						log.Println("Send response error on Dial")
-					}
-
-				*/
-				connection := dest.Address + ":" + dest.Port
-				addr, err := net.ResolveTCPAddr("tcp", connection)
+				peerConn := dest.Address + ":" + dest.Port
+				conn, err := net.Dial("tcp", peerConn)
+				defer conn.Close()
 				if err != nil {
-					fmt.Printf("Unable to resolve IP")
+					log.Println("Send response error on Dial")
 				}
 
-				//conn, err := net.Dial("tcp", connection)
-				conn, err := net.DialTCP("tcp", nil, addr)
-				fmt.Println("dopo Dial")
-				err = conn.SetKeepAlive(true)
-				if err != nil {
-					fmt.Printf("Unable to set keepalive - %s", err)
-				}
 				enc := gob.NewEncoder(conn)
 				enc.Encode(msg)
 				err = WriteMsgToFile("send", *msg, true)
@@ -158,25 +126,10 @@ func sendToken(receiver string, isCoord bool) {
 		msg := NewTokenMessage(date, myPeer.Username, "coordinator", myPeer.VC)
 		connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
 
-		/*
-			conn, err := net.Dial("tcp", coordConn)
-			defer conn.Close()
-			if err != nil {
-				log.Println("Send response error on Dial")
-			}
-
-		*/
-		addr, err := net.ResolveTCPAddr("tcp", connection)
+		conn, err := net.Dial("tcp", connection)
+		defer conn.Close()
 		if err != nil {
-			fmt.Printf("Unable to resolve IP")
-		}
-
-		//conn, err := net.Dial("tcp", connection)
-		conn, err := net.DialTCP("tcp", nil, addr)
-		fmt.Println("dopo Dial")
-		err = conn.SetKeepAlive(true)
-		if err != nil {
-			fmt.Printf("Unable to set keepalive - %s", err)
+			log.Println("Send response error on Dial")
 		}
 
 		enc := gob.NewEncoder(conn)
