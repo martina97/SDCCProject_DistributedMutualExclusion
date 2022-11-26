@@ -26,7 +26,7 @@ func SendRequest(peer *TokenPeer) {
 	msg := NewRequest(myPeer.Username, date, myPeer.VC)
 	WriteVCInfoToFile(false)
 
-	//ora mando REQUEST al coordinatore (è un campo di myPeer)
+	//mando REQUEST al coordinatore (è un campo di myPeer)
 	connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
 	addr, err := net.ResolveTCPAddr("tcp", connection)
 	utilities.CheckError(err, "Unable to resolve IP")
@@ -39,33 +39,29 @@ func SendRequest(peer *TokenPeer) {
 	err = enc.Encode(msg)
 	utilities.CheckError(err, "Unable to encode message")
 
-	fmt.Println("dopo encode msg, msg == ", msg.ToString("send"))
 	msg.Receiver = utilities.COORDINATOR
-	fmt.Println("dopo encode msg, msg == ", msg.ToString("send"))
 	err = WriteMsgToFile("send", *msg, false)
-	if err != nil {
-		log.Fatalf("error writing file: %v", err)
-	}
+	utilities.CheckError(err, "Error writing file")
 
-	//ora invio msg di programma agli altri peer
+	//invio msg di programma agli altri peer
 	sendProgramMessage()
 
 	myPeer.mutex.Unlock()
 	<-myPeer.HasToken
-	fmt.Println("ho il token!!!!")
+
 	date = time.Now().Format(utilities.DATE_FORMAT)
 	WriteInfosToFile("enters the critical section at "+date+".", false)
 	time.Sleep(time.Minute / 2)
-	fmt.Println("rilascio il token!!!!")
 	date = time.Now().Format(utilities.DATE_FORMAT)
+
 	WriteInfosToFile("exits the critical section at "+date+".", false)
 	WriteInfosToFile("releases the token.", false)
 
 	myCoordinator.mutex.Lock()
-	//devo inviare msg con il token al coordinatore
+
+	//invio msg con il token al coordinatore
 	sendToken("coordinator", false)
 	myCoordinator.mutex.Unlock()
-
 }
 
 func sendProgramMessage() {
