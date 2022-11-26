@@ -5,46 +5,32 @@ import (
 	"encoding/gob"
 	"fmt"
 	"net"
-	"time"
 )
 
-//Save message
 func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error {
 	defer conn.Close()
 
-	fmt.Println("sto in HandleConnectionCoordinator dentro tokenAsking package")
-	fmt.Println("coordinator === ", coordinator)
-
 	if myCoordinator.Username == "" { //vuol dire che non ho ancora inizializzato il coordinatore
-		fmt.Println("sto in HandleConnectionCoordinator --- coordinator VUOTA")
 		myCoordinator = *coordinator
-
-	} else {
-		fmt.Println("sto in HandleConnectionCoordinator --- coordinator NON VUOTA")
 	}
-	fmt.Println("myCoordinator = ", myCoordinator)
-
-	//myCoordinator = *coordinator
 
 	msg := new(Message)
 	dec := gob.NewDecoder(conn)
-	dec.Decode(msg)
-	fmt.Println("il msg == ", msg.ToString("receive"))
+	err := dec.Decode(msg)
+	utilities.CheckError(err, "error decoding message")
 
 	if msg.MsgType == Request {
-		fmt.Println("sto dentro if")
 		myCoordinator.mutex.Lock()
-		WriteMsgToFile("receive", *msg, true)
-		fmt.Println("ricevo ", msg, "e hastoken == ", myCoordinator.HasToken)
+		err := WriteMsgToFile("receive", *msg, true)
+		utilities.CheckError(err, "error writing message")
 
-		time.Sleep(time.Second * 15)
+		//time.Sleep(time.Second * 15)
 
 		//devo controllare se è eleggibile!
 		if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) && myCoordinator.HasToken {
-			fmt.Println("msg eleggibile!")
+
 			//update VC
 			myCoordinator.VC[msg.Sender]++
-			fmt.Println("vc coord = ", myCoordinator.VC)
 
 			//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
 			sendToken(msg.Sender, true)
