@@ -24,31 +24,19 @@ var (
 	allID         []int
 	myNode        utilities.NodeInfo
 	myLamportPeer lamport.LamportPeer
-	myRApeer      ricartAgrawala.RApeer   //todo: serve? non posso semplicemente mandarlo al sender?
-	myTokenPeer   tokenAsking.TokenPeer   //todo: serve?
-	myCoordinator tokenAsking.Coordinator //todo: serve?
+	myRApeer      ricartAgrawala.RApeer
+	myTokenPeer   tokenAsking.TokenPeer
+	myCoordinator tokenAsking.Coordinator
 	algorithm     string
-	//lock   utilities.InfoLock
-	//devo avere 3 peer (nodi), e su ogni peer viene eseguito un processo
-
-	/*
-		scalarMap utilities.MessageMap
-		timeStamp utilities.Num //todo: mettere tutte queste var in una struttura per ogni processo
-
-	*/
 
 	//utili per test
 	numSenders int
 )
 
 func main() {
-	//listaNodi := []string{}
-	var res utilities.Result_file //contiene stringhe del file di log client.txt
+	//var res utilities.Result_file //contiene stringhe del file di log client.txt
 
-	//msg := []string{"messaggio1"}
-	/*
-		Per fare la registrazione, il peer deve specificare il proprio nome (in questo modo nel file metto il nome del peer)
-	*/
+	// Per fare la registrazione, il peer deve specificare il proprio nome (in questo modo nel file metto il nome del peer)
 	peers = list.New()
 
 	if utilities.Test {
@@ -68,19 +56,7 @@ func main() {
 	/* passo il result file a registration in modo che in esso vengono inserite
 	le info del file!
 	*/
-	res = utilities.Registration(peers, utilities.Client_port, myUsername, listNodes)
-
-	fmt.Println("PROVA DOPO REG")
-	fmt.Println("res.PeerNum ====", res.PeerNum)
-	fmt.Println("res.Peers == ", res.Peers, "\n\n")
-	fmt.Println("NUMERO LIST PEER == ", peers.Len())
-	fmt.Println("LIST PEER ===== ", peers)
-	fmt.Println("*LIST PEER ===== ", *peers)
-	fmt.Println("&LIST PEER ===== ", &peers)
-
-	for e := peers.Front(); e != nil; e = e.Next() {
-		fmt.Println("e ==", e)
-	}
+	utilities.Registration(peers, utilities.Client_port, myUsername, listNodes)
 
 	/*
 		for e := peers.Front(); e != nil; e = e.Next() {
