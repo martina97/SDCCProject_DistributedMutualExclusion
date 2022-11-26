@@ -110,10 +110,6 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		fmt.Println(" RICEVO RELEASE !! ")
 		myPeer.mutex.Lock()
 
-		myPeer.numRelease++
-		if myPeer.numRelease == numSender {
-			myPeer.StartTest <- true
-		}
 		//utilities.WriteMsgToFile(&myNode, "Receive", *msg, 0, myNode.TimeStamp)
 		utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
 		fmt.Println("ho scritto su file")
@@ -122,6 +118,10 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		utilities.RemoveFirstElementMap(myPeer.ScalarMap)
 		fmt.Println("---------------------------------	DOPO AVER RICEVUTO RELEASE mappa ===", myPeer.ScalarMap)
 		checkAcks()
+		myPeer.numRelease++
+		if myPeer.numRelease == numSender {
+			myPeer.StartTest <- true
+		}
 		myPeer.mutex.Unlock()
 
 	}
