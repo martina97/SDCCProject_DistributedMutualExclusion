@@ -1,6 +1,6 @@
 package main
 
-//è il main
+//è il main di ogni peer
 
 import (
 	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
@@ -89,8 +89,10 @@ func setID() {
 	}
 }
 
+// Setto i peer in base all'algoritmo scelto
 func setAlgorithmPeer() {
 	switch algorithm {
+
 	case "lamport":
 		myLamportPeer = *lamport.NewLamportPeer(myUsername, myID, myNode.Address, myNode.Port)
 		myLamportPeer.PeerList = peers
@@ -103,31 +105,15 @@ func setAlgorithmPeer() {
 		if myUsername == utilities.COORDINATOR {
 			myCoordinator = *tokenAsking.NewCoordinator(myUsername, myID, myNode.Address, myNode.Port, true)
 			myCoordinator.PeerList = peers
-			/*
-				for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
-					peer := e.Value.(utilities.NodeInfo)
-					if peer.Username != utilities.COORDINATOR {
-						peer.LogPath = "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(peer.ID) + ".log"
-					}
-				}
-
-			*/
-			fmt.Println("myCoordinator.PeerList = ", myCoordinator.PeerList)
 		} else {
 			myTokenPeer = *tokenAsking.NewTokenAskingPeer(myUsername, myID, myNode.Address, myNode.Port)
-
 			myTokenPeer.PeerList = peers
-
 			for e := peers.Front(); e != nil; e = e.Next() {
-
 				peer := e.Value.(utilities.NodeInfo)
 				if peer.Username == utilities.COORDINATOR {
-					fmt.Println("il coordinatore è = ", peer.Username)
 					myTokenPeer.Coordinator = *tokenAsking.NewCoordinator(peer.Username, peer.ID, peer.Address, peer.Port, false)
 				}
 			}
 		}
-
 	}
-
 }

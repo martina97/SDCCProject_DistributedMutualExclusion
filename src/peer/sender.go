@@ -6,8 +6,8 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 )
 
-//send msg (o request o ack o release)
-func sendMessage() error {
+//send msg di request
+func sendMessageRequest() {
 	switch algorithm {
 	case "tokenAsking":
 		tokenAsking.SendRequest(&myTokenPeer)
@@ -16,5 +16,4 @@ func sendMessage() error {
 	case "ricartAgrawala":
 		ricartAgrawala.SendRicart(&myRApeer)
 	}
-	return nil
 }

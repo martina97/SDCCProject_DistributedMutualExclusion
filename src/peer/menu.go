@@ -14,7 +14,7 @@ func openMenu() {
 			Items: []string{"Run Token-Asking", "Run Lamport", "Run Ricart-Agrawala"},
 		}
 
-		i, result, err := prompt.Run() //i : indice di cosa ho scelto
+		i, result, err := prompt.Run() //i: indice di cosa ho scelto
 
 		if err != nil {
 			fmt.Printf("Prompt failed %v\n", err)
@@ -23,56 +23,36 @@ func openMenu() {
 
 		fmt.Printf("You choose number %d: %s\n", i+1, result)
 
-		if i+1 == 1 { //ossia Run tokenAsking
-			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
+		if i+1 == 1 { //tokenAsking
 			algorithm = "tokenAsking"
-
-			//qui, in base al fatto se sono coordinatore o meno, ho 2 diverse cose, infatti va in openSecondMenu solo
-			//chi non è coordinatore
-			//decido che il coordinatore è p0
-			if myNode.Username == utilities.COORDINATOR {
-				fmt.Println("sono il coordinatore")
-			} else {
-				fmt.Println("non sono il coordinatore")
-			}
+			//qui, chi non è coordinatore va in openSecondMenu, che serve a inviare i msg di request
 			setAlgorithmPeer()
 			if myNode.Username != utilities.COORDINATOR {
 				openSecondMenu()
 			}
 		}
-		if i+1 == 2 { //ossia Run Lamport
-			//utilities.Registration(peers, utilities.Client_port, username, listNodes)
+		if i+1 == 2 { //Lamport
 			algorithm = "lamport"
 			setAlgorithmPeer()
-
 			openSecondMenu()
-			//openLamportMenu()
 		}
 		if i+1 == 3 { //ricartAgrawala
 			algorithm = "ricartAgrawala"
 			setAlgorithmPeer()
-			//setPeerUtils2()
 			openSecondMenu()
-
 		}
-
 	}
-
 }
 
 func openSecondMenu() {
 
-	// una volta scelto l'algoritmo, setto le info dei vari peer (in particolare il file di log, il cui path
-	// dipende dall0'algoritmo scelto
-
-	fmt.Println(" sto in openSecondMenu ------ ")
 	for { //infinite loop
 		prompt := promptui.Select{
 			Label: "Select Option",
-			Items: []string{"send request", "show message received", "exit"},
+			Items: []string{"send request", "exit"},
 		}
 
-		i, result, err := prompt.Run() //i : indice di cosa ho scelto
+		i, result, err := prompt.Run() //i: indice di cosa ho scelto
 
 		if err != nil {
 			fmt.Printf("Prompt failed %v\n", err)
@@ -82,13 +62,12 @@ func openSecondMenu() {
 		fmt.Printf("You choose number %d: %s\n", i+1, result)
 
 		if i+1 == 1 { //send message
-			sendMessage()
+			sendMessageRequest()
 		}
 
-		if i+1 == 3 { //exit
+		if i+1 == 2 { //exit
 			break
 		}
-
 	}
 
 }
