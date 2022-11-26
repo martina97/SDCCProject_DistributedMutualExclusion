@@ -3,7 +3,6 @@ package tokenAsking
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
-	"fmt"
 	"net"
 )
 
@@ -44,9 +43,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		myCoordinator.mutex.Lock()
 
 		myCoordinator.numTokenMsgs++
-		fmt.Println("ricevo token")
 		err := WriteMsgToFile("receive", *msg, true)
-		fmt.Println("scritto msg to file")
 		utilities.CheckError(err, "error writing message")
 
 		myCoordinator.HasToken = true
