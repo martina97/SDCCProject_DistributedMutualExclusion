@@ -29,6 +29,7 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 	if numSender == 2 && (myPeer.ID == 0 || myPeer.ID == 1) {
 		fmt.Println("mando il msg")
 		SendLamport(&myPeer)
+		time.Sleep(time.Minute)
 	} else {
 		fmt.Println("sleep")
 		time.Sleep(time.Minute)
@@ -185,7 +186,7 @@ func testMessageNumber() {
 		for fileScanner.Scan() {
 			//line := fileScanner.Text()
 
-			fmt.Println(fileScanner.Text())
+			//fmt.Println(fileScanner.Text())
 			if strings.Contains(fileScanner.Text(), "send Request message") ||
 				strings.Contains(fileScanner.Text(), "receive Reply message") ||
 				strings.Contains(fileScanner.Text(), "send Release message") {
