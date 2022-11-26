@@ -56,12 +56,13 @@ func NewCoordinator(username string, ID int, address string, port string, isCoor
 }
 
 func (c *Coordinator) setInfos() {
-	var err error
-
 	c.ReqList.Init()
 	utilities.CreateLog2(c.LogPath, "[coordinator]")
 
-	f := openFile(true)
+	f, err := os.OpenFile(c.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	_, err = f.WriteString("[" + date + "] : initial vector clock of coordinator is " + utilities.ToString(c.VC) + ".")
 	_, err = f.WriteString("\n")
@@ -70,7 +71,7 @@ func (c *Coordinator) setInfos() {
 	_, err = f.WriteString("\n")
 
 	defer func(f *os.File) {
-		err = f.Close()
+		err := f.Close()
 		if err != nil {
 			log.Fatalf("error closing file: %v", err)
 		}
