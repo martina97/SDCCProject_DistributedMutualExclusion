@@ -1,6 +1,7 @@
-package utilities
+package lamport
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"fmt"
 )
 
@@ -26,15 +27,15 @@ type Message struct {
 
 	//MsgContent interface{}
 	Sender     string
-	SenderProc NodeInfo
+	SenderProc utilities.NodeInfo
 	Receiver   string
 	SeqNum     []uint64
 	Date       string
-	TS         TimeStamp
+	TS         utilities.TimeStamp
 }
 
 // NewRequest returns a new distributed mutual lock message.
-func NewRequest(sender string, date string, timeStamp TimeStamp) *Message {
+func NewRequest(sender string, date string, timeStamp utilities.TimeStamp) *Message {
 	return &Message{
 		MsgType: Request,
 		Sender:  sender,
@@ -44,7 +45,7 @@ func NewRequest(sender string, date string, timeStamp TimeStamp) *Message {
 	}
 }
 
-func NewReply(sender string, receiver string, date string, timeStamp TimeStamp) *Message {
+func NewReply(sender string, receiver string, date string, timeStamp utilities.TimeStamp) *Message {
 	return &Message{
 		MsgType:  Reply,
 		Sender:   sender,
@@ -53,7 +54,7 @@ func NewReply(sender string, receiver string, date string, timeStamp TimeStamp) 
 		TS:       timeStamp,
 	}
 }
-func NewRelease(sender string, date string, timeStamp TimeStamp) *Message {
+func NewRelease(sender string, date string, timeStamp utilities.TimeStamp) *Message {
 	return &Message{
 
 		MsgType: Release,
@@ -98,4 +99,3 @@ func (m *Message) ToString(role string) string {
 
 	return ""
 }
-

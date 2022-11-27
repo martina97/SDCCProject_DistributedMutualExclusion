@@ -1,6 +1,7 @@
 package ricartAgrawala
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
 	"fmt"
@@ -46,14 +47,14 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 	fmt.Println("MyRApeer == ", MyRApeer.ToString())
 
 	defer conn.Close()
-	msg := new(utilities.Message)
+	msg := new(lamport.Message)
 
 	dec := gob.NewDecoder(conn)
 	dec.Decode(msg)
 	fmt.Println("il msg == ", msg.ToString("receive"))
 
 	//mutex := MyRApeer.GetMutex()
-	if msg.MsgType == utilities.Request {
+	if msg.MsgType == lamport.Request {
 
 		/*
 			Upon receipt REQUEST(t) from pj
@@ -67,13 +68,13 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		MyRApeer.mutex.Lock()
 		utilities.UpdateTS(&MyRApeer.Num, &msg.TS)
 
-		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
+		utilities.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
 
 		if checkConditions(msg) { //se è true --> inserisco msg in coda
 			MyRApeer.DeferSet.PushBack(msg)
 		} else { //se è false --> invio REPLY al peer che ha inviato msg REQUEST
 			date := time.Now().Format(utilities.DATE_FORMAT)
-			replyMsg := utilities.NewReply(MyRApeer.Username, msg.Sender, date, MyRApeer.Num)
+			replyMsg := lamport.NewReply(MyRApeer.Username, msg.Sender, date, MyRApeer.Num)
 			fmt.Println("il msg di REPLY ===", replyMsg.ToString("send"))
 
 			//devo inviare reply al replyMsg.receiver
@@ -90,7 +91,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		}
 		MyRApeer.mutex.Unlock()
 	}
-	if msg.MsgType == utilities.Reply {
+	if msg.MsgType == lamport.Reply {
 		/*
 			Upon receipt REPLY from pj
 			1. #replies = #replies+1
@@ -100,7 +101,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		//MyRApeer.replies =MyRApeer.replies + 1
 		MyRApeer.replies++
 		fmt.Println("replies = ", MyRApeer.replies)
-		utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
+		utilities.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
 		fmt.Println("peerCnt = ", peerCnt)
 
 		if MyRApeer.replies == peerCnt-1 {
@@ -114,7 +115,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 	return nil
 }
 
-func checkConditions(msg *utilities.Message) bool {
+func checkConditions(msg *lamport.Message) bool {
 
 	if (MyRApeer.state == CS) || (MyRApeer.state == Requesting && checkTS(msg)) {
 		fmt.Println("sto in checkConditions -->  non invio reply e metto msg in coda")
@@ -125,7 +126,7 @@ func checkConditions(msg *utilities.Message) bool {
 
 }
 
-func checkTS(msg *utilities.Message) bool {
+func checkTS(msg *lamport.Message) bool {
 	// true se {Last_Req, i} < {t, j})
 	if (MyRApeer.lastReq <= msg.TS) && (MyRApeer.Username < msg.Sender) {
 		fmt.Println("sto in checkTS e la condizione e' true --> non invio reply e metto msg in coda")

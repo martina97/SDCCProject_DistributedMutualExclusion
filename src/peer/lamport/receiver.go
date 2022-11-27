@@ -26,7 +26,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 
 	// read msg and save on file
 	defer conn.Close()
-	msg := new(utilities.Message)
+	msg := new(Message)
 
 	dec := gob.NewDecoder(conn)
 	dec.Decode(msg)
@@ -40,7 +40,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 
 	//mutex := lock.GetMutex()
 
-	if msg.MsgType == utilities.Request {
+	if msg.MsgType == Request {
 		utilities.UpdateTS(&myPeer.Timestamp, &msg.TS)
 		/*
 			quando ricevo una richiesta da un processo devo decidere se mandare ACK al processo oppure se voglio entrare in CS
@@ -49,7 +49,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		fmt.Println("TIMESTAMP QUANDO RICEVO REQUEST ===", myPeer.Timestamp) //ho gia aggiornato il TS!!
 		//fmt.Println("------------------------------------------------------------- DOPO RICEVUTO REQUEST --- > timestamp  ==", timeStamp)
 		myPeer.mutex.Lock()
-		utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
+		utilities.WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
 
 		//metto msg in mappa
 		utilities.AppendHashMap(myPeer.ScalarMap, *msg)
@@ -66,18 +66,18 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 
 		fmt.Println("------------------------------------------------------------- DOPO INVIATO REPLY --- > timestamp  ==", myPeer.Timestamp)
 		date := time.Now().Format(utilities.DATE_FORMAT)
-		replyMsg := utilities.NewReply(myPeer.Username, msg.Sender, date, myPeer.Timestamp)
+		replyMsg := NewReply(myPeer.Username, msg.Sender, date, myPeer.Timestamp)
 		sendReply(replyMsg)
 		myPeer.mutex.Unlock()
 	}
 
-	if msg.MsgType == utilities.Reply {
+	if msg.MsgType == Reply {
 		fmt.Println("------------------------------------------------------------- DOPO RICEVUTO REPLY --- > timestamp  ==", myPeer.Timestamp)
 		myPeer.mutex.Lock()
 		fmt.Println("TIMESTAMP QUANDO RICEVO Reply ===", myPeer.Timestamp)
 
 		//utilities.WriteMsgToFile(&myNode, "Receive", *msg, 0, myNode.TimeStamp)
-		utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
+		utilities.WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
 
 		//utilities.WriteTSInfoToFile(myID, timeStamp)
 
@@ -105,12 +105,12 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		// e controllando che id sia il mio, se e' il mio entro altrimenti no
 		//todo: sez critica?!?!??!
 		myPeer.mutex.Unlock()
-	} else if msg.MsgType == utilities.Release {
+	} else if msg.MsgType == Release {
 		fmt.Println(" RICEVO RELEASE !! ")
 		myPeer.mutex.Lock()
 
 		//utilities.WriteMsgToFile(&myNode, "Receive", *msg, 0, myNode.TimeStamp)
-		utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
+		utilities.WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
 		fmt.Println("ho scritto su file")
 		//utilities.WriteTSInfoToFile(myID, timeStamp)
 

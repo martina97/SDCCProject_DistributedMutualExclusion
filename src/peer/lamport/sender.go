@@ -32,7 +32,7 @@ func SendLamport(peer *LamportPeer) {
 
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
-	msg := *utilities.NewRequest(myPeer.Username, date, myPeer.Timestamp)
+	msg := *NewRequest(myPeer.Username, date, myPeer.Timestamp)
 
 	fmt.Println("IL MESSAGGIO E' ====", msg)
 	//fmt.Println("ID MESSAGGIO E' ====", msg.MsgID)
@@ -46,31 +46,31 @@ func SendLamport(peer *LamportPeer) {
 
 	myPeer.mutex.Unlock()
 
-	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, "wait all peer reply messages.", false)
+	utilities.WriteInfoToFile(myPeer.Username, myPeer.LogPath, "wait all peer reply messages.", false)
 
 	<-myPeer.ChanAcquireLock
 
-	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " receive all peer reply messages successfully.", false)
+	utilities.WriteInfoToFile(myPeer.Username, myPeer.LogPath, " receive all peer reply messages successfully.", false)
 
 	//ho ricevuto tutti msg reply, ora entro in cs
 	fmt.Println("lista di msg in coda ==", myPeer.ScalarMap)
 	fmt.Println("entro in CS")
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
-	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " enters the critical section at "+date+".", true)
+	utilities.WriteInfoToFile(myPeer.Username, myPeer.LogPath, " enters the critical section at "+date+".", true)
 	time.Sleep(time.Minute / 2)
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
-	utilities.WriteInfoToFile2(myPeer.Username, myPeer.LogPath, " exits the critical section at "+date+".", true)
+	utilities.WriteInfoToFile(myPeer.Username, myPeer.LogPath, " exits the critical section at "+date+".", true)
 
 	//lascio CS e mando msg release a tutti
 	sendRelease()
 
 }
 
-func sendRequest(msg utilities.Message) error {
+func sendRequest(msg Message) error {
 
-	utilities.WriteTSInfoToFile2(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
+	utilities.WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
@@ -90,7 +90,7 @@ func sendRequest(msg utilities.Message) error {
 			msg.Receiver = dest.Username
 
 			//r = utilities.WriteMsgToFile(&myPeer, "Send", msg, dest.ID, myPeer.timestamp)
-			utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "send", msg, myPeer.Timestamp, "lamport")
+			utilities.WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", msg, myPeer.Timestamp, "lamport")
 
 			if err != nil {
 				return err
@@ -123,10 +123,10 @@ func sendRelease() error {
 
 	/*
 		utilities.IncrementTS(&myPeer.Timestamp)
-		utilities.WriteTSInfoToFile2(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
+		utilities.WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
 	*/
 	date := time.Now().Format(utilities.DATE_FORMAT)
-	releaseMsg := *utilities.NewRelease(myPeer.Username, date, myPeer.Timestamp)
+	releaseMsg := *NewRelease(myPeer.Username, date, myPeer.Timestamp)
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
@@ -145,7 +145,7 @@ func sendRelease() error {
 
 			releaseMsg.Receiver = dest.Username
 
-			utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "send", releaseMsg, myPeer.Timestamp, "lamport")
+			utilities.WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", releaseMsg, myPeer.Timestamp, "lamport")
 
 			if err != nil {
 				return err
@@ -158,9 +158,9 @@ func sendRelease() error {
 	fmt.Println("ora la mappa ===", myPeer.ScalarMap)
 	return nil
 }
-func sendReply(msg *utilities.Message) error {
+func sendReply(msg *Message) error {
 	// mando ack al peer con id msg.receiver
-	utilities.WriteTSInfoToFile2(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
+	utilities.WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
@@ -175,7 +175,7 @@ func sendReply(msg *utilities.Message) error {
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
 
-			utilities.WriteMsgToFile3(myPeer.LogPath, myPeer.Username, "send", *msg, myPeer.Timestamp, "lamport")
+			utilities.WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", *msg, myPeer.Timestamp, "lamport")
 
 		}
 	}

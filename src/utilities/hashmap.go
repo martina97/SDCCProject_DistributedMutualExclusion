@@ -1,17 +1,18 @@
 package utilities
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"fmt"
 )
 
 // MessageMap : lista di messaggi, ogni messaggio ha timestamp, id, tipo, receiver e sender todo: cambiare
-type MessageMap map[TimeStamp][]Message
+type MessageMap map[TimeStamp][]lamport.Message
 
 // test inserts several ints into an MessageHeap, checks the minimum,
 // and removes them in order of priority.
 
-func AppendHashMap(map1 MessageMap, message Message) {
-	var listMsg []Message
+func AppendHashMap(map1 MessageMap, message lamport.Message) {
+	var listMsg []lamport.Message
 	//lista := list.New()
 	//lista.PushBack(message)
 
@@ -24,7 +25,7 @@ func AppendHashMap(map1 MessageMap, message Message) {
 		//prendo elementi value relativi a quella chiave e faccio controllo
 		if len(map1[message.TS]) == 1 { //c'e un solo valore nella lista relativa al TS (1 solo msg con quel TS)
 			if message.Sender < map1[message.TS][0].Sender {
-				map1[message.TS] = append([]Message{message}, map1[message.TS]...) //inserisco il msg all'inizio dello slice
+				map1[message.TS] = append([]lamport.Message{message}, map1[message.TS]...) //inserisco il msg all'inizio dello slice
 				/*
 					NB: data := []string{"A", "B", "C", "D"}
 
@@ -81,8 +82,8 @@ func AppendHashMap(map1 MessageMap, message Message) {
 	//map1[message2.TS] = append(listMsg, message2)
 	fmt.Println("map1 ===", map1)
 }
-func GetFirstElementMap(mapMsg MessageMap) Message {
-	var message Message
+func GetFirstElementMap(mapMsg MessageMap) lamport.Message {
+	var message lamport.Message
 	for key, element := range mapMsg {
 		fmt.Println("Key:", key, "=>", "Element:", element)
 		message = element[0]

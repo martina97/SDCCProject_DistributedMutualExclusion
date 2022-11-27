@@ -1,6 +1,7 @@
 package utilities
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"fmt"
 	"log"
 	"os"
@@ -54,7 +55,7 @@ func ParseLine(s string, sep string) (string, string, string, string) {
 	return res[0], res[1], res[2], res[3]
 }
 
-func CreateLog2(path string, header string) *log.Logger {
+func CreateLog(path string, header string) *log.Logger {
 	serverLogFile, err := os.Create(path)
 	if err != nil {
 		log.Printf("unable to read file: %v", err)
@@ -63,8 +64,8 @@ func CreateLog2(path string, header string) *log.Logger {
 	return log.New(serverLogFile, header, log.Lshortfile)
 }
 
-func WriteMsgToFile3(path string, id string, typeMsg string, message Message, timestamp TimeStamp, algo string) error {
-	fmt.Println("sto in WriteMsgToFile3")
+func WriteMsgToFile(path string, id string, typeMsg string, message lamport.Message, timestamp TimeStamp, algo string) error {
+	fmt.Println("sto in WriteMsgToFile")
 	fmt.Println("path == ", path)
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
@@ -77,7 +78,7 @@ func WriteMsgToFile3(path string, id string, typeMsg string, message Message, ti
 	}
 	if typeMsg == "receive" {
 		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.ToString("receive"))
-		if message.MsgType != Reply { //in ricart il TS lo aggiorno solo quando ricevo REQUEST
+		if message.MsgType != lamport.Reply { //in ricart il TS lo aggiorno solo quando ricevo REQUEST
 			_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
 		}
 	}
@@ -89,7 +90,7 @@ func WriteMsgToFile3(path string, id string, typeMsg string, message Message, ti
 	return nil
 }
 
-func WriteInfoToFile2(username string, path string, text string, infoCS bool) {
+func WriteInfoToFile(username string, path string, text string, infoCS bool) {
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
@@ -107,7 +108,7 @@ func WriteInfoToFile2(username string, path string, text string, infoCS bool) {
 	err = f.Sync()
 }
 
-func WriteTSInfoToFile2(path string, id string, timestamp TimeStamp, algorithm string) {
+func WriteTSInfoToFile(path string, id string, timestamp TimeStamp, algorithm string) {
 
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {

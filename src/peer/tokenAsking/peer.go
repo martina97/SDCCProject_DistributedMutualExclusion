@@ -50,7 +50,7 @@ func NewTokenAskingPeer(username string, ID int, address string, port string) *T
 
 func (p *TokenPeer) setInfos() {
 	utilities.StartVC(p.VC)
-	utilities.CreateLog2(p.LogPath, "[peer]")
+	utilities.CreateLog(p.LogPath, "[peer]")
 
 	f, err := os.OpenFile(p.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {

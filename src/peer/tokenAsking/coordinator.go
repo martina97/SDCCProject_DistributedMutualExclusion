@@ -57,7 +57,7 @@ func NewCoordinator(username string, ID int, address string, port string, isCoor
 
 func (c *Coordinator) setInfos() {
 	c.ReqList.Init()
-	utilities.CreateLog2(c.LogPath, "[coordinator]")
+	utilities.CreateLog(c.LogPath, "[coordinator]")
 
 	f, err := os.OpenFile(c.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {

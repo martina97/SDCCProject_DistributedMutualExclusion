@@ -1,6 +1,7 @@
 package ricartAgrawala
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
 	"fmt"
@@ -63,17 +64,17 @@ func SendRicart(peer *RApeer) {
 
 	//	3. for j=1 to N-1 send REQUEST to pj; --> INVIO MSG REQUEST AGLI ALTRI PEER
 	date := time.Now().Format(utilities.DATE_FORMAT)
-	msg := *utilities.NewRequest(MyRApeer.Username, date, MyRApeer.lastReq)
+	msg := *lamport.NewRequest(MyRApeer.Username, date, MyRApeer.lastReq)
 	fmt.Println("IL MESSAGGIO E' ====", msg.ToString("send"))
 	sendRequest(msg)
 	MyRApeer.mutex.Unlock()
 
-	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, "wait all peer reply messages.", false)
+	utilities.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, "wait all peer reply messages.", false)
 
 	//4. Wait until #replies=N-1;
 	<-MyRApeer.ChanAcquireLock
 
-	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, "receive all peer reply messages successfully.", false)
+	utilities.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, "receive all peer reply messages successfully.", false)
 	//5. State = CS;
 	MyRApeer.state = CS
 
@@ -81,10 +82,10 @@ func SendRicart(peer *RApeer) {
 	fmt.Println("entro in CS")
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
-	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " enters the critical section at "+date+".", true)
+	utilities.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, " enters the critical section at "+date+".", true)
 	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
 	date = time.Now().Format(utilities.DATE_FORMAT)
-	utilities.WriteInfoToFile2(MyRApeer.Username, MyRApeer.LogPath, " exits the critical section at "+date+".", true)
+	utilities.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, " exits the critical section at "+date+".", true)
 
 	//7. ∀ r∈Q send REPLY to r
 	fmt.Println("la lista dei msg in coda == ", MyRApeer.DeferSet)
@@ -96,12 +97,12 @@ func SendRicart(peer *RApeer) {
 	for e := MyRApeer.DeferSet.Front(); e != nil; e = e.Next() {
 		fmt.Println("msg ==", e.Value)
 		//fmt.Println("msg ==", e)
-		fmt.Println("msg ==", e.Value.(*utilities.Message))
+		fmt.Println("msg ==", e.Value.(*lamport.Message))
 		fmt.Println("-----")
-		queueMsg := e.Value.(*utilities.Message)
+		queueMsg := e.Value.(*lamport.Message)
 		fmt.Println("queueMsg.sender = ", queueMsg.Sender)
 		date := time.Now().Format(utilities.DATE_FORMAT)
-		replyMsg := utilities.NewReply(MyRApeer.Username, queueMsg.Sender, date, MyRApeer.Num)
+		replyMsg := lamport.NewReply(MyRApeer.Username, queueMsg.Sender, date, MyRApeer.Num)
 		fmt.Println("il msg di REPLY ===", replyMsg.ToString("send"))
 
 		for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
@@ -121,14 +122,14 @@ func SendRicart(peer *RApeer) {
 
 }
 
-func sendRequest(msg utilities.Message) error {
+func sendRequest(msg lamport.Message) error {
 
 	fmt.Println("sto in sendRequest")
 	//scrivo sul log che ho aggiornato il TS
 	//utilities.WriteTSInfoToFile(myID, MyRApeer.Num, algorithm)
-	utilities.WriteTSInfoToFile2(MyRApeer.LogPath, MyRApeer.Username, MyRApeer.Num, "ricartAgrawala")
+	utilities.WriteTSInfoToFile(MyRApeer.LogPath, MyRApeer.Username, MyRApeer.Num, "ricartAgrawala")
 
-	fmt.Println("dopo WriteTSInfoToFile2")
+	fmt.Println("dopo WriteTSInfoToFile")
 	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
 		fmt.Println("dest ==", dest)
@@ -151,7 +152,7 @@ func sendRequest(msg utilities.Message) error {
 
 			//err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
 			//err = utilities.WriteMsgToFile2(MyRApeer.ID, "Send", msg, dest.ID, MyRApeer.Num, algorithm)
-			err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "send", msg, MyRApeer.Num, "ricartAgrawala")
+			err = utilities.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "send", msg, MyRApeer.Num, "ricartAgrawala")
 			if err != nil {
 				return err
 			}
@@ -172,7 +173,7 @@ func sendRequest(msg utilities.Message) error {
 	return nil
 }
 
-func sendReply(msg *utilities.Message, receiver *utilities.NodeInfo) error {
+func sendReply(msg *lamport.Message, receiver *utilities.NodeInfo) error {
 	/*
 		for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 			dest := e.Value.(utilities.NodeInfo)
@@ -199,7 +200,7 @@ func sendReply(msg *utilities.Message, receiver *utilities.NodeInfo) error {
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	_, err = f.WriteString("[" + date + "] : " + MyRApeer.Username + " send" + msg.ToString("send") + " to " + receiver.Username)
 	_, err = f.WriteString("\n")
-	//err = utilities.WriteMsgToFile3(MyRApeer.LogPath, MyRApeer.Username, "Send", msg, MyRApeer.Num, "ricartAgrawala")
+	//err = utilities.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "Send", msg, MyRApeer.Num, "ricartAgrawala")
 
 	err = f.Sync()
 	if err != nil {

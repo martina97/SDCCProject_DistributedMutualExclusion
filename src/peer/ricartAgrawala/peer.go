@@ -101,7 +101,7 @@ func (m *RApeer) ToString() string {
 
 func (p *RApeer) setInfos() {
 	fmt.Println("sono in setInfos, logPAth == " + p.LogPath)
-	utilities.CreateLog2(p.LogPath, "[peer]") // in nodeIdentification.go
+	utilities.CreateLog(p.LogPath, "[peer]") // in nodeIdentification.go
 
 	f, err := os.OpenFile(p.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
