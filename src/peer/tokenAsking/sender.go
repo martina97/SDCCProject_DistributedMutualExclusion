@@ -22,7 +22,7 @@ func SendRequest(peer *TokenPeer) {
 
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := NewRequest(myPeer.Username, date, myPeer.VC)
-	WriteVCInfoToFile(myPeer.LogPath, false)
+	WriteVCInfoToFile(myPeer.LogPath, myPeer.Username, ToString(myPeer.VC))
 
 	//mando REQUEST al coordinatore (è un campo di myPeer)
 	connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port

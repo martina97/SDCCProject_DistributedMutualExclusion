@@ -149,24 +149,14 @@ func openFile(path string) *os.File {
 	return f
 }
 
-func WriteVCInfoToFile(path string, isCoord bool) {
-	var vc VectorClock
-	var username string
+func WriteVCInfoToFile(path string, username string, vcString string) {
 
 	f := openFile(path)
-
-	if isCoord {
-		vc = myCoordinator.VC
-		username = "coordinator"
-	} else {
-		vc = myPeer.VC
-		username = myPeer.Username
-	}
 
 	//save new address on file
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
-	_, err := f.WriteString("[" + date + "] : " + username + " update its vector clock to " + ToString(vc))
+	_, err := f.WriteString("[" + date + "] : " + username + " update its vector clock to " + vcString)
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 	if err != nil {

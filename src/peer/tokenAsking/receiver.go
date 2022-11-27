@@ -31,7 +31,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			myCoordinator.VC[msg.Sender]++
 			sendToken(msg.Sender, true)
 			myCoordinator.HasToken = false
-			WriteVCInfoToFile(myCoordinator.LogPath, true)
+			WriteVCInfoToFile(myCoordinator.LogPath, "coordinator", ToString(myCoordinator.VC))
 			WriteInfosToFile("gives token to "+msg.Sender, myCoordinator.LogPath, "coordinator")
 		} else {
 			//metto il msg in coda
@@ -60,7 +60,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 				myCoordinator.ReqList.Remove(e)
 
 				myCoordinator.VC[pendingMsg.Sender]++
-				WriteVCInfoToFile(myCoordinator.LogPath, true)
+				WriteVCInfoToFile(myCoordinator.LogPath, "coordinator", ToString(myCoordinator.VC))
 			}
 		}
 		if utilities.Test {
