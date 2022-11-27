@@ -4,6 +4,7 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
+	"fmt"
 	"log"
 	"net"
 	"time"
@@ -89,10 +90,13 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		MyRApeer.replies++
 		lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num)
 
-		if MyRApeer.replies == peerCnt-1 {
-			//ho ricevuto tutti i msg di reply
-			MyRApeer.ChanAcquireLock <- true
-		}
+		/*
+			if MyRApeer.replies == peerCnt-1 {
+				//ho ricevuto tutti i msg di reply
+				MyRApeer.ChanAcquireLock <- true
+			}
+
+		*/
 		MyRApeer.mutex.Unlock()
 
 	}
@@ -118,5 +122,59 @@ func checkTS(msg *lamport.Message) bool {
 		return true
 	}
 	return false
+
+}
+
+func checkAcks() {
+
+	fmt.Println("sto in checkAcks")
+
+	for !(MyRApeer.replies == peerCnt-1) {
+		fmt.Println("sto in checkAcks dentro for")
+
+		time.Sleep(time.Second * 5)
+	}
+	fmt.Println("sto in checkAcks fuori for")
+
+	//ho ricevuto tutti i msg di reply
+
+	utilities.WriteInfosToFile("receives all peer reply messages successfully.", MyRApeer.LogPath, MyRApeer.Username)
+
+	//5. State = CS;
+	MyRApeer.state = CS
+
+	//6. CS
+	date := time.Now().Format(utilities.DateFormat)
+
+	utilities.WriteInfosToFile(" enters the critical section at "+date+".", MyRApeer.LogPath, MyRApeer.Username)
+
+	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
+	date = time.Now().Format(utilities.DateFormat)
+	utilities.WriteInfosToFile(" exits the critical section at "+date+".", MyRApeer.LogPath, MyRApeer.Username)
+
+	//7. ∀ r∈Q send REPLY to r
+
+	MyRApeer.mutex.Lock()
+	MyRApeer.state = NCS
+	//todo: se DeferSet vuota?
+	for e := MyRApeer.DeferSet.Front(); e != nil; e = e.Next() {
+
+		queueMsg := e.Value.(*lamport.Message)
+		date := time.Now().Format(utilities.DateFormat)
+		replyMsg := lamport.NewReply(MyRApeer.Username, queueMsg.Sender, date, MyRApeer.Num)
+
+		for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
+			dest := e.Value.(utilities.NodeInfo)
+			if dest.Username == queueMsg.Sender {
+				// invio msg reply a queueMsg.Sender
+				err := sendReply(replyMsg, &dest)
+				if err != nil {
+					log.Fatalf("error sending ack %v", err)
+				}
+			}
+		}
+
+	}
+	MyRApeer.mutex.Unlock()
 
 }

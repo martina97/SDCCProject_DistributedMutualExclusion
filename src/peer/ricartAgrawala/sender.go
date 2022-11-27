@@ -57,44 +57,8 @@ func SendRicart(peer *RApeer) {
 	//4. Wait until #replies=N-1;
 	<-MyRApeer.ChanAcquireLock
 
-	utilities.WriteInfosToFile("receives all peer reply messages successfully.", MyRApeer.LogPath, MyRApeer.Username)
+	go checkAcks()
 
-	//5. State = CS;
-	MyRApeer.state = CS
-
-	//6. CS
-	date = time.Now().Format(utilities.DateFormat)
-
-	utilities.WriteInfosToFile(" enters the critical section at "+date+".", MyRApeer.LogPath, MyRApeer.Username)
-
-	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
-	date = time.Now().Format(utilities.DateFormat)
-	utilities.WriteInfosToFile(" exits the critical section at "+date+".", MyRApeer.LogPath, MyRApeer.Username)
-
-	//7. ∀ r∈Q send REPLY to r
-
-	MyRApeer.mutex.Lock()
-	MyRApeer.state = NCS
-	//todo: se DeferSet vuota?
-	for e := MyRApeer.DeferSet.Front(); e != nil; e = e.Next() {
-
-		queueMsg := e.Value.(*lamport.Message)
-		date := time.Now().Format(utilities.DateFormat)
-		replyMsg := lamport.NewReply(MyRApeer.Username, queueMsg.Sender, date, MyRApeer.Num)
-
-		for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
-			dest := e.Value.(utilities.NodeInfo)
-			if dest.Username == queueMsg.Sender {
-				// invio msg reply a queueMsg.Sender
-				err := sendReply(replyMsg, &dest)
-				if err != nil {
-					log.Fatalf("error sending ack %v", err)
-				}
-			}
-		}
-
-	}
-	MyRApeer.mutex.Unlock()
 	//8. Q=∅; State=NCS; #replies=0;
 
 }
