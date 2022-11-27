@@ -74,6 +74,8 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		if myPeer.numRelease == numSender {
 			myPeer.StartTest <- true
 		}
+		myPeer.numMsgsTest++
+
 		myPeer.mutex.Unlock()
 
 	}
@@ -119,8 +121,7 @@ func checkAcks() {
 		//lascio CS e mando msg release a tutti
 		fmt.Println("devo mandare release!!!!!")
 		sendRelease()
-		myPeer.ChanAcquireLock <- true
-		fmt.Println("chan true!!!!")
+
 		myPeer.mutex.Unlock()
 	}
 

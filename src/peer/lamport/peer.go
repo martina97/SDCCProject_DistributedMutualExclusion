@@ -36,7 +36,8 @@ type LamportPeer struct {
 
 	PeerList *list.List //lista peer
 
-	numRelease int
+	numMsgsTest int
+	numRelease  int
 }
 
 func NewLamportPeer(username string, ID int, address string, port string) *LamportPeer {
@@ -51,6 +52,7 @@ func NewLamportPeer(username string, ID int, address string, port string) *Lampo
 		StartTest:       make(chan bool, utilities.ChanSize),
 		ScalarMap:       MessageMap{},
 		numRelease:      0,
+		numMsgsTest:     0,
 	}
 	peer.setInfos()
 	return peer

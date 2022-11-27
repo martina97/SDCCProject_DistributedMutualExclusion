@@ -38,6 +38,9 @@ func SendLamport(peer *LamportPeer) {
 	utilities.WriteInfosToFile("waits all peer reply messages.", myPeer.LogPath, myPeer.Username)
 
 	go checkAcks()
+	if utilities.Test {
+		go checkStartTests()
+	}
 	/*
 		<-myPeer.ChanAcquireLock
 
@@ -57,6 +60,20 @@ func SendLamport(peer *LamportPeer) {
 		sendRelease()
 
 	*/
+
+}
+
+func checkStartTests() {
+	fmt.Println("sto in checkStartTests")
+	for !(myPeer.numMsgsTest != numSender) {
+		fmt.Println("sto in checkStartTests dentro for")
+
+		time.Sleep(time.Second * 5)
+	}
+	fmt.Println("sto in checkStartTests fuori for")
+
+	myPeer.ChanAcquireLock <- true
+	fmt.Println("chan true!!!!")
 
 }
 
@@ -131,6 +148,7 @@ func sendRelease() error {
 
 	//elimino primo msg da lista
 	RemoveFirstElementMap(myPeer.ScalarMap)
+	myPeer.numMsgsTest++
 	return nil
 }
 func sendReply(msg *Message) error {
