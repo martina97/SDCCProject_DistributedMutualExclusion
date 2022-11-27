@@ -32,7 +32,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			sendToken(msg.Sender, true)
 			myCoordinator.HasToken = false
 			WriteVCInfoToFile(myCoordinator.LogPath, true)
-			WriteInfosToFile("gives token to "+msg.Sender, myCoordinator.LogPath, true)
+			WriteInfosToFile("gives token to "+msg.Sender, myCoordinator.LogPath, "coordinator")
 		} else {
 			//metto il msg in coda
 			myCoordinator.ReqList.PushBack(msg)
@@ -56,7 +56,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			if IsEligible(myCoordinator.VC, pendingMsg.VC, pendingMsg.Sender) {
 				sendToken(pendingMsg.Sender, true)
 				myCoordinator.HasToken = false
-				WriteInfosToFile("gives token to "+pendingMsg.Sender, myCoordinator.LogPath, true)
+				WriteInfosToFile("gives token to "+pendingMsg.Sender, myCoordinator.LogPath, "coordinator")
 				myCoordinator.ReqList.Remove(e)
 
 				myCoordinator.VC[pendingMsg.Sender]++

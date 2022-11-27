@@ -128,15 +128,9 @@ func WriteMsgToFile(action string, message Message, path string, isCoord bool) e
 
 }
 
-func WriteInfosToFile(text string, path string, isCoord bool) {
-	var username string
+func WriteInfosToFile(text string, path string, username string) {
 
 	f := openFile(path)
-	if isCoord {
-		username = "coordinator"
-	} else {
-		username = myPeer.Username
-	}
 
 	//save new address on file
 	date := time.Now().Format(utilities.DATE_FORMAT)
