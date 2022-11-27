@@ -31,7 +31,8 @@ type TokenPeer struct {
 	PeerList *list.List //lista peer
 	VC       VectorClock
 
-	Coordinator Coordinator
+	Coordinator   Coordinator
+	ChanStartTest chan bool
 }
 
 func NewTokenAskingPeer(username string, ID int, address string, port string) *TokenPeer {
@@ -42,8 +43,9 @@ func NewTokenAskingPeer(username string, ID int, address string, port string) *T
 		Port:     port,
 		LogPath:  "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(ID) + ".log",
 		//HasToken: make(chan bool, utilities.ChanSize),
-		HasToken: false,
-		VC:       make(map[string]int),
+		HasToken:      false,
+		VC:            make(map[string]int),
+		ChanStartTest: make(chan bool, utilities.ChanSize),
 	}
 	peer.setInfos()
 	return peer

@@ -19,9 +19,12 @@ func ExecuteTestPeer(peer *TokenPeer, num int) {
 
 	if numSender == 1 && myPeer.ID == 1 {
 		SendRequest(&myPeer)
+		<-myPeer.ChanStartTest
 	}
 	if numSender == 2 && (myPeer.ID == 1 || myPeer.ID == 2) {
 		SendRequest(&myPeer)
+		<-myPeer.ChanStartTest
+
 	} else {
 		time.Sleep(time.Minute / 2)
 	}
