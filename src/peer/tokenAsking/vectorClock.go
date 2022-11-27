@@ -28,7 +28,6 @@ func ToString(vc VectorClock) string {
 	sort.Strings(keys)
 
 	for _, k := range keys {
-		fmt.Println(k, vc[k])
 		values = append(values, vc[k])
 	}
 	vcString := fmt.Sprint(values)

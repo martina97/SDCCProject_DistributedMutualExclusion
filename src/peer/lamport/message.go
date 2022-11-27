@@ -99,7 +99,7 @@ func WriteMsgToFile(path string, id string, typeMsg string, message Message, tim
 	var err error
 	f := utilities.OpenFile(path)
 	//save new address on file
-	date := time.Now().Format(utilities.DATE_FORMAT)
+	date := time.Now().Format(utilities.DateFormat)
 	if typeMsg == "send" {
 		_, err = f.WriteString("[" + date + "] : " + id + " sends" + message.ToString("send") + " to " + message.Receiver + ".")
 	}

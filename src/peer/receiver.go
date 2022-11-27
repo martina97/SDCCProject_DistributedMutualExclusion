@@ -17,7 +17,7 @@ var (
 
 func message_handler() {
 
-	listener, err := net.Listen("tcp", ":"+strconv.Itoa(utilities.Client_port))
+	listener, err := net.Listen("tcp", ":"+strconv.Itoa(utilities.ClientPort))
 	if err != nil {
 		log.Fatal("net.Lister fail")
 	}

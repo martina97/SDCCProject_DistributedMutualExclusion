@@ -44,7 +44,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		//metto msg in mappa
 		AppendHashMap(myPeer.ScalarMap, *msg)
 
-		date := time.Now().Format(utilities.DATE_FORMAT)
+		date := time.Now().Format(utilities.DateFormat)
 		replyMsg := NewReply(myPeer.Username, msg.Sender, date, myPeer.Timestamp)
 		sendReply(replyMsg)
 		myPeer.mutex.Unlock()

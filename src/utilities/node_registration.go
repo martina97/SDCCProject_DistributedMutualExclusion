@@ -34,7 +34,7 @@ func Registration(peers *list.List, port int, username string, listNodes []NodeI
 
 	fmt.Println("SONO IN REGISTRATION --- PORTA == ", port)
 
-	addr := Server_addr + ":" + strconv.Itoa(Server_port)
+	addr := ServerAddr + ":" + strconv.Itoa(ServerPort)
 	fmt.Println("SONO IN REGISTRATION --- ADDR	 == ", addr)
 
 	// Try to connect to addr
@@ -52,9 +52,9 @@ func Registration(peers *list.List, port int, username string, listNodes []NodeI
 
 	//call procedure
 	log.Printf("Call to registration peer")
-	err = server.Call("Utility.Save_registration", &info, &res)
+	err = server.Call("Utility.SaveRegistration", &info, &res)
 	if err != nil {
-		log.Fatal("Error save_registration procedure: ", err)
+		log.Fatal("Error SaveRegistration procedure: ", err)
 	}
 
 	//check result

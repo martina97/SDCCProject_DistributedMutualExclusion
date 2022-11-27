@@ -63,7 +63,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		if checkConditions(msg) { //se è true --> inserisco msg in coda
 			MyRApeer.DeferSet.PushBack(msg)
 		} else { //se è false --> invio REPLY al peer che ha inviato msg REQUEST
-			date := time.Now().Format(utilities.DATE_FORMAT)
+			date := time.Now().Format(utilities.DateFormat)
 			replyMsg := lamport.NewReply(MyRApeer.Username, msg.Sender, date, MyRApeer.Num)
 
 			//devo inviare reply al replyMsg.receiver
@@ -88,7 +88,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		MyRApeer.mutex.Lock()
 		MyRApeer.replies++
 		lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num)
-		
+
 		if MyRApeer.replies == peerCnt-1 {
 			//ho ricevuto tutti i msg di reply
 			MyRApeer.ChanAcquireLock <- true

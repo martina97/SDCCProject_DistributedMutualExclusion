@@ -3,7 +3,6 @@ package utilities
 import (
 	"bufio"
 	"errors"
-	"fmt"
 	"log"
 	"net"
 	"os"
@@ -43,28 +42,16 @@ func GetLocalIP() string {
 }
 
 // save registration info to reg_node procedure
-func (utils *Utility) Save_registration(arg *NodeInfo, res *Result_file) error {
+func (utils *Utility) SaveRegistration(arg *NodeInfo, res *Result_file) error {
 
 	log.Printf("The registration is for %s the ip address:port : %s:%s\n", TypeToString(arg.Type), arg.Address, arg.Port)
-	fmt.Println("provaaaaaa")
-	/*
-		myfile, e := os.Create("provaFILEEEEE.txt")
-		if e != nil {
-			log.Fatal(e)
-		}
-		log.Println(myfile)
-		myfile.Close()
-	*/
+
 	f, err := os.OpenFile("/docker/register_volume/nodes.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Println(err)
 		return errors.New("Impossible to open file")
 	}
-	fmt.Println("provaaaaaa2")
 
-	/*
-		see https://www.joeshaw.org/dont-defer-close-on-writable-files/ for file defer on close
-	*/
 	defer func(f *os.File) {
 		err := f.Close()
 		if err != nil {
@@ -115,7 +102,6 @@ func prepareResponse(res *Result_file) error {
 	var i int
 	for scanner.Scan() {
 		line := scanner.Text()
-		fmt.Println(line) //stampa contenuto file
 		// manda ai peer chiamando peer.saveFile
 
 		res.Peers[i] = line

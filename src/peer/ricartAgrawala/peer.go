@@ -43,7 +43,6 @@ type RApeer struct {
 	PeerList *list.List //lista peer
 
 	DeferSet *list.List
-	replySet *list.List
 	replies  int //numero di risposte ricevute (inizializzato a 0)
 
 	/*
@@ -84,11 +83,10 @@ func NewRicartAgrawalaPeer(username string, ID int, address string, port string)
 		Port:     port,
 		state:    NCS,
 		DeferSet: list.New(),
-		replySet: list.New(),
 		LogPath:  "/docker/node_volume/ricartAgrawala/peer_" + strconv.Itoa(ID) + ".log",
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
-		ChanAcquireLock: make(chan bool, utilities.CHAN_SIZE),
+		ChanAcquireLock: make(chan bool, utilities.ChanSize),
 	}
 	peer.setInfos()
 	return peer

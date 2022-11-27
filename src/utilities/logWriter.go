@@ -11,7 +11,7 @@ func WriteInfosToFile(text string, path string, username string) {
 	f := OpenFile(path)
 
 	//save new address on file
-	date := time.Now().Format(DATE_FORMAT)
+	date := time.Now().Format(DateFormat)
 
 	_, _ = f.WriteString("[" + date + "] : " + username + " " + text)
 
@@ -32,7 +32,7 @@ func WriteVCInfoToFile(path string, username string, vcString string) {
 	f := OpenFile(path)
 
 	//save new address on file
-	date := time.Now().Format(DATE_FORMAT)
+	date := time.Now().Format(DateFormat)
 
 	_, err := f.WriteString("[" + date + "] : " + username + " update its vector clock to " + vcString)
 	_, err = f.WriteString("\n")
@@ -47,7 +47,7 @@ func WriteTSInfoToFile(path string, id string, timestamp string) {
 	f := OpenFile(path)
 
 	//save new address on file
-	date := time.Now().Format(DATE_FORMAT)
+	date := time.Now().Format(DateFormat)
 
 	_, err := f.WriteString("[" + date + "] : " + id + " updates its local logical timeStamp to " + timestamp)
 	_, err = f.WriteString("\n")

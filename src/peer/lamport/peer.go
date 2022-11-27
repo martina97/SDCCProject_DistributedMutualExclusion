@@ -47,8 +47,8 @@ func NewLamportPeer(username string, ID int, address string, port string) *Lampo
 		Port:            port,
 		replySet:        list.New(),
 		LogPath:         "/docker/node_volume/lamport/peer_" + strconv.Itoa(ID) + ".log",
-		ChanAcquireLock: make(chan bool, utilities.CHAN_SIZE),
-		StartTest:       make(chan bool, utilities.CHAN_SIZE),
+		ChanAcquireLock: make(chan bool, utilities.ChanSize),
+		StartTest:       make(chan bool, utilities.ChanSize),
 		ScalarMap:       MessageMap{},
 		numRelease:      0,
 	}

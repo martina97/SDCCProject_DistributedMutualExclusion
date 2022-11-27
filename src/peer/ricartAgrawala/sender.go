@@ -26,11 +26,7 @@ func SendRicart(peer *RApeer) {
 
 	//inizializzo le variabili che mi servono
 	MyRApeer.DeferSet.Init()
-	//fmt.Println("MyRApeer.DeferSet.Init()")
-	MyRApeer.replySet.Init()
-	//fmt.Println("MyRApeer.replySet.Init()")
 	MyRApeer.replies = 0
-	//fmt.Println("MyRApeer.replies = 0")
 
 	/*
 		1. State = Requesting;
@@ -51,7 +47,7 @@ func SendRicart(peer *RApeer) {
 	MyRApeer.lastReq = MyRApeer.Num
 
 	//	3. for j=1 to N-1 send REQUEST to pj; --> INVIO MSG REQUEST AGLI ALTRI PEER
-	date := time.Now().Format(utilities.DATE_FORMAT)
+	date := time.Now().Format(utilities.DateFormat)
 	msg := *lamport.NewRequest(MyRApeer.Username, date, MyRApeer.lastReq)
 	sendRequest(msg)
 	MyRApeer.mutex.Unlock()
@@ -67,12 +63,12 @@ func SendRicart(peer *RApeer) {
 	MyRApeer.state = CS
 
 	//6. CS
-	date = time.Now().Format(utilities.DATE_FORMAT)
+	date = time.Now().Format(utilities.DateFormat)
 
 	utilities.WriteInfosToFile(" enters the critical section at "+date+".", MyRApeer.LogPath, MyRApeer.Username)
 
 	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
-	date = time.Now().Format(utilities.DATE_FORMAT)
+	date = time.Now().Format(utilities.DateFormat)
 	utilities.WriteInfosToFile(" exits the critical section at "+date+".", MyRApeer.LogPath, MyRApeer.Username)
 
 	//7. ∀ r∈Q send REPLY to r
@@ -83,7 +79,7 @@ func SendRicart(peer *RApeer) {
 	for e := MyRApeer.DeferSet.Front(); e != nil; e = e.Next() {
 
 		queueMsg := e.Value.(*lamport.Message)
-		date := time.Now().Format(utilities.DATE_FORMAT)
+		date := time.Now().Format(utilities.DateFormat)
 		replyMsg := lamport.NewReply(MyRApeer.Username, queueMsg.Sender, date, MyRApeer.Num)
 
 		for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
@@ -143,6 +139,6 @@ func sendReply(msg *lamport.Message, receiver *utilities.NodeInfo) error {
 	enc.Encode(msg)
 
 	lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "send", *msg, MyRApeer.Num)
-	
+
 	return nil
 }

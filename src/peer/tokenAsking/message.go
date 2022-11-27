@@ -89,7 +89,7 @@ func WriteMsgToFile(action string, message Message, path string, isCoord bool) e
 	}
 
 	//save new address on file
-	date := time.Now().Format(utilities.DATE_FORMAT)
+	date := time.Now().Format(utilities.DateFormat)
 
 	if action == "send" {
 		switch message.MsgType {

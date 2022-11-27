@@ -20,7 +20,7 @@ func SendRequest(peer *TokenPeer) {
 	//incremento Vector Clock!!!
 	IncrementVC(myPeer.VC, myPeer.Username)
 
-	date := time.Now().Format(utilities.DATE_FORMAT)
+	date := time.Now().Format(utilities.DateFormat)
 	msg := NewRequest(myPeer.Username, date, myPeer.VC)
 	utilities.WriteVCInfoToFile(myPeer.LogPath, myPeer.Username, ToString(myPeer.VC))
 
@@ -47,10 +47,10 @@ func SendRequest(peer *TokenPeer) {
 	myPeer.mutex.Unlock()
 	<-myPeer.HasToken
 
-	date = time.Now().Format(utilities.DATE_FORMAT)
+	date = time.Now().Format(utilities.DateFormat)
 	utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
 	time.Sleep(time.Minute / 2)
-	date = time.Now().Format(utilities.DATE_FORMAT)
+	date = time.Now().Format(utilities.DateFormat)
 
 	utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
 	utilities.WriteInfosToFile("releases the token.", myPeer.LogPath, myPeer.Username)
@@ -63,7 +63,7 @@ func SendRequest(peer *TokenPeer) {
 }
 
 func sendProgramMessage() {
-	date := time.Now().Format(utilities.DATE_FORMAT)
+	date := time.Now().Format(utilities.DateFormat)
 	msg := NewProgramMessage(myPeer.Username, date, myPeer.VC)
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
@@ -89,7 +89,7 @@ func sendToken(receiver string, isCoord bool) {
 		for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
 			dest := e.Value.(utilities.NodeInfo)
 			if dest.Username == receiver {
-				date := time.Now().Format(utilities.DATE_FORMAT)
+				date := time.Now().Format(utilities.DateFormat)
 				msg := NewTokenMessage(date, "coordinator", receiver, myCoordinator.VC)
 
 				peerConn := dest.Address + ":" + dest.Port
@@ -104,7 +104,7 @@ func sendToken(receiver string, isCoord bool) {
 			}
 		}
 	} else {
-		date := time.Now().Format(utilities.DATE_FORMAT)
+		date := time.Now().Format(utilities.DateFormat)
 		msg := NewTokenMessage(date, myPeer.Username, "coordinator", myPeer.VC)
 		connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
 

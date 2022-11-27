@@ -54,7 +54,7 @@ func main() {
 	/* passo il result file a registration in modo che in esso vengono inserite
 	le info del file!
 	*/
-	utilities.Registration(peers, utilities.Client_port, myUsername, listNodes)
+	utilities.Registration(peers, utilities.ClientPort, myUsername, listNodes)
 
 	//a questo punto tutti sanno quali sono gli altri peer
 
@@ -66,7 +66,7 @@ func main() {
 
 	if utilities.Test {
 		//lancio i test
-		startTests()
+		runTest()
 	} else {
 		openMenu() //qui devo scegliere tra Lamport, Ricart-Agrawala e Token-Asking
 	}

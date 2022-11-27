@@ -36,7 +36,6 @@ func main() {
 	f.Close()
 
 	port := 4321
-	log.Println("ciaoooo44444")
 	// listen for a connection
 	listener, err := net.Listen("tcp", ":"+strconv.Itoa(port))
 	if err != nil {
@@ -48,15 +47,6 @@ func main() {
 	log.Printf("RPC server on port %d", port)
 
 	go server.Accept(listener)
-
-	/*
-		fmt.Println("REGISTER NODE PROVA CONNECT ")
-		_, err = rpc.Dial("tcp", "10.10.1.3:2345")
-		if err != nil {
-			log.Fatal("Error in dialing: ", err)
-		}
-
-	*/
 
 	//Wait connection
 	for connect_num < utilities.MAXPEERS { //todo: mettere 3 , anche sotto

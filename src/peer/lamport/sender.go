@@ -24,7 +24,7 @@ func SendLamport(peer *LamportPeer) {
 
 	IncrementTS(&myPeer.Timestamp)
 
-	date := time.Now().Format(utilities.DATE_FORMAT)
+	date := time.Now().Format(utilities.DateFormat)
 
 	msg := *NewRequest(myPeer.Username, date, myPeer.Timestamp)
 
@@ -41,12 +41,12 @@ func SendLamport(peer *LamportPeer) {
 	utilities.WriteInfosToFile("receives all peer reply messages successfully.", myPeer.LogPath, myPeer.Username)
 
 	//ho ricevuto tutti msg reply, ora entro in cs
-	date = time.Now().Format(utilities.DATE_FORMAT)
+	date = time.Now().Format(utilities.DateFormat)
 
 	utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
 
 	time.Sleep(time.Minute / 2)
-	date = time.Now().Format(utilities.DATE_FORMAT)
+	date = time.Now().Format(utilities.DateFormat)
 
 	utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
 
@@ -95,7 +95,7 @@ func sendRequest(msg Message) error {
 func sendRelease() error {
 	//incremento timestamp
 
-	date := time.Now().Format(utilities.DATE_FORMAT)
+	date := time.Now().Format(utilities.DateFormat)
 	releaseMsg := *NewRelease(myPeer.Username, date, myPeer.Timestamp)
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
