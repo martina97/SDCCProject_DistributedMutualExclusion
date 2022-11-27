@@ -3,7 +3,6 @@ package lamport
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
-	"fmt"
 	"log"
 	"net"
 	"strconv"
@@ -15,32 +14,20 @@ var myPeer LamportPeer
 func SendLamport(peer *LamportPeer) {
 
 	if myPeer.Username == "" {
-		fmt.Println("sto in SendLamport --- RA_PEER VUOTA")
 		myPeer = *peer
-		//peerCnt = MyRApeer.PeerList.Len()
-	} else {
-		fmt.Println("sto in SendLamport --- RA_PEER NON VUOTA")
 	}
 
 	myPeer.replySet.Init()
 	// tale lista serve a mettere i msg di reply per poi controllare che sono arrivati tutti
-	// TODO: invece che lista basta semplicemente un contatore?!?!
 
 	myPeer.mutex.Lock()
 
 	IncrementTS(&myPeer.Timestamp)
-	fmt.Println("------------------ timestamp  ==", myPeer.Timestamp)
 
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
 	msg := *NewRequest(myPeer.Username, date, myPeer.Timestamp)
 
-	fmt.Println("IL MESSAGGIO E' ====", msg)
-	//fmt.Println("ID MESSAGGIO E' ====", msg.MsgID)
-	fmt.Println("MsgType MESSAGGIO E' ====", msg.MsgType)
-	fmt.Println("Sender MESSAGGIO E' ====", msg.Sender)
-	fmt.Println("Date MESSAGGIO E' ====", msg.Date)
-	fmt.Println("timeStamp MESSAGGIO E' ====", msg.TS)
 	sendRequest(msg)
 
 	myPeer.Waiting = true
@@ -54,8 +41,6 @@ func SendLamport(peer *LamportPeer) {
 	utilities.WriteInfosToFile("receives all peer reply messages successfully.", myPeer.LogPath, myPeer.Username)
 
 	//ho ricevuto tutti msg reply, ora entro in cs
-	fmt.Println("lista di msg in coda ==", myPeer.ScalarMap)
-	fmt.Println("entro in CS")
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
 	utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
@@ -101,21 +86,8 @@ func sendRequest(msg Message) error {
 		}
 	}
 	//una volta inviato il msg, lo salvo nella coda locale del peer sender
-	fmt.Println(" ------------------------------------------ STO QUA 2 ----------------------------")
 
 	AppendHashMap(myPeer.ScalarMap, msg)
-	fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
-
-	/*
-		for e := lista(); e != nil; e = e.Next() {
-			item := e.Value.(Message)
-
-		}
-		fmt.Println("LISTA DEL PEER SENDER ==", lista)
-
-	*/
-
-	fmt.Println("MAPPA SENDER ====", myPeer.ScalarMap)
 
 	return nil
 }
@@ -123,10 +95,6 @@ func sendRequest(msg Message) error {
 func sendRelease() error {
 	//incremento timestamp
 
-	/*
-		utilities.IncrementTS(&myPeer.Timestamp)
-		utilities.WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
-	*/
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	releaseMsg := *NewRelease(myPeer.Username, date, myPeer.Timestamp)
 
@@ -157,7 +125,6 @@ func sendRelease() error {
 
 	//elimino primo msg da lista
 	RemoveFirstElementMap(myPeer.ScalarMap)
-	fmt.Println("ora la mappa ===", myPeer.ScalarMap)
 	return nil
 }
 func sendReply(msg *Message) error {
