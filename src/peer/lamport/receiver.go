@@ -99,6 +99,7 @@ func checkAcks() {
 	msg := GetFirstElementMap(myPeer.ScalarMap)
 
 	if msg.Sender == myPeer.Username {
+		myPeer.mutex.Lock()
 		//il primo msg in lista è il mio, quindi posso accedere in CS
 		//myPeer.Waiting = false
 		//myPeer.ChanAcquireLock <- true
@@ -117,6 +118,7 @@ func checkAcks() {
 
 		//lascio CS e mando msg release a tutti
 		sendRelease()
+		myPeer.mutex.Unlock()
 	}
 
 }

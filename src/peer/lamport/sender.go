@@ -3,6 +3,7 @@ package lamport
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
+	"fmt"
 	"log"
 	"net"
 	"strconv"
@@ -98,6 +99,7 @@ func sendRequest(msg Message) error {
 
 func sendRelease() error {
 	//incremento timestamp
+	fmt.Println("mando release")
 
 	date := time.Now().Format(utilities.DateFormat)
 	releaseMsg := *NewRelease(myPeer.Username, date, myPeer.Timestamp)
