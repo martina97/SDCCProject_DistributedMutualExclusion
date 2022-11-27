@@ -3,6 +3,7 @@ package lamport
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
+	"fmt"
 	"net"
 	"sync"
 	"time"
@@ -59,7 +60,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		//aggiungo a replyProSet il msg
 		myPeer.replySet.PushBack(msg)
 		//check ack
-		checkAcks() //controllo se ho ricevuto 2 msg reply, se si posso entrare in CS prendendo 1 elem nella lista
+		//checkAcks() //controllo se ho ricevuto 2 msg reply, se si posso entrare in CS prendendo 1 elem nella lista
 		// e controllando che id sia il mio, se e' il mio entro altrimenti no
 		myPeer.mutex.Unlock()
 	} else if msg.MsgType == Release {
@@ -80,13 +81,18 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 }
 
 func checkAcks() {
+	fmt.Println("sto in checkAcks")
 
 	//todo: quando azzero lista ReplyProSet ?????
 	//date := time.Now().Format("15:04:05.000")
 
 	for !(myPeer.replySet.Len() == myPeer.PeerList.Len()-1 && len(myPeer.ScalarMap) > 0) {
+		fmt.Println("sto in checkAcks dentro for")
+
 		time.Sleep(time.Second * 30)
 	}
+	fmt.Println("sto in checkAcks fuori for")
+
 	//if myPeer.replySet.Len() == myPeer.PeerList.Len()-1 && len(myPeer.ScalarMap) > 0 {
 
 	//prendo il primo mess nella mappa per vedere se è il mio, ossia guardo ID sender
