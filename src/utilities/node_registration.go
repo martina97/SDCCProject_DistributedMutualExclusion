@@ -3,6 +3,7 @@ package utilities
 import (
 	"container/list"
 	"errors"
+	"fmt"
 	"log"
 	"net/rpc"
 	"strconv"
@@ -47,7 +48,7 @@ func Registration(peers *list.List, port int, username string, listNodes []NodeI
 	}
 
 	//call procedure
-	log.Printf("Call to registration peer")
+	fmt.Println("Call to registration peer")
 	err = server.Call("Utility.SaveRegistration", &info, &res)
 	if err != nil {
 		log.Fatal("Error SaveRegistration procedure: ", err)

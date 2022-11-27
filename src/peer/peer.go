@@ -56,6 +56,7 @@ func main() {
 	*/
 	utilities.Registration(peers, utilities.ClientPort, myUsername, listNodes)
 
+	fmt.Println("Registration completed successfully!")
 	//a questo punto tutti sanno quali sono gli altri peer
 
 	setID()
