@@ -8,18 +8,14 @@ import (
 	"time"
 )
 
-type MessageType int
+type MessageType string
 
 const (
-	Request MessageType = iota + 1 // request mutual lock
-	Reply                          // reply mutual lock
-	Release                        // release mutual lock
+	Request MessageType = "Request"
+	Reply   MessageType = "Reply"
+	Release MessageType = "Release"
 )
 
-/*
-servono lettera maiuscola perche devo farne il marshaling e unmarshaling, che richiedono solo field esportabili
-todo: vedi libro pag 108
-*/
 type Message struct {
 	MsgType  MessageType //request,reply,release
 	Sender   string
@@ -27,6 +23,11 @@ type Message struct {
 	Date     string
 	TS       TimeStamp
 }
+
+/*
+servono lettera maiuscola perche devo farne il marshaling e unmarshaling, che richiedono solo field esportabili
+todo: vedi libro pag 108
+*/
 
 func NewRequest(sender string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
@@ -81,10 +82,6 @@ func (m *Message) ToString(role string) string {
 	}
 
 	if role == "send" {
-		//Request message: {Request [] p3 p1 17:39:42.230 [1]} to p0.
-		//return fmt.Sprintf(" %s message: {%s %s %s %s [%d]}", name, name, m.Sender, m.Receiver, m.Date, m.TS)
-
-		//Request message: {Request [] p1 17:39:42.230 [1]} --- p1=receiver, [1] = timestamp
 		return fmt.Sprintf(" %s message: {%s %s %s [%d]}", name, name, m.Receiver, m.Date, m.TS)
 	}
 	if role == "receive" {

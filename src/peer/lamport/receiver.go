@@ -84,16 +84,33 @@ func checkAcks() {
 	//todo: quando azzero lista ReplyProSet ?????
 	//date := time.Now().Format("15:04:05.000")
 
-	if myPeer.replySet.Len() == myPeer.PeerList.Len()-1 && len(myPeer.ScalarMap) > 0 {
-
-		//prendo il primo mess nella mappa per vedere se è il mio, ossia guardo ID sender
-		msg := GetFirstElementMap(myPeer.ScalarMap)
-
-		if msg.Sender == myPeer.Username {
-			//il primo msg in lista è il mio, quindi posso accedere in CS
-			myPeer.Waiting = false
-			myPeer.ChanAcquireLock <- true
-		}
-
+	for !(myPeer.replySet.Len() == myPeer.PeerList.Len()-1 && len(myPeer.ScalarMap) > 0) {
+		time.Sleep(time.Second * 30)
 	}
+	//if myPeer.replySet.Len() == myPeer.PeerList.Len()-1 && len(myPeer.ScalarMap) > 0 {
+
+	//prendo il primo mess nella mappa per vedere se è il mio, ossia guardo ID sender
+	msg := GetFirstElementMap(myPeer.ScalarMap)
+
+	if msg.Sender == myPeer.Username {
+		//il primo msg in lista è il mio, quindi posso accedere in CS
+		//myPeer.Waiting = false
+		//myPeer.ChanAcquireLock <- true
+
+		utilities.WriteInfosToFile("receives all peer reply messages successfully.", myPeer.LogPath, myPeer.Username)
+
+		//ho ricevuto tutti msg reply, ora entro in cs
+		date := time.Now().Format(utilities.DateFormat)
+
+		utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+
+		time.Sleep(time.Minute / 2)
+		date = time.Now().Format(utilities.DateFormat)
+
+		utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+
+		//lascio CS e mando msg release a tutti
+		sendRelease()
+	}
+
 }

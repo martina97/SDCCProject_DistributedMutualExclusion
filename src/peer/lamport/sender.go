@@ -36,22 +36,26 @@ func SendLamport(peer *LamportPeer) {
 
 	utilities.WriteInfosToFile("waits all peer reply messages.", myPeer.LogPath, myPeer.Username)
 
-	<-myPeer.ChanAcquireLock
+	go checkAcks()
+	/*
+		<-myPeer.ChanAcquireLock
 
-	utilities.WriteInfosToFile("receives all peer reply messages successfully.", myPeer.LogPath, myPeer.Username)
+		utilities.WriteInfosToFile("receives all peer reply messages successfully.", myPeer.LogPath, myPeer.Username)
 
-	//ho ricevuto tutti msg reply, ora entro in cs
-	date = time.Now().Format(utilities.DateFormat)
+		//ho ricevuto tutti msg reply, ora entro in cs
+		date = time.Now().Format(utilities.DateFormat)
 
-	utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+		utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
 
-	time.Sleep(time.Minute / 2)
-	date = time.Now().Format(utilities.DateFormat)
+		time.Sleep(time.Minute / 2)
+		date = time.Now().Format(utilities.DateFormat)
 
-	utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+		utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
 
-	//lascio CS e mando msg release a tutti
-	sendRelease()
+		//lascio CS e mando msg release a tutti
+		sendRelease()
+
+	*/
 
 }
 
