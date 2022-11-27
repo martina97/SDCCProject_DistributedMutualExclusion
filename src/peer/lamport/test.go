@@ -187,9 +187,9 @@ func testMessageNumber() {
 			//line := fileScanner.Text()
 
 			//fmt.Println(fileScanner.Text())
-			if strings.Contains(fileScanner.Text(), "send Request message") ||
-				strings.Contains(fileScanner.Text(), "receive Reply message") ||
-				strings.Contains(fileScanner.Text(), "send Release message") {
+			if strings.Contains(fileScanner.Text(), "sends Request message") ||
+				strings.Contains(fileScanner.Text(), "receives Reply message") ||
+				strings.Contains(fileScanner.Text(), "sends Release message") {
 				//fmt.Println("CONTIENE !!!!! ")
 				numMsg++
 			}

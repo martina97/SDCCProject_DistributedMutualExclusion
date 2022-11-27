@@ -73,9 +73,9 @@ func testMessageNumber() {
 		}
 
 		if numMsg == 3 {
-			fmt.Println(" === TEST NUMBER OF MESSAGES p", index, ": PASSED !!")
+			fmt.Printf(" === TEST NUMBER OF MESSAGES p%d : PASSED !!!\n", index)
 		} else {
-			fmt.Println(" === TEST NUMBER OF MESSAGES p", index, ": FAILED !!")
+			fmt.Printf(" === TEST NUMBER OF MESSAGES p%d : FAILED !!!\n", index)
 		}
 		index++
 	}

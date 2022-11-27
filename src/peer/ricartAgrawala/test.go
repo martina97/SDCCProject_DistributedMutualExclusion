@@ -165,8 +165,8 @@ func testMessageNumber() {
 			//line := fileScanner.Text()
 
 			//fmt.Println(fileScanner.Text())
-			if strings.Contains(fileScanner.Text(), "send Request message") ||
-				strings.Contains(fileScanner.Text(), "receive Reply message") {
+			if strings.Contains(fileScanner.Text(), "sends Request message") ||
+				strings.Contains(fileScanner.Text(), "receives Reply message") {
 				//fmt.Println("CONTIENE !!!!! ")
 				numMsg++
 			}
@@ -174,9 +174,9 @@ func testMessageNumber() {
 		//fmt.Println("numMsg ===", numMsg)
 
 		if numMsg == 2*(utilities.MAXPEERS-1) {
-			fmt.Println(" === TEST NUMBER OF MESSAGES p", index, ": PASSED !!")
+			fmt.Printf(" === TEST NUMBER OF MESSAGES p%d : PASSED !!!\n", index)
 		} else {
-			fmt.Println(" === TEST NUMBER OF MESSAGES p", index, ": FAILED !!")
+			fmt.Printf(" === TEST NUMBER OF MESSAGES p%d : FAILED !!!\n", index)
 		}
 		index++
 
