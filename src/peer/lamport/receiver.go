@@ -69,7 +69,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp)
 
 		RemoveFirstElementMap(myPeer.ScalarMap)
-		checkAcks()
+		//checkAcks()
 		myPeer.numRelease++
 		if myPeer.numRelease == numSender {
 			myPeer.StartTest <- true
