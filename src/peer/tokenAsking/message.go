@@ -108,7 +108,7 @@ func WriteMsgToFile(action string, message Message, path string, isCoord bool) e
 	} else {
 		switch message.MsgType {
 		case ProgramMessage:
-			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " receives" + message.ToString("receive") + " and update its vector clock to " + ToString(myPeer.VC) + ".")
+			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " receives" + message.ToString("receive") + " and updates its vector clock to " + ToString(myPeer.VC) + ".")
 		case Request:
 			_, err = f.WriteString("[" + date + "] : coordinator receives" + message.ToString("receive") + ".")
 		case Token:

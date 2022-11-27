@@ -8,6 +8,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -127,7 +128,7 @@ func sendRequest(msg lamport.Message) error {
 	fmt.Println("sto in sendRequest")
 	//scrivo sul log che ho aggiornato il TS
 	//utilities.WriteTSInfoToFile(myID, MyRApeer.Num, algorithm)
-	lamport.WriteTSInfoToFile(MyRApeer.LogPath, MyRApeer.Username, MyRApeer.Num, "ricartAgrawala")
+	lamport.WriteTSInfoToFile(MyRApeer.LogPath, MyRApeer.Username, strconv.Itoa(int(MyRApeer.Num)))
 
 	fmt.Println("dopo WriteTSInfoToFile")
 	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {

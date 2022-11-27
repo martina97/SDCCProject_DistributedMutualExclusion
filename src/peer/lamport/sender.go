@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strconv"
 	"time"
 )
 
@@ -70,7 +71,7 @@ func SendLamport(peer *LamportPeer) {
 
 func sendRequest(msg Message) error {
 
-	WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
+	WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, strconv.Itoa(int(myPeer.Timestamp)))
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
@@ -160,7 +161,7 @@ func sendRelease() error {
 }
 func sendReply(msg *Message) error {
 	// mando ack al peer con id msg.receiver
-	WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, myPeer.Timestamp, "lamport")
+	WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, strconv.Itoa(int(myPeer.Timestamp)))
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
