@@ -55,7 +55,7 @@ func SendRicart(peer *RApeer) {
 	utilities.WriteInfosToFile("waits all peer reply messages.", MyRApeer.LogPath, MyRApeer.Username)
 
 	//4. Wait until #replies=N-1;
-	<-MyRApeer.ChanAcquireLock
+	//<-MyRApeer.ChanAcquireLock
 
 	go checkAcks()
 
