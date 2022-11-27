@@ -16,13 +16,13 @@ func SendRequest(peer *TokenPeer) {
 	}
 
 	myPeer.mutex.Lock()
-	WriteInfosToFile("tries to get the token.", myPeer.LogPath, myPeer.Username)
+	utilities.WriteInfosToFile("tries to get the token.", myPeer.LogPath, myPeer.Username)
 	//incremento Vector Clock!!!
 	IncrementVC(myPeer.VC, myPeer.Username)
 
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := NewRequest(myPeer.Username, date, myPeer.VC)
-	WriteVCInfoToFile(myPeer.LogPath, myPeer.Username, ToString(myPeer.VC))
+	utilities.WriteVCInfoToFile(myPeer.LogPath, myPeer.Username, ToString(myPeer.VC))
 
 	//mando REQUEST al coordinatore (è un campo di myPeer)
 	connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
@@ -48,12 +48,12 @@ func SendRequest(peer *TokenPeer) {
 	<-myPeer.HasToken
 
 	date = time.Now().Format(utilities.DATE_FORMAT)
-	WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+	utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
 	time.Sleep(time.Minute / 2)
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
-	WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
-	WriteInfosToFile("releases the token.", myPeer.LogPath, myPeer.Username)
+	utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+	utilities.WriteInfosToFile("releases the token.", myPeer.LogPath, myPeer.Username)
 
 	myCoordinator.mutex.Lock()
 
