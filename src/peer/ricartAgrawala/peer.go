@@ -99,7 +99,7 @@ func (m *RApeer) ToString() string {
 }
 
 func (p *RApeer) setInfos() {
-	utilities.CreateLog(p.LogPath, "[peer]") // in nodeIdentification.go
+	utilities.CreateLog(p.LogPath, "[peer]") // in node_information.go
 
 	f, err := os.OpenFile(p.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {

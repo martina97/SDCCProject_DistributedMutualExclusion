@@ -13,7 +13,7 @@ const (
 	Register          = 1
 )
 
-// NodeInfo : infos about peer
+// NodeInfo : infos about node
 type NodeInfo struct {
 
 	//info su nodo su cui e' in esecuzione il processo

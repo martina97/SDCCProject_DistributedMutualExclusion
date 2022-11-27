@@ -41,7 +41,7 @@ func GetLocalIP() string {
 	return ""
 }
 
-// save registration info to reg_node procedure
+// SaveRegistration : save registration infos
 func (utils *Utility) SaveRegistration(arg *NodeInfo, res *Result_file) error {
 
 	log.Printf("The registration is for %s the ip address:port : %s:%s\n", TypeToString(arg.Type), arg.Address, arg.Port)
@@ -49,7 +49,7 @@ func (utils *Utility) SaveRegistration(arg *NodeInfo, res *Result_file) error {
 	f, err := os.OpenFile("/docker/register_volume/nodes.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Println(err)
-		return errors.New("Impossible to open file")
+		return errors.New("impossible to open file")
 	}
 
 	defer func(f *os.File) {

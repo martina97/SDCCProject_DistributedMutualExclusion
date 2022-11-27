@@ -3,7 +3,6 @@ package utilities
 import (
 	"container/list"
 	"errors"
-	"fmt"
 	"log"
 	"net/rpc"
 	"strconv"
@@ -32,10 +31,7 @@ func Registration(peers *list.List, port int, username string, listNodes []NodeI
 	var info NodeInfo
 	var res Result_file
 
-	fmt.Println("SONO IN REGISTRATION --- PORTA == ", port)
-
 	addr := ServerAddr + ":" + strconv.Itoa(ServerPort)
-	fmt.Println("SONO IN REGISTRATION --- ADDR	 == ", addr)
 
 	// Try to connect to addr
 	server, err := rpc.Dial("tcp", addr)
@@ -62,11 +58,7 @@ func Registration(peers *list.List, port int, username string, listNodes []NodeI
 		var item NodeInfo
 		var tmp string
 		item.Username, tmp, item.Address, item.Port = ParseLine(res.Peers[e], ":")
-		fmt.Println("tmp ======= ", tmp)
-		fmt.Println("item.Address ======= ", item.Address)
-		fmt.Println(" item.Port ======= ", item.Port)
 
-		fmt.Println("res.Peers[e] ======= ", res.Peers[e])
 		item.Type = StringToType(tmp)
 		item.ID = e //setto id del peer
 
