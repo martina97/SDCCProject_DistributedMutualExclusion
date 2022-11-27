@@ -1,3 +1,3 @@
 Initial timestamp of p1 is 0
-[19:20:45.122] : p1 receives Request message: {Request 19:20:45.091 [1]} from p0 and updates its local logical timestamp to 1
-[19:20:45.129] : p1 sends Reply message: {Reply p0 19:20:45.129 [1]} to p0.
+[19:23:25.041] : p1 receives Request message: {Request 19:23:25.036 [1]} from p0 and updates its local logical timestamp to 1
+[19:23:25.048] : p1 sends Reply message: {Reply p0 19:23:25.047 [1]} to p0.
