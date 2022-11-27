@@ -29,7 +29,7 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 		//time.Sleep(time.Minute / 3)
 
 	} else {
-		fmt.Println("sleep")
+		fmt.Println("sleep1")
 		time.Sleep(time.Minute)
 	}
 	if numSender == 2 && (myPeer.ID == 0 || myPeer.ID == 1) {
@@ -39,7 +39,7 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 
 		//time.Sleep(time.Minute)
 	} else {
-		fmt.Println("sleep")
+		fmt.Println("sleep2")
 		time.Sleep(time.Minute)
 	}
 
