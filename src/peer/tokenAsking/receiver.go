@@ -137,7 +137,7 @@ func checkHasToken() {
 		time.Sleep(time.Second * 5)
 	}
 	fmt.Println("sto in checkHasToken fuori for")
-
+	myPeer.mutex.Lock()
 	date := time.Now().Format(utilities.DateFormat)
 	utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
 	time.Sleep(time.Minute / 2)
@@ -145,8 +145,6 @@ func checkHasToken() {
 
 	utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
 	utilities.WriteInfosToFile("releases the token.", myPeer.LogPath, myPeer.Username)
-
-	myPeer.mutex.Lock()
 
 	//invio msg con il token al coordinatore
 	sendToken("coordinator", false)
