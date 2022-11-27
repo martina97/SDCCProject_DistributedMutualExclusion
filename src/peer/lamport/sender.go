@@ -47,22 +47,22 @@ func SendLamport(peer *LamportPeer) {
 
 	myPeer.mutex.Unlock()
 
-	WriteInfoToFile(myPeer.Username, myPeer.LogPath, "wait all peer reply messages.", false)
+	utilities.WriteInfosToFile(myPeer.Username, myPeer.LogPath, "waits all peer reply messages.")
 
 	<-myPeer.ChanAcquireLock
 
-	WriteInfoToFile(myPeer.Username, myPeer.LogPath, " receive all peer reply messages successfully.", false)
+	utilities.WriteInfosToFile(myPeer.Username, myPeer.LogPath, " receives all peer reply messages successfully.")
 
 	//ho ricevuto tutti msg reply, ora entro in cs
 	fmt.Println("lista di msg in coda ==", myPeer.ScalarMap)
 	fmt.Println("entro in CS")
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
-	WriteInfoToFile(myPeer.Username, myPeer.LogPath, " enters the critical section at "+date+".", true)
+	utilities.WriteInfosToFile(myPeer.Username, myPeer.LogPath, " enters the critical section at "+date+".")
 	time.Sleep(time.Minute / 2)
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
-	WriteInfoToFile(myPeer.Username, myPeer.LogPath, " exits the critical section at "+date+".", true)
+	utilities.WriteInfosToFile(myPeer.Username, myPeer.LogPath, " exits the critical section at "+date+".")
 
 	//lascio CS e mando msg release a tutti
 	sendRelease()

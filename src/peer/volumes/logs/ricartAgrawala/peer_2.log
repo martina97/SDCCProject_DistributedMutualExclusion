@@ -1,3 +1,5 @@
 Initial timestamp of p2 is 0
-[12:03:16.408] : p2 receive Request message: {Request 12:03:16.398 [1]} from p0 and update its local logical timestamp to 1
-[12:03:16.415] : p2 send Reply message: {Reply p0 12:03:16.414 [1]} to p0
+[12:13:06.688] : p2 receive Request message: {Request 12:13:06.679 [1]} from p0 and update its local logical timestamp to 1
+[12:13:06.694] : p2 send Reply message: {Reply p0 12:13:06.693 [1]} to p0
+[12:13:06.699] : p2 receive Request message: {Request 12:13:06.680 [1]} from p1 and update its local logical timestamp to 1
+[12:13:06.706] : p2 send Reply message: {Reply p1 12:13:06.705 [1]} to p1

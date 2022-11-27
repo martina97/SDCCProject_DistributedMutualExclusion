@@ -119,21 +119,3 @@ func WriteMsgToFile(path string, id string, typeMsg string, message Message, tim
 	}
 	return nil
 }
-
-func WriteInfoToFile(username string, path string, text string, infoCS bool) {
-	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-	//save new address on file
-	date := time.Now().Format(utilities.DATE_FORMAT)
-
-	if infoCS == false {
-		_, err = f.WriteString("[" + date + "] : " + username + " " + text)
-	} else {
-		_, err = f.WriteString("\n" + username + text)
-
-	}
-	_, err = f.WriteString("\n")
-	err = f.Sync()
-}
