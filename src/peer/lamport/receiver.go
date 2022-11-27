@@ -41,7 +41,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 	//mutex := lock.GetMutex()
 
 	if msg.MsgType == Request {
-		utilities.UpdateTS(&myPeer.Timestamp, &msg.TS)
+		UpdateTS(&myPeer.Timestamp, &msg.TS)
 		/*
 			quando ricevo una richiesta da un processo devo decidere se mandare ACK al processo oppure se voglio entrare in CS
 		*/
@@ -52,7 +52,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		utilities.WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
 
 		//metto msg in mappa
-		utilities.AppendHashMap(myPeer.ScalarMap, *msg)
+		AppendHashMap(myPeer.ScalarMap, *msg)
 
 		//QUA DEVO DECIDERE SE MANDARE ACK O REQUEST (msg REPLY O REQUEST)
 
@@ -114,7 +114,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		fmt.Println("ho scritto su file")
 		//utilities.WriteTSInfoToFile(myID, timeStamp)
 
-		utilities.RemoveFirstElementMap(myPeer.ScalarMap)
+		RemoveFirstElementMap(myPeer.ScalarMap)
 		fmt.Println("---------------------------------	DOPO AVER RICEVUTO RELEASE mappa ===", myPeer.ScalarMap)
 		checkAcks()
 		myPeer.numRelease++
@@ -143,7 +143,7 @@ func checkAcks() {
 		fmt.Println("HO RICEVUTO 2 MSG REPLY")
 
 		//prendo il primo mess nella mappa per vedere se è il mio, ossia guardo ID sender
-		msg := utilities.GetFirstElementMap(myPeer.ScalarMap)
+		msg := GetFirstElementMap(myPeer.ScalarMap)
 		fmt.Println("MSG IN CHECK ACKS ===", msg)
 
 		if msg.Sender == myPeer.Username {

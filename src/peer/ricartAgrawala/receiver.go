@@ -66,7 +66,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		*/
 		fmt.Println("MESS REQUEST !!!!!! ")
 		MyRApeer.mutex.Lock()
-		utilities.UpdateTS(&MyRApeer.Num, &msg.TS)
+		lamport.UpdateTS(&MyRApeer.Num, &msg.TS)
 
 		utilities.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
 

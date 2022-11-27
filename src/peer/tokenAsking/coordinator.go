@@ -28,7 +28,7 @@ type Coordinator struct {
 	mutex sync.Mutex
 
 	PeerList     *list.List //lista peer
-	VC           utilities.VectorClock
+	VC           VectorClock
 	ReqList      *list.List
 	HasToken     bool
 	numTokenMsgs int
@@ -47,7 +47,7 @@ func NewCoordinator(username string, ID int, address string, port string, isCoor
 		numTokenMsgs: 0,
 	}
 
-	utilities.StartVC(coordinator.VC)
+	StartVC(coordinator.VC)
 	if isCoord {
 		coordinator.setInfos()
 	}
@@ -64,7 +64,7 @@ func (c *Coordinator) setInfos() {
 		log.Fatalf("error opening file: %v", err)
 	}
 	date := time.Now().Format(utilities.DATE_FORMAT)
-	_, err = f.WriteString("[" + date + "] : initial vector clock of coordinator is " + utilities.ToString(c.VC) + ".")
+	_, err = f.WriteString("[" + date + "] : initial vector clock of coordinator is " + ToString(c.VC) + ".")
 	_, err = f.WriteString("\n")
 	date = time.Now().Format(utilities.DATE_FORMAT)
 	_, err = f.WriteString("[" + date + "] : coordinator owns the token in starting up. ")

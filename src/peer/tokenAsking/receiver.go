@@ -26,7 +26,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		//time.Sleep(time.Second * 15)
 
 		//devo controllare se è eleggibile!
-		if utilities.IsEligible(myCoordinator.VC, msg.VC, msg.Sender) && myCoordinator.HasToken {
+		if IsEligible(myCoordinator.VC, msg.VC, msg.Sender) && myCoordinator.HasToken {
 			//invio token al processo e aggiorno il VC[i] del coordinatore, ossia incremento di 1 il valore relativo al processo
 			myCoordinator.VC[msg.Sender]++
 			sendToken(msg.Sender, true)
@@ -53,7 +53,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			pendingMsg := myCoordinator.ReqList.Front().Value.(*Message)
 
 			//vedo se il msg è eleggibile, e se sì invio msg con il token al sender del pendingMsg
-			if utilities.IsEligible(myCoordinator.VC, pendingMsg.VC, pendingMsg.Sender) {
+			if IsEligible(myCoordinator.VC, pendingMsg.VC, pendingMsg.Sender) {
 				sendToken(pendingMsg.Sender, true)
 				myCoordinator.HasToken = false
 				WriteInfosToFile("gives token to "+pendingMsg.Sender, true)
@@ -87,7 +87,7 @@ func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 	if msg.MsgType == ProgramMessage {
 		myPeer.mutex.Lock()
 		//update VC !
-		utilities.UpdateVC(myPeer.VC, msg.VC)
+		UpdateVC(myPeer.VC, msg.VC)
 		err := WriteMsgToFile("receive", *msg, false)
 		utilities.CheckError(err, "error writing msg")
 		myPeer.mutex.Unlock()

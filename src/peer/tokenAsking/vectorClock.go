@@ -1,6 +1,7 @@
-package utilities
+package tokenAsking
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"fmt"
 	"sort"
 	"strconv"
@@ -9,7 +10,7 @@ import (
 type VectorClock = map[string]int
 
 func StartVC(vc VectorClock) {
-	numKeys := MAXPEERS - 1
+	numKeys := utilities.MAXPEERS - 1
 	for i := 0; i < numKeys; i++ {
 		username := "p" + strconv.Itoa(i+1)
 		vc[username] = 0

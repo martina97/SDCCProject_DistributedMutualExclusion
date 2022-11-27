@@ -57,7 +57,7 @@ func SendRicart(peer *RApeer) {
 	fmt.Println("sono in sendRicard --- MyRApeer.Num ==== ", MyRApeer.Num)
 
 	//	2. Num = Num+1; Last_Req = Num;
-	utilities.IncrementTS(&MyRApeer.Num)
+	lamport.IncrementTS(&MyRApeer.Num)
 	MyRApeer.lastReq = MyRApeer.Num
 	fmt.Println("sono in sendRicard --- MyRApeer.Num ==== ", MyRApeer.Num)
 	fmt.Println(MyRApeer.ToString())

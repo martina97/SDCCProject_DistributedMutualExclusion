@@ -1,6 +1,7 @@
 package ricartAgrawala
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"container/list"
 	"fmt"
@@ -33,8 +34,8 @@ type RApeer struct {
 	mutex    sync.Mutex
 	fileLog  *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
 	Listener net.Listener
-	Num      utilities.TimeStamp
-	lastReq  utilities.TimeStamp //timestamp del msg di richiesta
+	Num      lamport.TimeStamp
+	lastReq  lamport.TimeStamp //timestamp del msg di richiesta
 	state    State
 	//Waiting  bool
 	ChanAcquireLock chan bool
@@ -127,6 +128,6 @@ func (p *RApeer) setInfos() {
 	//setto info sul processo in esecuzione sul peer
 	//todo: serve?
 	//NewProcess(&myNode)
-	utilities.StartTS(p.Num)
+	lamport.StartTS(p.Num)
 
 }

@@ -18,7 +18,7 @@ func SendRequest(peer *TokenPeer) {
 	myPeer.mutex.Lock()
 	WriteInfosToFile("tries to get the token.", false)
 	//incremento Vector Clock!!!
-	utilities.IncrementVC(myPeer.VC, myPeer.Username)
+	IncrementVC(myPeer.VC, myPeer.Username)
 
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := NewRequest(myPeer.Username, date, myPeer.VC)

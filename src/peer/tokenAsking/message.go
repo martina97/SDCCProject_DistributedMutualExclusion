@@ -21,10 +21,10 @@ type Message struct {
 	Sender   string
 	Receiver string
 	Date     string
-	VC       utilities.VectorClock
+	VC       VectorClock
 }
 
-func NewRequest(sender string, date string, vc utilities.VectorClock) *Message {
+func NewRequest(sender string, date string, vc VectorClock) *Message {
 	return &Message{
 		MsgType: Request,
 		Sender:  sender,
@@ -34,7 +34,7 @@ func NewRequest(sender string, date string, vc utilities.VectorClock) *Message {
 	}
 }
 
-func NewProgramMessage(sender string, date string, vc utilities.VectorClock) *Message {
+func NewProgramMessage(sender string, date string, vc VectorClock) *Message {
 	return &Message{
 		MsgType: ProgramMessage,
 		Sender:  sender,
@@ -42,7 +42,7 @@ func NewProgramMessage(sender string, date string, vc utilities.VectorClock) *Me
 		VC:      vc,
 	}
 }
-func NewTokenMessage(date string, sender string, receiver string, vc utilities.VectorClock) *Message {
+func NewTokenMessage(date string, sender string, receiver string, vc VectorClock) *Message {
 	return &Message{
 		MsgType:  Token,
 		Sender:   sender,
@@ -69,10 +69,10 @@ func (m *Message) ToString(role string) string {
 		//return fmt.Sprintf(" %s message: {%s %s %s %s [%d]}", name, name, m.Sender, m.Receiver, m.Date, m.TS)
 
 		//Request message: {Request [] p1 17:39:42.230 [1]} --- p1=receiver, [1] = timestamp
-		return fmt.Sprintf(" %s message: {%s %s %s %s}", name, m.MsgType, m.Receiver, m.Date, utilities.ToString(m.VC))
+		return fmt.Sprintf(" %s message: {%s %s %s %s}", name, m.MsgType, m.Receiver, m.Date, ToString(m.VC))
 	}
 	if role == "receive" {
-		return fmt.Sprintf(" %s message: {%s %s %s} from %s", name, m.MsgType, m.Date, utilities.ToString(m.VC), m.Sender)
+		return fmt.Sprintf(" %s message: {%s %s %s} from %s", name, m.MsgType, m.Date, ToString(m.VC), m.Sender)
 	}
 
 	return ""
@@ -110,7 +110,7 @@ func WriteMsgToFile(action string, message Message, isCoord bool) error {
 	} else {
 		switch message.MsgType {
 		case ProgramMessage:
-			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " receives" + message.ToString("receive") + " and update its vector clock to " + utilities.ToString(myPeer.VC) + ".")
+			_, err = f.WriteString("[" + date + "] : " + myPeer.Username + " receives" + message.ToString("receive") + " and update its vector clock to " + ToString(myPeer.VC) + ".")
 		case Request:
 			_, err = f.WriteString("[" + date + "] : coordinator receives" + message.ToString("receive") + ".")
 		case Token:
@@ -163,7 +163,7 @@ func openFile(isCoord bool) *os.File {
 }
 
 func WriteVCInfoToFile(isCoord bool) {
-	var vc utilities.VectorClock
+	var vc VectorClock
 	var username string
 
 	f := openFile(isCoord)
@@ -179,7 +179,7 @@ func WriteVCInfoToFile(isCoord bool) {
 	//save new address on file
 	date := time.Now().Format(utilities.DATE_FORMAT)
 
-	_, err := f.WriteString("[" + date + "] : " + username + " update its vector clock to " + utilities.ToString(vc))
+	_, err := f.WriteString("[" + date + "] : " + username + " update its vector clock to " + ToString(vc))
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 	if err != nil {

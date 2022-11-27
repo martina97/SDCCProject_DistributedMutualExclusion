@@ -27,7 +27,7 @@ func SendLamport(peer *LamportPeer) {
 
 	myPeer.mutex.Lock()
 
-	utilities.IncrementTS(&myPeer.Timestamp)
+	IncrementTS(&myPeer.Timestamp)
 	fmt.Println("------------------ timestamp  ==", myPeer.Timestamp)
 
 	date := time.Now().Format(utilities.DATE_FORMAT)
@@ -101,7 +101,7 @@ func sendRequest(msg Message) error {
 	//una volta inviato il msg, lo salvo nella coda locale del peer sender
 	fmt.Println(" ------------------------------------------ STO QUA 2 ----------------------------")
 
-	utilities.AppendHashMap(myPeer.ScalarMap, msg)
+	AppendHashMap(myPeer.ScalarMap, msg)
 	fmt.Println(" ------------------------------------------ STO QUA 3 ----------------------------")
 
 	/*
@@ -154,7 +154,7 @@ func sendRelease() error {
 	}
 
 	//elimino primo msg da lista
-	utilities.RemoveFirstElementMap(myPeer.ScalarMap)
+	RemoveFirstElementMap(myPeer.ScalarMap)
 	fmt.Println("ora la mappa ===", myPeer.ScalarMap)
 	return nil
 }

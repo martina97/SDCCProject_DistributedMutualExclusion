@@ -31,11 +31,11 @@ type Message struct {
 	Receiver   string
 	SeqNum     []uint64
 	Date       string
-	TS         utilities.TimeStamp
+	TS         TimeStamp
 }
 
 // NewRequest returns a new distributed mutual lock message.
-func NewRequest(sender string, date string, timeStamp utilities.TimeStamp) *Message {
+func NewRequest(sender string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 		MsgType: Request,
 		Sender:  sender,
@@ -45,7 +45,7 @@ func NewRequest(sender string, date string, timeStamp utilities.TimeStamp) *Mess
 	}
 }
 
-func NewReply(sender string, receiver string, date string, timeStamp utilities.TimeStamp) *Message {
+func NewReply(sender string, receiver string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 		MsgType:  Reply,
 		Sender:   sender,
@@ -54,7 +54,7 @@ func NewReply(sender string, receiver string, date string, timeStamp utilities.T
 		TS:       timeStamp,
 	}
 }
-func NewRelease(sender string, date string, timeStamp utilities.TimeStamp) *Message {
+func NewRelease(sender string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 
 		MsgType: Release,

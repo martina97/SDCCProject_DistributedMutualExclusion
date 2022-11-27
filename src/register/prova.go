@@ -1,11 +1,12 @@
 package main
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"fmt"
 )
 
-var vectorClock utilities.VectorClock
+var vectorClock tokenAsking.VectorClock
 
 func main2() {
 

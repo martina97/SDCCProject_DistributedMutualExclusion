@@ -64,7 +64,7 @@ func CreateLog(path string, header string) *log.Logger {
 	return log.New(serverLogFile, header, log.Lshortfile)
 }
 
-func WriteMsgToFile(path string, id string, typeMsg string, message lamport.Message, timestamp TimeStamp, algo string) error {
+func WriteMsgToFile(path string, id string, typeMsg string, message lamport.Message, timestamp lamport.TimeStamp, algo string) error {
 	fmt.Println("sto in WriteMsgToFile")
 	fmt.Println("path == ", path)
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
@@ -108,7 +108,7 @@ func WriteInfoToFile(username string, path string, text string, infoCS bool) {
 	err = f.Sync()
 }
 
-func WriteTSInfoToFile(path string, id string, timestamp TimeStamp, algorithm string) {
+func WriteTSInfoToFile(path string, id string, timestamp lamport.TimeStamp, algorithm string) {
 
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {

@@ -29,7 +29,7 @@ type TokenPeer struct {
 	HasToken chan bool
 
 	PeerList *list.List //lista peer
-	VC       utilities.VectorClock
+	VC       VectorClock
 
 	Coordinator Coordinator
 }
@@ -49,14 +49,14 @@ func NewTokenAskingPeer(username string, ID int, address string, port string) *T
 }
 
 func (p *TokenPeer) setInfos() {
-	utilities.StartVC(p.VC)
+	StartVC(p.VC)
 	utilities.CreateLog(p.LogPath, "[peer]")
 
 	f, err := os.OpenFile(p.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	_, err = f.WriteString("Initial vector clock of " + p.Username + " is " + utilities.ToString(p.VC))
+	_, err = f.WriteString("Initial vector clock of " + p.Username + " is " + ToString(p.VC))
 	_, err = f.WriteString("\n")
 
 	defer func(f *os.File) {

@@ -1,4 +1,4 @@
-package utilities
+package lamport
 
 type TimeStamp int
 
