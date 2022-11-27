@@ -70,12 +70,13 @@ func SendRicart(peer *RApeer) {
 	sendRequest(msg)
 	MyRApeer.mutex.Unlock()
 
-	utilities.WriteInfosToFile(MyRApeer.Username, MyRApeer.LogPath, "waits all peer reply messages.")
+	utilities.WriteInfosToFile("waits all peer reply messages.", MyRApeer.LogPath, MyRApeer.Username)
 
 	//4. Wait until #replies=N-1;
 	<-MyRApeer.ChanAcquireLock
 
-	utilities.WriteInfosToFile(MyRApeer.Username, MyRApeer.LogPath, "receives all peer reply messages successfully.")
+	utilities.WriteInfosToFile("receives all peer reply messages successfully.", MyRApeer.LogPath, MyRApeer.Username)
+
 	//5. State = CS;
 	MyRApeer.state = CS
 
@@ -83,10 +84,11 @@ func SendRicart(peer *RApeer) {
 	fmt.Println("entro in CS")
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
-	utilities.WriteInfosToFile(MyRApeer.Username, MyRApeer.LogPath, " enters the critical section at "+date+".")
+	utilities.WriteInfosToFile(" enters the critical section at "+date+".", MyRApeer.LogPath, MyRApeer.Username)
+
 	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
 	date = time.Now().Format(utilities.DATE_FORMAT)
-	utilities.WriteInfosToFile(MyRApeer.Username, MyRApeer.LogPath, " exits the critical section at "+date+".")
+	utilities.WriteInfosToFile(" exits the critical section at "+date+".", MyRApeer.LogPath, MyRApeer.Username)
 
 	//7. ∀ r∈Q send REPLY to r
 	fmt.Println("la lista dei msg in coda == ", MyRApeer.DeferSet)
