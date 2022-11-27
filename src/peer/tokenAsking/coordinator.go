@@ -27,24 +27,26 @@ type Coordinator struct {
 	// utili per mutua esclusione
 	mutex sync.Mutex
 
-	PeerList     *list.List //lista peer
-	VC           VectorClock
-	ReqList      *list.List
-	HasToken     bool
-	numTokenMsgs int
+	PeerList      *list.List //lista peer
+	VC            VectorClock
+	ReqList       *list.List
+	HasToken      bool
+	numTokenMsgs  int
+	ChanStartTest chan bool
 }
 
 func NewCoordinator(username string, ID int, address string, port string, isCoord bool) *Coordinator {
 	coordinator := &Coordinator{
-		Username:     username,
-		ID:           ID,
-		Address:      address,
-		Port:         port,
-		ReqList:      list.New(),
-		LogPath:      "/docker/node_volume/tokenAsking/coordinator.log",
-		VC:           make(map[string]int),
-		HasToken:     true,
-		numTokenMsgs: 0,
+		Username:      username,
+		ID:            ID,
+		Address:       address,
+		Port:          port,
+		ReqList:       list.New(),
+		LogPath:       "/docker/node_volume/tokenAsking/coordinator.log",
+		VC:            make(map[string]int),
+		HasToken:      true,
+		numTokenMsgs:  0,
+		ChanStartTest: make(chan bool, utilities.ChanSize),
 	}
 
 	StartVC(coordinator.VC)

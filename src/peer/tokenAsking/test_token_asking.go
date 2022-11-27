@@ -33,15 +33,21 @@ func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
 
 	myCoordinator = *coordinator
 
+	<-myCoordinator.ChanStartTest
+
 	//aspetta finche il numero di token msg ricevuti è pari a numSender
 	//Wait connection
-	for numMsg < numSender {
-		ch := <-Connection
-		if ch == true {
-			numMsg++
+
+	/*
+		for numMsg < numSender {
+			ch := <-Connection
+			if ch == true {
+				numMsg++
+			}
 		}
-	}
-	Wg.Add(-numSender)
+		Wg.Add(-numSender)
+
+	*/
 
 	for i := 1; i < num+1; i++ {
 		LogPath := "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(i) + ".log"

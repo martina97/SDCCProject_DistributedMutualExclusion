@@ -20,6 +20,10 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 	err := dec.Decode(msg)
 	utilities.CheckError(err, "error decoding message")
 
+	if utilities.Test {
+		go checkNumberToken()
+	}
+
 	if msg.MsgType == Request {
 		myCoordinator.mutex.Lock()
 		err := WriteMsgToFile("receive", *msg, myCoordinator.LogPath, true)
@@ -65,13 +69,30 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 				utilities.WriteVCInfoToFile(myCoordinator.LogPath, "coordinator", ToString(myCoordinator.VC))
 			}
 		}
-		if utilities.Test {
-			Connection <- true
-			Wg.Add(1)
-		}
+		/*
+			if utilities.Test {
+				Connection <- true
+				Wg.Add(1)
+			}
+
+		*/
+
 		myCoordinator.mutex.Unlock()
 	}
 	return nil
+}
+
+func checkNumberToken() {
+	fmt.Println("sto in checkNumberToken")
+	for !(myCoordinator.numTokenMsgs == numSender) {
+		fmt.Println("sto in checkNumberToken dentro for")
+
+		time.Sleep(time.Second * 5)
+	}
+
+	fmt.Println("sto in checkNumberToken fuori for")
+
+	myCoordinator.ChanStartTest <- true
 }
 
 func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
