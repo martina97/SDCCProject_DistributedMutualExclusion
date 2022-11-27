@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"os"
 	"strconv"
 	"time"
 )
@@ -195,22 +194,19 @@ func sendReply(msg *lamport.Message, receiver *utilities.NodeInfo) error {
 	enc := gob.NewEncoder(conn)
 	enc.Encode(msg)
 
-	f, err := os.OpenFile(MyRApeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-	//save new address on file
-	date := time.Now().Format(utilities.DATE_FORMAT)
-	_, err = f.WriteString("[" + date + "] : " + MyRApeer.Username + " send" + msg.ToString("send") + " to " + receiver.Username)
-	_, err = f.WriteString("\n")
-	//err = utilities.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "Send", msg, MyRApeer.Num, "ricartAgrawala")
+	err = lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "send", *msg, MyRApeer.Num)
 
-	err = f.Sync()
-	if err != nil {
-		return err
-	}
 	/*
-			}
+		f := utilities.OpenFile(MyRApeer.LogPath)
+
+		//save new address on file
+		date := time.Now().Format(utilities.DATE_FORMAT)
+		_, err = f.WriteString("[" + date + "] : " + MyRApeer.Username + " sends" + msg.ToString("send") + " to " + receiver.Username)
+		_, err = f.WriteString("\n")
+
+		err = f.Sync()
+		if err != nil {
+			return err
 		}
 
 	*/
