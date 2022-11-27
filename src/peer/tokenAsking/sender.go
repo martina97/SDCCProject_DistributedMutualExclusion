@@ -16,13 +16,13 @@ func SendRequest(peer *TokenPeer) {
 	}
 
 	myPeer.mutex.Lock()
-	WriteInfosToFile("tries to get the token.", false)
+	WriteInfosToFile("tries to get the token.", myPeer.LogPath, false)
 	//incremento Vector Clock!!!
 	IncrementVC(myPeer.VC, myPeer.Username)
 
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	msg := NewRequest(myPeer.Username, date, myPeer.VC)
-	WriteVCInfoToFile(false)
+	WriteVCInfoToFile(myPeer.LogPath, false)
 
 	//mando REQUEST al coordinatore (è un campo di myPeer)
 	connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
@@ -38,7 +38,7 @@ func SendRequest(peer *TokenPeer) {
 	utilities.CheckError(err, "Unable to encode message")
 
 	msg.Receiver = utilities.COORDINATOR
-	err = WriteMsgToFile("send", *msg, false)
+	err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
 	utilities.CheckError(err, "Error writing file")
 
 	//invio msg di programma agli altri peer
@@ -48,12 +48,12 @@ func SendRequest(peer *TokenPeer) {
 	<-myPeer.HasToken
 
 	date = time.Now().Format(utilities.DATE_FORMAT)
-	WriteInfosToFile("enters the critical section at "+date+".", false)
+	WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, false)
 	time.Sleep(time.Minute / 2)
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
-	WriteInfosToFile("exits the critical section at "+date+".", false)
-	WriteInfosToFile("releases the token.", false)
+	WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, false)
+	WriteInfosToFile("releases the token.", myPeer.LogPath, false)
 
 	myCoordinator.mutex.Lock()
 
@@ -77,7 +77,7 @@ func sendProgramMessage() {
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
 			msg.Receiver = receiver.Username
-			err = WriteMsgToFile("send", *msg, false)
+			err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
 			utilities.CheckError(err, "error writing msg")
 		}
 	}
@@ -99,7 +99,7 @@ func sendToken(receiver string, isCoord bool) {
 
 				enc := gob.NewEncoder(conn)
 				enc.Encode(msg)
-				err = WriteMsgToFile("send", *msg, true)
+				err = WriteMsgToFile("send", *msg, myCoordinator.LogPath, true)
 				utilities.CheckError(err, "error writing msg")
 			}
 		}
@@ -114,7 +114,7 @@ func sendToken(receiver string, isCoord bool) {
 
 		enc := gob.NewEncoder(conn)
 		enc.Encode(msg)
-		err = WriteMsgToFile("send", *msg, false)
+		err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
 		utilities.CheckError(err, "error writing msg")
 	}
 }

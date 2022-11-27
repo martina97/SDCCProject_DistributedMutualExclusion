@@ -20,7 +20,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 
 	if msg.MsgType == Request {
 		myCoordinator.mutex.Lock()
-		err := WriteMsgToFile("receive", *msg, true)
+		err := WriteMsgToFile("receive", *msg, myCoordinator.LogPath, true)
 		utilities.CheckError(err, "error writing message")
 
 		//time.Sleep(time.Second * 15)
@@ -31,8 +31,8 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			myCoordinator.VC[msg.Sender]++
 			sendToken(msg.Sender, true)
 			myCoordinator.HasToken = false
-			WriteVCInfoToFile(true)
-			WriteInfosToFile("gives token to "+msg.Sender, true)
+			WriteVCInfoToFile(myCoordinator.LogPath, true)
+			WriteInfosToFile("gives token to "+msg.Sender, myCoordinator.LogPath, true)
 		} else {
 			//metto il msg in coda
 			myCoordinator.ReqList.PushBack(msg)
@@ -43,7 +43,7 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 		myCoordinator.mutex.Lock()
 
 		myCoordinator.numTokenMsgs++
-		err := WriteMsgToFile("receive", *msg, true)
+		err := WriteMsgToFile("receive", *msg, myCoordinator.LogPath, true)
 		utilities.CheckError(err, "error writing message")
 
 		myCoordinator.HasToken = true
@@ -56,11 +56,11 @@ func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error 
 			if IsEligible(myCoordinator.VC, pendingMsg.VC, pendingMsg.Sender) {
 				sendToken(pendingMsg.Sender, true)
 				myCoordinator.HasToken = false
-				WriteInfosToFile("gives token to "+pendingMsg.Sender, true)
+				WriteInfosToFile("gives token to "+pendingMsg.Sender, myCoordinator.LogPath, true)
 				myCoordinator.ReqList.Remove(e)
 
 				myCoordinator.VC[pendingMsg.Sender]++
-				WriteVCInfoToFile(true)
+				WriteVCInfoToFile(myCoordinator.LogPath, true)
 			}
 		}
 		if utilities.Test {
@@ -88,7 +88,7 @@ func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 		myPeer.mutex.Lock()
 		//update VC !
 		UpdateVC(myPeer.VC, msg.VC)
-		err := WriteMsgToFile("receive", *msg, false)
+		err := WriteMsgToFile("receive", *msg, myPeer.LogPath, false)
 		utilities.CheckError(err, "error writing msg")
 		myPeer.mutex.Unlock()
 	}
@@ -96,7 +96,7 @@ func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 	if msg.MsgType == Token {
 		// ho il token !
 		myPeer.mutex.Lock()
-		err := WriteMsgToFile("receive", *msg, false)
+		err := WriteMsgToFile("receive", *msg, myPeer.LogPath, false)
 		utilities.CheckError(err, "error writing msg")
 		myPeer.HasToken <- true
 		myPeer.mutex.Unlock()

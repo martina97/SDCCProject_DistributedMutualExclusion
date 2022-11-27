@@ -78,12 +78,12 @@ func (m *Message) ToString(role string) string {
 	return ""
 }
 
-func WriteMsgToFile(action string, message Message, isCoord bool) error {
+func WriteMsgToFile(action string, message Message, path string, isCoord bool) error {
 
 	var username string
 	var err error
 
-	f := openFile(isCoord)
+	f := openFile(path)
 	if isCoord {
 		username = "coordinator"
 	} else {
@@ -128,10 +128,10 @@ func WriteMsgToFile(action string, message Message, isCoord bool) error {
 
 }
 
-func WriteInfosToFile(text string, isCoord bool) {
+func WriteInfosToFile(text string, path string, isCoord bool) {
 	var username string
 
-	f := openFile(isCoord)
+	f := openFile(path)
 	if isCoord {
 		username = "coordinator"
 	} else {
@@ -147,26 +147,19 @@ func WriteInfosToFile(text string, isCoord bool) {
 	_ = f.Sync()
 }
 
-func openFile(isCoord bool) *os.File {
-	var err error
-	var f *os.File
-
-	if isCoord {
-		f, err = os.OpenFile(myCoordinator.LogPath, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0755)
-	} else {
-		f, err = os.OpenFile(myPeer.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	}
+func openFile(path string) *os.File {
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
 	return f
 }
 
-func WriteVCInfoToFile(isCoord bool) {
+func WriteVCInfoToFile(path string, isCoord bool) {
 	var vc VectorClock
 	var username string
 
-	f := openFile(isCoord)
+	f := openFile(path)
 
 	if isCoord {
 		vc = myCoordinator.VC

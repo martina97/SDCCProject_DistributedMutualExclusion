@@ -11,13 +11,10 @@ import (
 
 type MessageType int
 
-type TiS []uint64
-
 const (
 	Request MessageType = iota + 1 // request mutual lock
 	Reply                          // reply mutual lock
 	Release                        // release mutual lock
-
 )
 
 /*
@@ -25,20 +22,13 @@ servono lettera maiuscola perche devo farne il marshaling e unmarshaling, che ri
 todo: vedi libro pag 108
 */
 type Message struct {
-
-	//MsgID   string
-	MsgType MessageType //request,reply,release
-
-	//MsgContent interface{}
-	Sender     string
-	SenderProc utilities.NodeInfo
-	Receiver   string
-	SeqNum     []uint64
-	Date       string
-	TS         TimeStamp
+	MsgType  MessageType //request,reply,release
+	Sender   string
+	Receiver string
+	Date     string
+	TS       TimeStamp
 }
 
-// NewRequest returns a new distributed mutual lock message.
 func NewRequest(sender string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 		MsgType: Request,
@@ -58,6 +48,7 @@ func NewReply(sender string, receiver string, date string, timeStamp TimeStamp) 
 		TS:       timeStamp,
 	}
 }
+
 func NewRelease(sender string, date string, timeStamp TimeStamp) *Message {
 	return &Message{
 
@@ -105,8 +96,7 @@ func (m *Message) ToString(role string) string {
 }
 
 func WriteMsgToFile(path string, id string, typeMsg string, message Message, timestamp TimeStamp, algo string) error {
-	fmt.Println("sto in WriteMsgToFile")
-	fmt.Println("path == ", path)
+
 	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)

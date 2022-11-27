@@ -1,14 +1,14 @@
-[16:09:25.149] : initial vector clock of coordinator is [0 0].
-[16:09:25.149] : coordinator owns the token in starting up. 
-[16:09:25.159] : coordinator receives REQUEST message: {Request 16:09:25.154 [0 1]} from p2.
-[16:09:25.166] : coordinator sends TOKEN message: {Token p2 16:09:25.166 [0 1]} to p2.
-[16:09:25.173] : coordinator update its vector clock to [0 1]
-[16:09:25.178] : coordinator gives token to p2
-[16:09:25.182] : coordinator receives REQUEST message: {Request 16:09:25.154 [1 0]} from p1.
-[16:09:55.197] : coordinator receives TOKEN message: {Token 16:09:55.196 [1 1]} from p2.
-[16:09:55.197] : coordinator gets the token.
-[16:09:55.203] : coordinator sends TOKEN message: {Token p1 16:09:55.202 [0 1]} to p1.
-[16:09:55.207] : coordinator gives token to p1
-[16:09:55.213] : coordinator update its vector clock to [1 1]
-[16:10:25.248] : coordinator receives TOKEN message: {Token 16:10:25.247 [1 1]} from p1.
-[16:10:25.248] : coordinator gets the token.
+[10:59:15.856] : initial vector clock of coordinator is [0 0].
+[10:59:15.858] : coordinator owns the token in starting up. 
+[10:59:15.874] : coordinator receives REQUEST message: {Request 10:59:15.864 [0 1]} from p2.
+[10:59:15.881] : coordinator sends TOKEN message: {Token p2 10:59:15.880 [0 1]} to p2.
+[10:59:15.890] : coordinator update its vector clock to [0 1]
+[10:59:15.902] : coordinator gives token to p2
+[10:59:15.908] : coordinator receives REQUEST message: {Request 10:59:15.873 [1 0]} from p1.
+[10:59:45.977] : coordinator receives TOKEN message: {Token 10:59:45.977 [1 1]} from p2.
+[10:59:45.977] : coordinator gets the token.
+[10:59:46.020] : coordinator sends TOKEN message: {Token p1 10:59:46.019 [0 1]} to p1.
+[10:59:46.025] : coordinator gives token to p1
+[10:59:46.030] : coordinator update its vector clock to [1 1]
+[11:00:16.065] : coordinator receives TOKEN message: {Token 11:00:16.065 [1 1]} from p1.
+[11:00:16.065] : coordinator gets the token.
