@@ -175,6 +175,7 @@ func checkAcks() {
 		}
 
 	}
+	MyRApeer.ChanAcquireLock <- true
 	MyRApeer.mutex.Unlock()
 
 }

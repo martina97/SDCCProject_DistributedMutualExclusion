@@ -24,10 +24,13 @@ func ExecuteTestPeer(peer *RApeer, num int) {
 	if numSender == 1 && MyRApeer.ID == 0 {
 		fmt.Println("mando il msg")
 		SendRicart(&MyRApeer)
+		<-MyRApeer.ChanAcquireLock
 	}
 	if numSender == 2 && (MyRApeer.ID == 0 || MyRApeer.ID == 1) {
 		fmt.Println("mando il msg")
 		SendRicart(&MyRApeer)
+		<-MyRApeer.ChanAcquireLock
+
 	} else {
 		fmt.Println("sleep")
 		time.Sleep(time.Minute)
