@@ -28,11 +28,7 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 		<-myPeer.ChanAcquireLock
 		//time.Sleep(time.Minute / 3)
 
-	} else {
-		fmt.Println("sleep1")
-		time.Sleep(time.Minute)
-	}
-	if numSender == 2 && (myPeer.ID == 0 || myPeer.ID == 1) {
+	} else if numSender == 2 && (myPeer.ID == 0 || myPeer.ID == 1) {
 		fmt.Println("mando il msg")
 		SendLamport(&myPeer)
 		<-myPeer.ChanAcquireLock
