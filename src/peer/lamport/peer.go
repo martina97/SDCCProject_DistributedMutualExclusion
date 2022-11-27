@@ -28,11 +28,11 @@ type LamportPeer struct {
 	Timestamp TimeStamp
 
 	//Waiting  bool
-	Waiting         bool //serve a vedere se chi ha mandato msg request e' in attesa di tutti i msg reply
-	ChanAcquireLock chan bool
-	StartTest       chan bool
-	ScalarMap       MessageMap
-	replySet        *list.List //lista in cui metto i msg di reply
+	Waiting       bool //serve a vedere se chi ha mandato msg request e' in attesa di tutti i msg reply
+	ChanStartTest chan bool
+	StartTest     chan bool
+	ScalarMap     MessageMap
+	replySet      *list.List //lista in cui metto i msg di reply
 
 	PeerList *list.List //lista peer
 
@@ -42,17 +42,17 @@ type LamportPeer struct {
 
 func NewLamportPeer(username string, ID int, address string, port string) *LamportPeer {
 	peer := &LamportPeer{
-		Username:        username,
-		ID:              ID,
-		Address:         address,
-		Port:            port,
-		replySet:        list.New(),
-		LogPath:         "/docker/node_volume/lamport/peer_" + strconv.Itoa(ID) + ".log",
-		ChanAcquireLock: make(chan bool, utilities.ChanSize),
-		StartTest:       make(chan bool, utilities.ChanSize),
-		ScalarMap:       MessageMap{},
-		numRelease:      0,
-		numMsgsTest:     0,
+		Username:      username,
+		ID:            ID,
+		Address:       address,
+		Port:          port,
+		replySet:      list.New(),
+		LogPath:       "/docker/node_volume/lamport/peer_" + strconv.Itoa(ID) + ".log",
+		ChanStartTest: make(chan bool, utilities.ChanSize),
+		StartTest:     make(chan bool, utilities.ChanSize),
+		ScalarMap:     MessageMap{},
+		numRelease:    0,
+		numMsgsTest:   0,
 	}
 	peer.setInfos()
 	return peer

@@ -42,7 +42,7 @@ func SendLamport(peer *LamportPeer) {
 		go checkStartTests()
 	}
 	/*
-		<-myPeer.ChanAcquireLock
+		<-myPeer.ChanStartTest
 
 		utilities.WriteInfosToFile("receives all peer reply messages successfully.", myPeer.LogPath, myPeer.Username)
 
@@ -72,7 +72,7 @@ func checkStartTests() {
 	}
 	fmt.Println("sto in checkStartTests fuori for")
 
-	myPeer.ChanAcquireLock <- true
+	myPeer.ChanStartTest <- true
 	fmt.Println("chan true!!!!")
 
 }

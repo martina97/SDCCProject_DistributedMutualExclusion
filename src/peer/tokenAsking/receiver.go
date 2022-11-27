@@ -3,7 +3,9 @@ package tokenAsking
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
+	"fmt"
 	"net"
+	"time"
 )
 
 func HandleConnectionCoordinator(conn net.Conn, coordinator *Coordinator) error {
@@ -98,9 +100,35 @@ func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 		myPeer.mutex.Lock()
 		err := WriteMsgToFile("receive", *msg, myPeer.LogPath, false)
 		utilities.CheckError(err, "error writing msg")
-		myPeer.HasToken <- true
+		myPeer.HasToken = true
 		myPeer.mutex.Unlock()
 	}
 
 	return nil
+}
+
+func checkHasToken() {
+
+	fmt.Println("sto in checkHasToken")
+	for !(myPeer.HasToken) {
+		fmt.Println("sto in checkHasToken dentro for")
+
+		time.Sleep(time.Second * 5)
+	}
+	fmt.Println("sto in checkHasToken fuori for")
+
+	date := time.Now().Format(utilities.DateFormat)
+	utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+	time.Sleep(time.Minute / 2)
+	date = time.Now().Format(utilities.DateFormat)
+
+	utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+	utilities.WriteInfosToFile("releases the token.", myPeer.LogPath, myPeer.Username)
+
+	myPeer.mutex.Lock()
+
+	//invio msg con il token al coordinatore
+	sendToken("coordinator", false)
+	myPeer.mutex.Unlock()
+
 }

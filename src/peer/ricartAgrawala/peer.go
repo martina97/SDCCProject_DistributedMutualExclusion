@@ -38,7 +38,7 @@ type RApeer struct {
 	lastReq  lamport.TimeStamp //timestamp del msg di richiesta
 	state    State
 	//Waiting  bool
-	ChanAcquireLock chan bool
+	ChanStartTest chan bool
 
 	PeerList *list.List //lista peer
 
@@ -86,7 +86,7 @@ func NewRicartAgrawalaPeer(username string, ID int, address string, port string)
 		LogPath:  "/docker/node_volume/ricartAgrawala/peer_" + strconv.Itoa(ID) + ".log",
 		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
 		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
-		ChanAcquireLock: make(chan bool, utilities.ChanSize),
+		ChanStartTest: make(chan bool, utilities.ChanSize),
 	}
 	peer.setInfos()
 	return peer

@@ -45,20 +45,11 @@ func SendRequest(peer *TokenPeer) {
 	sendProgramMessage()
 
 	myPeer.mutex.Unlock()
-	<-myPeer.HasToken
 
-	date = time.Now().Format(utilities.DateFormat)
-	utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
-	time.Sleep(time.Minute / 2)
-	date = time.Now().Format(utilities.DateFormat)
+	go checkHasToken()
 
-	utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
-	utilities.WriteInfosToFile("releases the token.", myPeer.LogPath, myPeer.Username)
+	//<-myPeer.HasToken
 
-	myCoordinator.mutex.Lock()
-
-	//invio msg con il token al coordinatore
-	sendToken("coordinator", false)
 	myCoordinator.mutex.Unlock()
 }
 

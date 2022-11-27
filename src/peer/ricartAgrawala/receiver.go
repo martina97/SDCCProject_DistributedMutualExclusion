@@ -93,7 +93,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		/*
 			if MyRApeer.replies == peerCnt-1 {
 				//ho ricevuto tutti i msg di reply
-				MyRApeer.ChanAcquireLock <- true
+				MyRApeer.ChanStartTest <- true
 			}
 
 		*/
@@ -175,7 +175,7 @@ func checkAcks() {
 		}
 
 	}
-	MyRApeer.ChanAcquireLock <- true
+	MyRApeer.ChanStartTest <- true
 	MyRApeer.mutex.Unlock()
 
 }

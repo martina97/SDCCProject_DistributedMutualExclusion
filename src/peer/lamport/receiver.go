@@ -104,7 +104,7 @@ func checkAcks() {
 		myPeer.mutex.Lock()
 		//il primo msg in lista è il mio, quindi posso accedere in CS
 		//myPeer.Waiting = false
-		//myPeer.ChanAcquireLock <- true
+		//myPeer.ChanStartTest <- true
 
 		utilities.WriteInfosToFile("receives all peer reply messages successfully.", myPeer.LogPath, myPeer.Username)
 
