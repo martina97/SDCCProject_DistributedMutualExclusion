@@ -65,7 +65,7 @@ func SendLamport(peer *LamportPeer) {
 
 func checkStartTests() {
 	fmt.Println("sto in checkStartTests")
-	for !(myPeer.numMsgsTest != numSender) {
+	for !(myPeer.numMsgsTest == numSender) {
 		fmt.Println("sto in checkStartTests dentro for")
 
 		time.Sleep(time.Second * 5)
