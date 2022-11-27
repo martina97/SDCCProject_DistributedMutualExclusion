@@ -94,7 +94,7 @@ func (m *Message) ToString(role string) string {
 	return ""
 }
 
-func WriteMsgToFile(path string, id string, typeMsg string, message Message, timestamp TimeStamp) error {
+func WriteMsgToFile(path string, id string, typeMsg string, message Message, timestamp TimeStamp) {
 
 	var err error
 	f := utilities.OpenFile(path)
@@ -114,5 +114,4 @@ func WriteMsgToFile(path string, id string, typeMsg string, message Message, tim
 	if err != nil {
 		log.Fatalf("error writing file: %v", err)
 	}
-	return nil
 }

@@ -1,16 +1,16 @@
 Initial timestamp of p1 is 0
-[13:17:20.943] : p1 updates its local logical timeStamp to 1
-[13:17:20.948] : p1 sends Request message: {Request p0 13:17:20.943 [1]} to p0.
-[13:17:20.955] : p1 sends Request message: {Request p2 13:17:20.943 [1]} to p2.
-[13:17:20.960] : p1 waits all peer reply messages.
-[13:17:20.960] : p1 receives Request message: {Request 13:17:20.943 [1]} from p0 and updates its local logical timestamp to 1
-[13:17:20.967] : p1 updates its local logical timeStamp to 1
-[13:17:20.973] : p1 sends Reply message: {Reply p0 13:17:20.967 [1]} to p0.
-[13:17:20.977] : p1 receives Reply message: {Reply 13:17:20.965 [1]} from p0
-[13:17:20.982] : p1 receives Reply message: {Reply 13:17:20.974 [1]} from p2
-[13:17:51.006] : p1 receives Release message: {Release 13:17:51.005 [1]} from p0 and updates its local logical timestamp to 1
-[13:17:51.015] : p1 receives all peer reply messages successfully.
-[13:17:51.020] : p1 enters the critical section at 13:17:51.020.
-[13:18:21.048] : p1 exits the critical section at 13:18:21.048.
-[13:18:21.055] : p1 sends Release message: {Release p0 13:18:21.054 [1]} to p0.
-[13:18:21.063] : p1 sends Release message: {Release p2 13:18:21.054 [1]} to p2.
+[13:23:57.833] : p1 updates its local logical timeStamp to 1
+[13:23:57.838] : p1 sends Request message: {Request p0 13:23:57.833 [1]} to p0.
+[13:23:57.845] : p1 sends Request message: {Request p2 13:23:57.833 [1]} to p2.
+[13:23:57.851] : p1 waits all peer reply messages.
+[13:23:57.851] : p1 receives Request message: {Request 13:23:57.833 [1]} from p0 and updates its local logical timestamp to 1
+[13:23:57.858] : p1 updates its local logical timeStamp to 1
+[13:23:57.862] : p1 sends Reply message: {Reply p0 13:23:57.858 [1]} to p0.
+[13:23:57.868] : p1 receives Reply message: {Reply 13:23:57.854 [1]} from p0
+[13:23:57.873] : p1 receives Reply message: {Reply 13:23:57.861 [1]} from p2
+[13:24:27.949] : p1 receives Release message: {Release 13:24:27.948 [1]} from p0 and updates its local logical timestamp to 1
+[13:24:27.985] : p1 receives all peer reply messages successfully.
+[13:24:28.008] : p1 enters the critical section at 13:24:28.008.
+[13:24:58.014] : p1 exits the critical section at 13:24:58.014.
+[13:24:58.021] : p1 sends Release message: {Release p0 13:24:58.020 [1]} to p0.
+[13:24:58.029] : p1 sends Release message: {Release p2 13:24:58.020 [1]} to p2.

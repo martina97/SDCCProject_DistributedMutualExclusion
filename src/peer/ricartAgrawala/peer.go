@@ -101,7 +101,6 @@ func (m *RApeer) ToString() string {
 }
 
 func (p *RApeer) setInfos() {
-	fmt.Println("sono in setInfos, logPAth == " + p.LogPath)
 	utilities.CreateLog(p.LogPath, "[peer]") // in nodeIdentification.go
 
 	f, err := os.OpenFile(p.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
@@ -117,17 +116,7 @@ func (p *RApeer) setInfos() {
 			log.Fatalf("error closing file: %v", err)
 		}
 	}(f)
-	/* todo: scommentare
-	myNode.FileLog.SetOutput(f)
-	myNode.FileLog.Println("infoProcess(" + strconv.Itoa(myNode.ID) + ") created.\n")
 
-	*/
-
-	//fmt.Println("logger ???? ", logger)
-
-	//setto info sul processo in esecuzione sul peer
-	//todo: serve?
-	//NewProcess(&myNode)
 	lamport.StartTS(p.Num)
 
 }
