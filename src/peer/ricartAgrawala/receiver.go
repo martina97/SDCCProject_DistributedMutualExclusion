@@ -68,7 +68,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		MyRApeer.mutex.Lock()
 		lamport.UpdateTS(&MyRApeer.Num, &msg.TS)
 
-		utilities.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
+		lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
 
 		if checkConditions(msg) { //se è true --> inserisco msg in coda
 			MyRApeer.DeferSet.PushBack(msg)
@@ -101,7 +101,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		//MyRApeer.replies =MyRApeer.replies + 1
 		MyRApeer.replies++
 		fmt.Println("replies = ", MyRApeer.replies)
-		utilities.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
+		lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num, "ricartAgrawala")
 		fmt.Println("peerCnt = ", peerCnt)
 
 		if MyRApeer.replies == peerCnt-1 {

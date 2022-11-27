@@ -3,6 +3,10 @@ package lamport
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"fmt"
+	"log"
+	"os"
+	"strconv"
+	"time"
 )
 
 type MessageType int
@@ -98,4 +102,63 @@ func (m *Message) ToString(role string) string {
 	}
 
 	return ""
+}
+
+func WriteMsgToFile(path string, id string, typeMsg string, message Message, timestamp TimeStamp, algo string) error {
+	fmt.Println("sto in WriteMsgToFile")
+	fmt.Println("path == ", path)
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	//save new address on file
+	date := time.Now().Format(utilities.DATE_FORMAT)
+	if typeMsg == "send" {
+		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.ToString("send") + " to " + message.Receiver + ".")
+	}
+	if typeMsg == "receive" {
+		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.ToString("receive"))
+		if message.MsgType != Reply { //in ricart il TS lo aggiorno solo quando ricevo REQUEST
+			_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
+		}
+	}
+	_, err = f.WriteString("\n")
+	err = f.Sync()
+	if err != nil {
+		log.Fatalf("error writing file: %v", err)
+	}
+	return nil
+}
+
+func WriteInfoToFile(username string, path string, text string, infoCS bool) {
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	//save new address on file
+	date := time.Now().Format(utilities.DATE_FORMAT)
+
+	if infoCS == false {
+		_, err = f.WriteString("[" + date + "] : " + username + " " + text)
+	} else {
+		_, err = f.WriteString("\n" + username + text)
+
+	}
+	_, err = f.WriteString("\n")
+	err = f.Sync()
+}
+
+func WriteTSInfoToFile(path string, id string, timestamp TimeStamp, algorithm string) {
+
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+
+	//save new address on file
+	date := time.Now().Format(utilities.DATE_FORMAT)
+
+	_, err = f.WriteString("[" + date + "] : " + id + " update its local logical timeStamp to " + strconv.Itoa(int(timestamp)))
+	_, err = f.WriteString("\n")
+	err = f.Sync()
 }

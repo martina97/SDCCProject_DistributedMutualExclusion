@@ -69,12 +69,12 @@ func SendRicart(peer *RApeer) {
 	sendRequest(msg)
 	MyRApeer.mutex.Unlock()
 
-	utilities.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, "wait all peer reply messages.", false)
+	lamport.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, "wait all peer reply messages.", false)
 
 	//4. Wait until #replies=N-1;
 	<-MyRApeer.ChanAcquireLock
 
-	utilities.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, "receive all peer reply messages successfully.", false)
+	lamport.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, "receive all peer reply messages successfully.", false)
 	//5. State = CS;
 	MyRApeer.state = CS
 
@@ -82,10 +82,10 @@ func SendRicart(peer *RApeer) {
 	fmt.Println("entro in CS")
 	date = time.Now().Format(utilities.DATE_FORMAT)
 
-	utilities.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, " enters the critical section at "+date+".", true)
+	lamport.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, " enters the critical section at "+date+".", true)
 	time.Sleep(time.Minute / 2) //todo: invece che sleep mettere file condiviso
 	date = time.Now().Format(utilities.DATE_FORMAT)
-	utilities.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, " exits the critical section at "+date+".", true)
+	lamport.WriteInfoToFile(MyRApeer.Username, MyRApeer.LogPath, " exits the critical section at "+date+".", true)
 
 	//7. ∀ r∈Q send REPLY to r
 	fmt.Println("la lista dei msg in coda == ", MyRApeer.DeferSet)
@@ -127,7 +127,7 @@ func sendRequest(msg lamport.Message) error {
 	fmt.Println("sto in sendRequest")
 	//scrivo sul log che ho aggiornato il TS
 	//utilities.WriteTSInfoToFile(myID, MyRApeer.Num, algorithm)
-	utilities.WriteTSInfoToFile(MyRApeer.LogPath, MyRApeer.Username, MyRApeer.Num, "ricartAgrawala")
+	lamport.WriteTSInfoToFile(MyRApeer.LogPath, MyRApeer.Username, MyRApeer.Num, "ricartAgrawala")
 
 	fmt.Println("dopo WriteTSInfoToFile")
 	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
@@ -152,7 +152,7 @@ func sendRequest(msg lamport.Message) error {
 
 			//err = utilities.WriteMsgToFile(&myNode, "Send", msg, dest.ID, myNode.TimeStamp)
 			//err = utilities.WriteMsgToFile2(MyRApeer.ID, "Send", msg, dest.ID, MyRApeer.Num, algorithm)
-			err = utilities.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "send", msg, MyRApeer.Num, "ricartAgrawala")
+			err = lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "send", msg, MyRApeer.Num, "ricartAgrawala")
 			if err != nil {
 				return err
 			}
