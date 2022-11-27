@@ -92,7 +92,7 @@ func sendRequest(msg Message) error {
 			msg.Receiver = dest.Username
 
 			//r = utilities.WriteMsgToFile(&myPeer, "Send", msg, dest.ID, myPeer.timestamp)
-			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", msg, myPeer.Timestamp, "lamport")
+			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", msg, myPeer.Timestamp)
 
 			if err != nil {
 				return err
@@ -147,7 +147,7 @@ func sendRelease() error {
 
 			releaseMsg.Receiver = dest.Username
 
-			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", releaseMsg, myPeer.Timestamp, "lamport")
+			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", releaseMsg, myPeer.Timestamp)
 
 			if err != nil {
 				return err
@@ -177,7 +177,7 @@ func sendReply(msg *Message) error {
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
 
-			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", *msg, myPeer.Timestamp, "lamport")
+			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", *msg, myPeer.Timestamp)
 
 		}
 	}

@@ -49,7 +49,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		fmt.Println("TIMESTAMP QUANDO RICEVO REQUEST ===", myPeer.Timestamp) //ho gia aggiornato il TS!!
 		//fmt.Println("------------------------------------------------------------- DOPO RICEVUTO REQUEST --- > timestamp  ==", timeStamp)
 		myPeer.mutex.Lock()
-		WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
+		WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp)
 
 		//metto msg in mappa
 		AppendHashMap(myPeer.ScalarMap, *msg)
@@ -77,7 +77,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		fmt.Println("TIMESTAMP QUANDO RICEVO Reply ===", myPeer.Timestamp)
 
 		//utilities.WriteMsgToFile(&myNode, "Receive", *msg, 0, myNode.TimeStamp)
-		WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
+		WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp)
 
 		//utilities.WriteTSInfoToFile(myID, timeStamp)
 
@@ -110,7 +110,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		myPeer.mutex.Lock()
 
 		//utilities.WriteMsgToFile(&myNode, "Receive", *msg, 0, myNode.TimeStamp)
-		WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp, "lamport")
+		WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp)
 		fmt.Println("ho scritto su file")
 		//utilities.WriteTSInfoToFile(myID, timeStamp)
 

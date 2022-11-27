@@ -4,7 +4,6 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"time"
 )
@@ -95,21 +94,19 @@ func (m *Message) ToString(role string) string {
 	return ""
 }
 
-func WriteMsgToFile(path string, id string, typeMsg string, message Message, timestamp TimeStamp, algo string) error {
+func WriteMsgToFile(path string, id string, typeMsg string, message Message, timestamp TimeStamp) error {
 
-	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
+	var err error
+	f := utilities.OpenFile(path)
 	//save new address on file
 	date := time.Now().Format(utilities.DATE_FORMAT)
 	if typeMsg == "send" {
-		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.ToString("send") + " to " + message.Receiver + ".")
+		_, err = f.WriteString("[" + date + "] : " + id + " sends" + message.ToString("send") + " to " + message.Receiver + ".")
 	}
 	if typeMsg == "receive" {
-		_, err = f.WriteString("[" + date + "] : " + id + " " + typeMsg + message.ToString("receive"))
+		_, err = f.WriteString("[" + date + "] : " + id + " receives" + message.ToString("receive"))
 		if message.MsgType != Reply { //in ricart il TS lo aggiorno solo quando ricevo REQUEST
-			_, err = f.WriteString(" and update its local logical timestamp to " + strconv.Itoa(int(timestamp)))
+			_, err = f.WriteString(" and updates its local logical timestamp to " + strconv.Itoa(int(timestamp)))
 		}
 	}
 	_, err = f.WriteString("\n")
