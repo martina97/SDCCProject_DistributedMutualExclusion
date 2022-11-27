@@ -41,3 +41,18 @@ func WriteVCInfoToFile(path string, username string, vcString string) {
 		log.Fatalf("error writing file: %v", err)
 	}
 }
+
+func WriteTSInfoToFile(path string, id string, timestamp string) {
+
+	f := OpenFile(path)
+
+	//save new address on file
+	date := time.Now().Format(DATE_FORMAT)
+
+	_, err := f.WriteString("[" + date + "] : " + id + " updates its local logical timeStamp to " + timestamp)
+	_, err = f.WriteString("\n")
+	err = f.Sync()
+	if err != nil {
+		log.Fatalf("error writing file: %v", err)
+	}
+}

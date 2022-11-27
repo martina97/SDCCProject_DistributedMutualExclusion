@@ -137,18 +137,3 @@ func WriteInfoToFile(username string, path string, text string, infoCS bool) {
 	_, err = f.WriteString("\n")
 	err = f.Sync()
 }
-
-func WriteTSInfoToFile(path string, id string, timestamp string) {
-
-	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-
-	//save new address on file
-	date := time.Now().Format(utilities.DATE_FORMAT)
-
-	_, err = f.WriteString("[" + date + "] : " + id + " update its local logical timeStamp to " + timestamp)
-	_, err = f.WriteString("\n")
-	err = f.Sync()
-}
