@@ -89,7 +89,7 @@ func checkAcks() {
 	for !(myPeer.replySet.Len() == myPeer.PeerList.Len()-1 && len(myPeer.ScalarMap) > 0) {
 		fmt.Println("sto in checkAcks dentro for")
 
-		time.Sleep(time.Second * 30)
+		time.Sleep(time.Second * 5)
 	}
 	fmt.Println("sto in checkAcks fuori for")
 
