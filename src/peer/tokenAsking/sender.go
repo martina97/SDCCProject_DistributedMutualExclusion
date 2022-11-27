@@ -50,7 +50,6 @@ func SendRequest(peer *TokenPeer) {
 
 	//<-myPeer.HasToken
 
-	myCoordinator.mutex.Unlock()
 }
 
 func sendProgramMessage() {
