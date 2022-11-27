@@ -119,6 +119,8 @@ func checkAcks() {
 		//lascio CS e mando msg release a tutti
 		fmt.Println("devo mandare release!!!!!")
 		sendRelease()
+		myPeer.ChanAcquireLock <- true
+		fmt.Println("chan true!!!!")
 		myPeer.mutex.Unlock()
 	}
 
