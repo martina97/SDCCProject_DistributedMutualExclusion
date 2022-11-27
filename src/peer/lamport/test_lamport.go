@@ -25,6 +25,8 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 	if numSender == 1 && myPeer.ID == 0 {
 		fmt.Println("mando il msg")
 		SendLamport(&myPeer)
+		time.Sleep(time.Minute / 2)
+
 	}
 	if numSender == 2 && (myPeer.ID == 0 || myPeer.ID == 1) {
 		fmt.Println("mando il msg")

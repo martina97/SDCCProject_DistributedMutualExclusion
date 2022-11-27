@@ -117,6 +117,7 @@ func checkAcks() {
 		utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
 
 		//lascio CS e mando msg release a tutti
+		fmt.Println("devo mandare release!!!!!")
 		sendRelease()
 		myPeer.mutex.Unlock()
 	}
