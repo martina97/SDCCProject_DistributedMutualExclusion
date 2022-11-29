@@ -1,7 +1,6 @@
 package main
 
 import (
-	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"fmt"
 	"github.com/manifoldco/promptui"
 )
@@ -27,9 +26,8 @@ func openMenu() {
 			algorithm = "tokenAsking"
 			//qui, chi non è coordinatore va in openSecondMenu, che serve a inviare i msg di request
 			setAlgorithmPeer()
-			if myNode.Username != utilities.COORDINATOR {
-				openSecondMenu()
-			}
+			openSecondMenu()
+
 		}
 		if i+1 == 2 { //Lamport
 			algorithm = "lamport"

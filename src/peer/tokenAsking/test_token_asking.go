@@ -1,7 +1,11 @@
 package tokenAsking
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"container/list"
+	"fmt"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -24,21 +28,16 @@ func ExecuteTestPeer(peer *TokenPeer, num int) {
 		SendRequest(&myPeer)
 		<-myPeer.ChanStartTest
 		//devo vedere entrambi i file dei sender
+		executeTest(num)
 
 	} else {
 		time.Sleep(time.Minute / 2)
 	}
 }
 
-/*
-func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
+func executeTest(num int) {
 	numSender = num
 	logPaths = list.New().Init()
-
-	myCoordinator = *coordinator
-
-	<-myCoordinator.ChanStartTest
-
 
 	for i := 1; i < num+1; i++ {
 		LogPath := "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(i) + ".log"
@@ -148,5 +147,3 @@ func testSafety() {
 		fmt.Println(" === TEST SAFETY: FAILED !!")
 	}
 }
-
-*/
