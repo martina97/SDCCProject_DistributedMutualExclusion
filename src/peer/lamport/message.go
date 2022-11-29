@@ -103,7 +103,7 @@ func WriteMsgToFile(path string, id string, typeMsg string, message Message, tim
 	if typeMsg == "receive" {
 		_, err = f.WriteString("[" + date + "] : " + id + " receives" + message.ToString("receive"))
 		if message.MsgType != Reply {
-			_, err = f.WriteString(" and updates its local logical timestamp to " + strconv.Itoa(int(timestamp)))
+			_, err = f.WriteString(" and updates its logical scalar clock to " + strconv.Itoa(int(timestamp)))
 		}
 	}
 	_, err = f.WriteString("\n")

@@ -65,7 +65,7 @@ func (p *LamportPeer) setInfos() {
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	_, err = f.WriteString("Initial timestamp of " + p.Username + " is " + strconv.Itoa(int(p.Timestamp)))
+	_, err = f.WriteString("Initial logical scalar clock of " + p.Username + " is " + strconv.Itoa(int(p.Timestamp)))
 	_, err = f.WriteString("\n")
 
 	defer func(f *os.File) {

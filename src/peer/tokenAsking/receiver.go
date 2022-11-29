@@ -53,7 +53,7 @@ func checkHasToken() {
 	myPeer.mutex.Lock()
 	date := time.Now().Format(utilities.DateFormat)
 	utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
-	time.Sleep(time.Minute / 2)
+	time.Sleep(time.Second * 15)
 	date = time.Now().Format(utilities.DateFormat)
 
 	utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
