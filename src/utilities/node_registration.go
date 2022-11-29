@@ -27,7 +27,7 @@ func setInfo(info *NodeInfo, port int, username string) error {
 /*
 	Registration function for peer
 */
-func Registration(peers *list.List, port int, username string, listNodes []NodeInfo) Result_file {
+func Registration(peers *list.List, port int, username string) Result_file {
 
 	var info NodeInfo
 	var res Result_file

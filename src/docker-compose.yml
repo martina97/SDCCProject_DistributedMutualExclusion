@@ -27,6 +27,24 @@ services:
       - ./register/volumes/peerList/:/docker/register_volume/
     tty: true
 
+  coordinator_node:
+    build:
+      context: .
+      dockerfile: coordinator/Dockerfile
+    tmpfs:
+      - /run
+      - /tmp
+
+    networks:
+      local_net:
+        ipv4_address: "10.10.1.51"
+    ports:
+      - "8001:4321"
+    volumes:
+      # The following volume is mounted in /var/lib/docker/volumes/app_list_volume/_data/nodes.txt
+      - ./coordinator/volumes/logs/:/docker/coordinator_volume/
+    tty: true
+
   peer:
     build:
       context: .
