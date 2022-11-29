@@ -22,6 +22,7 @@ func ExecuteTestPeer(peer *TokenPeer, num int) {
 
 		//basta guardare il file peer_1.log
 		<-myPeer.ChanStartTest
+		executeTest(num)
 		//time.Sleep(time.Minute / 2)
 	}
 	if numSender == 2 && (myPeer.ID == 1 || myPeer.ID == 2) {
