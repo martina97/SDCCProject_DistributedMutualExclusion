@@ -29,7 +29,10 @@ func ExecuteTestPeer(peer *TokenPeer, num int) {
 		SendRequest(&myPeer)
 		<-myPeer.ChanStartTest
 		//devo vedere entrambi i file dei sender
-		executeTest(num)
+		time.Sleep(time.Minute / 2)
+		if myPeer.ID == 1 {
+			executeTest(num)
+		}
 
 	} else {
 		time.Sleep(time.Minute / 2)
