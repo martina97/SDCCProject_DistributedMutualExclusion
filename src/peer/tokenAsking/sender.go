@@ -90,6 +90,7 @@ func sendToken() {
 	enc := gob.NewEncoder(conn)
 	enc.Encode(msg)
 	err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
+	myPeer.ChanStartTest <- true
 	utilities.CheckError(err, "error writing msg")
 
 }

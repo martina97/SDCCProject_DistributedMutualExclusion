@@ -61,7 +61,6 @@ func checkHasToken() {
 
 	//invio msg con il token al coordinatore
 	sendToken()
-	myPeer.ChanStartTest <- true
 	myPeer.mutex.Unlock()
 
 }

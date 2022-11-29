@@ -1,5 +1,0 @@
-Initial timestamp of Ãp1 is 0
-[19:14:12.826] : Ãp1 receives Request message: {Request 19:14:12.761 [1]} from p0 and updates its local logical timestamp to 1
-[19:14:12.831] : Ãp1 updates its local logical timeStamp to 1
-[19:14:12.837] : Ãp1 sends Reply message: {Reply p0 19:14:12.831 [1]} to p0.
-[19:14:47.865] : Ãp1 receives Release message: {Release 19:14:47.863 [1]} from p0 and updates its local logical timestamp to 1
