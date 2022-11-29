@@ -60,7 +60,7 @@ func checkHasToken() {
 	utilities.WriteInfosToFile("releases the token.", myPeer.LogPath, myPeer.Username)
 
 	//invio msg con il token al coordinatore
-	sendToken("coordinator", false)
+	sendToken()
 	myPeer.ChanStartTest <- true
 	myPeer.mutex.Unlock()
 
