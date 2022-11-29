@@ -48,7 +48,7 @@ func Registration(peers *list.List, port int, username string, listNodes []NodeI
 	}
 
 	//call procedure
-	fmt.Println("Call to registration peer")
+	fmt.Println("Call to register")
 	err = server.Call("Utility.SaveRegistration", &info, &res)
 	if err != nil {
 		log.Fatal("Error SaveRegistration procedure: ", err)
