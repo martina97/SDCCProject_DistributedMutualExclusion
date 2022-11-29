@@ -25,7 +25,6 @@ var (
 	myLamportPeer lamport.LamportPeer
 	myRApeer      ricartAgrawala.RApeer
 	myTokenPeer   tokenAsking.TokenPeer
-	myCoordinator tokenAsking.Coordinator
 	algorithm     string
 
 	//utili per test
@@ -103,18 +102,9 @@ func setAlgorithmPeer() {
 		myRApeer.PeerList = peers
 
 	case "tokenAsking":
-		if myUsername == utilities.COORDINATOR {
-			myCoordinator = *tokenAsking.NewCoordinator(myUsername, myID, myNode.Address, myNode.Port, true)
-			myCoordinator.PeerList = peers
-		} else {
-			myTokenPeer = *tokenAsking.NewTokenAskingPeer(myUsername, myID, myNode.Address, myNode.Port)
-			myTokenPeer.PeerList = peers
-			for e := peers.Front(); e != nil; e = e.Next() {
-				peer := e.Value.(utilities.NodeInfo)
-				if peer.Username == utilities.COORDINATOR {
-					myTokenPeer.Coordinator = *tokenAsking.NewCoordinator(peer.Username, peer.ID, peer.Address, peer.Port, false)
-				}
-			}
-		}
+
+		myTokenPeer = *tokenAsking.NewTokenAskingPeer(myUsername, myID, myNode.Address, myNode.Port)
+		myTokenPeer.PeerList = peers
+
 	}
 }

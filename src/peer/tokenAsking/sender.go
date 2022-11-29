@@ -9,7 +9,6 @@ import (
 )
 
 var myPeer TokenPeer
-var myCoordinator Coordinator
 
 func SendRequest(peer *TokenPeer) {
 	if myPeer.Username == "" { //vuol dire che non ho ancora inizializzato il peer
@@ -77,39 +76,20 @@ func sendProgramMessage() {
 	}
 }
 
-func sendToken(receiver string, isCoord bool) {
+func sendToken() {
 
-	if isCoord {
-		for e := myCoordinator.PeerList.Front(); e != nil; e = e.Next() {
-			dest := e.Value.(utilities.NodeInfo)
-			if dest.Username == receiver {
-				date := time.Now().Format(utilities.DateFormat)
-				msg := NewTokenMessage(date, "coordinator", receiver, myCoordinator.VC)
+	date := time.Now().Format(utilities.DateFormat)
+	msg := NewTokenMessage(date, myPeer.Username, "coordinator", myPeer.VC)
+	//connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
+	connection := utilities.CoordAddr + ":" + strconv.Itoa(utilities.ServerPort)
 
-				peerConn := dest.Address + ":" + dest.Port
-				conn, err := net.Dial("tcp", peerConn)
-				defer conn.Close()
-				utilities.CheckError(err, "Send response error on Dial")
+	conn, err := net.Dial("tcp", connection)
+	defer conn.Close()
+	utilities.CheckError(err, "Send response error on Dial")
 
-				enc := gob.NewEncoder(conn)
-				enc.Encode(msg)
-				err = WriteMsgToFile("send", *msg, myCoordinator.LogPath, true)
-				utilities.CheckError(err, "error writing msg")
-			}
-		}
-	} else {
-		date := time.Now().Format(utilities.DateFormat)
-		msg := NewTokenMessage(date, myPeer.Username, "coordinator", myPeer.VC)
-		//connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
-		connection := utilities.CoordAddr + ":" + strconv.Itoa(utilities.ServerPort)
+	enc := gob.NewEncoder(conn)
+	enc.Encode(msg)
+	err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
+	utilities.CheckError(err, "error writing msg")
 
-		conn, err := net.Dial("tcp", connection)
-		defer conn.Close()
-		utilities.CheckError(err, "Send response error on Dial")
-
-		enc := gob.NewEncoder(conn)
-		enc.Encode(msg)
-		err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
-		utilities.CheckError(err, "error writing msg")
-	}
 }

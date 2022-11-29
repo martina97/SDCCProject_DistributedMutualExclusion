@@ -1,11 +1,7 @@
 package tokenAsking
 
 import (
-	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"container/list"
-	"fmt"
-	"strconv"
-	"strings"
 	"time"
 )
 
@@ -30,6 +26,7 @@ func ExecuteTestPeer(peer *TokenPeer, num int) {
 	}
 }
 
+/*
 func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
 	numSender = num
 	logPaths = list.New().Init()
@@ -38,19 +35,6 @@ func ExecuteTestCoordinator(coordinator *Coordinator, num int) {
 
 	<-myCoordinator.ChanStartTest
 
-	//aspetta finche il numero di token msg ricevuti è pari a numSender
-	//Wait connection
-
-	/*
-		for numMsg < numSender {
-			ch := <-Connection
-			if ch == true {
-				numMsg++
-			}
-		}
-		Wg.Add(-numSender)
-
-	*/
 
 	for i := 1; i < num+1; i++ {
 		LogPath := "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(i) + ".log"
@@ -160,3 +144,5 @@ func testSafety() {
 		fmt.Println(" === TEST SAFETY: FAILED !!")
 	}
 }
+
+*/

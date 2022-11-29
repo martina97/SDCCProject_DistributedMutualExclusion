@@ -16,7 +16,7 @@ func runTest() {
 		if myNode.Username != utilities.COORDINATOR {
 			tokenAsking.ExecuteTestPeer(&myTokenPeer, numSenders)
 		} else {
-			tokenAsking.ExecuteTestCoordinator(&myCoordinator, numSenders)
+			//tokenAsking.ExecuteTestCoordinator(&myCoordinator, numSenders)
 		}
 	case "ricartAgrawala":
 		ricartAgrawala.ExecuteTestPeer(&myRApeer, numSenders)

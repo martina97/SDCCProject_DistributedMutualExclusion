@@ -29,7 +29,6 @@ type TokenPeer struct {
 	PeerList *list.List //lista peer
 	VC       VectorClock
 
-	Coordinator   Coordinator
 	ChanStartTest chan bool
 }
 
