@@ -4,53 +4,68 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"container/list"
-	"encoding/gob"
-	"fmt"
 	"log"
-	"net"
-	"strconv"
+	"os"
+	"sync"
+	"time"
 )
 
 var (
-	peers *list.List
+	Connection = make(chan bool)
+	Wg         = new(sync.WaitGroup)
 )
 
-func main() {
+type Coordinator struct {
 
-	peers = list.New()
+	//file di log
+	LogPath string
 
-	utilities.Registration(peers, utilities.ServerPort, "coordinator")
-	fmt.Println("Registration completed successfully!")
+	// utili per mutua esclusione
+	mutex sync.Mutex
 
-	for e := peers.Front(); e != nil; e = e.Next() {
-		fmt.Println(e.Value)
-	}
-
-	listener, err := net.Listen("tcp", ":"+strconv.Itoa(utilities.ServerPort))
-	if err != nil {
-		log.Fatal("net.Lister fail")
-	}
-	defer listener.Close()
-
-	for {
-		connection, err := listener.Accept()
-		if err != nil {
-			log.Fatal("Accept fail")
-		}
-		go handleConnection(connection)
-
-	}
+	VC            tokenAsking.VectorClock
+	ReqList       *list.List
+	HasToken      bool
+	numTokenMsgs  int
+	ChanStartTest chan bool
 }
 
-func handleConnection(conn net.Conn) {
-	defer conn.Close()
-	msg := new(tokenAsking.Message)
-	dec := gob.NewDecoder(conn)
-	err := dec.Decode(msg)
-	utilities.CheckError(err, "error decoding message")
-
-	if msg.MsgType == tokenAsking.Request {
-		fmt.Println("ho ricevuto req")
+func NewCoordinator() *Coordinator {
+	coordinator := &Coordinator{
+		ReqList:       list.New(),
+		LogPath:       "/docker/coordinator_volume/coordinator.log",
+		VC:            make(map[string]int),
+		HasToken:      true,
+		numTokenMsgs:  0,
+		ChanStartTest: make(chan bool, utilities.ChanSize),
 	}
+
+	tokenAsking.StartVC(coordinator.VC)
+	coordinator.setInfos()
+	return coordinator
+
+}
+
+func (c *Coordinator) setInfos() {
+	c.ReqList.Init()
+	utilities.CreateLog(c.LogPath, "[coordinator]")
+
+	f, err := os.OpenFile(c.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	date := time.Now().Format(utilities.DateFormat)
+	_, err = f.WriteString("[" + date + "] : initial vector clock of coordinator is " + tokenAsking.ToString(c.VC) + ".")
+	_, err = f.WriteString("\n")
+	date = time.Now().Format(utilities.DateFormat)
+	_, err = f.WriteString("[" + date + "] : coordinator owns the token in starting up. ")
+	_, err = f.WriteString("\n")
+
+	defer func(f *os.File) {
+		err := f.Close()
+		if err != nil {
+			log.Fatalf("error closing file: %v", err)
+		}
+	}(f)
 
 }

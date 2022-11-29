@@ -100,7 +100,8 @@ func sendToken(receiver string, isCoord bool) {
 	} else {
 		date := time.Now().Format(utilities.DateFormat)
 		msg := NewTokenMessage(date, myPeer.Username, "coordinator", myPeer.VC)
-		connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
+		//connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
+		connection := utilities.CoordAddr + ":" + strconv.Itoa(utilities.ServerPort)
 
 		conn, err := net.Dial("tcp", connection)
 		defer conn.Close()
