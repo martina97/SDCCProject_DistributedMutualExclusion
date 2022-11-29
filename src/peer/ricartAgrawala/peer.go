@@ -81,7 +81,7 @@ func (p *RApeer) setInfos() {
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	_, err = f.WriteString("Initial logical clock of " + p.Username + " is " + strconv.Itoa(int(p.Num)))
+	_, err = f.WriteString("Initial logical scalar clock of " + p.Username + " is " + strconv.Itoa(int(p.Num)))
 	_, err = f.WriteString("\n")
 
 	defer func(f *os.File) {
