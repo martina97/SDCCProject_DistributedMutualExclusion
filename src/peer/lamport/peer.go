@@ -11,7 +11,7 @@ import (
 )
 
 // MessageMap : lista di messaggi, ogni messaggio ha timestamp, id, tipo, receiver e sender todo: cambiare
-type MessageMap map[TimeStamp][]Message
+type MessageMap map[ScalarClock][]Message
 
 type LamportPeer struct {
 	//info su nodo
@@ -25,7 +25,7 @@ type LamportPeer struct {
 
 	// utili per mutua esclusione
 	mutex     sync.Mutex
-	Timestamp TimeStamp
+	Timestamp ScalarClock
 
 	//Waiting  bool
 	Waiting       bool //serve a vedere se chi ha mandato msg request e' in attesa di tutti i msg reply
@@ -75,7 +75,7 @@ func (p *LamportPeer) setInfos() {
 		}
 	}(f)
 
-	StartTS(p.Timestamp)
+	StartSC(p.Timestamp)
 }
 
 // test inserts several ints into an MessageHeap, checks the minimum,

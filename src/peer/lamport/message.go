@@ -21,7 +21,7 @@ type Message struct {
 	Sender   string
 	Receiver string
 	Date     string
-	TS       TimeStamp
+	TS       ScalarClock
 }
 
 /*
@@ -29,7 +29,7 @@ servono lettera maiuscola perche devo farne il marshaling e unmarshaling, che ri
 todo: vedi libro pag 108
 */
 
-func NewRequest(sender string, date string, timeStamp TimeStamp) *Message {
+func NewRequest(sender string, date string, timeStamp ScalarClock) *Message {
 	return &Message{
 		MsgType: Request,
 		Sender:  sender,
@@ -39,7 +39,7 @@ func NewRequest(sender string, date string, timeStamp TimeStamp) *Message {
 	}
 }
 
-func NewReply(sender string, receiver string, date string, timeStamp TimeStamp) *Message {
+func NewReply(sender string, receiver string, date string, timeStamp ScalarClock) *Message {
 	return &Message{
 		MsgType:  Reply,
 		Sender:   sender,
@@ -49,7 +49,7 @@ func NewReply(sender string, receiver string, date string, timeStamp TimeStamp) 
 	}
 }
 
-func NewRelease(sender string, date string, timeStamp TimeStamp) *Message {
+func NewRelease(sender string, date string, timeStamp ScalarClock) *Message {
 	return &Message{
 
 		MsgType: Release,
@@ -91,7 +91,7 @@ func (m *Message) ToString(role string) string {
 	return ""
 }
 
-func WriteMsgToFile(path string, id string, typeMsg string, message Message, timestamp TimeStamp) {
+func WriteMsgToFile(path string, id string, typeMsg string, message Message, timestamp ScalarClock) {
 
 	var err error
 	f := utilities.OpenFile(path)

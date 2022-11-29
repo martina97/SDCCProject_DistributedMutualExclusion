@@ -34,8 +34,8 @@ type RApeer struct {
 	mutex    sync.Mutex
 	fileLog  *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
 	Listener net.Listener
-	Num      lamport.TimeStamp
-	lastReq  lamport.TimeStamp //timestamp del msg di richiesta
+	Num      lamport.ScalarClock
+	lastReq  lamport.ScalarClock //timestamp del msg di richiesta
 	state    State
 	//Waiting  bool
 	ChanStartTest chan bool
@@ -45,30 +45,6 @@ type RApeer struct {
 	DeferSet *list.List
 	replies  int //numero di risposte ricevute (inizializzato a 0)
 
-	/*
-		state string // Requesting, CS, NCS (inizializzato a NCS)
-		queue *list.List // coda di richeste pendenti (inizialmente vuota)
-
-		num utilities.Timestamp //clock logico scalare
-
-	*/
-
-	/*
-		// algorithim
-			shouldDefer     bool //è lo stato!!!!!!
-			requestTS       msgp2.Num
-			replyProSet     *list.List
-			deferProSet     *list.List
-			chanRcvMsg      chan msgp2.Message
-			chanSendMsg     chan *msgp2.Message
-			logger          *log.Logger
-
-			// process handler
-			p *process
-			// sata info
-			readCnt  int
-			writeCnt int
-	*/
 }
 
 func (p RApeer) GetMutex() sync.Mutex {
@@ -115,6 +91,6 @@ func (p *RApeer) setInfos() {
 		}
 	}(f)
 
-	lamport.StartTS(p.Num)
+	lamport.StartSC(p.Num)
 
 }

@@ -57,7 +57,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 			4. Num = max(t, Num)
 		*/
 		MyRApeer.mutex.Lock()
-		lamport.UpdateTS(&MyRApeer.Num, &msg.TS)
+		lamport.UpdateSC(&MyRApeer.Num, &msg.TS)
 
 		lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num)
 

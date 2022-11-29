@@ -4,7 +4,6 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"container/list"
 	"log"
-	"net"
 	"os"
 	"strconv"
 	"sync"
@@ -21,9 +20,8 @@ type TokenPeer struct {
 	LogPath string
 
 	// utili per mutua esclusione
-	mutex    sync.Mutex
-	fileLog  *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
-	Listener net.Listener
+	mutex   sync.Mutex
+	fileLog *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
 
 	//Waiting  bool
 	HasToken bool

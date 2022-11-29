@@ -43,7 +43,7 @@ func SendRicart(peer *RApeer) {
 	MyRApeer.state = Requesting
 
 	//	2. Num = Num+1; Last_Req = Num;
-	lamport.IncrementTS(&MyRApeer.Num)
+	lamport.IncrementSC(&MyRApeer.Num)
 	MyRApeer.lastReq = MyRApeer.Num
 
 	//	3. for j=1 to N-1 send REQUEST to pj; --> INVIO MSG REQUEST AGLI ALTRI PEER

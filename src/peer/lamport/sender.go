@@ -23,7 +23,7 @@ func SendLamport(peer *LamportPeer) {
 
 	myPeer.mutex.Lock()
 
-	IncrementTS(&myPeer.Timestamp)
+	IncrementSC(&myPeer.Timestamp)
 
 	date := time.Now().Format(utilities.DateFormat)
 

@@ -35,7 +35,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 	//mutex := lock.GetMutex()
 
 	if msg.MsgType == Request {
-		UpdateTS(&myPeer.Timestamp, &msg.TS)
+		UpdateSC(&myPeer.Timestamp, &msg.TS)
 		/*
 			quando ricevo una richiesta da un processo devo decidere se mandare ACK al processo oppure se voglio entrare in CS
 		*/
@@ -54,7 +54,7 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 	if msg.MsgType == Reply {
 		myPeer.mutex.Lock()
 
-		//utilities.WriteMsgToFile(&myNode, "Receive", *msg, 0, myNode.TimeStamp)
+		//utilities.WriteMsgToFile(&myNode, "Receive", *msg, 0, myNode.ScalarClock)
 		WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp)
 
 		//aggiungo a replyProSet il msg
