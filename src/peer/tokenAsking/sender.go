@@ -40,7 +40,7 @@ func SendRequest(peer *TokenPeer) {
 	err = enc.Encode(msg)
 	utilities.CheckError(err, "Unable to encode message")
 
-	msg.Receiver = utilities.COORDINATOR
+	msg.Receiver = "coordinator"
 	err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
 	utilities.CheckError(err, "Error writing file")
 
@@ -61,7 +61,7 @@ func sendProgramMessage() {
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		receiver := e.Value.(utilities.NodeInfo)
-		if receiver.Username != utilities.COORDINATOR && receiver.Username != myPeer.Username {
+		if receiver.Username != "coordinator" && receiver.Username != myPeer.Username {
 			//open connection with peer
 			peerConn := receiver.Address + ":" + receiver.Port
 			conn, err := net.Dial("tcp", peerConn)
