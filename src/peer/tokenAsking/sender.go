@@ -4,6 +4,7 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
 	"net"
+	"strconv"
 	"time"
 )
 
@@ -25,7 +26,10 @@ func SendRequest(peer *TokenPeer) {
 	utilities.WriteVCInfoToFile(myPeer.LogPath, myPeer.Username, ToString(myPeer.VC))
 
 	//mando REQUEST al coordinatore (è un campo di myPeer)
-	connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
+
+	//connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
+	connection := utilities.CoordAddr + ":" + strconv.Itoa(utilities.ServerPort)
+
 	addr, err := net.ResolveTCPAddr("tcp", connection)
 	utilities.CheckError(err, "Unable to resolve IP")
 
