@@ -1,6 +1,12 @@
 # Sistemi Distribuiti e Cloud Computing - A.A. 2021/22
 ## Progetto B2: Algoritmi di mutua esclusione distribuita in Go
 
+Lo scopo del progetto è realizzare nel linguaggio di programmazione Go un’applicazione distribuita che
+implementi tre algoritmi di mutua esclusione, in particolare:
+- algoritmo token-asking,
+- algoritmo di Lamport distribuito,
+- algoritmo di Ricart-Agrawala
+
 fare in un terminale
 ``` sh
 sudo docker-compose up --build
