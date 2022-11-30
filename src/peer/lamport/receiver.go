@@ -7,23 +7,24 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strconv"
 	"time"
 )
 
 var verbose bool
 
 func HandleConnection(conn net.Conn, peer *LamportPeer) {
-	flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
-	flag.Parse()
-
-	if verbose {
-		fmt.Println("VERBOSE FLAG ON")
-	}
 
 	if myPeer.Username == "" {
 		myPeer = *peer
 	}
 
+	flag.BoolVar(&verbose, "v"+strconv.Itoa(myPeer.ID), utilities.Verbose, "use this flag to get verbose info on messages")
+	flag.Parse()
+
+	if verbose {
+		fmt.Println("VERBOSE FLAG ON")
+	}
 	// read msg and save on file
 	defer conn.Close()
 	msg := new(Message)
