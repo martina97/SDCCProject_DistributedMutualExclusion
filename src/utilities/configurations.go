@@ -8,6 +8,6 @@ const (
 	ClientPort int    = 2345
 	ChanSize   int    = 1
 	DateFormat string = "15:04:05.000"
-	Test       bool   = false
-	Verbose    bool   = false
+	Test       bool   = true
+	Verbose    bool   = true
 )
