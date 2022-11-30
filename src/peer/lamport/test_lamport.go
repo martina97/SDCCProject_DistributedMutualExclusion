@@ -22,12 +22,12 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 	myPeer = *peer
 
 	if numSender == 1 && myPeer.ID == 0 {
-		SendLamport(&myPeer)
+		SendLamport(&myPeer, verbose)
 		<-myPeer.ChanStartTest
 		//time.Sleep(time.Minute / 3)
 
 	} else if numSender == 2 && (myPeer.ID == 0 || myPeer.ID == 1) {
-		SendLamport(&myPeer)
+		SendLamport(&myPeer, verbose)
 		<-myPeer.ChanStartTest
 
 	} else {

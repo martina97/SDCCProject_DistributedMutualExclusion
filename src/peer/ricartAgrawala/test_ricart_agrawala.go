@@ -21,11 +21,11 @@ func ExecuteTestPeer(peer *RApeer, num int) {
 	peerCnt = MyRApeer.PeerList.Len()
 
 	if numSender == 1 && MyRApeer.ID == 0 {
-		SendRicart(&MyRApeer)
+		SendRicart(&MyRApeer, verbose)
 		<-MyRApeer.ChanStartTest
 	}
 	if numSender == 2 && (MyRApeer.ID == 0 || MyRApeer.ID == 1) {
-		SendRicart(&MyRApeer)
+		SendRicart(&MyRApeer, verbose)
 		<-MyRApeer.ChanStartTest
 
 	} else {

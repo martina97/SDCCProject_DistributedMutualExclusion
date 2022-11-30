@@ -18,14 +18,14 @@ func ExecuteTestPeer(peer *TokenPeer, num int) {
 	myPeer = *peer
 
 	if numSender == 1 && myPeer.ID == 1 {
-		SendRequest(&myPeer)
+		SendRequest(&myPeer, verbose)
 
 		//basta guardare il file peer_1.log
 		<-myPeer.ChanStartTest
 		executeTest(num)
 	}
 	if numSender == 2 && (myPeer.ID == 1 || myPeer.ID == 2) {
-		SendRequest(&myPeer)
+		SendRequest(&myPeer, verbose)
 		<-myPeer.ChanStartTest
 		//devo vedere entrambi i file dei sender
 		time.Sleep(time.Minute / 2)
