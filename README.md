@@ -14,7 +14,11 @@ All'interno del file configurations.co, contenuto nella cartella /src/utilities,
 - VERBOSE: da porre pari a true se si vogliono scrivere sui file di log le informazioni riguardanti i messaggi scambiati e le entrate in sezione critica dei vari peer.
 È importante, per l'esecuzione dei test, che tale parametro sia posto pari a true.
 
-
+## Esecuzione
+Per lanciare l'applicazione eseguire il comando
+```sh
+sudo docker-compose up --build
+```
 
 
 
