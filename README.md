@@ -7,7 +7,7 @@ implementi tre algoritmi di mutua esclusione, in particolare:
 - algoritmo di Lamport distribuito,
 - algoritmo di Ricart-Agrawala
 
-# Configurazione 
+## Configurazione 
 All'interno del file configurations.co, contenuto nella cartella /src/utilities, si hanno diversi parametri configurabili manualmente:
 - MAXPEERS: numero di peer che si vuole partecipino al gruppo di mutua esclusione. Attualmente tale parametro è posto pari a 3, nel caso venga modificato è importante anche cambiare il numero di repliche per il container "peer" nel file docker-compose.yml, posto nella cartella /src. 
 - TEST: da porre pari a true se si vogliono eseguire i test
@@ -27,7 +27,7 @@ sudo docker exec -it src_peer_ID /bin/sh
 
 Una volta essersi connessi al container, l'utente inizialmente dovrà scegliere da riga di comando lo username da dare al peer, e successivamente si aprirà un menu tramite il quale l'utente può decidere quale algoritmo eseguire e eventualmente far mandare un messaggio di richiesta al peer, come mostrato nel video seguente: 
 
-https://user-images.githubusercontent.com/54946553/204895457-c92ed546-b54e-450f-b59f-82f6717ebfa5.MP4
+https://user-images.githubusercontent.com/54946553/204897320-91158479-8269-4430-a124-03af3779bfe3.MP4
 
 ## Test
 Per lanciare i test, porre pari a 'true' le variabili TEST e VERBOSE all'interno del file configurations.go. Una volta essersi connessi al container dei vari peer, l'utente potrà scegliere quale test effettuare tramite un menu:
