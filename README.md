@@ -19,39 +19,14 @@ Per lanciare l'applicazione eseguire il comando
 ```sh
 sudo docker-compose up --build
 ```
-
-
-
-fare in un terminale
+Per potersi connettere ad un peer specifico, identificato da un intero ID, eseguire
 ``` sh
-sudo docker-compose up --build
-```
-
-per collegarsi al nodo register, in un altro terminale fare
-``` sh
-sudo docker exec -it src_register_node_1 /bin/sh
-```
-dove il nome del nodo lo prendo leggendo da
-``` sh
-sudo docker ps
-```
-in questo modo il register si mette in attesa.
-
-
-poi fare
-``` sh
-sudo docker exec -it src_peer_1 /bin/sh
+sudo docker exec -it src_peer_ID /bin/sh
 ``` 
+(il nome del container può essere letto tramite il comando sudo docker ps)
 
-per eliminare i file nei volumi fare da 
-``` 
-sudo docker system prune
-``` 
+Una volta essersi connessi al container, l'utente inizialmente dovrà scegliere da riga di comando lo username da dare al peer, e successivamente si aprirà un menu tramite il quale l'utente può decidere quale algoritmo eseguire e eventualmente far mandare un messaggio di richiesta al peer, come mostrato nel video seguente: 
 
-per rimuovere permessi
-``` 
-sudo chmod -rwx directoryname
-``` 
-con il "-" rimuovo i permessi, con il "+" li aggiungo (fare prima - poi +)
 
-il peer è il nodo su cui viene eseguito il processo! processo sono i task, il codice
+
+
