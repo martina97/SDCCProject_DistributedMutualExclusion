@@ -4,6 +4,8 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
+	"flag"
+	"fmt"
 	"log"
 	"net"
 	"strconv"
@@ -16,6 +18,13 @@ var (
 )
 
 func SendRicart(peer *RApeer) {
+
+	flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
+	flag.Parse()
+
+	if verbose {
+		fmt.Println("VERBOSE FLAG ON")
+	}
 
 	if MyRApeer == (RApeer{}) {
 		MyRApeer = *peer
@@ -52,7 +61,9 @@ func SendRicart(peer *RApeer) {
 	sendRequest(msg)
 	MyRApeer.mutex.Unlock()
 
-	utilities.WriteInfosToFile("waits all peer reply messages.", MyRApeer.LogPath, MyRApeer.Username)
+	if verbose {
+		utilities.WriteInfosToFile("waits all peer reply messages.", MyRApeer.LogPath, MyRApeer.Username)
+	}
 
 	//4. Wait until #replies=N-1;
 
@@ -62,7 +73,9 @@ func SendRicart(peer *RApeer) {
 
 func sendRequest(msg lamport.Message) error {
 
-	utilities.WriteTSInfoToFile(MyRApeer.LogPath, MyRApeer.Username, strconv.Itoa(int(MyRApeer.Num)))
+	if verbose {
+		utilities.WriteTSInfoToFile(MyRApeer.LogPath, MyRApeer.Username, strconv.Itoa(int(MyRApeer.Num)))
+	}
 
 	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
@@ -81,7 +94,9 @@ func sendRequest(msg lamport.Message) error {
 
 			msg.Receiver = dest.Username
 
-			lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "send", msg, MyRApeer.Num)
+			if verbose {
+				lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "send", msg, MyRApeer.Num)
+			}
 
 		}
 	}
@@ -102,7 +117,9 @@ func sendReply(msg *lamport.Message, receiver *utilities.NodeInfo) error {
 	enc := gob.NewEncoder(conn)
 	enc.Encode(msg)
 
-	lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "send", *msg, MyRApeer.Num)
+	if verbose {
+		lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "send", *msg, MyRApeer.Num)
+	}
 
 	return nil
 }

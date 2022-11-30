@@ -9,9 +9,6 @@ import (
 	"strconv"
 )
 
-/*
-	Set info
-*/
 func setInfo(info *NodeInfo, port int, username string) error {
 	info.Address = GetLocalIP()
 	if info.Address == "" {
@@ -24,9 +21,6 @@ func setInfo(info *NodeInfo, port int, username string) error {
 	return nil
 }
 
-/*
-	Registration function for peer
-*/
 func Registration(peers *list.List, port int, username string) Result_file {
 
 	var info NodeInfo

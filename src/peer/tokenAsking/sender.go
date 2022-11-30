@@ -3,6 +3,8 @@ package tokenAsking
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
+	"flag"
+	"fmt"
 	"net"
 	"strconv"
 	"time"
@@ -11,6 +13,14 @@ import (
 var myPeer TokenPeer
 
 func SendRequest(peer *TokenPeer) {
+
+	flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
+	flag.Parse()
+
+	if verbose {
+		fmt.Println("VERBOSE FLAG ON")
+	}
+
 	if myPeer.Username == "" { //vuol dire che non ho ancora inizializzato il peer
 		myPeer = *peer
 	}
@@ -18,13 +28,17 @@ func SendRequest(peer *TokenPeer) {
 	utilities.SleepRandInt()
 
 	myPeer.mutex.Lock()
-	utilities.WriteInfosToFile("tries to get the token.", myPeer.LogPath, myPeer.Username)
+	if verbose {
+		utilities.WriteInfosToFile("tries to get the token.", myPeer.LogPath, myPeer.Username)
+	}
 	//incremento Vector Clock!!!
 	IncrementVC(myPeer.VC, myPeer.Username)
 
 	date := time.Now().Format(utilities.DateFormat)
 	msg := NewRequest(myPeer.Username, date, myPeer.VC)
-	utilities.WriteVCInfoToFile(myPeer.LogPath, myPeer.Username, ToString(myPeer.VC))
+	if verbose {
+		utilities.WriteVCInfoToFile(myPeer.LogPath, myPeer.Username, ToString(myPeer.VC))
+	}
 
 	connection := utilities.CoordAddr + ":" + strconv.Itoa(utilities.ServerPort)
 
@@ -40,7 +54,9 @@ func SendRequest(peer *TokenPeer) {
 	utilities.CheckError(err, "Unable to encode message")
 
 	msg.Receiver = "coordinator"
-	err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
+	if verbose {
+		err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
+	}
 	utilities.CheckError(err, "Error writing file")
 
 	//invio msg di programma agli altri peer
@@ -69,7 +85,9 @@ func sendProgramMessage() {
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
 			msg.Receiver = receiver.Username
-			err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
+			if verbose {
+				err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
+			}
 			utilities.CheckError(err, "error writing msg")
 		}
 	}
@@ -88,7 +106,9 @@ func sendToken() {
 
 	enc := gob.NewEncoder(conn)
 	enc.Encode(msg)
-	err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
+	if verbose {
+		err = WriteMsgToFile("send", *msg, myPeer.LogPath, false)
+	}
 	myPeer.ChanStartTest <- true
 	utilities.CheckError(err, "error writing msg")
 

@@ -5,6 +5,7 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"container/list"
 	"encoding/gob"
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -15,9 +16,17 @@ import (
 var (
 	peers         *list.List
 	myCoordinator Coordinator
+	verbose       bool
 )
 
 func main() {
+
+	flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
+	flag.Parse()
+
+	if verbose {
+		fmt.Println("VERBOSE FLAG ON")
+	}
 
 	peers = list.New()
 

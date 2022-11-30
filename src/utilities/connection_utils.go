@@ -3,7 +3,6 @@ package utilities
 import (
 	"bufio"
 	"errors"
-	"fmt"
 	"log"
 	"math/rand"
 	"net"
@@ -134,7 +133,6 @@ func SleepRandInt() {
 	rand.Seed(time.Now().UnixNano())
 	// generate random number and print on console
 	delay := rand.Intn(max-min) + min
-	fmt.Println(delay)
-	//delay = time.Second * time.Duration(delay)
+	//fmt.Println(delay)
 	time.Sleep(time.Millisecond * time.Duration(delay))
 }

@@ -3,6 +3,7 @@ package lamport
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -13,6 +14,13 @@ import (
 var myPeer LamportPeer
 
 func SendLamport(peer *LamportPeer) {
+
+	flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
+	flag.Parse()
+
+	if verbose {
+		fmt.Println("VERBOSE FLAG ON")
+	}
 
 	if myPeer.Username == "" {
 		myPeer = *peer
@@ -36,7 +44,9 @@ func SendLamport(peer *LamportPeer) {
 
 	myPeer.mutex.Unlock()
 
-	utilities.WriteInfosToFile("waits all peer reply messages.", myPeer.LogPath, myPeer.Username)
+	if verbose {
+		utilities.WriteInfosToFile("waits all peer reply messages.", myPeer.LogPath, myPeer.Username)
+	}
 
 	go checkAcks()
 	if utilities.Test {
@@ -61,7 +71,9 @@ func checkStartTests() {
 
 func sendRequest(msg Message) error {
 
-	utilities.WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, strconv.Itoa(int(myPeer.Timestamp)))
+	if verbose {
+		utilities.WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, strconv.Itoa(int(myPeer.Timestamp)))
+	}
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
@@ -80,7 +92,9 @@ func sendRequest(msg Message) error {
 
 			msg.Receiver = dest.Username
 
-			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", msg, myPeer.Timestamp)
+			if verbose {
+				WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", msg, myPeer.Timestamp)
+			}
 
 			if err != nil {
 				return err
@@ -119,7 +133,9 @@ func sendRelease() error {
 
 			releaseMsg.Receiver = dest.Username
 
-			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", releaseMsg, myPeer.Timestamp)
+			if verbose {
+				WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", releaseMsg, myPeer.Timestamp)
+			}
 
 			if err != nil {
 				return err
@@ -134,7 +150,9 @@ func sendRelease() error {
 }
 func sendReply(msg *Message) error {
 	// mando ack al peer con id msg.receiver
-	utilities.WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, strconv.Itoa(int(myPeer.Timestamp)))
+	if verbose {
+		utilities.WriteTSInfoToFile(myPeer.LogPath, myPeer.Username, strconv.Itoa(int(myPeer.Timestamp)))
+	}
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
@@ -150,7 +168,9 @@ func sendReply(msg *Message) error {
 			enc := gob.NewEncoder(conn)
 			enc.Encode(msg)
 
-			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", *msg, myPeer.Timestamp)
+			if verbose {
+				WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", *msg, myPeer.Timestamp)
+			}
 
 		}
 	}

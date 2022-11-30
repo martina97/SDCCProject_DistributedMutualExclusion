@@ -19,7 +19,6 @@ import (
 )
 
 var (
-	listNodes     []utilities.NodeInfo
 	peers         *list.List
 	myID          int
 	myUsername    string
@@ -66,7 +65,7 @@ func main() {
 
 	setID()
 
-	go message_handler()
+	go messageHandler()
 
 	if utilities.Test {
 		//lancio i test
@@ -113,7 +112,7 @@ func setAlgorithmPeer() {
 	}
 }
 
-func message_handler() {
+func messageHandler() {
 
 	listener, err := net.Listen("tcp", ":"+strconv.Itoa(utilities.ClientPort))
 	if err != nil {

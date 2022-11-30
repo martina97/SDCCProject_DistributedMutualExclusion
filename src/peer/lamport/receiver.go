@@ -3,12 +3,23 @@ package lamport
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
+	"flag"
+	"fmt"
 	"log"
 	"net"
 	"time"
 )
 
+var verbose bool
+
 func HandleConnection(conn net.Conn, peer *LamportPeer) {
+	flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
+	flag.Parse()
+
+	if verbose {
+		fmt.Println("VERBOSE FLAG ON")
+	}
+
 	if myPeer.Username == "" {
 		myPeer = *peer
 	}
@@ -24,7 +35,9 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 		UpdateSC(&myPeer.Timestamp, &msg.TS)
 
 		myPeer.mutex.Lock()
-		WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp)
+		if verbose {
+			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp)
+		}
 
 		//metto msg in mappa
 		AppendHashMap(myPeer.ScalarMap, *msg)
@@ -41,7 +54,9 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 	if msg.MsgType == Reply {
 		myPeer.mutex.Lock()
 
-		WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp)
+		if verbose {
+			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp)
+		}
 
 		//aggiungo a replyProSet il msg
 		myPeer.replySet.PushBack(msg)
@@ -50,7 +65,9 @@ func HandleConnection(conn net.Conn, peer *LamportPeer) {
 	} else if msg.MsgType == Release {
 		myPeer.mutex.Lock()
 
-		WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp)
+		if verbose {
+			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "receive", *msg, myPeer.Timestamp)
+		}
 
 		RemoveFirstElementMap(myPeer.ScalarMap)
 		go checkAcks()
@@ -80,17 +97,23 @@ func checkAcks() {
 		myPeer.mutex.Lock()
 		//il primo msg in lista è il mio, quindi posso accedere in CS
 
-		utilities.WriteInfosToFile("receives all peer reply messages successfully.", myPeer.LogPath, myPeer.Username)
+		if verbose {
+			utilities.WriteInfosToFile("receives all peer reply messages successfully.", myPeer.LogPath, myPeer.Username)
+		}
 
 		//ho ricevuto tutti msg reply, ora entro in cs
 		date := time.Now().Format(utilities.DateFormat)
 
-		utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+		if verbose {
+			utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+		}
 
 		time.Sleep(time.Minute / 2)
 		date = time.Now().Format(utilities.DateFormat)
 
-		utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+		if verbose {
+			utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
+		}
 
 		//lascio CS e mando msg release a tutti
 		err := sendRelease()

@@ -58,21 +58,24 @@ func NewLamportPeer(username string, ID int, address string, port string) *Lampo
 }
 
 func (p *LamportPeer) setInfos() {
-	utilities.CreateLog(p.LogPath, "[peer]") // in node_information.go
 
-	f, err := os.OpenFile(p.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-	_, err = f.WriteString("Initial logical scalar clock of " + p.Username + " is " + strconv.Itoa(int(p.Timestamp)))
-	_, err = f.WriteString("\n")
+	if verbose {
+		utilities.CreateLog(p.LogPath, "[peer]") // in node_information.go
 
-	defer func(f *os.File) {
-		err := f.Close()
+		f, err := os.OpenFile(p.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 		if err != nil {
-			log.Fatalf("error closing file: %v", err)
+			log.Fatalf("error opening file: %v", err)
 		}
-	}(f)
+		_, err = f.WriteString("Initial logical scalar clock of " + p.Username + " is " + strconv.Itoa(int(p.Timestamp)))
+		_, err = f.WriteString("\n")
+
+		defer func(f *os.File) {
+			err := f.Close()
+			if err != nil {
+				log.Fatalf("error closing file: %v", err)
+			}
+		}(f)
+	}
 
 	StartSC(p.Timestamp)
 }

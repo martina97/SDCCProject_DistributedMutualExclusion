@@ -1,6 +1,9 @@
 package main
 
 import (
+	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
+	"SDCCProject_DistributedMutualExclusion/src/peer/ricartAgrawala"
+	"SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking"
 	"fmt"
 	"github.com/manifoldco/promptui"
 )
@@ -105,4 +108,16 @@ func openTestMenu() (int, string) {
 		return 2, "lamport"
 	}
 	return 0, ""
+}
+
+//send msg di request
+func sendMessageRequest() {
+	switch algorithm {
+	case "tokenAsking":
+		tokenAsking.SendRequest(&myTokenPeer)
+	case "lamport":
+		lamport.SendLamport(&myLamportPeer)
+	case "ricartAgrawala":
+		ricartAgrawala.SendRicart(&myRApeer)
+	}
 }

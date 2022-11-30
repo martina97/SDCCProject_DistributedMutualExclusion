@@ -41,24 +41,27 @@ func NewCoordinator() *Coordinator {
 
 func (c *Coordinator) setInfos() {
 	c.ReqList.Init()
-	utilities.CreateLog(c.LogPath, "[coordinator]")
 
-	f, err := os.OpenFile(c.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
-	if err != nil {
-		log.Fatalf("error opening file: %v", err)
-	}
-	date := time.Now().Format(utilities.DateFormat)
-	_, err = f.WriteString("[" + date + "] : initial vector clock of coordinator is " + tokenAsking.ToString(c.VC) + ".")
-	_, err = f.WriteString("\n")
-	date = time.Now().Format(utilities.DateFormat)
-	_, err = f.WriteString("[" + date + "] : coordinator owns the token in starting up. ")
-	_, err = f.WriteString("\n")
+	if verbose {
+		utilities.CreateLog(c.LogPath, "[coordinator]")
 
-	defer func(f *os.File) {
-		err := f.Close()
+		f, err := os.OpenFile(c.LogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0755)
 		if err != nil {
-			log.Fatalf("error closing file: %v", err)
+			log.Fatalf("error opening file: %v", err)
 		}
-	}(f)
+		date := time.Now().Format(utilities.DateFormat)
+		_, err = f.WriteString("[" + date + "] : initial vector clock of coordinator is " + tokenAsking.ToString(c.VC) + ".")
+		_, err = f.WriteString("\n")
+		date = time.Now().Format(utilities.DateFormat)
+		_, err = f.WriteString("[" + date + "] : coordinator owns the token in starting up. ")
+		_, err = f.WriteString("\n")
+
+		defer func(f *os.File) {
+			err := f.Close()
+			if err != nil {
+				log.Fatalf("error closing file: %v", err)
+			}
+		}(f)
+	}
 
 }
