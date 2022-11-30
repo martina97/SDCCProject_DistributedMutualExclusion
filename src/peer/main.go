@@ -128,13 +128,13 @@ func messageHandler() {
 
 		switch algorithm {
 		case "ricartAgrawala":
-			go ricartAgrawala.HandleConnection(connection, &myRApeer)
+			go ricartAgrawala.HandleConnection(connection, &myRApeer, verbose)
 		case "tokenAsking":
 
-			go tokenAsking.HandleConnectionPeer(connection, &myTokenPeer)
+			go tokenAsking.HandleConnectionPeer(connection, &myTokenPeer, verbose)
 
 		case "lamport":
-			go lamport.HandleConnection(connection, &myLamportPeer)
+			go lamport.HandleConnection(connection, &myLamportPeer, verbose)
 
 		}
 

@@ -4,7 +4,6 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
-	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -13,10 +12,8 @@ import (
 
 var verbose bool
 
-func HandleConnection(conn net.Conn, peer *RApeer) error {
-
-	flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
-	flag.Parse()
+func HandleConnection(conn net.Conn, peer *RApeer, verb bool) error {
+	verbose = verb
 
 	if verbose {
 		fmt.Println("VERBOSE FLAG ON")

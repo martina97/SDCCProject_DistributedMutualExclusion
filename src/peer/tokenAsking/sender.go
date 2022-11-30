@@ -3,7 +3,6 @@ package tokenAsking
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
-	"flag"
 	"fmt"
 	"net"
 	"strconv"
@@ -12,10 +11,8 @@ import (
 
 var myPeer TokenPeer
 
-func SendRequest(peer *TokenPeer) {
-
-	flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
-	flag.Parse()
+func SendRequest(peer *TokenPeer, verb bool) {
+	verbose = verb
 
 	if verbose {
 		fmt.Println("VERBOSE FLAG ON")

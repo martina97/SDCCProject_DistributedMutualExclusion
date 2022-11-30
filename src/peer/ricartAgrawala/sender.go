@@ -4,8 +4,6 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
-	"flag"
-	"fmt"
 	"log"
 	"net"
 	"strconv"
@@ -17,14 +15,9 @@ var (
 	peerCnt  int
 )
 
-func SendRicart(peer *RApeer) {
+func SendRicart(peer *RApeer, verb bool) {
 
-	flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
-	flag.Parse()
-
-	if verbose {
-		fmt.Println("VERBOSE FLAG ON")
-	}
+	verbose = verb
 
 	if MyRApeer == (RApeer{}) {
 		MyRApeer = *peer

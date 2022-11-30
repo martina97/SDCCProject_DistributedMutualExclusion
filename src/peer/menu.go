@@ -114,10 +114,10 @@ func openTestMenu() (int, string) {
 func sendMessageRequest() {
 	switch algorithm {
 	case "tokenAsking":
-		tokenAsking.SendRequest(&myTokenPeer)
+		tokenAsking.SendRequest(&myTokenPeer, verbose)
 	case "lamport":
-		lamport.SendLamport(&myLamportPeer)
+		lamport.SendLamport(&myLamportPeer, verbose)
 	case "ricartAgrawala":
-		ricartAgrawala.SendRicart(&myRApeer)
+		ricartAgrawala.SendRicart(&myRApeer, verbose)
 	}
 }

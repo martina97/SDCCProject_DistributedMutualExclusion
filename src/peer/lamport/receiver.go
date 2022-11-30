@@ -3,24 +3,20 @@ package lamport
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
-	"flag"
 	"fmt"
 	"log"
 	"net"
-	"strconv"
 	"time"
 )
 
 var verbose bool
 
-func HandleConnection(conn net.Conn, peer *LamportPeer) {
+func HandleConnection(conn net.Conn, peer *LamportPeer, verb bool) {
+	verbose = verb
 
 	if myPeer.Username == "" {
 		myPeer = *peer
 	}
-
-	flag.BoolVar(&verbose, "v"+strconv.Itoa(myPeer.ID), utilities.Verbose, "use this flag to get verbose info on messages")
-	flag.Parse()
 
 	if verbose {
 		fmt.Println("VERBOSE FLAG ON")

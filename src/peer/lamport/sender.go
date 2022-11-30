@@ -12,17 +12,8 @@ import (
 
 var myPeer LamportPeer
 
-func SendLamport(peer *LamportPeer) {
-
-	/*
-		flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
-		flag.Parse()
-
-		if verbose {
-			fmt.Println("VERBOSE FLAG ON")
-		}
-
-	*/
+func SendLamport(peer *LamportPeer, verb bool) {
+	verbose = verb
 
 	if myPeer.Username == "" {
 		myPeer = *peer
