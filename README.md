@@ -29,8 +29,9 @@ Una volta essersi connessi al container, l'utente inizialmente dovrà scegliere 
 
 https://user-images.githubusercontent.com/54946553/204895457-c92ed546-b54e-450f-b59f-82f6717ebfa5.MP4
 
-
-https://user-images.githubusercontent.com/54946553/204895521-3e38511f-069d-4a5d-8675-c2f76658c83e.MP4
+## Test
+Per lanciare i test, porre pari a 'true' le variabili TEST e VERBOSE all'interno del file configurations.go. Una volta essersi connessi al container dei vari peer, l'utente potrà scegliere quale test effettuare tramite un menu:
+https://user-images.githubusercontent.com/54946553/204896366-e5bc9bfa-269b-4cf3-a994-a6889b8dbc11.MP4
 
 
 
