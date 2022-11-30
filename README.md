@@ -7,6 +7,15 @@ implementi tre algoritmi di mutua esclusione, in particolare:
 - algoritmo di Lamport distribuito,
 - algoritmo di Ricart-Agrawala
 
+# Configurazione iniziale
+All'interno del file configurations.co, contenuto nella cartella /src/utilities, si hanno diversi parametri configurabili manualmente:
+- MAXPEERS: numero di peer che si vuole partecipino al gruppo di mutua esclusione
+- TEST: da porre pari a true se si vogliono eseguire i test
+- VERBOSE: da porre pari a true se si vogliono scrivere sui file di log le informazioni riguardanti i messaggi scambiati e le entrate in sezione critica dei vari peer.
+È importante, per l'esecuzione dei test, che anche il parametro VERBOSE sia posto pari a true.
+
+
+
 fare in un terminale
 ``` sh
 sudo docker-compose up --build
