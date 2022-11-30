@@ -31,6 +31,7 @@ https://user-images.githubusercontent.com/54946553/204895457-c92ed546-b54e-450f-
 
 ## Test
 Per lanciare i test, porre pari a 'true' le variabili TEST e VERBOSE all'interno del file configurations.go. Una volta essersi connessi al container dei vari peer, l'utente potrà scegliere quale test effettuare tramite un menu:
+
 https://user-images.githubusercontent.com/54946553/204896366-e5bc9bfa-269b-4cf3-a994-a6889b8dbc11.MP4
 
 
