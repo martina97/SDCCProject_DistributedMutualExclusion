@@ -9,7 +9,7 @@ implementi tre algoritmi di mutua esclusione, in particolare:
 
 # Configurazione 
 All'interno del file configurations.co, contenuto nella cartella /src/utilities, si hanno diversi parametri configurabili manualmente:
-- MAXPEERS: numero di peer che si vuole partecipino al gruppo di mutua esclusione. Attualmente tale parametro è posto pari a 3, nel caso venga modificato è importante anche cambiare il numero di repliche per il container "peer". 
+- MAXPEERS: numero di peer che si vuole partecipino al gruppo di mutua esclusione. Attualmente tale parametro è posto pari a 3, nel caso venga modificato è importante anche cambiare il numero di repliche per il container "peer" nel file docker-compose.yml, posto nella cartella /src. 
 - TEST: da porre pari a true se si vogliono eseguire i test
 - VERBOSE: da porre pari a true se si vogliono scrivere sui file di log le informazioni riguardanti i messaggi scambiati e le entrate in sezione critica dei vari peer.
 È importante, per l'esecuzione dei test, che tale parametro sia posto pari a true.
