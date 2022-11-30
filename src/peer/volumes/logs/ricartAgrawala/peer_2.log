@@ -1,3 +1,7 @@
 Initial logical scalar clock of p2 is 0
 [12:13:20.862] : p2 receives Request message: {Request 12:13:18.553 [1]} from p0 and updates its logical scalar clock to 1
 [12:13:22.120] : p2 sends Reply message: {Reply p0 12:13:20.919 [1]} to p0.
+[20:04:04.538] : p2 updates its local logical timeStamp to 1
+[20:04:06.209] : p2 sends Request message: {Request p0 20:04:04.538 [1]} to p0.
+[20:04:07.394] : p2 sends Request message: {Request p1 20:04:04.538 [1]} to p1.
+[20:04:07.397] : p2 waits all peer reply messages.
