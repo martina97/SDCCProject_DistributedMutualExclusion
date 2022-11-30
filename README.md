@@ -3,9 +3,9 @@
 
 Lo scopo del progetto è realizzare nel linguaggio di programmazione Go un’applicazione distribuita che
 implementi tre algoritmi di mutua esclusione, in particolare:
-- algoritmo token-asking,
-- algoritmo di Lamport distribuito,
-- algoritmo di Ricart-Agrawala
+- algoritmo `token-asking`,
+- algoritmo di `Lamport distribuito`,
+- algoritmo di `Ricart-Agrawala`
 
 ## Configurazione 
 All'interno del file configurations.co, contenuto nella cartella /src/utilities, si hanno diversi parametri configurabili manualmente:
@@ -23,7 +23,7 @@ Per potersi connettere ad un peer specifico, identificato da un intero ID, esegu
 ``` sh
 sudo docker exec -it src_peer_ID /bin/sh
 ``` 
-(il nome del container può essere letto tramite il comando sudo docker ps)
+(il nome del container può essere letto tramite il comando `sudo docker ps`)
 
 Una volta essersi connessi al container, l'utente inizialmente dovrà scegliere da riga di comando lo username da dare al peer, e successivamente si aprirà un menu tramite il quale l'utente può decidere quale algoritmo eseguire e eventualmente far mandare un messaggio di richiesta al peer, come mostrato nel video seguente: 
 
