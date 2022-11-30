@@ -1,0 +1,16 @@
+Initial logical scalar clock of p1 is 0
+[11:50:40.783] : p1 updates its local logical timeStamp to 1
+[11:50:42.692] : p1 sends Request message: {Request p0 11:50:40.134 [1]} to p0.
+[11:50:44.215] : p1 sends Request message: {Request p2 11:50:40.134 [1]} to p2.
+[11:50:44.219] : p1 waits all peer reply messages.
+[11:50:44.219] : p1 receives Request message: {Request 11:50:40.134 [1]} from p0 and updates its logical scalar clock to 1
+[11:50:44.222] : p1 updates its local logical timeStamp to 1
+[11:50:44.804] : p1 sends Reply message: {Reply p0 11:50:44.222 [1]} to p0.
+[11:50:44.808] : p1 receives Reply message: {Reply 11:50:42.699 [1]} from p0
+[11:50:44.812] : p1 receives Reply message: {Reply 11:50:44.219 [1]} from p2
+[11:51:18.091] : p1 receives Release message: {Release 11:51:17.422 [1]} from p0 and updates its logical scalar clock to 1
+[11:51:18.095] : p1 receives all peer reply messages successfully.
+[11:51:18.099] : p1 enters the critical section at 11:51:18.098.
+[11:51:48.104] : p1 exits the critical section at 11:51:48.104.
+[11:51:49.194] : p1 sends Release message: {Release p0 11:51:48.159 [1]} to p0.
+[11:51:50.724] : p1 sends Release message: {Release p2 11:51:48.159 [1]} to p2.

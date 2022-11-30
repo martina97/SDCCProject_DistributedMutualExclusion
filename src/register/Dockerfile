@@ -13,10 +13,8 @@ COPY utilities/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/src
 RUN go mod tidy
 
 COPY register/*.go ./register/
-#COPY peer1/*.go ./peer1/
 
 RUN go install ./register
-#RUN go install ./peer1
 
 #CMD [ "sh", "-c", "${GOPATH}/bin/register" ]
 

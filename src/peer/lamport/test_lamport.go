@@ -19,23 +19,18 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 	numSender = num
 	logPaths = list.New().Init()
 
-	fmt.Println("sto in ExecuteTestPeer")
 	myPeer = *peer
 
 	if numSender == 1 && myPeer.ID == 0 {
-		fmt.Println("mando il msg")
 		SendLamport(&myPeer)
 		<-myPeer.ChanStartTest
 		//time.Sleep(time.Minute / 3)
 
 	} else if numSender == 2 && (myPeer.ID == 0 || myPeer.ID == 1) {
-		fmt.Println("mando il msg")
 		SendLamport(&myPeer)
 		<-myPeer.ChanStartTest
 
-		//time.Sleep(time.Minute)
 	} else {
-		fmt.Println("sleep2")
 		time.Sleep(time.Minute)
 	}
 
@@ -55,18 +50,6 @@ func ExecuteTestPeer(peer *LamportPeer, num int) {
 		//fmt.Println("wg ==", Wg)
 
 		<-myPeer.StartTest
-
-		/*
-			for numMsg < numSender {
-				ch := <-Connection
-				if ch == true {
-					numMsg++
-				}
-			}
-			//fmt.Println("sto qua")
-			Wg.Add(-numSender)
-
-		*/
 
 		testNoStarvation()
 		if numSender == 2 {
@@ -127,14 +110,11 @@ func testSafety() {
 	for e := logPaths.Front(); e != nil; e = e.Next() {
 		var enterDate time.Time
 		var exitDate time.Time
-		//var index int //mi serve per vedere a quante iterazioni sto
 
 		fileScanner := utilities.GetFileSplit(e.Value.(string))
 		for fileScanner.Scan() {
-			//line := fileScanner.Text()
-			//fmt.Println(fileScanner.Text())
+
 			if strings.Contains(fileScanner.Text(), stringEnter) {
-				//fmt.Println("CONTIENE !!!!! ")
 				enterDate = utilities.ConvertStringToDate(fileScanner.Text(), stringEnter)
 			}
 			if strings.Contains(fileScanner.Text(), stringExit) {
@@ -150,17 +130,9 @@ func testSafety() {
 			exitP2 = exitDate
 		}
 
-		//fmt.Println("\n---------------------------------\n\n")
 		index++
 
 	}
-	/*
-		fmt.Println("enterP1 ==", enterP1)
-		fmt.Println("exitP1 ==", exitP1)
-		fmt.Println("enterP2 ==", enterP2)
-		fmt.Println("exitP2 ==", exitP2)
-
-	*/
 
 	if enterP1.Before(enterP2) {
 		result = exitP1.Before(enterP2)
@@ -188,17 +160,13 @@ func testMessageNumber() {
 		numMsg := 0
 		fileScanner := utilities.GetFileSplit(e.Value.(string))
 		for fileScanner.Scan() {
-			//line := fileScanner.Text()
 
-			//fmt.Println(fileScanner.Text())
 			if strings.Contains(fileScanner.Text(), "sends Request message") ||
 				strings.Contains(fileScanner.Text(), "receives Reply message") ||
 				strings.Contains(fileScanner.Text(), "sends Release message") {
-				//fmt.Println("CONTIENE !!!!! ")
 				numMsg++
 			}
 		}
-		//fmt.Println("numMsg ===", numMsg)
 
 		if numMsg == 3*(utilities.MAXPEERS-1) {
 			fmt.Printf(" === TEST NUMBER OF MESSAGES p%d : PASSED !!!\n", index)

@@ -26,9 +26,6 @@ func SendRequest(peer *TokenPeer) {
 	msg := NewRequest(myPeer.Username, date, myPeer.VC)
 	utilities.WriteVCInfoToFile(myPeer.LogPath, myPeer.Username, ToString(myPeer.VC))
 
-	//mando REQUEST al coordinatore (è un campo di myPeer)
-
-	//connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
 	connection := utilities.CoordAddr + ":" + strconv.Itoa(utilities.ServerPort)
 
 	addr, err := net.ResolveTCPAddr("tcp", connection)
@@ -52,8 +49,6 @@ func SendRequest(peer *TokenPeer) {
 	myPeer.mutex.Unlock()
 
 	go checkHasToken()
-
-	//<-myPeer.HasToken
 
 }
 
@@ -85,7 +80,6 @@ func sendToken() {
 	utilities.SleepRandInt()
 	date := time.Now().Format(utilities.DateFormat)
 	msg := NewTokenMessage(date, myPeer.Username, "coordinator", myPeer.VC)
-	//connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port
 	connection := utilities.CoordAddr + ":" + strconv.Itoa(utilities.ServerPort)
 
 	conn, err := net.Dial("tcp", connection)

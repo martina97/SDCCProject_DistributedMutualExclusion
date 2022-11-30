@@ -11,8 +11,10 @@ import (
 	"container/list"
 	"flag"
 	"fmt"
+	"log"
 	"net"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -50,7 +52,6 @@ func main() {
 
 	fmt.Println("Choose a username")
 	in := bufio.NewReader(os.Stdin)
-	// 2 peer non possono avere stesso username
 	myUsername, _ = in.ReadString('\n')
 	myUsername = strings.TrimSpace(myUsername)
 
@@ -58,17 +59,12 @@ func main() {
 	utilities.CheckError(err, "error listening")
 	defer listener.Close()
 
-	/* passo il result file a registration in modo che in esso vengono inserite
-	le info del file!
-	*/
 	utilities.Registration(peers, utilities.ClientPort, myUsername)
 
 	fmt.Println("Registration completed successfully!")
 	//a questo punto tutti sanno quali sono gli altri peer
 
 	setID()
-	//open listen channel for messages
-	//service on port 2345
 
 	go message_handler()
 
@@ -113,6 +109,35 @@ func setAlgorithmPeer() {
 
 		myTokenPeer = *tokenAsking.NewTokenAskingPeer(myUsername, myID, myNode.Address, myNode.Port)
 		myTokenPeer.PeerList = peers
+
+	}
+}
+
+func message_handler() {
+
+	listener, err := net.Listen("tcp", ":"+strconv.Itoa(utilities.ClientPort))
+	if err != nil {
+		log.Fatal("net.Lister fail")
+	}
+	defer listener.Close()
+
+	for {
+		connection, err := listener.Accept()
+		if err != nil {
+			log.Fatal("Accept fail")
+		}
+
+		switch algorithm {
+		case "ricartAgrawala":
+			go ricartAgrawala.HandleConnection(connection, &myRApeer)
+		case "tokenAsking":
+
+			go tokenAsking.HandleConnectionPeer(connection, &myTokenPeer)
+
+		case "lamport":
+			go lamport.HandleConnection(connection, &myLamportPeer)
+
+		}
 
 	}
 }

@@ -15,10 +15,9 @@ COPY /peer/tokenAsking/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclu
 RUN go mod tidy
 
 COPY coordinator/*.go ./coordinator/
-#COPY peer1/*.go ./peer1/
 
 RUN go install ./coordinator
-#RUN go install ./peer1
+
 
 #CMD [ "sh", "-c", "${GOPATH}/bin/register" ]
 

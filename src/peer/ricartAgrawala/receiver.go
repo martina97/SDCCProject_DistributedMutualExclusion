@@ -4,34 +4,11 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/peer/lamport"
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
-	"fmt"
 	"log"
 	"net"
 	"time"
 )
 
-/*
-func Message_handler() {
-
-	listener, err := net.Listen("tcp", ":"+strconv.Itoa(utilities.Client_port))
-	if err != nil {
-		log.Fatal("net.Lister fail")
-	}
-	defer listener.Close()
-
-	for {
-		connection, err := listener.Accept()
-		if err != nil {
-			log.Fatal("Accept fail")
-		}
-		go HandleConnection(connection)
-		//go handleConnectionCentralized(connection)
-	}
-}
-
-*/
-
-//Save message
 func HandleConnection(conn net.Conn, peer *RApeer) error {
 
 	if MyRApeer == (RApeer{}) {
@@ -45,7 +22,6 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 	dec := gob.NewDecoder(conn)
 	dec.Decode(msg)
 
-	//mutex := MyRApeer.GetMutex()
 	if msg.MsgType == lamport.Request {
 
 		/*
@@ -89,16 +65,7 @@ func HandleConnection(conn net.Conn, peer *RApeer) error {
 		MyRApeer.mutex.Lock()
 		MyRApeer.replies++
 		lamport.WriteMsgToFile(MyRApeer.LogPath, MyRApeer.Username, "receive", *msg, MyRApeer.Num)
-
-		/*
-			if MyRApeer.replies == peerCnt-1 {
-				//ho ricevuto tutti i msg di reply
-				MyRApeer.ChanStartTest <- true
-			}
-
-		*/
 		MyRApeer.mutex.Unlock()
-
 	}
 
 	return nil
@@ -127,14 +94,10 @@ func checkTS(msg *lamport.Message) bool {
 
 func checkAcks() {
 
-	fmt.Println("sto in checkAcks")
-
 	for !(MyRApeer.replies == peerCnt-1) {
-		fmt.Println("sto in checkAcks dentro for")
 
 		time.Sleep(time.Second * 5)
 	}
-	fmt.Println("sto in checkAcks fuori for")
 
 	//ho ricevuto tutti i msg di reply
 

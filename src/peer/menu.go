@@ -24,7 +24,6 @@ func openMenu() {
 
 		if i+1 == 1 { //tokenAsking
 			algorithm = "tokenAsking"
-			//qui, chi non è coordinatore va in openSecondMenu, che serve a inviare i msg di request
 			setAlgorithmPeer()
 			openSecondMenu()
 

@@ -3,7 +3,6 @@ package tokenAsking
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
-	"fmt"
 	"net"
 	"time"
 )
@@ -43,13 +42,10 @@ func HandleConnectionPeer(conn net.Conn, peer *TokenPeer) error {
 
 func checkHasToken() {
 
-	fmt.Println("sto in checkHasToken")
 	for !(myPeer.HasToken) {
-		fmt.Println("sto in checkHasToken dentro for")
 
 		time.Sleep(time.Second * 5)
 	}
-	fmt.Println("sto in checkHasToken fuori for")
 	myPeer.mutex.Lock()
 	date := time.Now().Format(utilities.DateFormat)
 	utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)

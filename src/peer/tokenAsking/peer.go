@@ -20,8 +20,7 @@ type TokenPeer struct {
 	LogPath string
 
 	// utili per mutua esclusione
-	mutex   sync.Mutex
-	fileLog *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
+	mutex sync.Mutex
 
 	//Waiting  bool
 	HasToken bool
@@ -34,12 +33,11 @@ type TokenPeer struct {
 
 func NewTokenAskingPeer(username string, ID int, address string, port string) *TokenPeer {
 	peer := &TokenPeer{
-		Username: username,
-		ID:       ID,
-		Address:  address,
-		Port:     port,
-		LogPath:  "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(ID) + ".log",
-		//HasToken: make(chan bool, utilities.ChanSize),
+		Username:      username,
+		ID:            ID,
+		Address:       address,
+		Port:          port,
+		LogPath:       "/docker/node_volume/tokenAsking/peer_" + strconv.Itoa(ID) + ".log",
 		HasToken:      false,
 		VC:            make(map[string]int),
 		ChanStartTest: make(chan bool, utilities.ChanSize),

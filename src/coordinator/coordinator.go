@@ -10,11 +10,6 @@ import (
 	"time"
 )
 
-var (
-	Connection = make(chan bool)
-	Wg         = new(sync.WaitGroup)
-)
-
 type Coordinator struct {
 
 	//file di log
@@ -23,21 +18,19 @@ type Coordinator struct {
 	// utili per mutua esclusione
 	mutex sync.Mutex
 
-	VC            tokenAsking.VectorClock
-	ReqList       *list.List
-	HasToken      bool
-	numTokenMsgs  int
-	ChanStartTest chan bool
+	VC           tokenAsking.VectorClock
+	ReqList      *list.List
+	HasToken     bool
+	numTokenMsgs int
 }
 
 func NewCoordinator() *Coordinator {
 	coordinator := &Coordinator{
-		ReqList:       list.New(),
-		LogPath:       "/docker/coordinator_volume/coordinator.log",
-		VC:            make(map[string]int),
-		HasToken:      true,
-		numTokenMsgs:  0,
-		ChanStartTest: make(chan bool, utilities.ChanSize),
+		ReqList:      list.New(),
+		LogPath:      "/docker/coordinator_volume/coordinator.log",
+		VC:           make(map[string]int),
+		HasToken:     true,
+		numTokenMsgs: 0,
 	}
 
 	tokenAsking.StartVC(coordinator.VC)

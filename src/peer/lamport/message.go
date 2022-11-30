@@ -24,16 +24,11 @@ type Message struct {
 	TS       ScalarClock
 }
 
-/*
-servono lettera maiuscola perche devo farne il marshaling e unmarshaling, che richiedono solo field esportabili
-todo: vedi libro pag 108
-*/
-
 func NewRequest(sender string, date string, timeStamp ScalarClock) *Message {
 	return &Message{
 		MsgType: Request,
 		Sender:  sender,
-		//Receiver:   receiver,	//non serve specificarlo perche la richiesta viene mandata a tutti
+		//Receiver:   receiver,	//non serve specificarlo perché la richiesta viene mandata a tutti
 		Date: date,
 		TS:   timeStamp,
 	}
@@ -58,16 +53,6 @@ func NewRelease(sender string, date string, timeStamp ScalarClock) *Message {
 		TS:      timeStamp,
 	}
 }
-
-/*
-IL MESSAGGIO E' ==== {prova 1 2 [1] 2022/04/04 10:37:35}
-ID MESSAGGIO E' ==== prova
-MsgType MESSAGGIO E' ==== 1 (Request)
-Sender MESSAGGIO E' ==== 2
-SeqNum MESSAGGIO E' ==== [1]
-Date MESSAGGIO E' ==== 2022/04/04 10:37:35
-
-*/
 
 func (m *Message) ToString(role string) string {
 	var name string

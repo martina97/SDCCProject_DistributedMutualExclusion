@@ -42,25 +42,6 @@ func SendLamport(peer *LamportPeer) {
 	if utilities.Test {
 		go checkStartTests()
 	}
-	/*
-		<-myPeer.ChanStartTest
-
-		utilities.WriteInfosToFile("receives all peer reply messages successfully.", myPeer.LogPath, myPeer.Username)
-
-		//ho ricevuto tutti msg reply, ora entro in cs
-		date = time.Now().Format(utilities.DateFormat)
-
-		utilities.WriteInfosToFile("enters the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
-
-		time.Sleep(time.Minute / 2)
-		date = time.Now().Format(utilities.DateFormat)
-
-		utilities.WriteInfosToFile("exits the critical section at "+date+".", myPeer.LogPath, myPeer.Username)
-
-		//lascio CS e mando msg release a tutti
-		sendRelease()
-
-	*/
 
 }
 
@@ -84,7 +65,6 @@ func sendRequest(msg Message) error {
 
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
-		//only peer are destination of msgs
 		if dest.Type == utilities.Peer && dest.ID != myPeer.ID { //non voglio mandarlo a me stesso
 
 			utilities.SleepRandInt()
@@ -100,7 +80,6 @@ func sendRequest(msg Message) error {
 
 			msg.Receiver = dest.Username
 
-			//r = utilities.WriteMsgToFile(&myPeer, "Send", msg, dest.ID, myPeer.timestamp)
 			WriteMsgToFile(myPeer.LogPath, myPeer.Username, "send", msg, myPeer.Timestamp)
 
 			if err != nil {

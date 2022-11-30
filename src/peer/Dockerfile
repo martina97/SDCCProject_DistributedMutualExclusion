@@ -19,10 +19,8 @@ COPY /peer/ricartAgrawala/*.go /usr/local/go/src/SDCCProject_DistributedMutualEx
 COPY /peer/tokenAsking/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/src/peer/tokenAsking/
 COPY /peer/lamport/*.go /usr/local/go/src/SDCCProject_DistributedMutualExclusion/src/peer/lamport/
 
-#COPY menu/*.go ./menu/
 
 RUN go install ./peer
-#RUN go install ./menu
 
 
 #CMD [ "sh", "-c", "${GOPATH}/bin/peer" ]

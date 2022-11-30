@@ -1,0 +1,9 @@
+Initial logical scalar clock of p2 is 0
+[11:50:42.391] : p2 receives Request message: {Request 11:50:40.134 [1]} from p0 and updates its logical scalar clock to 1
+[11:50:42.401] : p2 updates its local logical timeStamp to 1
+[11:50:42.935] : p2 sends Reply message: {Reply p0 11:50:42.401 [1]} to p0.
+[11:50:44.215] : p2 receives Request message: {Request 11:50:40.134 [1]} from p1 and updates its logical scalar clock to 1
+[11:50:44.219] : p2 updates its local logical timeStamp to 1
+[11:50:44.652] : p2 sends Reply message: {Reply p1 11:50:44.219 [1]} to p1.
+[11:51:19.503] : p2 receives Release message: {Release 11:51:17.422 [1]} from p0 and updates its logical scalar clock to 1
+[11:51:50.726] : p2 receives Release message: {Release 11:51:48.159 [1]} from p1 and updates its logical scalar clock to 1

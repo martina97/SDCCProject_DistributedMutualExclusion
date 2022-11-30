@@ -6,7 +6,6 @@ import (
 	"container/list"
 	"fmt"
 	"log"
-	"net"
 	"os"
 	"strconv"
 	"sync"
@@ -31,12 +30,11 @@ type RApeer struct {
 	LogPath string
 
 	// utili per mutua esclusione
-	mutex    sync.Mutex
-	fileLog  *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
-	Listener net.Listener
-	Num      lamport.ScalarClock
-	lastReq  lamport.ScalarClock //timestamp del msg di richiesta
-	state    State
+	mutex   sync.Mutex
+	fileLog *log.Logger //file di ogni processo in cui scrivo info di quando accede alla sez critica
+	Num     lamport.ScalarClock
+	lastReq lamport.ScalarClock //timestamp del msg di richiesta
+	state   State
 	//Waiting  bool
 	ChanStartTest chan bool
 
@@ -47,21 +45,15 @@ type RApeer struct {
 
 }
 
-func (p RApeer) GetMutex() sync.Mutex {
-	return p.mutex
-}
-
 func NewRicartAgrawalaPeer(username string, ID int, address string, port string) *RApeer {
 	peer := &RApeer{
-		Username: username,
-		ID:       ID,
-		Address:  address,
-		Port:     port,
-		state:    NCS,
-		DeferSet: list.New(),
-		LogPath:  "/docker/node_volume/ricartAgrawala/peer_" + strconv.Itoa(ID) + ".log",
-		//ChanRcvMsg = make(chan utilities.Message, utilities.MSG_BUFFERED_SIZE)
-		//ChanSendMsg = make(chan *utilities.Message, utilities.MSG_BUFFERED_SIZE)
+		Username:      username,
+		ID:            ID,
+		Address:       address,
+		Port:          port,
+		state:         NCS,
+		DeferSet:      list.New(),
+		LogPath:       "/docker/node_volume/ricartAgrawala/peer_" + strconv.Itoa(ID) + ".log",
 		ChanStartTest: make(chan bool, utilities.ChanSize),
 	}
 	peer.setInfos()

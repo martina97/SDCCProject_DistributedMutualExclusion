@@ -63,10 +63,6 @@ func (m *Message) ToString(role string) string {
 	}
 
 	if role == "send" {
-		//Request message: {Request [] p3 p1 17:39:42.230 [1]} to p0.
-		//return fmt.Sprintf(" %s message: {%s %s %s %s [%d]}", name, name, m.Sender, m.Receiver, m.Date, m.TS)
-
-		//Request message: {Request [] p1 17:39:42.230 [1]} --- p1=receiver, [1] = timestamp
 		return fmt.Sprintf(" %s message: {%s %s %s %s}", name, m.MsgType, m.Receiver, m.Date, ToString(m.VC))
 	}
 	if role == "receive" {

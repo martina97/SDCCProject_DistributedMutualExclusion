@@ -17,22 +17,18 @@ func ExecuteTestPeer(peer *RApeer, num int) {
 	numSender = num
 	logPaths = list.New().Init()
 
-	fmt.Println("sto in ExecuteTestPeer")
 	MyRApeer = *peer
 	peerCnt = MyRApeer.PeerList.Len()
 
 	if numSender == 1 && MyRApeer.ID == 0 {
-		fmt.Println("mando il msg")
 		SendRicart(&MyRApeer)
 		<-MyRApeer.ChanStartTest
 	}
 	if numSender == 2 && (MyRApeer.ID == 0 || MyRApeer.ID == 1) {
-		fmt.Println("mando il msg")
 		SendRicart(&MyRApeer)
 		<-MyRApeer.ChanStartTest
 
 	} else {
-		fmt.Println("sleep")
 		time.Sleep(time.Minute)
 	}
 
@@ -44,8 +40,6 @@ func ExecuteTestPeer(peer *RApeer, num int) {
 		logPaths.PushBack(LogPath)
 	}
 
-	//faccio eseguire a p1 i test, ossia legge tutti i file (perchè è l'ultimo che esegue
-	// l'algoritmo)
 	if MyRApeer.ID == 1 {
 		testMessageNumber()
 		testNoStarvation()
@@ -63,23 +57,11 @@ func testNoStarvation() {
 
 		fileScanner := utilities.GetFileSplit(e.Value.(string))
 		for fileScanner.Scan() {
-			//line := fileScanner.Text()
-
-			//fmt.Println(fileScanner.Text())
 			if strings.Contains(fileScanner.Text(), "enters the critical section") {
-				//fmt.Println("CONTIENE !!!!! ")
 				csEntries++
 			}
 		}
-		/*
-			if numSender == 1 {
-				break
-			}
-
-		*/
-		//fmt.Println("\n---------------------------------\n\n")
 	}
-	//fmt.Println("csEntries == ", csEntries)
 
 	if csEntries == numSender {
 		fmt.Println(" === TEST NO STARVATION: PASSED !!")
@@ -105,14 +87,11 @@ func testSafety() {
 	for e := logPaths.Front(); e != nil; e = e.Next() {
 		var enterDate time.Time
 		var exitDate time.Time
-		//var index int //mi serve per vedere a quante iterazioni sto
 
 		fileScanner := utilities.GetFileSplit(e.Value.(string))
 		for fileScanner.Scan() {
-			//line := fileScanner.Text()
-			//fmt.Println(fileScanner.Text())
+
 			if strings.Contains(fileScanner.Text(), stringEnter) {
-				//fmt.Println("CONTIENE !!!!! ")
 				enterDate = utilities.ConvertStringToDate(fileScanner.Text(), stringEnter)
 			}
 			if strings.Contains(fileScanner.Text(), stringExit) {
@@ -128,17 +107,9 @@ func testSafety() {
 			exitP2 = exitDate
 		}
 
-		//fmt.Println("\n---------------------------------\n\n")
 		index++
 
 	}
-	/*
-		fmt.Println("enterP1 ==", enterP1)
-		fmt.Println("exitP1 ==", exitP1)
-		fmt.Println("enterP2 ==", enterP2)
-		fmt.Println("exitP2 ==", exitP2)
-
-	*/
 
 	if enterP1.Before(enterP2) {
 		result = exitP1.Before(enterP2)
@@ -165,16 +136,12 @@ func testMessageNumber() {
 		numMsg := 0
 		fileScanner := utilities.GetFileSplit(e.Value.(string))
 		for fileScanner.Scan() {
-			//line := fileScanner.Text()
 
-			//fmt.Println(fileScanner.Text())
 			if strings.Contains(fileScanner.Text(), "sends Request message") ||
 				strings.Contains(fileScanner.Text(), "receives Reply message") {
-				//fmt.Println("CONTIENE !!!!! ")
 				numMsg++
 			}
 		}
-		//fmt.Println("numMsg ===", numMsg)
 
 		if numMsg == 2*(utilities.MAXPEERS-1) {
 			fmt.Printf(" === TEST NUMBER OF MESSAGES p%d : PASSED !!!\n", index)

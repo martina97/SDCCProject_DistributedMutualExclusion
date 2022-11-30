@@ -1,3 +1,5 @@
 Initial logical scalar clock of p2 is 0
-[23:12:51.957] : p2 receives Request message: {Request 23:12:51.948 [1]} from p0 and updates its logical scalar clock to 1
-[23:12:51.963] : p2 sends Reply message: {Reply p0 23:12:51.963 [1]} to p0.
+[11:47:35.750] : p2 receives Request message: {Request 11:47:33.331 [1]} from p0 and updates its logical scalar clock to 1
+[11:47:36.368] : p2 sends Reply message: {Reply p0 11:47:35.756 [1]} to p0.
+[11:47:36.695] : p2 receives Request message: {Request 11:47:33.331 [1]} from p1 and updates its logical scalar clock to 1
+[11:47:37.879] : p2 sends Reply message: {Reply p1 11:47:36.701 [1]} to p1.
