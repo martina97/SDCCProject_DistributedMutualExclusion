@@ -28,6 +28,7 @@ func SendLamport(peer *LamportPeer) {
 	date := time.Now().Format(utilities.DateFormat)
 
 	msg := *NewRequest(myPeer.Username, date, myPeer.Timestamp)
+	utilities.SleepRandInt()
 
 	sendRequest(msg)
 
@@ -86,6 +87,7 @@ func sendRequest(msg Message) error {
 		//only peer are destination of msgs
 		if dest.Type == utilities.Peer && dest.ID != myPeer.ID { //non voglio mandarlo a me stesso
 
+			utilities.SleepRandInt()
 			//open connection with peer
 			peerConn := dest.Address + ":" + dest.Port
 			conn, err := net.Dial("tcp", peerConn)
@@ -125,7 +127,7 @@ func sendRelease() error {
 		dest := e.Value.(utilities.NodeInfo)
 		//only peer are destination of msgs
 		if dest.Type == utilities.Peer && dest.ID != myPeer.ID { //non voglio mandarlo a me stesso
-
+			utilities.SleepRandInt()
 			//open connection with peer
 			peerConn := dest.Address + ":" + dest.Port
 			conn, err := net.Dial("tcp", peerConn)
@@ -158,6 +160,7 @@ func sendReply(msg *Message) error {
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
 		if dest.Username == msg.Receiver {
+			utilities.SleepRandInt()
 			//open connection with peer
 			peerConn := dest.Address + ":" + dest.Port
 			conn, err := net.Dial("tcp", peerConn)

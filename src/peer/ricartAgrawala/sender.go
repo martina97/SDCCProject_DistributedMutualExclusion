@@ -70,6 +70,7 @@ func sendRequest(msg lamport.Message) error {
 	for e := MyRApeer.PeerList.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
 		if dest.Type == utilities.Peer && dest.ID != MyRApeer.ID { //non voglio mandarlo a me stesso
+			utilities.SleepRandInt()
 
 			//open connection with peer
 			peerConn := dest.Address + ":" + dest.Port
@@ -93,6 +94,8 @@ func sendRequest(msg lamport.Message) error {
 
 func sendReply(msg *lamport.Message, receiver *utilities.NodeInfo) error {
 	//mando reply a msg.Receiver
+	utilities.SleepRandInt()
+
 	peerConn := receiver.Address + ":" + receiver.Port
 	conn, err := net.Dial("tcp", peerConn)
 	defer conn.Close()

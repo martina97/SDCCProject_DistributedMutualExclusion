@@ -9,4 +9,5 @@ const (
 	ChanSize   int    = 1
 	DateFormat string = "15:04:05.000"
 	Test       bool   = true
+	Verbose    bool   = false
 )

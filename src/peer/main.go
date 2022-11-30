@@ -9,6 +9,7 @@ import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"bufio"
 	"container/list"
+	"flag"
 	"fmt"
 	"net"
 	"os"
@@ -29,9 +30,16 @@ var (
 
 	//utili per test
 	numSenders int
+	verbose    bool
 )
 
 func main() {
+	flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
+	flag.Parse()
+
+	if verbose {
+		fmt.Println("VERBOSE FLAG ON")
+	}
 
 	// Per fare la registrazione, il peer deve specificare il proprio nome (in questo modo nel file metto il nome del peer)
 	peers = list.New()

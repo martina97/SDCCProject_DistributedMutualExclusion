@@ -45,19 +45,6 @@ func main() {
 	}
 }
 
-func handleConnection(conn net.Conn) {
-	defer conn.Close()
-	msg := new(tokenAsking.Message)
-	dec := gob.NewDecoder(conn)
-	err := dec.Decode(msg)
-	utilities.CheckError(err, "error decoding message")
-
-	if msg.MsgType == tokenAsking.Request {
-		fmt.Println("ho ricevuto req")
-	}
-
-}
-
 func HandleConnectionCoordinator(conn net.Conn) error {
 	defer conn.Close()
 
@@ -131,29 +118,15 @@ func HandleConnectionCoordinator(conn net.Conn) error {
 	return nil
 }
 
-/*
-func checkNumberToken() {
-	fmt.Println("sto in checkNumberToken")
-	for !(myCoordinator.numTokenMsgs == numSender) {
-		fmt.Println("sto in checkNumberToken dentro for")
-
-		time.Sleep(time.Second * 5)
-	}
-
-	fmt.Println("sto in checkNumberToken fuori for")
-
-	myCoordinator.ChanStartTest <- true
-}
-
-*/
-
 func sendToken(receiver string) {
 
 	for e := peers.Front(); e != nil; e = e.Next() {
 		dest := e.Value.(utilities.NodeInfo)
 		if dest.Username == receiver {
+
 			date := time.Now().Format(utilities.DateFormat)
 			msg := tokenAsking.NewTokenMessage(date, "coordinator", receiver, myCoordinator.VC)
+			utilities.SleepRandInt()
 
 			peerConn := dest.Address + ":" + dest.Port
 			conn, err := net.Dial("tcp", peerConn)

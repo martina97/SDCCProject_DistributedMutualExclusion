@@ -3,10 +3,13 @@ package utilities
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"log"
+	"math/rand"
 	"net"
 	"os"
 	"sync"
+	"time"
 )
 
 /*
@@ -122,4 +125,16 @@ func CheckError(err error, text string) {
 	if err != nil {
 		log.Fatalf("%s: %v", text, err)
 	}
+}
+
+func SleepRandInt() {
+	min := 300
+	max := 2000
+	// set seed
+	rand.Seed(time.Now().UnixNano())
+	// generate random number and print on console
+	delay := rand.Intn(max-min) + min
+	fmt.Println(delay)
+	//delay = time.Second * time.Duration(delay)
+	time.Sleep(time.Millisecond * time.Duration(delay))
 }

@@ -15,6 +15,8 @@ func SendRequest(peer *TokenPeer) {
 		myPeer = *peer
 	}
 
+	utilities.SleepRandInt()
+
 	myPeer.mutex.Lock()
 	utilities.WriteInfosToFile("tries to get the token.", myPeer.LogPath, myPeer.Username)
 	//incremento Vector Clock!!!
@@ -62,6 +64,8 @@ func sendProgramMessage() {
 	for e := myPeer.PeerList.Front(); e != nil; e = e.Next() {
 		receiver := e.Value.(utilities.NodeInfo)
 		if receiver.Username != "coordinator" && receiver.Username != myPeer.Username {
+			utilities.SleepRandInt()
+
 			//open connection with peer
 			peerConn := receiver.Address + ":" + receiver.Port
 			conn, err := net.Dial("tcp", peerConn)
@@ -78,6 +82,7 @@ func sendProgramMessage() {
 
 func sendToken() {
 
+	utilities.SleepRandInt()
 	date := time.Now().Format(utilities.DateFormat)
 	msg := NewTokenMessage(date, myPeer.Username, "coordinator", myPeer.VC)
 	//connection := myPeer.Coordinator.Address + ":" + myPeer.Coordinator.Port

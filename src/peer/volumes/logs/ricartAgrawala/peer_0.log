@@ -1,10 +1,10 @@
-Initial logical clock of p0 is 0
-[23:06:21.993] : p0 updates its local logical timeStamp to 1
-[23:06:21.998] : p0 sends Request message: {Request p1 23:06:21.993 [1]} to p1.
-[23:06:22.001] : p0 sends Request message: {Request p2 23:06:21.993 [1]} to p2.
-[23:06:22.005] : p0 waits all peer reply messages.
-[23:06:22.005] : p0 receives Reply message: {Reply 23:06:22.001 [1]} from p1
-[23:06:22.011] : p0 receives Reply message: {Reply 23:06:22.007 [1]} from p2
-[23:06:27.011] : p0 receives all peer reply messages successfully.
-[23:06:27.019] : p0  enters the critical section at 23:06:27.018.
-[23:06:57.054] : p0  exits the critical section at 23:06:57.054.
+Initial logical scalar clock of p0 is 0
+[23:12:51.948] : p0 updates its local logical timeStamp to 1
+[23:12:51.953] : p0 sends Request message: {Request p1 23:12:51.948 [1]} to p1.
+[23:12:51.957] : p0 sends Request message: {Request p2 23:12:51.948 [1]} to p2.
+[23:12:51.963] : p0 waits all peer reply messages.
+[23:12:51.963] : p0 receives Reply message: {Reply 23:12:51.956 [1]} from p1
+[23:12:51.967] : p0 receives Reply message: {Reply 23:12:51.963 [1]} from p2
+[23:12:51.968] : p0 receives all peer reply messages successfully.
+[23:12:51.972] : p0  enters the critical section at 23:12:51.972.
+[23:13:21.998] : p0  exits the critical section at 23:13:21.998.
