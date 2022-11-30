@@ -1,4 +1,5 @@
-# Lamport
+# Sistemi Distribuiti e Cloud Computing - A.A. 2021/22
+## Progetto B2: Algoritmi di mutua esclusione distribuita in Go
 
 fare in un terminale
 ``` sh
