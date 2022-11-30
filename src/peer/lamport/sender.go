@@ -3,7 +3,6 @@ package lamport
 import (
 	"SDCCProject_DistributedMutualExclusion/src/utilities"
 	"encoding/gob"
-	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -15,12 +14,15 @@ var myPeer LamportPeer
 
 func SendLamport(peer *LamportPeer) {
 
-	flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
-	flag.Parse()
+	/*
+		flag.BoolVar(&verbose, "v", utilities.Verbose, "use this flag to get verbose info on messages")
+		flag.Parse()
 
-	if verbose {
-		fmt.Println("VERBOSE FLAG ON")
-	}
+		if verbose {
+			fmt.Println("VERBOSE FLAG ON")
+		}
+
+	*/
 
 	if myPeer.Username == "" {
 		myPeer = *peer
